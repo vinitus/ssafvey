@@ -1,3 +1,23 @@
+## Project Setup
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Version</th>
+    <th>비고</th>
+  </tr>
+  <tr>
+    <td>Node.js</td>
+    <td>18.16.0</td>
+    <td></td>
+  </tr>
+  <!-- <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr> -->
+</table>
+
 ### yarn ac 파일명
 
 git add 와 commit 한번에 하기
