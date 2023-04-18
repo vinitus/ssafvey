@@ -28,6 +28,7 @@ export default {
       },
       colors: {
         clearMain: '#B0C1ED',
+        headerFooter: '#F8FDFF',
       },
       spacing: {
         ...px0To1400,
