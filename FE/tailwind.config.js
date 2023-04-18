@@ -29,7 +29,7 @@ export default {
       colors: {
         clearMain: '#B0C1ED',
         blue : '#2467A8',
-        backwhite : '#F8FDFF'
+        headerFooter: '#F8FDFF',
       },
       spacing: {
         ...px0To1400,
