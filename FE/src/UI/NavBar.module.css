@@ -1,0 +1,15 @@
+.navbarWrapper {
+  @apply flex flex-row justify-evenly;
+}
+
+.navbarIconWrapper {
+  @apply flex flex-col items-center w-[20%];
+}
+
+.navbarImg {
+  @apply w-24 h-24;
+}
+
+.navbarDiv {
+  @apply text-12;
+}
