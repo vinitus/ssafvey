@@ -5,14 +5,14 @@ import viteLogo from '../public/vite.svg';
 import './App.css';
 import './Components/AppBar';
 import AppBar from './Components/AppBar';
-
+import NavBar from './UI/NavBar';
 
 function App() {
-
   return (
     <>
-      <AppBar/>
-      <Outlet/>
+      <AppBar />
+      <Outlet />
+      <NavBar />
     </>
   );
 }
