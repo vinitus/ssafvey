@@ -19,6 +19,10 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: 'LineRg',
+        noto: 'LineBd',
+      },
       backgroundImage: {
         main: 'linear-gradient(180deg, #00C6FB 0%, #1B6BB7 100%, #005BEA 100%)',
       },
