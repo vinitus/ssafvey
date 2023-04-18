@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import HomeCard1 from "../UI/HomeCard1";
+import HomeCard2 from "../UI/HomeCard2";
 
 export default function Home(){
   return (
@@ -17,6 +19,9 @@ export default function Home(){
       <Link to="/mypage">
         마이페이지
       </Link>
+      <HomeCard1/>
+      <HomeCard2/>
+
     </div>
   )
 }
