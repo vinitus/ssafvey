@@ -1,0 +1,11 @@
+.appBarLayout {
+  @apply w-full h-60 bg-slate-100 flex justify-center items-center;
+}
+
+.arrowBackButton {
+  @apply absolute left-0 px-24 py-18 border-0;
+}
+
+.logoSize {
+  @apply h-[70%];
+}
