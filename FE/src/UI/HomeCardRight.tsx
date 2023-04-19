@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './HomeCard.module.css'
 
-export default function HomeCard2() {
+export default function HomeCardRight() {
   return (
     <div className={style.card2}>
       <div className={style.background2}/>

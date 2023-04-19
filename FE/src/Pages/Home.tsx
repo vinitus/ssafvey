@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import HomeCard1 from "../UI/HomeCard1";
-import HomeCard2 from "../UI/HomeCard2";
+import HomeCard1 from "../UI/HomeCardLeft";
+import HomeCard2 from "../UI/HomeCardRight";
 
 export default function Home(){
   return (
