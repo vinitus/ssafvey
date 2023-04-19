@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import NotFound from './Pages/NotFound';
 import Home from './Pages/Home';
-import DoSurvey from './Pages/DoSurvey';
+import Search from './Pages/Search';
 import Exchange from './Pages/Exchange';
 import MakeSurvey from './Pages/MakeSurvey';
 import MyPage from './Pages/MyPage';
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Home /> },
-      { path: '/survey', element: <DoSurvey /> },
+      { path: '/survey', element: <Search /> },
       { path: '/makesurvey', element: <MakeSurvey /> },
       { path: '/exchange', element: <Exchange /> },
       { path: '/mypage', element: <MyPage /> },

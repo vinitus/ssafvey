@@ -1,0 +1,35 @@
+.card2 {
+  @apply h-120 w-300 bg-main rounded-r-20 rounded-b-20 relative shadow-md shadow-black m-10;
+}
+
+.background2 {
+  @apply h-120 w-300 bg-clearMain rounded-r-20 rounded-b-20 opacity-30 absolute -left-4 -top-4;
+}
+
+.content2 {
+  @apply h-120 w-300 rounded-r-20 rounded-b-20 absolute -left-4 -top-4 text-white p-15;
+}
+
+.title {
+  @apply text-20 tracking-tighter pb-5 text-left leading-24 break-keep;
+}
+
+.subtitle {
+  @apply text-10 flex pt-10 items-start mr-30;
+}
+
+.subtitle_writer {
+  @apply flex items-center;
+}
+
+.subtitle_date {
+  @apply flex-none text-left;
+}
+
+.coin {
+  @apply text-10 absolute right-10 bottom-10;
+}
+
+.coin_content {
+  @apply w-40 h-25 flex items-center justify-items-center bg-headerFooter text-blue rounded-5;
+}
