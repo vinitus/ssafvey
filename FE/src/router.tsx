@@ -8,6 +8,7 @@ import Search from './Pages/Search';
 import Exchange from './Pages/Exchange';
 import MakeSurvey from './Pages/MakeSurvey';
 import MyPage from './Pages/MyPage';
+import Survey from './Pages/Survey';
 /* global document */
 
 const router = createBrowserRouter([
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: '/makesurvey', element: <MakeSurvey /> },
       { path: '/exchange', element: <Exchange /> },
       { path: '/mypage', element: <MyPage /> },
+      { path: '/survey/:id', element: <Survey /> },
     ],
   },
 ]);
