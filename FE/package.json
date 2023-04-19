@@ -12,7 +12,9 @@
     "head1": "git reset --hard HEAD^",
     "head2": "git reset --hard HEAD^^",
     "head3": "git reset --hard HEAD^^^",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prefront": "git switch front-end",
+    "front": "git pull"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.43.0",
