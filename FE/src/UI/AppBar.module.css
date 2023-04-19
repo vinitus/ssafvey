@@ -2,7 +2,7 @@
   @apply w-full h-60 bg-headerFooter flex justify-center items-center;
 }
 
-.arrowBackButton {
+.backButton {
   @apply absolute left-0 px-24 py-18 border-0;
 }
 
