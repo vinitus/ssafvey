@@ -1,5 +1,9 @@
+.navbar {
+  @apply bottom-0 fixed w-full bg-headerFooter/90 backdrop-blur-[2px];
+}
+
 .navbarWrapper {
-  @apply flex flex-row justify-evenly;
+  @apply flex flex-row justify-evenly items-center h-64;
 }
 
 .navbarIconWrapper {

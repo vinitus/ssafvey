@@ -14,19 +14,21 @@ export default function NavBar() {
   }
 
   return (
-    <div className={styles.navbarWrapper}>
-      {iconSVGArr.map((iconSrc, navbarIdx) => (
-        <button
-          type="button"
-          id={`${navbarIdx}`}
-          className={styles.navbarIconWrapper}
-          key={iconSrc}
-          onClick={navbarClickHandler}
-        >
-          <img src={`./navbar/${iconSrc}.svg`} alt={iconSrc} className={styles.navbarImg} />
-          <div className={styles.navbarDiv}>{iconNameArr[navbarIdx]}</div>
-        </button>
-      ))}
+    <div className={styles.navbar}>
+      <div className={styles.navbarWrapper}>
+        {iconSVGArr.map((iconSrc, navbarIdx) => (
+          <button
+            type="button"
+            id={`${navbarIdx}`}
+            className={styles.navbarIconWrapper}
+            key={iconSrc}
+            onClick={navbarClickHandler}
+          >
+            <img src={`./navbar/${iconSrc}.svg`} alt={iconSrc} className={styles.navbarImg} />
+            <div className={styles.navbarDiv}>{iconNameArr[navbarIdx]}</div>
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
