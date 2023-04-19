@@ -28,6 +28,7 @@ export default {
       },
       colors: {
         clearMain: '#B0C1ED',
+        blue : '#2467A8',
         headerFooter: '#F8FDFF',
       },
       spacing: {
