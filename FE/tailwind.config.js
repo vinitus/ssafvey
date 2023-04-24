@@ -17,7 +17,7 @@ const px0To1400 = { ...Array.from(Array(1401)).map((_, i) => `${i}px`) };
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  mode: 'jit',
+  mode: "jit",
   theme: {
     extend: {
       fontFamily: {
