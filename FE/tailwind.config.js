@@ -17,7 +17,7 @@ const px0To1400 = { ...Array.from(Array(1401)).map((_, i) => `${i}px`) };
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  mode: "jit",
+  mode: 'jit',
   theme: {
     extend: {
       fontFamily: {
@@ -45,10 +45,10 @@ export default {
       fontSize: px0To200,
       lineHeight: px0To100,
       borderRadius: px0To100,
-      maxWidth: px0To100,
-      minWidth: px0To100,
-      maxHeight: px0To200,
-      minHeight: px0To200,
+      maxWidth: px0To1400,
+      minWidth: px0To1400,
+      maxHeight: px0To1400,
+      minHeight: px0To1400,
     },
   },
   plugins: [],
