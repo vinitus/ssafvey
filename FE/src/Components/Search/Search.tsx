@@ -6,7 +6,7 @@ export default function Search() {
 
   const [keyword, setKeyword] = useState("")
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value)
   }
   
