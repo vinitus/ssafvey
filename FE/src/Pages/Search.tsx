@@ -1,10 +1,10 @@
 import React from 'react'
-import Card from '../Components/Search/Card'
+import SearchComp from '../Components/Search/Search'
 
 export default function Search(){
   return (
     <div>
-      <Card />
+      <SearchComp />
     </div>
   )
 }
