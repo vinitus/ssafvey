@@ -1,4 +1,4 @@
 package com.ssafy.ssafvey.domain.member.controller;
 
-public class memberController {
+public class MemberController {
 }
