@@ -1,11 +1,7 @@
 .card {
-  @apply h-320 w-320 rounded-20 shadow-md shadow-black m-10 px-33 py-15;
-  background: linear-gradient(100deg, #EDF6FF,#A0C4E8,#EDF6FF);
+  @apply h-320 w-320 rounded-20 relative shadow-md shadow-black m-10 px-33 py-15 backdrop-blur-[10px];
+  background: linear-gradient(100deg, #EDF6FF60,#A0C4E860,#EDF6FF60);
 }
-
-/* .content {
-  @apply h-320 w-320 rounded-t-20 rounded-l-20 text-white p-15 pt-25;
-} */
 
 .title {
   @apply text-32 text-black font-bold tracking-tighter pb-5 text-left break-keep mb-10;
@@ -17,7 +13,7 @@
 }
 
 .subtitle img {
-  @apply w-24 h-24;
+  @apply w-24 h-24 m-5;
   filter: invert(1);
 }
 
@@ -27,14 +23,6 @@
 
 .subtitle_date {
   @apply flex-none text-left;
-}
-
-.coin {
-  @apply text-10 absolute right-10 bottom-10;
-}
-
-.coin_content {
-  @apply w-40 h-25 flex items-center justify-items-center bg-headerFooter text-blue rounded-5;
 }
 
 .container {

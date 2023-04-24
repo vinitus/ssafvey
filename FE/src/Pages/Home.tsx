@@ -1,13 +1,13 @@
 import React from "react";
 // import { Link } from "react-router-dom";
 import Banner from "../Components/Home/Banner"
-import HomeCard from "../Components/Home/HomeCard"
+import Recommend from "../Components/Home/Recommend"
 
 export default function Home(){
   return (
     <div>
       <Banner />
-      <HomeCard />
+      <Recommend />
     </div>
   )
 }

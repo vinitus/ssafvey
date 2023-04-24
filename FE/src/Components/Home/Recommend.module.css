@@ -1,0 +1,8 @@
+.reco {
+  @apply w-140 h-65 rounded-20 text-white text-20 font-bold flex items-center justify-center absolute left-25;
+  background: linear-gradient(#2467A8, #0078EC);
+}
+
+.recommend {
+  @apply w-full flex justify-center mt-20;
+}

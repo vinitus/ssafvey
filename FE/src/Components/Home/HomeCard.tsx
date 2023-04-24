@@ -4,6 +4,8 @@ import style from './HomeCard.module.css'
 export default function HomeCardRight() {
   return (
     <div className={style.card}>
+      
+      
       <div className={style.title}>
         IT 플랫폼 사용 실태 조사
       </div>
@@ -52,6 +54,8 @@ export default function HomeCardRight() {
           <img src="./public/icons/dosurvey.svg" alt="참여하기"/>
         </div>
       </div>
+
+      <div className={style.backdrop}/>
     </div>
   );
 }
