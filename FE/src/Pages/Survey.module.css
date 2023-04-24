@@ -1,19 +1,22 @@
 .header {
-  @apply bg-darkBlue;
+  @apply bg-darkBlue px-20 py-15 h-100 flex flex-col justify-between;
+}
+
+.title {
+  @apply text-20 font-bold;
+}
+
+.mainDesc {
+  @apply flex justify-between;
 }
 
 .coverBackgroundImg {
-  @apply bg-[url('/survey/survey-cover-bg-img.jpg')] bg-cover bg-center;
-  /* @apply backdrop-blur-sm; */
-  /* @apply blur-sm; */
+  @apply bg-[url('/survey/survey-cover-bg-img.jpg')] bg-cover bg-center h-[calc(100vh-224px)];
 }
 
-/* .coverBackgroundImg * {
-  @apply blur-none;
-} */
 
 .coverBackgroundFilter {
-  @apply bg-darkBlue bg-opacity-60;
+  @apply bg-darkBlue bg-opacity-60 backdrop-blur-sm;
 }
 
 .childInlineBlock > * {
@@ -24,22 +27,27 @@
   @apply w-[70px] text-[#87C0F7];
 }
 
-.padding {
-  @apply px-20 py-15;
+.sectionWrapper {
+  @apply px-20 py-15 flex flex-col;
 }
 
-.padding > * {
+.sectionWrapper > * {
   @apply p-10;
 }
 
 .descBox {
-  @apply bg-[#B0C1ED] bg-opacity-50 border-[1px];
+  @apply bg-[#B0C1ED] bg-opacity-50 border-[1px] shadow-md shadow-black;
 }
 
 .stateBox {
   @apply border-l-[2px];
 }
 
-/* .spacingBtwSection {
-  @apply my-10;
-} */
+.buttons {
+  @apply flex justify-between;
+}
+
+.startSurveyBtn {
+  @apply bg-darkBlue w-180 h-50 rounded-[20px] border-[2px] border-white;
+}
+
