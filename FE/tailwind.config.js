@@ -37,6 +37,7 @@ export default {
         clearMain: '#B0C1ED',
         blue: '#2467A8',
         headerFooter: '#F8FDFF',
+        darkBlue: '#145EA5',
       },
       spacing: {
         ...px0To1400,

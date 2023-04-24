@@ -1,0 +1,45 @@
+.header {
+  @apply bg-darkBlue;
+}
+
+.coverBackgroundImg {
+  @apply bg-[url('/survey/survey-cover-bg-img.jpg')] bg-cover bg-center;
+  /* @apply backdrop-blur-sm; */
+  /* @apply blur-sm; */
+}
+
+/* .coverBackgroundImg * {
+  @apply blur-none;
+} */
+
+.coverBackgroundFilter {
+  @apply bg-darkBlue bg-opacity-60;
+}
+
+.childInlineBlock > * {
+  @apply inline-block;
+}
+
+.descTitle {
+  @apply w-[70px] text-[#87C0F7];
+}
+
+.padding {
+  @apply px-20 py-15;
+}
+
+.padding > * {
+  @apply p-10;
+}
+
+.descBox {
+  @apply bg-[#B0C1ED] bg-opacity-50 border-[1px];
+}
+
+.stateBox {
+  @apply border-l-[2px];
+}
+
+/* .spacingBtwSection {
+  @apply my-10;
+} */
