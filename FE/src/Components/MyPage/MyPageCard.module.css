@@ -1,5 +1,5 @@
 .cardBgColor {
-  @apply bg-myPageGradient shadow-md text-white relative rounded-20 min-w-85 max-w-100 min-h-102 max-h-120;
+  @apply bg-myPageGradient shadow-md text-white rounded-20 relative min-w-85 w-[30%] max-w-100 min-h-102 max-h-120;
 }
 
 .cardText {
