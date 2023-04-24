@@ -38,28 +38,31 @@ export default function Survey() {
       <main className={style.coverBackgroundImg}>
         <div className={style.coverBackgroundFilter}>
           <div className={style.sectionWrapper}>
-            <section className={style.descBox}>
-              <img src="/icons/about-circle-outline.svg" alt="about-icon" />
-              <p>{stateMap['설문 설명']}</p>
-            </section>
-            <div />
-            <section className={style.stateBox}>
-              {descArr.map((desc) => (
-                <dl className={style.childInlineBlock} key={desc.key}>
-                  <dt className={style.descTitle}>{desc.key}</dt>
-                  <dd>{desc.value}</dd>
-                </dl>
-              ))}
-            </section>
-            <section className={style.buttons}>
-              <button type="button">미참여</button>
-              <button type="button" className={style.startSurveyBtn}>
-                설문 참여
-              </button>
-              <button type="button">
-                <img src="/icons/share.svg" alt="share-icon" />
-              </button>
-            </section>
+            <div>
+              <section className={style.descBox}>
+                <img src="/icons/about-circle-outline.svg" alt="about-icon" />
+                <p>{stateMap['설문 설명']}</p>
+              </section>
+              <section className={style.stateBox}>
+                {descArr.map((desc) => (
+                  <dl className={style.childInlineBlock} key={desc.key}>
+                    <dt className={style.descTitle}>{desc.key}</dt>
+                    <dd>{desc.value}</dd>
+                  </dl>
+                ))}
+              </section>
+            </div>
+            <div>
+              <section className={style.buttons}>
+                <button type="button">미참여</button>
+                <button type="button" className={style.startSurveyBtn}>
+                  설문 참여
+                </button>
+                <button type="button">
+                  <img src="/icons/share.svg" alt="share-icon" />
+                </button>
+              </section>
+            </div>
           </div>
         </div>
       </main>
