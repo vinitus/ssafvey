@@ -1,5 +1,5 @@
 .card2 {
-  @apply h-120 w-300 bg-main rounded-r-20 rounded-b-20 relative shadow-md shadow-black m-10;
+  @apply h-120 w-300 bg-main rounded-20 relative shadow-md shadow-black m-10;
 }
 
 .background2 {
