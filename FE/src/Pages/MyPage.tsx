@@ -25,7 +25,9 @@ export default function MyPage() {
           </div>
           <div className={styles.recentActivityWrapper}>
             {activityData.map((activity) => (
-              <div className={styles.recentActivityBg}>{activity}</div>
+              <div className={styles.recentActivityBg} key={activity}>
+                {activity}
+              </div>
             ))}
           </div>
         </div>
