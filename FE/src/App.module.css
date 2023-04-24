@@ -1,7 +1,7 @@
 .divBgGradient {
-  @apply bg-main4 backdrop-blur-[4px] h-[calc(100vh-124px)];
+  @apply mt-60 mb-64 bg-main4 backdrop-blur-[4px] min-h-[calc(100vh-124px)];
 }
 
 .divBgBlur {
-  @apply bg-white/50 h-full;
+  @apply bg-white/50 min-h-[calc(100vh-124px)];
 }

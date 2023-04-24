@@ -1,5 +1,9 @@
 .appBarLayout {
-  @apply w-full h-60 bg-headerFooter flex justify-center items-center;
+  @apply w-full h-60 flex justify-center items-center bg-headerFooter fixed top-0 z-10;
+}
+
+.appBarWrapper {
+  @apply flex justify-center items-center;
 }
 
 .backButton {
