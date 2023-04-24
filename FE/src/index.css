@@ -4,10 +4,10 @@
 
 @font-face {
   font-family: 'LineBd';
-  src: url('../public/fonts/LINESeedKR-Bd.ttf') format('truetype');
+  src: url('/fonts/LINESeedKR-Bd.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'LineRg';
-  src: url('../public/fonts/LINESeedKR-Rg.ttf') format('truetype');
+  src: url('/fonts/LINESeedKR-Rg.ttf') format('truetype');
 }
