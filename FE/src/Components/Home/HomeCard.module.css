@@ -1,5 +1,5 @@
 .card {
-  @apply h-320 w-320 rounded-20 relative shadow-md shadow-black m-10 px-33 py-15 backdrop-blur-[10px];
+  @apply h-320 w-320 rounded-20 relative shadow-md shadow-black mx-auto mt-10 px-33 py-15 backdrop-blur-[10px];
   background: linear-gradient(100deg, #EDF6FF60,#A0C4E860,#EDF6FF60);
 }
 
