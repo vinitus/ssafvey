@@ -3,18 +3,27 @@ import style from './HomeCard.module.css'
 
 export default function HomeCardRight() {
   return (
-    <div className={style.card2}>
-      <div className={style.background2}/>
-      <div className={style.content2}>
-        <div className={style.title}>
-          IT 플랫폼 사용 실태 조사
-        </div>
+    <div className={style.card}>
+      
+      <div className={style.title}>
+        IT 플랫폼 사용 실태 조사
+      </div>
+      <div className={style.container}>
+
         <div className={style.subtitle}>
           <img src="./public/icons/house.svg" alt='house' className='mr-5'/>
           <div className={style.subtitle_writer}>
             기관명
           </div>
         </div>
+
+        <div className={style.subtitle}>
+          <img src="./public/icons/people.svg" alt='people' className='mr-5'/>
+          <div className={style.subtitle_writer}>
+            100
+          </div>
+        </div>
+
         <div className={style.subtitle}>
           <img src="./public/icons/clock.svg" alt='clock' className='mr-5'/>
           <div className={style.subtitle_date}>
@@ -26,17 +35,22 @@ export default function HomeCardRight() {
             </div>
           </div>
         </div>
+
         <div className={style.subtitle}>
-          <img src="./public/icons/people.svg" alt='people' className='mr-5'/>
-          <div className={style.subtitle_writer}>
+          <img src="./public/icons/coin.svg" alt='people' className='mr-5'/>
+          <div className={style.subtitle_date}>
             100
           </div>
         </div>
-        <div className={style.coin}>
-          <div className={style.coin_content}>
-            <img src="./public/icons/coin.svg" alt='coin' className='-ml-8'/>
-            <div className='ml-5'>100</div>
+        
+      </div>
+
+      <div className='flex justify-end'>
+        <div className={style.dosurvey}>
+          <div className={style.surveytitle}>
+            참여하기
           </div>
+          <img src="./public/icons/dosurvey.svg" alt="참여하기"/>
         </div>
       </div>
     </div>
