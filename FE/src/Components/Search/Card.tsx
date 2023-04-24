@@ -20,24 +20,15 @@ export default function Card(){
             <img src="./public/icons/clock.svg" alt='clock' className='mr-5'/>
             <div className={style.subtitle_date}>
               <div>
-                2023.04.10 -
-              </div>
-              <div>
-                2023.04.13
+                2023.04.10 - 2023.04.13
               </div>
             </div>
           </div>
 
-          <div className={style.subtitle}>
-            <img src="./public/icons/people.svg" alt='people' className='mr-5'/>
-            <div className={style.subtitle_writer}>
-              100
-            </div>
-          </div>
         </div>
         <div className={style.coin}>
           <div className={style.coin_content}>
-            <img src="./public/icons/coin.svg" alt='coin' className='-ml-8'/>
+            <img src="./public/icons/coin_color.svg" alt='coin' className='-ml-8'/>
             <div className='ml-5'>100</div>
           </div>
         </div>
