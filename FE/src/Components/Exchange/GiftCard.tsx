@@ -1,19 +1,7 @@
 import React, { useState } from 'react';
 import style from './GiftCard.module.css';
 
-interface Props {
-  handleOpenModal: () => void;
-}
-
 export default function GiftCard() {
-  // const [giftmodal, setGiftmodal] = useState(false);
-  // const openmodal = () => {
-  //   setGiftmodal(true);
-  // };
-
-  // const onClick = () => {
-  //   setGiftmodal(true)
-  // }
 
   return (
     <div className={style.giftcard}>

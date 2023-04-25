@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Modal from "react-modal"
 import App from './App';
 import NotFound from './Pages/NotFound';
 import Home from './Pages/Home';
@@ -26,3 +27,5 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+
+Modal.setAppElement("#root")

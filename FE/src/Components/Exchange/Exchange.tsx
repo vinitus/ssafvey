@@ -42,8 +42,7 @@ export default function Exchange() {
           },
         }}
       >
-        {/* <BuyGift closemodal={setGiftmodal(false)}/> */}
-        <BuyGift />
+        <BuyGift closemodal={() => setGiftmodal(false)}/>
       </Modal>
     </div>
   );
