@@ -17,7 +17,9 @@ export default function Survey() {
   return (
     <article className="text-white">
       <SurveyHeader title={surveyState.title} creator={surveyState.creator} dueDate={surveyState.dueDate} />
-      <Outlet /> {/* 여기에 SurveyCover, SurveyQuestion가 들어감 */}
+      <main>
+        <Outlet /> {/* 여기에 SurveyCover, SurveyQuestion가 들어감 */}
+      </main>
     </article>
   );
 }

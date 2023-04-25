@@ -1,0 +1,38 @@
+.sectionsWrapper {
+  @apply px-20 py-15 flex flex-col justify-between h-[calc(100vh-224px)] text-black;
+}
+
+.upperSectionsWrapper {
+  @apply flex flex-col gap-15;
+}
+
+.progress {
+}
+
+.question {
+  @apply border-darkBlue rounded-[20px] border-[2px] p-20 bg-gradient-to-br	from-[#C2E9FB] to-[#D9D9D9];
+}
+
+.buttons {
+  @apply flex justify-between;
+}
+
+.title {
+  @apply text-20 font-bold mb-5;
+}
+
+.choices {
+  @apply flex flex-col;
+}
+
+.choice {
+  @apply py-5;
+}
+
+.progressContainer {
+  @apply bg-[#C2E9FB] rounded-20;
+}
+
+.progressBar {
+  @apply bg-darkBlue text-white text-right rounded-l-20 px-10;
+}

@@ -22,7 +22,7 @@ const surveyState = {
 
 export default function SurveyCover() {
   return (
-    <main className={style.coverBackgroundImg}>
+    <div className={style.coverBackgroundImg}>
       <div className={style.coverBackgroundFilter}>
         <div className={style.sectionWrapper}>
           <div>
@@ -52,6 +52,6 @@ export default function SurveyCover() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
