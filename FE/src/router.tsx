@@ -9,6 +9,8 @@ import Exchange from './Pages/Exchange';
 import MakeSurvey from './Pages/MakeSurvey';
 import MyPage from './Pages/MyPage';
 import Survey from './Pages/Survey';
+import SurveyCover from './Components/Survey/SurveyCover';
+import SurveyQuestion from './Components/Survey/SurveyQuestion';
 /* global document */
 
 const router = createBrowserRouter([
@@ -22,7 +24,14 @@ const router = createBrowserRouter([
       { path: '/makesurvey', element: <MakeSurvey /> },
       { path: '/exchange', element: <Exchange /> },
       { path: '/mypage', element: <MyPage /> },
-      { path: '/survey/:id', element: <Survey /> },
+      {
+        path: '/survey/:id',
+        element: <Survey />,
+        children: [
+          { element: <SurveyCover />, index: true },
+          { path: ':questionId', element: <SurveyQuestion /> },
+        ],
+      },
     ],
   },
 ]);
