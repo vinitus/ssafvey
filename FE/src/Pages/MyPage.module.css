@@ -1,13 +1,13 @@
 .MyPageWrapper {
-  @apply flex flex-col mx-24 font-[700] h-[100%];
+  @apply flex flex-col font-[700] h-[100%];
 }
 
 .contentWrapper {
-  @apply flex flex-col justify-between h-[calc(100vh-212px)] min-h-500 pb-[5vh];
+  @apply flex flex-col mx-24 justify-between h-[calc(100vh-212px)] min-h-500 pb-[5vh];
 }
 
 .nameIconWrapper {
-  @apply flex flex-row justify-between;
+  @apply flex flex-row mx-24 justify-between;
 }
 
 .nameDiv {
