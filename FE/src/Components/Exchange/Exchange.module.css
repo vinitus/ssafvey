@@ -10,3 +10,7 @@
 .card {
   @apply flex flex-wrap justify-center ;
 }
+
+.card button {
+  @apply text-left;
+}

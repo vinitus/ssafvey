@@ -11,3 +11,8 @@
   font-family: 'LineRg';
   src: url('/fonts/LINESeedKR-Rg.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Zoo';
+  src : url('/fonts/ZenTokyoZoo-Regular.ttf') format('truetype');
+}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import GiftCard from './GiftCard';
 import style from './Exchange.module.css';
-import BuyGift from '../Modal/BuyGift';
+import Lotto from '../Modal/Lotto';
 
 export default function Exchange() {
   const [giftmodal, setGiftmodal] = useState(false);
@@ -21,9 +21,16 @@ export default function Exchange() {
         <button type='button' onClick={openmodal}>
           <GiftCard/>
         </button>
-        <GiftCard />
-        <GiftCard />
-        <GiftCard />
+        <button type='button' onClick={openmodal}>
+          <GiftCard/>
+        </button>
+        <button type='button' onClick={openmodal}>
+          <GiftCard/>
+        </button>
+        <button type='button' onClick={openmodal}>
+          <GiftCard/>
+        </button>
+
       </div>
 
       <Modal
@@ -35,14 +42,15 @@ export default function Exchange() {
           overlay: {},
           content: {
             width: '300px',
-            height: '450px',
-            backgroundColor: '#ffffff',
+            height: '350px',
+            backgroundColor: '#c2e9fb',
             margin: 'auto -10px',
             borderRadius : '20px',
           },
         }}
       >
-        <BuyGift closemodal={() => setGiftmodal(false)}/>
+        <Lotto />
+        {/* <Lotto closemodal={() => setGiftmodal(false)}/> */}
       </Modal>
     </div>
   );
