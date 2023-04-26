@@ -6,10 +6,10 @@
   @apply text-20 ml-15 mt-20;
 }
 
-.surveyThumbnailMadeByWrapper {
+.surveyThumbnailAuthorWrapper {
   @apply flex flex-row justify-center items-center absolute left-15 bottom-20;
 }
 
-.surveyThumbnailMadeByDiv {
+.surveyThumbnailAuthorDiv {
   @apply text-10 leading-13 ml-8;
 }
