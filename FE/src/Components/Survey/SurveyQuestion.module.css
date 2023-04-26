@@ -1,0 +1,32 @@
+.sectionsWrapper {
+  @apply px-20 py-15 flex flex-col justify-between h-[calc(100vh-224px)] text-black;
+}
+
+.upperSectionsWrapper {
+  @apply flex flex-col gap-15;
+}
+
+.question {
+  @apply border-darkBlue rounded-[20px] border-[2px] p-20 bg-gradient-to-br	from-[#C2E9FB] to-[#D9D9D9];
+}
+
+.buttons {
+  @apply flex justify-between;
+}
+
+.title {
+  @apply text-20 font-bold mb-5;
+}
+
+.choices {
+  @apply flex flex-col gap-5;
+}
+
+.choice {
+  @apply block py-13 rounded-10;
+  background-color: rgba(20, 94, 165, 0.1);
+}
+
+.choice:hover {
+  @apply bg-darkBlue rounded-10 text-white;
+}

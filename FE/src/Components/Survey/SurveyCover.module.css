@@ -1,26 +1,9 @@
-.header {
-  @apply bg-darkBlue px-20 py-15 h-100 flex flex-col justify-between;
-}
-
-.title {
-  @apply text-20 font-bold;
-}
-
-.mainDesc {
-  @apply flex justify-between;
-}
-
 .coverBackgroundImg {
   @apply bg-[url('/survey/survey-cover-bg-img.jpg')] bg-cover bg-center h-[calc(100vh-224px)];
 }
 
-
 .coverBackgroundFilter {
   @apply bg-darkBlue bg-opacity-60 backdrop-blur-sm h-full;
-}
-
-.childInlineBlock > * {
-  @apply inline-block;
 }
 
 .descTitle {
@@ -51,3 +34,6 @@
   @apply bg-darkBlue w-180 h-50 rounded-[20px] border-[2px] border-white;
 }
 
+.childInlineBlock > * {
+  @apply inline-block;
+}
