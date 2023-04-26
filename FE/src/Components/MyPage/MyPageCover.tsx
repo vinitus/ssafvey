@@ -1,60 +1,22 @@
 import React from 'react';
+import MyPageSurveyCover from './MyPageSurveyCover';
+import MyPageCouponCover from './MyPageCouponCover';
+import { CoverData } from './.myPageType';
 import style from './MyPageCover.module.css';
 
-type History = {
-  title: string;
-  author: string;
-};
-
-interface HistoryObj {
-  day: string;
-  history: History[];
+interface CoverComponentProps {
+  contentType: '설문' | '쿠폰';
+  content: CoverData;
 }
 
-interface Props {
-  quantity: number;
-  infoType: '응답한' | '제작한';
-  historyObj: HistoryObj[];
-}
-
-export default function MyPageCover({ quantity, infoType, historyObj }: Props) {
+export default function MyPageCover({ contentType, content }: CoverComponentProps) {
   return (
-    <div className={style.coverWrapper}>
-      <div className={style.coverHeaderWrapper}>
-        <div className={style.coverHeaderTitle}>{`${infoType} 설문`}</div>
-        <div className={style.coverHeaderQuantity}>{quantity}</div>
-      </div>
-      <div className={style.historyWrapper}>
-        {historyObj.map((history: HistoryObj, idx: number) =>
-          idx + 1 < historyObj.length ? (
-            <div className={style.historyBlockWithDay} key={history.day}>
-              <div className={style.historyDay}>{history.day}</div>
-              {history.history.map(({ title, author }) => (
-                <div className={style.historyBlock} key={title + author}>
-                  <div className={style.historyTitle}>{title}</div>
-                  <div className={style.historyAuthorWrapper}>
-                    <img src="/icons/home.svg" alt="home" />
-                    <div className={style.historyAuthor}>{author}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div key={history.day}>
-              <div className={style.historyDay}>{history.day}</div>
-              {history.history.map(({ title, author }) => (
-                <div className={style.historyBlock} key={title + author}>
-                  <div className={style.historyTitle}>{title}</div>
-                  <div className={style.historyAuthorWrapper}>
-                    <img src="/icons/home.svg" alt="home" />
-                    <div className={style.historyAuthor}>{author}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ),
-        )}
-      </div>
-    </div>
+    <section className={style.coverWrapper}>
+      {contentType === '설문' ? (
+        <MyPageSurveyCover quantity={content.quantity} infoType={content.infoType} data={content.data} />
+      ) : (
+        <MyPageCouponCover quantity={content.quantity} infoType={content.infoType} data={content.data} />
+      )}
+    </section>
   );
 }
