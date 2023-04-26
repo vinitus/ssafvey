@@ -5,7 +5,7 @@ import styles from './NavBar.module.css';
 export default function NavBar() {
   const iconSVGArr = ['home', 'search', 'make', 'change', 'mypage'];
   const iconNameArr = ['홈', '설문하기', '설문만들기', '교환하기', '마이페이지'];
-  const iconURLArr = ['/', '/survey', '/makesurvey', '/exchange', '/mypage'];
+  const iconURLArr = ['/', '/survey', '/create', '/exchange', '/mypage'];
   const navigate = useNavigate();
 
   function navbarClickHandler(event: React.MouseEvent<HTMLButtonElement>) {

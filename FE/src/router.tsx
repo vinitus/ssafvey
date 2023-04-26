@@ -7,7 +7,7 @@ import NotFound from './Pages/NotFound';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
 import Exchange from './Pages/Exchange';
-import MakeSurvey from './Pages/MakeSurvey';
+import CreateSurvey from './Pages/CreateSurvey';
 import MyPage from './Pages/MyPage';
 import Survey from './Pages/Survey';
 import SurveyCover from './Components/Survey/SurveyCover';
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <Home /> },
       { path: '/survey', element: <Search /> },
-      { path: '/makesurvey', element: <MakeSurvey /> },
+      { path: '/create', element: <CreateSurvey /> },
       { path: '/exchange', element: <Exchange /> },
       { path: '/mypage', element: <MyPage /> },
       {
