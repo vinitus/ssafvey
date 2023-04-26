@@ -19,9 +19,14 @@
 }
 
 .choices {
-  @apply flex flex-col;
+  @apply flex flex-col gap-5;
 }
 
 .choice {
-  @apply py-5;
+  @apply block py-13 rounded-10;
+  background-color: rgba(20, 94, 165, 0.1);
+}
+
+.choice:hover {
+  @apply bg-darkBlue rounded-10 text-white;
 }
