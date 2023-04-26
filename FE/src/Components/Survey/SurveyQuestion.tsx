@@ -1,6 +1,10 @@
 import React from 'react';
 import style from './SurveyQuestion.module.css';
-import SurveyProgressState from './SurveyProgressState';
+import ProgressBar from './ProgressBar';
+
+const currentQuestion = 7;
+const totalQuestion = 10;
+const progressPercentage = Math.floor((currentQuestion / totalQuestion) * 100);
 
 const choices = [
   { order: 1, value: `This is choice 1` },
@@ -14,7 +18,12 @@ export default function SurveyQuestion() {
   return (
     <div className={style.sectionsWrapper}>
       <div className={style.upperSectionsWrapper}>
-        <SurveyProgressState />
+        <section>
+          <div className="text-20">
+            Progress State: {currentQuestion} / {totalQuestion}
+          </div>
+          <ProgressBar progressPercentage={progressPercentage} />
+        </section>
         <section className={style.question}>
           <form>
             <legend>
