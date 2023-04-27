@@ -15,7 +15,7 @@
 }
 
 .cardWrapper {
-  @apply grid grid-cols-2 gap-[10px];
+  @apply w-full grid grid-cols-2;
 }
 
 .cardContentWrapper {
