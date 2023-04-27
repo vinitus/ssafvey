@@ -1,0 +1,8 @@
+.sectionsWrapper {
+  @apply flex flex-col justify-between h-full;
+}
+
+.buttons {
+  @apply flex justify-center;
+}
+

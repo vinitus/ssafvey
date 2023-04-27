@@ -1,6 +1,9 @@
 import React from 'react';
 import style from './SurveyQuestion.module.css';
 import ProgressBar from './ProgressBar';
+import SurveyBox from '../../UI/Survey/SurveyBox';
+import LeftArrowButton from '../../UI/Survey/LeftArrowButton';
+import RightArrowButton from '../../UI/Survey/RightArrowButton';
 
 const currentQuestion = 7;
 const totalQuestion = 10;
@@ -21,12 +24,12 @@ export default function SurveyQuestion() {
     <div className={style.sectionsWrapper}>
       <div className={style.upperSectionsWrapper}>
         <section>
-          <div className="text-20">
+          <div className="text-20 text-black">
             Progress State: {currentQuestion} / {totalQuestion}
           </div>
           <ProgressBar progressPercentage={progressPercentage} />
         </section>
-        <section className={style.question}>
+        <SurveyBox>
           <form>
             <legend>
               <h2 className={style.title}>{title}</h2>
@@ -42,15 +45,11 @@ export default function SurveyQuestion() {
               })}
             </fieldset>
           </form>
-        </section>
+        </SurveyBox>
       </div>
       <section className={style.buttons}>
-        <button type="button">
-          <img src="/icons/left-arrow-btn.svg" alt="left-arrow-btn" />
-        </button>
-        <button type="button">
-          <img src="/icons/right-arrow-btn.svg" alt="right-arrow-btn" />
-        </button>
+        <LeftArrowButton />
+        <RightArrowButton />
       </section>
     </div>
   );

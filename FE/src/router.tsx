@@ -8,6 +8,7 @@ import Home from './Pages/Home';
 import Search from './Pages/Search';
 import Exchange from './Pages/Exchange';
 import CreateSurvey from './Pages/CreateSurvey';
+import ImportExcel from './Components/Create/ImportExcel';
 import MyPage from './Pages/MyPage';
 import Survey from './Pages/Survey';
 import SurveyCover from './Components/Survey/SurveyCover';
@@ -22,7 +23,12 @@ const router = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <Home /> },
       { path: '/survey', element: <Search /> },
-      { path: '/create', element: <CreateSurvey /> },
+      { path: '/create', 
+        element: <CreateSurvey />, 
+        children: [
+          { element: <ImportExcel />, index: true }
+        ] 
+      },
       { path: '/exchange', element: <Exchange /> },
       { path: '/mypage', element: <MyPage /> },
       {

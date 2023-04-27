@@ -8,7 +8,7 @@ export default function CreateSurvey() {
   return (
     <article className="text-white">
       <SurveyHeader title={headline} />
-      <main>
+      <main className="px-20 py-15 h-[calc(100vh-224px)]">
         <Outlet />
       </main>
     </article>

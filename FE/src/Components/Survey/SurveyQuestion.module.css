@@ -1,13 +1,9 @@
 .sectionsWrapper {
-  @apply px-20 py-15 flex flex-col justify-between h-[calc(100vh-224px)] text-black;
+  @apply px-20 py-15 flex flex-col justify-between h-[calc(100vh-224px)];
 }
 
 .upperSectionsWrapper {
   @apply flex flex-col gap-15;
-}
-
-.question {
-  @apply border-darkBlue rounded-[20px] border-[2px] p-20 bg-gradient-to-br	from-[#C2E9FB] to-[#D9D9D9];
 }
 
 .buttons {
