@@ -1,5 +1,4 @@
 import React from "react";
-import style from "./LeftArrowButton.module.css";
 
 export default function LeftArrowButton() {
   return (
