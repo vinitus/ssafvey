@@ -18,7 +18,7 @@ export default function BuyGift({ closemodal }: Props) {
     const dragItem = document.querySelector('#slidebtn');
     const container = document.querySelector('#slide');
 
-    const dragStart = (e: React.MouseEvent<MouseEvent> & React.TouchEvent<TouchEvent> ) => {
+    const dragStart = (e: React.MouseEvent<MouseEvent> & React.TouchEvent<TouchEvent>) => {
       if (e.type !== 'touchstart') {
         initialX = e.touches[0].clientX - xOffset;
       } else {
@@ -27,17 +27,7 @@ export default function BuyGift({ closemodal }: Props) {
       if (e.target === dragItem) {
         active = true;
       }
-    }
-
-    // const touchStart = (e : React.TouchEvent<HTMLDivElement>) => {
-    //   if (e.type === 'touchstart') {
-    //     initialX = e.touches[0].clientX - xOffset;
-    //   }
-
-    //   if (e.target === dragItem) {
-    //     active = true;
-    //   }
-    // }
+    };
 
     const dragEnd = () => {
       if (currentX < 130) {
@@ -87,7 +77,7 @@ export default function BuyGift({ closemodal }: Props) {
     };
 
     if (point >= price) {
-      container?.addEventListener('touchstart', dragStart, false)
+      container?.addEventListener('touchstart', dragStart, false);
       container?.addEventListener('touchend', dragEnd, false);
       container?.addEventListener('touchmove', drag, false);
 
@@ -95,7 +85,7 @@ export default function BuyGift({ closemodal }: Props) {
       container?.addEventListener('mouseup', dragEnd, false);
       container?.addEventListener('mousemove', drag, false);
     }
-    }, [point, price]);
+  }, [point, price]);
 
   return (
     <div>
