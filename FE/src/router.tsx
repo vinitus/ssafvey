@@ -9,6 +9,7 @@ import Search from './Pages/Search';
 import Exchange from './Pages/Exchange';
 import CreateSurvey from './Pages/CreateSurvey';
 import ImportExcel from './Components/Create/ImportExcel';
+import CreateSurveyInput1 from './Components/Create/CreateSurveyInput1';
 import MyPage from './Pages/MyPage';
 import Survey from './Pages/Survey';
 import SurveyCover from './Components/Survey/SurveyCover';
@@ -26,8 +27,9 @@ const router = createBrowserRouter([
       { path: '/create', 
         element: <CreateSurvey />, 
         children: [
-          { element: <ImportExcel />, index: true }
-        ] 
+          { element: <ImportExcel />, index: true },
+          { path: '/create/input1', element: <CreateSurveyInput1 /> }
+        ]
       },
       { path: '/exchange', element: <Exchange /> },
       { path: '/mypage', element: <MyPage /> },

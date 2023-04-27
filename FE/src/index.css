@@ -16,3 +16,11 @@
   font-family: 'Zoo';
   src : url('/fonts/ZenTokyoZoo-Regular.ttf') format('truetype');
 }
+
+.titleFont {
+  @apply text-black text-20 font-bold;
+}
+
+.descFont {
+  @apply text-gray-600;
+}
