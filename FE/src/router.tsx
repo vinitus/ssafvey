@@ -23,18 +23,18 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Home /> },
-      { path: '/survey', element: <Search /> },
-      { path: '/create', 
+      { path: 'survey', element: <Search /> },
+      { path: 'create', 
         element: <CreateSurvey />, 
         children: [
           { element: <ImportExcel />, index: true },
-          { path: '/create/input1', element: <CreateSurveyInput1 /> }
+          { path: 'input1', element: <CreateSurveyInput1 /> }
         ]
       },
-      { path: '/exchange', element: <Exchange /> },
-      { path: '/mypage', element: <MyPage /> },
+      { path: 'exchange', element: <Exchange /> },
+      { path: 'mypage', element: <MyPage /> },
       {
-        path: '/survey/:id',
+        path: 'survey/:id',
         element: <Survey />,
         children: [
           { element: <SurveyCover />, index: true },
