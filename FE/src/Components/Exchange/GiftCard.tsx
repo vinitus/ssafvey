@@ -11,26 +11,28 @@ export default function GiftCard({ productTitle, point }: GiftCardProps) {
   // 나중에 통일성을 위해 수정이 필요해요.
   const mappingImgSrc = {
     상품명: './tmpFile/tmp.jpg',
-    커피: '/icons/coffee.svg',
-    아이스티: '/icons/iceTea.svg',
+    커피: '/reward/coffee.svg',
+    아이스티: '/reward/iceTea.svg',
   };
 
   const imgSrc = mappingImgSrc[productTitle];
 
   return (
-    <div className={style.giftcard}>
+    <div className={point !== undefined ? style.giftcardWithPoint : style.giftcardWithoutPoint}>
       <div className={style.giftimg}>
         <img src={imgSrc} alt="tmp" />
       </div>
 
       <div className={style.gifttitle}>{productTitle}</div>
 
-      <div className={style.coin}>
-        <div className={style.coin_content}>
-          <img src="./icons/coin_color.svg" alt="coin" className="-ml-8" />
-          <div className="ml-5">{point}</div>
+      {point && (
+        <div className={style.coin}>
+          <div className={style.coin_content}>
+            <img src="./icons/coin_color.svg" alt="coin" className="-ml-8" />
+            <div className="ml-5">{point}</div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
