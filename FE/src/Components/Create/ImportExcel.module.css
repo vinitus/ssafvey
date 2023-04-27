@@ -1,8 +1,27 @@
-.sectionsWrapper {
+.sections {
   @apply flex flex-col justify-between h-full;
+}
+
+.title {
+  @apply text-black text-20 font-bold;
+}
+
+.desc {
+  @apply text-gray-600;
+}
+
+.buttonContainer {
+  @apply flex flex-col items-center my-15;
+}
+
+.templateDownLoadButton {
+  @apply rounded-full text-white bg-gray-400 border-none py-10 px-15 w-[calc(100vw-100px)] mx-10;
 }
 
 .buttons {
   @apply flex justify-center;
 }
 
+.writeQuestionsButton {
+  @apply rounded-20 text-white bg-darkBlue border-none py-15 px-25 text-20 w-full;
+}
