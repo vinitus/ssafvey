@@ -1,5 +1,5 @@
 import React from 'react';
-import { CoverData, isCouponTitle } from './.myPageType';
+import { CoverData, isCouponTitle } from '../../types/myPageType';
 import style from './MyPageCouponCover.module.css';
 
 export default function MyPageCouponCover({ quantity, infoType, data }: CoverData) {
