@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import style from './Lotto.module.css'; 
 
+interface Props {
+  closemodal : () => void;
+}
 
-export default  function Lotto() {
+export default  function Lotto({ closemodal } : Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [getCtx, setGetCtx] = useState(null);
   const WIDTH = 190;
   const HEIGHT = 90;
@@ -11,14 +15,15 @@ export default  function Lotto() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    const button = buttonRef.current;
 
-    if (canvas) {
+    if (canvas && button) {
       canvas.width = WIDTH;
       canvas.height = HEIGHT;
       const context = canvas.getContext('2d') as CanvasRenderingContext2D;
       const initCanvas = () => {
         const image = new Image();
-        image.src = "./icons/ziggle.png"
+        image.src = "./icons/ziggle2.gif"
         image.onload = function() {
           context.drawImage(image, 0, 0)
         }
@@ -42,7 +47,7 @@ export default  function Lotto() {
         }
       }
 
-      const handleDrawing = (e : any) => {
+      const handleDrawing = (e : MouseEvent) => {
         if(isDrawing) {
           const {offsetX, offsetY} = e;
           context.save()
@@ -61,7 +66,6 @@ export default  function Lotto() {
           isDrawing = false
         }
       }
-
 
       const handleTouchStart = (e: TouchEvent) => {
         if(!isDrawing) {
@@ -101,6 +105,10 @@ export default  function Lotto() {
         }
       }
 
+      const openonce = () => {
+        context.clearRect(0, 0, WIDTH, HEIGHT)
+      }
+
       canvas.addEventListener("mousedown", handleDrawingStart)
       canvas.addEventListener("mousemove", handleDrawing)
       canvas.addEventListener("mouseup", handleDrawingEnd)
@@ -108,12 +116,16 @@ export default  function Lotto() {
       canvas.addEventListener("touchstart", handleTouchStart)
       canvas.addEventListener("touchmove", handleTouch)
       canvas.addEventListener("touchend", handleTouchEnd)
+
+      button.addEventListener("click", openonce)
     }
   }, []);
 
   return (
     <div>
-      <div>X</div>
+      <div className={style.exitbtn}>
+        <button type='button' className='flex' onClick={() => closemodal()}>X</button>
+      </div>
       <div className={style.chancetitle}>CHANCE</div>
       <div className={style.ticket}>
         <img src="./icons/lotto.svg" alt="lotto" className={style.ticketimg} />
@@ -126,6 +138,9 @@ export default  function Lotto() {
         <canvas ref={canvasRef} className={style.canvas} id="canvas" />
       </div>
       <div className={style.subtitle}>위 쿠폰을 긁어주세요.</div>
+      <div className='flex justify-center'>
+        <button type='button' className={style.openbtn} ref={buttonRef}>바로 열기</button>
+      </div>
     </div>
   );
 }

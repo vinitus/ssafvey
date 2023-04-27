@@ -44,3 +44,11 @@
 .resultsub {
   @apply w-[100%] text-center text-20 font-bold;
 }
+
+.exitbtn{
+  @apply font-bold flex justify-end;
+}
+
+.openbtn {
+  @apply w-150 h-40 border-2 border-black rounded-10 bg-white;
+}

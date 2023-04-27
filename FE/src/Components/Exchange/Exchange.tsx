@@ -49,8 +49,8 @@ export default function Exchange() {
           },
         }}
       >
-        <Lotto />
-        {/* <Lotto closemodal={() => setGiftmodal(false)}/> */}
+        {/* <Lotto /> */}
+        <Lotto closemodal={() => setGiftmodal(false)}/>
       </Modal>
     </div>
   );
