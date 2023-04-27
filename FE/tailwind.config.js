@@ -38,7 +38,7 @@ export default {
         blue: '#2467A8',
         headerFooter: '#F8FDFF',
         darkBlue: '#145EA5',
-        green: '#18D47A',
+        ssafveyGreen: '#18D47A',
       },
       spacing: {
         ...px0To1400,

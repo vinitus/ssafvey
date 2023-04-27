@@ -6,7 +6,7 @@ interface Props {
 
 export default function PlusButton({ size }: Props) {
   return (
-    <button type="button" className="inline-block w-120 h-120 text-60 text-white bg-green rounded-full">
+    <button type="button" className="inline-block w-120 h-120 text-60 text-white bg-ssafveyGreen rounded-full">
       +
     </button>
   );
