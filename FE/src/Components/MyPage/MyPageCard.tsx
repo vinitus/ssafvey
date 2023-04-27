@@ -4,19 +4,44 @@ import styles from './MyPageCard.module.css';
 interface Props {
   tag: '포인트' | '참여설문' | '제작설문';
   quantity: number;
+  modalOpenFunc?: React.Dispatch<React.SetStateAction<'응답한' | '제작한' | '쿠폰' | boolean>>;
 }
 
-// export default function MyPageCard(props: Props) {
-//   const { tag, quantity } = props;
-export default function MyPageCard({ tag, quantity }: Props) {
-  let imgSrc = 'madeSurvey';
-  if (tag === '포인트') imgSrc = 'point';
-  else if (tag === '참여설문') imgSrc = 'joinedSurvey';
+interface MappingDataWithTag {
+  포인트: [string, false];
+  참여설문: [string, '응답한'];
+  제작설문: [string, '제작한'];
+}
+
+type ContentType = boolean | '응답한' | '제작한';
+
+export default function MyPageCard({ tag, quantity, modalOpenFunc }: Props) {
+  const mappingDataWithTag: MappingDataWithTag = {
+    포인트: ['point', false],
+    참여설문: ['joinedSurvey', '응답한'],
+    제작설문: ['madeSurvey', '제작한'],
+  };
+
+  const imgSrc = mappingDataWithTag[tag][0];
+  const contentType: ContentType = mappingDataWithTag[tag][1];
+
   return (
-    <div className={styles.cardBgColor}>
-      <div className={styles.cardText}>{tag}</div>
-      <img src={`./icons/${imgSrc}.svg`} alt={tag} className={styles.img} />
-      <div className={styles.cardQuantity}>{quantity}</div>
-    </div>
+    <button
+      type="button"
+      disabled={tag === '포인트'}
+      onClick={() => {
+        if (modalOpenFunc && contentType) modalOpenFunc(contentType);
+      }}
+    >
+      <article className={styles.cardBgColor}>
+        <h1 className={styles.cardText}>{tag}</h1>
+        <img src={`./icons/${imgSrc}.svg`} alt={tag} className={styles.img} />
+        <h1 className={styles.cardQuantity}>{quantity}</h1>
+      </article>
+    </button>
   );
 }
+
+MyPageCard.defaultProps = {
+  modalOpenFunc: undefined,
+};

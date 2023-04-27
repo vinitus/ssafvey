@@ -1,0 +1,3 @@
+.coverWrapper {
+  @apply z-10 w-full h-[calc(100vh-202px)] bg-main2 fixed border right-0 bottom-0 drop-shadow-[0px_-4px_5px_rgba(0,0,0,0.25)] rounded-t-15 overflow-scroll;
+}
