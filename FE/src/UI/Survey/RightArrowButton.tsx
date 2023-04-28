@@ -1,9 +1,17 @@
 import React from "react";
 
-export default function RightArrowButton() {
+interface Props {
+  hidden?: boolean;
+}
+
+export default function RightArrowButton({ hidden }: Props) {
   return (
-    <button type="button" className="h-60 w-60 bg-darkBlue rounded-full">
+    <button type="button" className={`${hidden ? "invisible" : ""} h-60 w-60 bg-darkBlue rounded-full`}>
       &gt;
     </button>
   );
 }
+
+RightArrowButton.defaultProps = {
+  hidden: false,
+};
