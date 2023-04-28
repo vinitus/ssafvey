@@ -6,6 +6,7 @@ import style from './MyPageCover.module.css';
 
 interface CoverComponentProps {
   closemodal: () => void;
+  sending : boolean;
   contentType: '설문' | '쿠폰';
   content: CoverData;
 }
@@ -16,7 +17,7 @@ const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
 
-export default function MyPageCover({ closemodal, contentType, content }: CoverComponentProps) {
+export default function MyPageCover({ closemodal, sending, contentType, content }: CoverComponentProps) {
 
   const sectionRef = useRef<HTMLDivElement | null >(null)
 
@@ -96,7 +97,7 @@ export default function MyPageCover({ closemodal, contentType, content }: CoverC
   }, [closemodal])
 
   return (
-    <section className={style.coverWrapper} ref={sectionRef}>
+    <section className={!sending ? style.coverWrapper : style.closeWrapper} ref={sectionRef}>
       {contentType === '설문' ? (
         <MyPageSurveyCover quantity={content.quantity} infoType={content.infoType} data={content.data} />
       ) : (
