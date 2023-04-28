@@ -24,8 +24,10 @@ export default function MyPage() {
           <img src="./icons/settings.svg" alt="settings" />
         </article>
       )}
+
       {typeof openModalFlag === 'string' && openModalFlag !== '쿠폰' && (
         <MyPageCover
+          closemodal ={() => setOpenModalFlag(false)}
           contentType="설문"
           content={{
             quantity: 10,
@@ -75,8 +77,10 @@ export default function MyPage() {
           }}
         />
       )}
+
       {typeof openModalFlag === 'string' && openModalFlag === '쿠폰' && (
         <MyPageCover
+          closemodal ={() => setOpenModalFlag(false)}
           contentType="쿠폰"
           content={{
             quantity: 10,
@@ -85,6 +89,7 @@ export default function MyPage() {
           }}
         />
       )}
+
       <div className={styles.contentWrapper}>
         <article className={styles.cardWrapper}>
           <MyPageCard tag="포인트" quantity={500} />
