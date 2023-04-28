@@ -2,8 +2,7 @@ import React from 'react';
 import style from './SurveyQuestion.module.css';
 import ProgressBar from './ProgressBar';
 import SurveyBox from '../../UI/Survey/SurveyBox';
-import LeftArrowButton from '../../UI/Survey/LeftArrowButton';
-import RightArrowButton from '../../UI/Survey/RightArrowButton';
+import RoundButton from '../../UI/Survey/RoundButton';
 
 const currentQuestion = 7;
 const totalQuestion = 10;
@@ -48,8 +47,8 @@ export default function SurveyQuestion() {
         </SurveyBox>
       </div>
       <section className={style.buttons}>
-        <LeftArrowButton />
-        <RightArrowButton />
+        <RoundButton>왼</RoundButton>
+        <RoundButton>우</RoundButton>
       </section>
     </div>
   );
