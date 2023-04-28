@@ -15,12 +15,6 @@ interface MakeSurvey {
   '객관식 보기 5': string | null;
 }
 
-interface Survey {
-  title : string;
-  description : string;
-  survey_question : surveytype[];
-}
-
 interface choice {
   order : number;
   choice : string;
