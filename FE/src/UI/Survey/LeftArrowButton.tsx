@@ -1,9 +1,17 @@
 import React from "react";
 
-export default function LeftArrowButton() {
+interface Props {
+  hidden?: boolean;
+}
+
+export default function LeftArrowButton({ hidden }: Props) {
   return (
-    <button type="button">
-      <img src="/icons/left-arrow-btn.svg" alt="left-arrow-btn" />
+    <button type="button" className={`${hidden ? "invisible" : ""} h-60 w-60 bg-darkBlue rounded-full`}>
+      &lt;
     </button>
   )
+}
+
+LeftArrowButton.defaultProps = {
+  hidden: false,
 }
