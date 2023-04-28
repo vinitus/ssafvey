@@ -1,13 +1,12 @@
-import React from 'react';
-import { CoverData, isCouponTitle } from './.myPageType';
+import React, { useState } from 'react';
+import Modal from 'react-modal';
+import { CoverData, isCouponTitle } from '../../types/myPageType';
+import GiftCard from '../Exchange/GiftCard';
+import BuyGift from '../Modal/BuyGift';
 import style from './MyPageCouponCover.module.css';
 
 export default function MyPageCouponCover({ quantity, infoType, data }: CoverData) {
-  const mappingTitle = {
-    아이스티: 'iceTea',
-    커피: 'coffee',
-  };
-
+  const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
   return (
     <>
       <header className={style.coverHeaderWrapper}>
@@ -17,14 +16,33 @@ export default function MyPageCouponCover({ quantity, infoType, data }: CoverDat
       <section className={style.cardWrapper}>
         {isCouponTitle(data) &&
           data.map((title, idx) => (
-            // idx를 사용하지 않는 것을 권하지만, title과 함께 엮었기에 key가 중복될 일은 없습니다.
+            // idx를 쓰지만, title을 통해서 고유값을 지정했기에 idx를 사용해도 괜찮습니다.
             // eslint-disable-next-line react/no-array-index-key
-            <article key={`${title}+${idx}`} className={style.cardContentWrapper}>
-              <img src={`/reward/${mappingTitle[title]}.svg`} alt="" className={style.cardImg} />
-              <h2 className={style.cardTitle}>{title}</h2>
-            </article>
+            <button type="button" key={`${title}-${idx}`} onClick={() => setModalOpenFlag(title)}>
+              <GiftCard productTitle={title} />
+            </button>
           ))}
       </section>
+      <Modal
+        className={style.updatemodal}
+        closeTimeoutMS={200}
+        isOpen={modalOpenFlag !== false}
+        onRequestClose={() => setModalOpenFlag(false)}
+        style={{
+          overlay: {},
+          content: {
+            width: '300px',
+            height: '450px',
+            backgroundColor: '#ffffff',
+            margin: 'auto -10px',
+            borderRadius: '20px',
+          },
+        }}
+      >
+        {typeof modalOpenFlag === 'string' && (
+          <BuyGift closemodal={() => setModalOpenFlag(false)} title={modalOpenFlag} />
+        )}
+      </Modal>
     </>
   );
 }

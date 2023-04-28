@@ -1,7 +1,7 @@
 import React from 'react';
 import MyPageSurveyCover from './MyPageSurveyCover';
 import MyPageCouponCover from './MyPageCouponCover';
-import { CoverData } from './.myPageType';
+import { CoverData } from '../../types/myPageType';
 import style from './MyPageCover.module.css';
 
 interface CoverComponentProps {

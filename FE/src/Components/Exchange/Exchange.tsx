@@ -18,19 +18,18 @@ export default function Exchange() {
       </div>
 
       <div className={style.card}>
-        <button type='button' onClick={openmodal}>
-          <GiftCard/>
+        <button type="button" onClick={openmodal}>
+          <GiftCard productTitle="상품명" point={100} />
         </button>
-        <button type='button' onClick={openmodal}>
-          <GiftCard/>
+        <button type="button" onClick={openmodal}>
+          <GiftCard productTitle="상품명" point={100} />
         </button>
-        <button type='button' onClick={openmodal}>
-          <GiftCard/>
+        <button type="button" onClick={openmodal}>
+          <GiftCard productTitle="상품명" point={100} />
         </button>
-        <button type='button' onClick={openmodal}>
-          <GiftCard/>
+        <button type="button" onClick={openmodal}>
+          <GiftCard productTitle="상품명" point={100} />
         </button>
-
       </div>
 
       <Modal
@@ -45,12 +44,12 @@ export default function Exchange() {
             height: '350px',
             backgroundColor: '#c2e9fb',
             margin: 'auto -10px',
-            borderRadius : '20px',
+            borderRadius: '20px',
           },
         }}
       >
         {/* <Lotto /> */}
-        <Lotto closemodal={() => setGiftmodal(false)}/>
+        <Lotto closemodal={() => setGiftmodal(false)} />
       </Modal>
     </div>
   );

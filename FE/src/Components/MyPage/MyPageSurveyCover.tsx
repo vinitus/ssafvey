@@ -1,5 +1,5 @@
 import React from 'react';
-import { CoverData, isSurveyHistory } from './.myPageType';
+import { CoverData, isSurveyHistory } from '../../types/myPageType';
 import style from './MyPageSurveyCover.module.css';
 
 export default function MyPageSurveyCover({ quantity, infoType, data }: CoverData) {
