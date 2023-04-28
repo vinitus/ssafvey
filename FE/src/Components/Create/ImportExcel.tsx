@@ -125,9 +125,11 @@ export default function ImportExcel() {
             <PlusButton size="lg" />
           </span>
         </div>
-        <button type="button" className={style.templateDownLoadButton}>
-          엑셀 템플릿 다운로드
-        </button>
+        <a href="/excel/template.xlsx" download>
+          <button type="button" className={style.templateDownLoadButton}>
+            엑셀 템플릿 다운로드
+          </button>
+        </a>
         <input type="file" ref={fileRef} className="hidden" onChange={readExcel} />
       </SurveyBox>
       <section className={style.buttons}>
