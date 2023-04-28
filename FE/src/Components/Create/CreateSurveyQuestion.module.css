@@ -1,0 +1,35 @@
+.sections {
+  @apply flex flex-col justify-between h-full;
+}
+
+.titleInput {
+  @apply inline-block w-full p-10 text-20 rounded-10 border-2 border-slate-300;
+}
+
+.essayTextArea {
+  @apply inline-block w-full  p-10 text-20 rounded-10 border-2 border-slate-300 resize-none h-[calc(100vh-576.2px)];
+}
+
+.answer {
+  @apply flex justify-between px-10 py-5 rounded-10 border-2 border-gray-500 my-3 bg-gray-200;
+}
+
+.deleteButton {
+  @apply px-5;
+}
+
+.buttonContainer {
+  @apply flex flex-col items-center my-15;
+}
+
+.buttons {
+  @apply flex justify-between;
+}
+
+.addButton {
+  @apply px-5 py-10 text-20 rounded-10 border-2 border-gray-500 ml-3 bg-gray-200
+}
+
+.nextPhaseButton {
+  @apply h-60 px-30 bg-ssafveyGreen rounded-30 font-bold text-20;
+}
