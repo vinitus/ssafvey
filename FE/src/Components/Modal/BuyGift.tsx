@@ -2,16 +2,21 @@ import React, { useEffect, useRef, useState } from 'react';
 import style from './BuyGift.module.css';
 
 interface Props {
-  closemodal: any;
+  closemodal: () => void;
+  title: string;
+  point?: number;
 }
+
+BuyGift.defaultProps = {
+  point: undefined,
+};
 
 const isMouseEvent = (e: any): e is MouseEvent =>
   e.type === 'mousedown' || e.type === 'mouseend' || e.type === 'mousemove';
 const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
-export default function BuyGift({ closemodal }: Props) {
-  const [point] = useState(4500);
+export default function BuyGift({ closemodal, point, title }: Props) {
   const [price] = useState(4500);
 
   // const makeQSDragItem = () => document.querySelector('#slidebtn');
@@ -99,18 +104,21 @@ export default function BuyGift({ closemodal }: Props) {
       <div className={style.giftimage}>
         <img src="./tmpFile/tmp.jpg" alt="giftcon" />
       </div>
-      <div className={style.gifttitle}>시워언한 아이스티 복숭아</div>
-      <div className={style.point}>
-        보유한 포인트 :<span>{point}</span>
-      </div>
+      <div className={style.gifttitle}>{title}</div>
+      {point && (
+        <div className={style.point}>
+          보유한 포인트 :<span>{point}</span>
+        </div>
+      )}
 
       {/* 우리의 리액트는 PWA로써, 스마트폰에서 터치 방식이 주이기에 필요없다고 생각함 */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={style.slider} id="slide" ref={slideRef}>
         <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
-          4500
+          {point ? price : '사용하기'}
         </div>
-        {point >= price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>}
+        {point && (point >= price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>)}
+        {!point && <span>밀어서 사용하기</span>}
       </div>
     </div>
   );
