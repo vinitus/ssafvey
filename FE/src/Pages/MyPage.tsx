@@ -7,7 +7,7 @@ export default function MyPage() {
   const activityData: string[] = ['설문 참여1', '설문 참여2', '설문 참여3'];
   const couponCnt = 10;
 
-  const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | boolean>(false);
+  const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
 
   const [send, setSend] = useState(false)
 
@@ -35,7 +35,7 @@ export default function MyPage() {
           content={{
             quantity: 10,
             infoType: openModalFlag,
-            data: [
+            renderingData: [
               {
                 day: '2023.04.12',
                 history: [
@@ -90,14 +90,59 @@ export default function MyPage() {
           content={{
             quantity: 10,
             infoType: openModalFlag,
-            data: ['아이스티', '커피', '커피', '아이스티', '아이스티'],
+            renderingData: ['아이스티', '커피', '커피', '아이스티', '아이스티'],
+          }}
+        />
+      )}
+      {typeof openModalFlag === 'string' && openModalFlag === '포인트' && (
+        <MyPageCover
+          contentType="포인트"
+          content={{
+            quantity: 4500,
+            infoType: openModalFlag,
+            renderingData: [
+              {
+                day: '2023.04.11',
+                history: [
+                  {
+                    pointHistoryType: '설문 참여',
+                    pointUsed: 300,
+                  },
+                  {
+                    pointHistoryType: '설문 제작',
+                    pointUsed: -200,
+                  },
+                ],
+              },
+              {
+                day: '3325.12.10',
+                history: [
+                  {
+                    pointHistoryType: '쿠폰 교환',
+                    pointUsed: -100,
+                  },
+                  {
+                    pointHistoryType: '설문 참여',
+                    pointUsed: 300,
+                  },
+                  {
+                    pointHistoryType: '복권 교환',
+                    pointUsed: -100,
+                  },
+                  {
+                    pointHistoryType: '설문 참여',
+                    pointUsed: 300,
+                  },
+                ],
+              },
+            ],
           }}
         />
       )}
 
       <div className={styles.contentWrapper}>
         <article className={styles.cardWrapper}>
-          <MyPageCard tag="포인트" quantity={500} />
+          <MyPageCard tag="포인트" quantity={500} modalOpenFunc={setOpenModalFlag} />
           <MyPageCard tag="참여설문" quantity={10} modalOpenFunc={setOpenModalFlag} />
           <MyPageCard tag="제작설문" quantity={2} modalOpenFunc={setOpenModalFlag} />
         </article>

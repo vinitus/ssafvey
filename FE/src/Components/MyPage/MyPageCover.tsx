@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import MyPageSurveyCover from './MyPageSurveyCover';
 import MyPageCouponCover from './MyPageCouponCover';
+import MyPagePointCover from './MyPagePointCover';
 import { CoverData } from '../../types/myPageType';
 import style from './MyPageCover.module.css';
 
 interface CoverComponentProps {
   closemodal: () => void;
-  sending : boolean;
-  contentType: '설문' | '쿠폰';
+  sending: boolean;
+  contentType: '설문' | '쿠폰' | '포인트';
   content: CoverData;
 }
 
@@ -16,10 +17,8 @@ const isMouseEvent = (e: any): e is MouseEvent =>
 const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
-
 export default function MyPageCover({ closemodal, sending, contentType, content }: CoverComponentProps) {
-
-  const sectionRef = useRef<HTMLDivElement | null >(null)
+  const sectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let active: boolean | 'touch' | 'mouse' = false;
@@ -28,8 +27,8 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
     let yOffset = 0;
 
     const close = () => {
-      closemodal()
-    }
+      closemodal();
+    };
 
     const setTranslate = (yPos: number, el: HTMLDivElement) => {
       const y = yPos;
@@ -48,15 +47,14 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
 
     const dragEnd = () => {
       if (!sectionRef.current) return;
-      
-      if(currentY < 300){
+
+      if (currentY < 300) {
         setTranslate(0, sectionRef.current);
-        yOffset = 0
+        yOffset = 0;
+      } else {
+        close();
       }
-      else {
-        close()
-      }
-      
+
       initialY = currentY;
 
       active = false;
@@ -69,39 +67,54 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
         e.preventDefault();
         if (isTouchEvent(e) && active === 'touch') {
           currentY = e.touches[0].clientY - initialY;
-          if(currentY < 0 ){
-            currentY = 0
+          if (currentY < 0) {
+            currentY = 0;
           }
-        }
-        else if (isMouseEvent(e) && active === 'mouse') {
+        } else if (isMouseEvent(e) && active === 'mouse') {
           currentY = e.clientY - initialY;
-          if(currentY < 0) {
-            currentY = 0
+          if (currentY < 0) {
+            currentY = 0;
           }
         }
 
-        yOffset = currentY
+        yOffset = currentY;
         setTranslate(currentY, sectionRef.current);
       }
     };
 
-    if(sectionRef.current){
-      sectionRef.current.addEventListener('touchstart', dragStart)
-      sectionRef.current.addEventListener('touchend', dragEnd)
-      sectionRef.current.addEventListener('touchmove', drag)
+    if (sectionRef.current) {
+      sectionRef.current.addEventListener('touchstart', dragStart);
+      sectionRef.current.addEventListener('touchend', dragEnd);
+      sectionRef.current.addEventListener('touchmove', drag);
 
-      sectionRef.current.addEventListener('mousedown', dragStart)
-      sectionRef.current.addEventListener('mouseup', dragEnd)
-      sectionRef.current.addEventListener('mousemove', drag)
+      sectionRef.current.addEventListener('mousedown', dragStart);
+      sectionRef.current.addEventListener('mouseup', dragEnd);
+      sectionRef.current.addEventListener('mousemove', drag);
     }
-  }, [closemodal])
+  }, [closemodal]);
 
   return (
     <section className={!sending ? style.coverWrapper : style.closeWrapper} ref={sectionRef}>
-      {contentType === '설문' ? (
-        <MyPageSurveyCover quantity={content.quantity} infoType={content.infoType} data={content.data} />
-      ) : (
-        <MyPageCouponCover quantity={content.quantity} infoType={content.infoType} data={content.data} />
+      {contentType === '설문' && (
+        <MyPageSurveyCover
+          quantity={content.quantity}
+          infoType={content.infoType}
+          renderingData={content.renderingData}
+        />
+      )}
+      {contentType === '쿠폰' && (
+        <MyPageCouponCover
+          quantity={content.quantity}
+          infoType={content.infoType}
+          renderingData={content.renderingData}
+        />
+      )}
+      {contentType === '포인트' && (
+        <MyPagePointCover
+          quantity={content.quantity}
+          infoType={content.infoType}
+          renderingData={content.renderingData}
+        />
       )}
     </section>
   );

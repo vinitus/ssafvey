@@ -5,7 +5,7 @@ import GiftCard from '../Exchange/GiftCard';
 import BuyGift from '../Modal/BuyGift';
 import style from './MyPageCouponCover.module.css';
 
-export default function MyPageCouponCover({ quantity, infoType, data }: CoverData) {
+export default function MyPageCouponCover({ quantity, infoType, renderingData }: CoverData) {
   const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
   return (
     <>
@@ -14,11 +14,11 @@ export default function MyPageCouponCover({ quantity, infoType, data }: CoverDat
         <p className={style.coverHeaderQuantity}>{quantity}</p>
       </header>
       <section className={style.cardWrapper}>
-        {isCouponTitle(data) &&
-          data.map((title, idx) => (
+        {isCouponTitle(renderingData) &&
+          renderingData.map((title, idx) => (
             // idx를 쓰지만, title을 통해서 고유값을 지정했기에 idx를 사용해도 괜찮습니다.
             // eslint-disable-next-line react/no-array-index-key
-            <button type="button" key={`${title}-${idx}`} onClick={() => setModalOpenFlag(title)}>
+            <button type="button" key={idx} onClick={() => setModalOpenFlag(title)}>
               <GiftCard productTitle={title} />
             </button>
           ))}
