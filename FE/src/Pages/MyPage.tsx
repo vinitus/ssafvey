@@ -9,10 +9,12 @@ export default function MyPage() {
 
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | boolean>(false);
 
+  const [send, setSend] = useState(false)
+
   return (
     <section className={styles.MyPageWrapper}>
       {openModalFlag ? (
-        <button type="button" onClick={() => setOpenModalFlag(false)}>
+        <button type="button" onClick={() => {setSend(true); setTimeout(() => {setSend(false); setOpenModalFlag(false); }, 1000)}}>
           <article className={styles.nameIconWrapper}>
             <h1 className={styles.nameDiv}>강신욱님</h1>
             <img src="./icons/settings.svg" alt="settings" />
@@ -24,8 +26,11 @@ export default function MyPage() {
           <img src="./icons/settings.svg" alt="settings" />
         </article>
       )}
+
       {typeof openModalFlag === 'string' && openModalFlag !== '쿠폰' && (
         <MyPageCover
+          closemodal ={() => {setOpenModalFlag(false)}}
+          sending = {send}
           contentType="설문"
           content={{
             quantity: 10,
@@ -75,8 +80,12 @@ export default function MyPage() {
           }}
         />
       )}
+
+
       {typeof openModalFlag === 'string' && openModalFlag === '쿠폰' && (
         <MyPageCover
+          closemodal ={() => setOpenModalFlag(false)}
+          sending = {send}
           contentType="쿠폰"
           content={{
             quantity: 10,
@@ -85,6 +94,7 @@ export default function MyPage() {
           }}
         />
       )}
+
       <div className={styles.contentWrapper}>
         <article className={styles.cardWrapper}>
           <MyPageCard tag="포인트" quantity={500} />
@@ -111,6 +121,7 @@ export default function MyPage() {
           </article>
         </button>
       </div>
+
     </section>
   );
 }
