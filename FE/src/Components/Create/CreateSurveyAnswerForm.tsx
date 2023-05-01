@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { inputOpenState, answersState, plusButtonOpenState } from '../../Store/Create/atom';
 import style from './CreateSurveyAnswerForm.module.css';
@@ -12,6 +12,12 @@ export default function CreateSurveyAnswerForm() {
   const id = useRef(START_NO); // key prop으로 사용할 id
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputOpen) {
+      inputRef.current?.focus();
+    }
+  }, [inputOpen]);
 
   const handleAnswerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

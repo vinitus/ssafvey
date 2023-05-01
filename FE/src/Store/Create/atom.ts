@@ -31,3 +31,8 @@ export const plusButtonOpenState = atom({
   key: 'plusButtonOpenState',
   default: true,
 });
+
+export const inputRefState = atom({
+  key: 'inputRefState',
+  default: null,
+});

@@ -9,15 +9,3 @@
 .essayTextArea {
   @apply inline-block w-full  p-10 text-20 rounded-10 border-2 border-slate-300 resize-none h-[calc(100vh-576.2px)];
 }
-
-.buttonContainer {
-  @apply flex flex-col items-center my-15;
-}
-
-.buttons {
-  @apply flex justify-between;
-}
-
-.nextPhaseButton {
-  @apply h-60 px-30 bg-ssafveyGreen rounded-30 font-bold text-20;
-}
