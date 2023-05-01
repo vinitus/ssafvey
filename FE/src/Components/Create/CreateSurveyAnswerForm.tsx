@@ -1,11 +1,12 @@
 import React, { useRef, useEffect } from 'react';
-import { useSetRecoilState, useRecoilState } from 'recoil';
-import { inputOpenState, answersState, plusButtonOpenState } from '../../Store/Create/atom';
+import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
+import { currentQuestionTypeState, inputOpenState, answersState, plusButtonOpenState } from '../../Store/Create/atom';
 import style from './CreateSurveyAnswerForm.module.css';
 
 const START_NO = 1;
 
 export default function CreateSurveyAnswerForm() {
+  const currentQuestionType = useRecoilValue(currentQuestionTypeState);
   const [inputOpen, setInputOpen] = useRecoilState(inputOpenState);
   const setAnswers = useSetRecoilState(answersState);
   const setPlusButtonOpen = useSetRecoilState(plusButtonOpenState);
@@ -31,7 +32,7 @@ export default function CreateSurveyAnswerForm() {
 
   return (
     <div>
-      {inputOpen && (
+      {currentQuestionType === 'multiple' && inputOpen && (
         <form onSubmit={handleAnswerSubmit}>
           <label htmlFor="answer">
             <input
