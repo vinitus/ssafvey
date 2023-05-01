@@ -1,5 +1,5 @@
 .signUpWrapper {
-  @apply mx-40 pt-30;
+  @apply mx-40 pt-30 flex flex-col;
 }
 
 .textshadow-024 {
@@ -30,6 +30,10 @@
   @apply w-full border;
 }
 
+.signUpBtn {
+  @apply bg-[#0064FF] rounded-15 text-white px-10 py-5 font-bold mx-auto w-100 mt-20;
+}
+
 input[type='checkbox'] {
   display: none;
 }
@@ -40,6 +44,7 @@ input[type='checkbox'] + label {
   background-repeat: no-repeat;
   background-image: url('./icons/uncheck-mark.svg');
 }
+
 input[type='checkbox']:checked + label {
   background-image: url('./icons/check-mark.svg');
 }

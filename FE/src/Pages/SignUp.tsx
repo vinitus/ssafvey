@@ -73,6 +73,9 @@ export default function SignUp() {
           </article>
         ))}
       </section>
+      <button type="button" className={style.signUpBtn}>
+        제출 !
+      </button>
     </div>
   );
 }
