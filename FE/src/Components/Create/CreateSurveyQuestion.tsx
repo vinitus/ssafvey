@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import style from "./CreateSurveyQuestion.module.css";
-import SurveyBox from "../../UI/Survey/SurveyBox";
-import RoundButton from "../../UI/Survey/RoundButton";
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import style from './CreateSurveyQuestion.module.css';
+import SurveyBox from '../../UI/Survey/SurveyBox';
+import RoundButton from '../../UI/Survey/RoundButton';
 // import LeftArrowButton from "../../UI/Survey/LeftArrowButton";
 // import RightArrowButton from "../../UI/Survey/RightArrowButton";
-import PlusButton from "../../UI/Survey/PlusButton";
+import PlusButton from '../../UI/Survey/PlusButton';
 
-type QuestionType = "multiple" | "essay";
+type QuestionType = 'multiple' | 'essay';
 
 interface Answer {
   id: number;
@@ -18,10 +18,11 @@ const [START_NO, END_NO] = [1, 5];
 
 // const CURRENT_NO = 1;
 
-
 export default function CreateSurveyQuestion() {
+  const navigate = useNavigate();
+
   // Type : 객관식 주관식 선택
-  const [type, setType] = useState<QuestionType>("multiple");
+  const [type, setType] = useState<QuestionType>('multiple');
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setType(e.target.value as QuestionType);
   };
@@ -31,7 +32,7 @@ export default function CreateSurveyQuestion() {
   const handleDeleteBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.currentTarget;
     const targetId = Number(target.parentElement?.dataset.id);
-    setAnswers(prev => prev.filter(answer => answer.id !== targetId));
+    setAnswers((prev) => prev.filter((answer) => answer.id !== targetId));
   };
 
   // inputOpen : 답안 작성 input이 열려있는지
@@ -42,7 +43,7 @@ export default function CreateSurveyQuestion() {
     e.preventDefault();
     const inputValue: string = e.currentTarget.answer.value;
     const answer = { id: id.current, value: inputValue };
-    setAnswers(prev => [...prev, answer]);
+    setAnswers((prev) => [...prev, answer]);
     id.current += 1;
     setInputOpen(false);
     setPlusBtnOpen(true);
@@ -60,13 +61,23 @@ export default function CreateSurveyQuestion() {
   }, [inputOpen]);
 
   //
-  const CURRENT_NUMBER = parseInt(useLocation().pathname.split("/")[2], 10);
-  console.log(CURRENT_NUMBER);
+  const CURRENT_NUMBER = parseInt(useLocation().pathname.split('/')[2], 10);
+
+  const handlePrevButtonClick = () => {
+    navigate(`/create/${CURRENT_NUMBER - 1}`);
+
+    // getInputValues from recoil
+  };
+
+  const handleNextButtonClick = () => {
+    navigate(`/create/${CURRENT_NUMBER + 1}`);
+  };
+
   return (
     <div className={style.sections}>
       <SurveyBox>
         <p className="descFont text-right">* 문항 정보를 입력해주세요!</p>
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
           <label htmlFor="title">
             <h3 className="titleFont my-5">{CURRENT_NUMBER}번 문항</h3>
             <input type="text" id="title" className={style.titleInput} />
@@ -80,10 +91,10 @@ export default function CreateSurveyQuestion() {
           </label>
         </form>
         <section className="mt-5">
-          {type === "multiple" && (
+          {type === 'multiple' && (
             <>
               <ol>
-                {answers.map(answer => (
+                {answers.map((answer) => (
                   <li key={answer.id} data-id={answer.id} className={style.answer}>
                     <p className="descFont inline-block">{answer.value}</p>
                     <button type="button" onClick={handleDeleteBtnClick} className={style.deleteButton}>
@@ -95,7 +106,14 @@ export default function CreateSurveyQuestion() {
               {inputOpen && (
                 <form onSubmit={handleAnswerSubmit}>
                   <label htmlFor="answer">
-                    <input ref={inputRef} type="text" required id="answer" className={style.titleInput} style={{ width: 'calc(100% - 52px)' }} />
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      required
+                      id="answer"
+                      className={style.titleInput}
+                      style={{ width: 'calc(100% - 52px)' }}
+                    />
                     <button type="submit" className={style.addButton}>
                       추가
                     </button>
@@ -112,31 +130,12 @@ export default function CreateSurveyQuestion() {
         </section>
       </SurveyBox>
       <section className={style.buttons}>
-        {/* {CURRENT_NUMBER === START_NO && <Link to={`/create/${CURRENT_NUMBER - 1}`}>
-          <RoundButton>왼</RoundButton>
-        </Link> }
-        {CURRENT_NUMBER !== START_NO && <Link to={`/create/${CURRENT_NUMBER - 1}`}>
-          <RoundButton>왼</RoundButton>
-        </Link> }
-        <button type="button" className={style.nextPhaseButton}>설문 등록</button>
-        <Link to={`/create/${CURRENT_NUMBER + 1}`}>
-          <RoundButton>우</RoundButton>
-        </Link> */}
-        {/* <RoundButton hidden>
-          <Link to={`/create/${CURRENT_NUMBER - 1}`} hidden />
-          왼
-        </RoundButton>
-        <RoundButton>
-          <Link to={`/create/${CURRENT_NUMBER + 1}`} />
-          우
-        </RoundButton> */}
-        {/* <Link to={`/create/${CURRENT_NUMBER - 1}`}>
-          { CURRENT_NUMBER === START_NO && <RoundButton hidden /> }
-          { CURRENT_NUMBER !== START_NO && <RoundButton /> }
-        </Link>
-        <Link to={`/create/${CURRENT_NUMBER + 1}`}>
-          <RoundButton />
-        </Link> */}
+        {CURRENT_NUMBER === START_NO && <RoundButton hidden>&lt;</RoundButton>}
+        {CURRENT_NUMBER !== START_NO && <RoundButton onClick={handlePrevButtonClick}>&lt;</RoundButton>}
+        <button type="button" className={style.nextPhaseButton}>
+          설문 등록
+        </button>
+        <RoundButton onClick={handleNextButtonClick}>&gt;</RoundButton>
       </section>
     </div>
   );
