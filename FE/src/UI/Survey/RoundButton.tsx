@@ -1,18 +1,35 @@
-import React from "react";
+import React from 'react';
 
 interface Props {
+  color?: 'green' | 'blue';
   hidden?: boolean;
   children: React.ReactNode;
+  onClick?: () => void;
 }
 
-export default function RoundButton({ hidden, children }: Props) {
+export default function RoundButton({ color, hidden, children, onClick }: Props) {
+  function colorClass() {
+    if (color === 'green') {
+      return 'bg-ssafveyGreen';
+    }
+    return 'bg-darkBlue';
+  }
+
   return (
-    <button type="button" className={`${hidden ? "invisible" : ""} h-60 w-60 bg-darkBlue rounded-full`}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`${hidden ? 'invisible' : ''} ${colorClass()} h-60 w-60  rounded-full`}
+    >
       {children}
     </button>
-  )
+  );
 }
 
 RoundButton.defaultProps = {
+  color: 'green',
   hidden: false,
-}
+  onClick: () => {
+    /* empty */
+  },
+};
