@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Modal from "react-modal"
+import { createBrowserRouter } from 'react-router-dom';
+import Modal from 'react-modal';
 import App from './App';
 import NotFound from './Pages/NotFound';
 import Home from './Pages/Home';
@@ -15,7 +14,7 @@ import MyPage from './Pages/MyPage';
 import Survey from './Pages/Survey';
 import SurveyCover from './Components/Survey/SurveyCover';
 import SurveyQuestion from './Components/Survey/SurveyQuestion';
-/* global document */
+import SignUp from './Pages/SignUp';
 
 const router = createBrowserRouter([
   {
@@ -25,13 +24,14 @@ const router = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <Home /> },
       { path: 'survey', element: <Search /> },
-      { path: 'create', 
-        element: <CreateSurvey />, 
+      {
+        path: 'create',
+        element: <CreateSurvey />,
         children: [
           { element: <ImportExcel />, index: true },
           { path: 'input1', element: <CreateSurveyInput1 /> },
           { path: ':questionId', element: <CreateSurveyQuestion /> },
-        ]
+        ],
       },
       { path: 'exchange', element: <Exchange /> },
       { path: 'mypage', element: <MyPage /> },
@@ -43,10 +43,14 @@ const router = createBrowserRouter([
           { path: ':questionId', element: <SurveyQuestion /> },
         ],
       },
+      {
+        path: 'sign-up',
+        element: <SignUp />,
+      },
     ],
   },
 ]);
 
 export default router;
 
-Modal.setAppElement("#root")
+Modal.setAppElement('#root');
