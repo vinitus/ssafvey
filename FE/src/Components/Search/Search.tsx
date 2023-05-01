@@ -18,6 +18,8 @@ export default function Search() {
         <Card/>
         <Card/>
         <Card/>
+        <Card/>
+        <Card/>
       </div>
     </div>
   )
