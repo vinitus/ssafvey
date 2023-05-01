@@ -1,5 +1,5 @@
 .inputform {
-  @apply w-[80%] border-b-[3px] border-black mt-10;
+  @apply w-[80%] border-b-[3px] h-50 border-black mt-10 bg-[#00000000];
 }
 
 .searchpage {

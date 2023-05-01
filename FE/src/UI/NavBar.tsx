@@ -24,7 +24,7 @@ export default function NavBar() {
             key={iconSrc}
             onClick={navbarClickHandler}
           >
-            <img src={`./navbar/${iconSrc}.svg`} alt={iconSrc} className={styles.navbarImg} />
+            <img src={`/navbar/${iconSrc}.svg`} alt={iconSrc} className={styles.navbarImg} />
             <div className={styles.navbarDiv}>{iconNameArr[navbarIdx]}</div>
           </button>
         ))}
