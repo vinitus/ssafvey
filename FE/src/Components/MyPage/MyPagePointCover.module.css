@@ -27,13 +27,13 @@
 }
 
 .historyBlock {
-  @apply w-300 h-100 flex flex-row items-center justify-evenly bg-[#C2E9FB] border border-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 my-20;
+  @apply w-300 h-50 flex flex-row items-center justify-between bg-[#C2E9FB] border border-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 my-20 px-15;
 }
 
 .historyTitle {
   @apply inline font-bold text-14;
 }
 
-.historyAuthor {
-  @apply w-50 h-25 font-bold text-13 flex items-center justify-center bg-white rounded-5 text-[#2467A8] drop-shadow-[0px_2px_4px_rgba(0,0,0,0.25)];
+.historyPoint {
+  @apply w-50 h-25 font-bold text-13 flex items-center justify-center bg-white rounded-5 text-[#2467A8] drop-shadow-[0px_2px_4px_rgba(0,0,0,0.25)] leading-3;
 }

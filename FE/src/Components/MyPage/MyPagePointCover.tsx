@@ -15,11 +15,15 @@ export default function MyPageSurveyCover({ quantity, infoType, renderingData }:
             <article className={idx + 1 < renderingData.length ? style.historyBlockWithDay : ''} key={history.day}>
               <h2 className={style.historyDay}>{history.day}</h2>
               {history.history.map(({ pointHistoryType, pointUsed }, idx) => (
-                // 배열의 UPDATE나 순서가 변경될 일은 없습니다.
-                // eslint-disable-next-line react/no-array-index-key
-                <article className={style.historyBlock} key={`${idx}`}>
+                <article
+                  className={style.historyBlock}
+                  style={pointUsed < 0 ? { backgroundColor: '#FEC1FF' } : { backgroundColor: '' }}
+                  // 배열의 UPDATE나 순서가 변경될 일은 없습니다.
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${idx}`}
+                >
                   <h3 className={style.historyTitle}>{pointHistoryType}</h3>
-                  <p className={style.historyAuthor}>{pointUsed}</p>
+                  <p className={style.historyPoint}>{pointUsed}</p>
                 </article>
               ))}
             </article>
