@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import { inputOpenState, answersState, plusButtonOpenState } from '../../Store/Create/atom'
-import style from "./CreateSurveyAnswerForm.module.css";
+import React, { useRef } from 'react';
+import { useSetRecoilState, useRecoilState } from 'recoil';
+import { inputOpenState, answersState, plusButtonOpenState } from '../../Store/Create/atom';
+import style from './CreateSurveyAnswerForm.module.css';
 
 const START_NO = 1;
 
@@ -24,22 +24,24 @@ export default function CreateSurveyAnswerForm() {
   };
 
   return (
-    {inputOpen && (
-      <form onSubmit={handleAnswerSubmit}>
-        <label htmlFor="answer">
-          <input
-            ref={inputRef}
-            type="text"
-            required
-            id="answer"
-            className={style.titleInput}
-            style={{ width: 'calc(100% - 52px)' }}
-          />
-          <button type="submit" className={style.addButton}>
-            추가
-          </button>
-        </label>
-      </form>
-    )}
-  )
+    <div>
+      {inputOpen && (
+        <form onSubmit={handleAnswerSubmit}>
+          <label htmlFor="answer">
+            <input
+              ref={inputRef}
+              type="text"
+              required
+              id="answer"
+              className={style.titleInput}
+              style={{ width: 'calc(100% - 52px)' }}
+            />
+            <button type="submit" className={style.addButton}>
+              추가
+            </button>
+          </label>
+        </form>
+      )}
+    </div>
+  );
 }
