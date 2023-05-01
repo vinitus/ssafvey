@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { currentQuestionTypeState } from '../../Store/Create/atom';
 import style from './CreateSurveyQuestion.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
+import CreateSurveyForm from './CreateSurveyForm';
 import RoundButton from '../../UI/Survey/RoundButton';
-// import LeftArrowButton from "../../UI/Survey/LeftArrowButton";
-// import RightArrowButton from "../../UI/Survey/RightArrowButton";
 import PlusButton from '../../UI/Survey/PlusButton';
-
-type QuestionType = 'multiple' | 'essay';
 
 interface Answer {
   id: number;
@@ -21,11 +20,7 @@ const [START_NO, END_NO] = [1, 5];
 export default function CreateSurveyQuestion() {
   const navigate = useNavigate();
 
-  // Type : 객관식 주관식 선택
-  const [type, setType] = useState<QuestionType>('multiple');
-  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setType(e.target.value as QuestionType);
-  };
+  const currentQuestionType = useRecoilValue(currentQuestionTypeState);
 
   // answers : 현재 작성된 답안들
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -77,21 +72,9 @@ export default function CreateSurveyQuestion() {
     <div className={style.sections}>
       <SurveyBox>
         <p className="descFont text-right">* 문항 정보를 입력해주세요!</p>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <label htmlFor="title">
-            <h3 className="titleFont my-5">{CURRENT_NUMBER}번 문항</h3>
-            <input type="text" id="title" className={style.titleInput} />
-          </label>
-          <label htmlFor="questionType">
-            <h3 className="titleFont my-5">유형</h3>
-            <select onChange={handleTypeChange} id="questionType" className={style.titleInput}>
-              <option value="multiple">객관식</option>
-              <option value="essay">주관식</option>
-            </select>
-          </label>
-        </form>
+        <CreateSurveyForm />
         <section className="mt-5">
-          {type === 'multiple' && (
+          {currentQuestionType === 'multiple' && (
             <>
               <ol>
                 {answers.map((answer) => (

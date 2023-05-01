@@ -27,7 +27,7 @@
 }
 
 .addButton {
-  @apply px-5 py-10 text-20 rounded-10 border-2 border-gray-500 ml-3 bg-gray-200
+  @apply px-5 py-10 text-20 rounded-10 border-2 border-gray-500 ml-3 bg-gray-200;
 }
 
 .nextPhaseButton {
