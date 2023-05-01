@@ -1,10 +1,17 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import lombok.*;
 
+import javax.persistence.*;
+
+@Entity
+@Table
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
+@ToString
 public class MemberJob {
 
     @Id

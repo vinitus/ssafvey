@@ -1,9 +1,20 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.ssafy.ssafvey.domain.survey.entity.SurveyTargetJob;
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
+@ToString
 public class Job {
     @Id
     @GeneratedValue
@@ -13,5 +24,9 @@ public class Job {
     private String name;
 
 
-    private List<MemberJob> memberJobs;
+    @OneToMany(mappedBy = "job")
+    private List<MemberJob> memberJobs = new ArrayList<>();
+
+    @OneToMany
+    private List<SurveyTargetJob> surveyTargetJobs = new ArrayList<>();
 }

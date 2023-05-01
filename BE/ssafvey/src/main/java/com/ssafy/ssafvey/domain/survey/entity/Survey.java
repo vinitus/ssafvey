@@ -2,10 +2,21 @@ package com.ssafy.ssafvey.domain.survey.entity;
 
 import com.ssafy.ssafvey.domain.member.entity.GenderType;
 import com.ssafy.ssafvey.domain.member.entity.MemberSurvey;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+@Entity
+@Table
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
+@ToString
 public class Survey {
 
     @Id
@@ -25,17 +36,17 @@ public class Survey {
 
     private boolean isDone;
 
-    @OneToMany
-    private SurveyQuestion surveyQuestion;
+    @OneToMany(mappedBy = "survey")
+    private List<SurveyQuestion> surveyQuestions = new ArrayList<>();
 
     @OneToMany
-    private SurveyTargetAge surveyTargetAge;
+    private List<SurveyTargetAge> surveyTargetAges = new ArrayList<>();
 
     @OneToMany
-    private SurveyTargetJob surveyTargetJob;
+    private List<SurveyTargetJob> surveyTargetJobs = new ArrayList<>();
 
     @OneToMany
-    private MemberSurvey memberSurvey;
+    private List<MemberSurvey> memberSurveys = new ArrayList<>();
 
 
 }

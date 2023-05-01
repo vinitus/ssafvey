@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +38,10 @@ public class Member {
     private GenderType genderType;
 
     @OneToMany(mappedBy = "member")
-    private List<MemberJob> memberJobs;
+    private List<MemberJob> memberJobs = new ArrayList<>();
+
+    @OneToMany
+    private List<MemberSurvey> memberSurveys = new ArrayList<>();
 
     @Nullable
     @Column(columnDefinition = "int default 0")

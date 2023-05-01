@@ -1,4 +1,27 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
+import com.ssafy.ssafvey.domain.survey.entity.SurveyQuestion;
+import lombok.*;
+
+import javax.persistence.*;
+
+@Entity
+@Table
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
+@ToString
 public class MemberAnswerMultipleChoice {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private int order;
+
+    private int distinctUUID;
+
+    @ManyToOne
+    private SurveyQuestion surveyQuestion;
 }
