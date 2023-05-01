@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { plusButtonOpenState, currentQuestionTypeState, answersState, inputOpenState } from '../../Store/Create/atom';
 import style from './CreateSurveyAddAnswerButton.module.css';

@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { currentQuestionNumberState } from '../../Store/Create/atom';
+import {
+  currentQuestionNumberState,
+  currentQuestionTitleState,
+  currentQuestionTypeState,
+  questionsState,
+  answersState,
+} from '../../Store/Create/atom';
 import style from './CreateSurveyNavigationButtons.module.css';
 import RoundButton from '../../UI/Survey/RoundButton';
 
@@ -12,14 +18,34 @@ export default function CreateSurveyNavigationButtons() {
 
   const [currentNumber, setCurrentNumber] = useRecoilState(currentQuestionNumberState);
 
-  console.log('currentNumber', currentNumber);
-
   const handlePrevButtonClick = () => {
     setCurrentNumber(currentNumber - 1);
   };
 
+  const setQuestions = useSetRecoilState(questionsState);
+
+  const [currentQuestionTitle, setCurrentQuestionTitle] = useRecoilState(currentQuestionTitleState);
+
+  const [currentQuestionType, setCurrentQuestionType] = useRecoilState(currentQuestionTypeState);
+
+  const [answers, setAnswers] = useRecoilState(answersState);
+
   const handleNextButtonClick = () => {
+    setQuestions((prev) => {
+      return [
+        ...prev,
+        {
+          id: currentNumber,
+          title: currentQuestionTitle,
+          type: currentQuestionType,
+          answers,
+        },
+      ];
+    });
     setCurrentNumber(currentNumber + 1);
+    setCurrentQuestionTitle('');
+    setCurrentQuestionType('multiple');
+    setAnswers([]);
   };
 
   useEffect(() => {

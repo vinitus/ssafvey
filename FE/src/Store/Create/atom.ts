@@ -1,11 +1,28 @@
 import { atom } from 'recoil';
 
-type QuestionType = 'multiple' | 'essay';
+interface Question {
+  id: number;
+  title: string;
+  type: QuestionType;
+  answers: Answer[];
+}
+
+export const questionsState = atom<Question[]>({
+  key: 'questionsState',
+  default: [],
+});
 
 export const currentQuestionNumberState = atom({
   key: 'currentQuestionNumberState',
   default: 1,
 });
+
+export const currentQuestionTitleState = atom({
+  key: 'currentQuestionTitleState',
+  default: '',
+});
+
+type QuestionType = 'multiple' | 'essay';
 
 export const currentQuestionTypeState = atom<QuestionType>({
   key: 'currentQuestionTypeState',

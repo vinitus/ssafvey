@@ -8,8 +8,6 @@ import CreateSurveyAddAnswerButton from './CreateSurveyAddAnswerButton';
 import CreateSurveyNavigationButtons from './CreateSurveyNavigationButtons';
 
 export default function CreateSurveyQuestion() {
-  // const CURRENT_NUMBER = parseInt(useLocation().pathname.split('/')[2], 10);
-
   return (
     <div className={style.sections}>
       <SurveyBox>
