@@ -1,0 +1,15 @@
+.appBarLayout {
+  @apply w-full h-60 flex justify-center items-center bg-headerFooter fixed top-0 z-10;
+}
+
+.appBarWrapper {
+  @apply flex justify-center items-center;
+}
+
+.backButton {
+  @apply absolute left-0 px-24 py-18 border-0;
+}
+
+.logoSize {
+  @apply h-[70%];
+}

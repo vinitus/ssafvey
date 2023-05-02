@@ -1,0 +1,43 @@
+.slider{
+  @apply w-260 h-50 rounded-50 bg-[#EFEFEF] shadow-inner shadow-black flex items-center px-5;
+}
+
+.moveslider {
+  @apply w-80 h-40 bg-[#124678] rounded-50 text-white text-center flex items-center justify-center text-16 font-bold;
+}
+
+.buygift {
+  @apply bg-[#124578] w-260 h-50 rounded-50 shadow-inner shadow-black flex items-center px-5;
+}
+
+.buygift div{
+  @apply bg-[#EFEFEF] text-[#124678] w-80 h-40 rounded-50 text-center flex items-center justify-center text-16 font-bold;
+}
+
+.buygift span {
+  visibility: hidden;
+}
+
+.exitbtn {
+  @apply font-bold flex justify-end;
+}
+
+.giftimage {
+  @apply w-200 h-200 mx-auto my-10;
+}
+
+.giftimage img {
+  @apply w-200 h-200 rounded-10;
+}
+
+.gifttitle {
+  @apply text-20 font-bold text-center h-70;
+}
+
+.point {
+  @apply text-14 font-bold ml-10 mb-5;
+}
+
+.point span {
+  @apply text-[#124578] ml-10;
+}

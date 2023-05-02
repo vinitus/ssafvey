@@ -1,0 +1,15 @@
+.surveyThumbnailWrapper {
+  @apply bg-[#C2E9FB] border border-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 text-[#124678] font-[700] leading-26 min-h-100 min-w-300 flex flex-col;
+}
+
+.surveyThumbnailTitle {
+  @apply text-20 ml-15 mt-20;
+}
+
+.surveyThumbnailAuthorWrapper {
+  @apply flex flex-row justify-center items-center absolute left-15 bottom-20;
+}
+
+.surveyThumbnailAuthorDiv {
+  @apply text-10 leading-13 ml-8;
+}
