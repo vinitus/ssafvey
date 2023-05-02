@@ -27,6 +27,6 @@ public class Job {
     @OneToMany(mappedBy = "job")
     private List<MemberJob> memberJobs = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "job")
     private List<SurveyTargetJob> surveyTargetJobs = new ArrayList<>();
 }

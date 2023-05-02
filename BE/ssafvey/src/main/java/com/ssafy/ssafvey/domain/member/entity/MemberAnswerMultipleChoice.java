@@ -18,10 +18,11 @@ public class MemberAnswerMultipleChoice {
     @GeneratedValue
     private Long id;
 
-    private int order;
+    private int orderNum;
 
     private int distinctUUID;
 
     @ManyToOne
+    @JoinColumn(name = "survey_question_id")
     private SurveyQuestion surveyQuestion;
 }

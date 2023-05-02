@@ -21,7 +21,7 @@ public class SurveyQuestion {
     @GeneratedValue
     private Long id;
 
-    private int order;
+    private int orderNum;
 
     @Lob
     private String question;
@@ -29,14 +29,15 @@ public class SurveyQuestion {
     private Boolean isMultipleChoice;
 
     @ManyToOne
-    private SurveyQuestion surveyQuestion;
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
 
-    @OneToMany
+    @OneToMany(mappedBy = "surveyQuestion")
     private List<MemberAnswerMultipleChoice> memberAnswerMultipleChoices = new ArrayList<>();
 
-    @OneToMany
-    private List<MemberAnswerDescriptive> memberAnswerDescriptiveList = new ArrayList<>();
+    @OneToMany(mappedBy = "surveyQuestion")
+    private List<MemberAnswerDescriptive> memberAnswerDescriptives = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "surveyQuestion")
     private List<SurveyQuestionChoice> surveyQuestionChoices = new ArrayList<>();
 }

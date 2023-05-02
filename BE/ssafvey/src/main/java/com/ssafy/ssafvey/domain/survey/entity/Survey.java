@@ -39,13 +39,13 @@ public class Survey {
     @OneToMany(mappedBy = "survey")
     private List<SurveyQuestion> surveyQuestions = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "survey")
     private List<SurveyTargetAge> surveyTargetAges = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "survey")
     private List<SurveyTargetJob> surveyTargetJobs = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "survey")
     private List<MemberSurvey> memberSurveys = new ArrayList<>();
 
 

@@ -21,6 +21,7 @@ public class MemberAnswerDescriptive {
     @Lob
     private String answer;
 
+    @Column(name = "distinct_uuid")
     private String distinctUUID;
 
     //TODO Fetch

@@ -40,7 +40,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<MemberJob> memberJobs = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "member")
     private List<MemberSurvey> memberSurveys = new ArrayList<>();
 
     @Nullable

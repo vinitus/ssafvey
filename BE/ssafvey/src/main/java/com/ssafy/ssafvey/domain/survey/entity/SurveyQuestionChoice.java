@@ -17,7 +17,7 @@ public class SurveyQuestionChoice {
     @GeneratedValue
     private Long id;
 
-    private int order;
+    private int orderNum;
 
     @Lob
     private String choiceDescription;
@@ -25,6 +25,7 @@ public class SurveyQuestionChoice {
     private int count;
 
     @ManyToOne
+    @JoinColumn(name = "survey_question_id")
     private SurveyQuestion surveyQuestion;
 
 }
