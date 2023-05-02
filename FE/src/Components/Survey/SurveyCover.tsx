@@ -29,15 +29,6 @@ declare global {
 export default function SurveyCover() { 
 
   const kakaoshare = () => {
-    // window.Kakao.Share.sendDefault({
-    //   objectType: 'text',
-    //   text:
-    //     '설문조사에 참여하고 포인트를 모아보세요!',
-    //   link: {
-    //     mobileWebUrl: 'http://localhost:5173/survey/1',
-    //     webUrl: 'http://localhost:5173/survey/1',
-    //   },
-    // });
 
     window.Kakao.Share.sendDefault({
       objectType : 'feed',
