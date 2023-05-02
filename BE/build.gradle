@@ -1,0 +1,46 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'ssafvey'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.3.2.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	implementation 'com.google.code.gson:gson:2.8.7'
+	implementation("com.google.guava:guava:29.0-jre")
+//	implementation 'com.google.code.gson:gson:2.10.1'
+	annotationProcessor("com.google.guava:guava:29.0-jre")
+
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("io.springfox:springfox-data-rest:3.0.0")
+	implementation("io.springfox:springfox-bean-validators:3.0.0")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
