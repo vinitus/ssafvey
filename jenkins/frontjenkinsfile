@@ -24,7 +24,7 @@ pipeline {
 
                     stage('컨테이너 생성') {
                       steps {
-                        sh "docker run -d -p 5173:5173 --name frontend react-image"
+                        sh "docker run -d -p 3000:5173 --name frontend react-image"
                       }
                     }
     }

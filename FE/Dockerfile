@@ -1,5 +1,5 @@
 # 가져올 이미지를 정의
-FROM node:14
+FROM node:18
 # 경로 설정하기
 WORKDIR /app
 # package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
@@ -16,7 +16,7 @@ COPY . .
 # 소스 코드가 조금 달라질때도 항상 npm install을 수행해서 리소스가 낭비된다.
 
 # 3000번 포트 노출
-EXPOSE 5173
+EXPOSE 3000
 
 # npm start 스크립트 실행
 CMD ["yarn", "dev"]
