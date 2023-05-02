@@ -13,4 +13,4 @@ ENV NODE_OPTIONS="--max-old-space-size=4096"
 # Build the React project
 RUN npm run build
 # Specify the command to run when the container starts
-CMD [ "npm", "run", "serve" ]
+CMD [ "npm", "start"]
