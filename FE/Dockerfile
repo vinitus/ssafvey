@@ -12,5 +12,7 @@ ENV GENERATE_SOURCEMAP=false
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 # Build the React project
 RUN npm run build
+# Add start script
+RUN echo "npm start" > start.sh && chmod +x start.sh
 # Specify the command to run when the container starts
-CMD [ "npm", "start"]
+CMD ["./start.sh"]
