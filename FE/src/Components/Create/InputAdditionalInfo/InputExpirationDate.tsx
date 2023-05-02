@@ -5,7 +5,7 @@ import { expirationDateTimeState } from '../../../Store/Create/atom';
 export default function InputExpirationDate() {
   const [expirationDateTime, setExpirationDateTime] = useRecoilState(expirationDateTimeState);
 
-  const timeForInputElement = getTimeForInputElement(expirationDateTime);
+  const inputValue = parseDateToString(expirationDateTime);
 
   const handleTimeInput = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     setExpirationDateTime(new Date(value));
@@ -14,20 +14,11 @@ export default function InputExpirationDate() {
   return (
     <label htmlFor="datetime">
       <h3 className="titleFont">설문 종료일</h3>
-      <input type="datetime-local" value={timeForInputElement} onChange={handleTimeInput} id="datetime" />
+      <input type="datetime-local" value={inputValue} onChange={handleTimeInput} id="datetime" />
     </label>
   );
 }
 
-const getTimeForInputElement = (date: Date) => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-
-  return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}T${hour < 10 ? `0${hour}` : hour}:${
-    minute < 10 ? `0${minute}` : minute
-  }`;
+const parseDateToString = (date: Date) => {
+  return date.toISOString().slice(0, 16);
 };
