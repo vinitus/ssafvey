@@ -53,3 +53,8 @@ export const inputRefState = atom({
   key: 'inputRefState',
   default: null,
 });
+
+export const expirationDateTimeState = atom({
+  key: 'expirationDateTimeState',
+  default: new Date(),
+});
