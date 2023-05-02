@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import style from './ImportExcel.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
@@ -30,6 +31,11 @@ interface surveytype {
 export default function ImportExcel() {
   const fileRef = useRef<HTMLInputElement>(null);
   // let surveylist = useState([])
+
+  const navigate = useNavigate();
+  function createsurvey(){
+    navigate(`/create/input1`)
+  }
 
   const clickplusbtn = () => {
     const filebtn = fileRef.current;
@@ -127,7 +133,7 @@ export default function ImportExcel() {
         <input type="file" ref={fileRef} className="hidden" onChange={readExcel} />
       </SurveyBox>
       <section className={style.buttons}>
-        <button type="button" className={style.writeQuestionsButton}>
+        <button type="button" className={style.writeQuestionsButton} onClick={createsurvey}>
           직접 문항 작성하기
         </button>
       </section>

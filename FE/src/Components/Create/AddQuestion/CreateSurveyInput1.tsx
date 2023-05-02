@@ -1,8 +1,14 @@
-import React from 'react';
-import style from './CreateSurveyInput1.module.css';
-import SurveyBox from '../../../UI/Survey/SurveyBox';
+import React from "react";
+import { useNavigate } from 'react-router-dom';
+import style from "./CreateSurveyInput1.module.css";
+import SurveyBox from "../../../UI/Survey/SurveyBox";
 
 export default function CreateSurveyInput1() {
+  const navigate = useNavigate();
+  function makesurvey(){
+    navigate(`/create/1`)
+  }
+
   return (
     <div className={style.sections}>
       <SurveyBox>
@@ -19,9 +25,7 @@ export default function CreateSurveyInput1() {
         </form>
       </SurveyBox>
       <section>
-        <button type="button" className={style.writeQuestionsButton}>
-          문항 작성하기
-        </button>
+        <button type="button" className={style.writeQuestionsButton} onClick={makesurvey}>문항 작성하기</button>
       </section>
     </div>
   );

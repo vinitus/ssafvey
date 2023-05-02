@@ -15,6 +15,7 @@ import Survey from './Pages/Survey';
 import SurveyCover from './Components/Survey/SurveyCover';
 import SurveyQuestion from './Components/Survey/SurveyQuestion';
 import SignUp from './Pages/SignUp';
+import SignIn from './Pages/SignIn';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
         path: 'sign-up',
         element: <SignUp />,
       },
+      {
+        path : 'sign-in',
+        element : <SignIn />
+      }
     ],
   },
 ]);

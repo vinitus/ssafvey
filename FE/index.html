@@ -15,6 +15,8 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- 카카오톡 공유하기 -->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
     <script>
       if ('serviceWorker' in navigator) {
         // Register a service worker hosted at the root of the
@@ -22,14 +24,18 @@
         navigator.serviceWorker
           .register('/sw.js')
           .then((registration) => {
-            console.log('Service worker registration succeeded:', registration);
+            // console.log('Service worker registration succeeded:', registration);
           })
           .catch((err) => {
-            console.log('Service worker registration failed:', error);
+            // console.log('Service worker registration failed:', error);
           });
       } else {
-        console.log('Service workers are not supported.');
+        // console.log('Service workers are not supported.');
       }
+    </script>
+    <script>
+      Kakao.init('8faaa27654f0d09b173a56d771c9ca63');
+      console.log(Kakao.isInitialized());
     </script>
   </body>
 </html>
