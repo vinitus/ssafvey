@@ -2,6 +2,7 @@ import React from 'react';
 import style from './CreateSurveyInputAdditionalInfo.module.css';
 import SurveyBox from '../../../UI/Survey/SurveyBox';
 import InputExpirationDate from './InputExpirationDate';
+import InputTarget from './InputTarget';
 import RoundButton from '../../../UI/Button/RoundButton';
 
 export default function CreateSurveyInputAdditionalInfo() {
@@ -11,7 +12,7 @@ export default function CreateSurveyInputAdditionalInfo() {
         <p className="descFont text-right">* 추가 정보를 입력해주세요!</p>
         <form>
           <InputExpirationDate />
-          {/* <InputTarget /> */}
+          <InputTarget />
           {/* <InputPeopleNumber /> */}
           {/* <InputPoint /> */}
         </form>
