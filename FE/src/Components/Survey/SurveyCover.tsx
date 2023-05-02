@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from './SurveyCover.module.css';
 
 // TODO: 상태관리 해줘야함.
@@ -21,6 +21,19 @@ const surveyState = {
 };
 
 export default function SurveyCover() {
+
+  const kakaoshare = () => {
+    Kakao.Share.sendDefault({
+      objectType: 'text',
+      text:
+        '설문조사에 참여하고 포인트를 모아보세요!',
+      link: {
+        mobileWebUrl: 'http://localhost:5173/survey/1',
+        webUrl: 'http://localhost:5173/survey/1',
+      },
+    });
+  }
+
   return (
     <div className={style.coverBackgroundImg}>
       <div className={style.coverBackgroundFilter}>
@@ -45,8 +58,8 @@ export default function SurveyCover() {
               <button type="button" className={style.startSurveyBtn}>
                 설문 참여
               </button>
-              <button type="button" >
-                <img src="/icons/share.svg" alt="share-icon" />
+              <button type="button" onClick={kakaoshare}>
+                <img id="sharing-btn" src="/icons/share.svg" alt="share-icon" />
               </button>
             </section>
           </div>
