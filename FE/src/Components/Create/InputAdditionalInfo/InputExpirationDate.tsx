@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { expirationDateTimeState } from '../../../Store/Create/atom';
 
@@ -20,5 +20,6 @@ export default function InputExpirationDate() {
 }
 
 const parseDateToString = (date: Date) => {
-  return date.toISOString().slice(0, 16);
+  const reflectedTimeForTimezone = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return reflectedTimeForTimezone.toISOString().slice(0, 16);
 };
