@@ -4,7 +4,7 @@ import {
   currentQuestionTitleState,
   currentQuestionNumberState,
   currentQuestionTypeState,
-} from '../../Store/Create/atom';
+} from '../../../Store/Create/atom';
 import style from './CreateSurveyForm.module.css';
 
 type QuestionType = 'multiple' | 'essay';

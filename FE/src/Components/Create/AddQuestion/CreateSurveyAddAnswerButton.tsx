@@ -1,8 +1,13 @@
 import React from 'react';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
-import { plusButtonOpenState, currentQuestionTypeState, answersState, inputOpenState } from '../../Store/Create/atom';
+import {
+  plusButtonOpenState,
+  currentQuestionTypeState,
+  answersState,
+  inputOpenState,
+} from '../../../Store/Create/atom';
 import style from './CreateSurveyAddAnswerButton.module.css';
-import PlusButton from '../../UI/Survey/PlusButton';
+import PlusButton from '../../../UI/Survey/PlusButton';
 
 const END_NO = 5;
 

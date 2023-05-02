@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import {
   currentQuestionNumberState,
@@ -7,9 +7,9 @@ import {
   currentQuestionTypeState,
   questionsState,
   answersState,
-} from '../../Store/Create/atom';
+} from '../../../Store/Create/atom';
 import style from './CreateSurveyNavigationButtons.module.css';
-import RoundButton from '../../UI/Survey/RoundButton';
+import RoundButton from '../../../UI/Survey/RoundButton';
 
 const START_NO = 1;
 

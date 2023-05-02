@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './CreateSurveyQuestion.module.css';
-import SurveyBox from '../../UI/Survey/SurveyBox';
+import SurveyBox from '../../../UI/Survey/SurveyBox';
 import CreateSurveyForm from './CreateSurveyForm';
 import CreateSurveyAnswerList from './CreateSurveyAnswerList';
 import CreateSurveyAnswerForm from './CreateSurveyAnswerForm';
