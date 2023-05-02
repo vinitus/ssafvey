@@ -1,6 +1,6 @@
-import React from "react";
-import style from "./CreateSurveyInput1.module.css";
-import SurveyBox from "../../UI/Survey/SurveyBox";
+import React from 'react';
+import style from './CreateSurveyInput1.module.css';
+import SurveyBox from '../../../UI/Survey/SurveyBox';
 
 export default function CreateSurveyInput1() {
   return (
@@ -19,7 +19,9 @@ export default function CreateSurveyInput1() {
         </form>
       </SurveyBox>
       <section>
-        <button type="button" className={style.writeQuestionsButton}>문항 작성하기</button>
+        <button type="button" className={style.writeQuestionsButton}>
+          문항 작성하기
+        </button>
       </section>
     </div>
   );

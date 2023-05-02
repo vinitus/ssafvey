@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { currentQuestionTypeState, answersState } from '../../Store/Create/atom';
+import { currentQuestionTypeState, answersState } from '../../../Store/Create/atom';
 import style from './CreateSurveyAnswerList.module.css';
 
 export default function CreateSurveyAnswerList() {
@@ -18,15 +18,15 @@ export default function CreateSurveyAnswerList() {
     <section className="mt-5">
       {currentQuestionType === 'multiple' && (
         <ol>
-            {answers.map((answer) => (
-              <li key={answer.id} data-id={answer.id} className={style.answer}>
-                <p className="descFont inline-block">{answer.value}</p>
-                <button type="button" onClick={handleDeleteBtnClick} className={style.deleteButton}>
-                  X
-                </button>
-              </li>
-            ))}
-          </ol>
+          {answers.map((answer) => (
+            <li key={answer.id} data-id={answer.id} className={style.answer}>
+              <p className="descFont inline-block">{answer.value}</p>
+              <button type="button" onClick={handleDeleteBtnClick} className={style.deleteButton}>
+                X
+              </button>
+            </li>
+          ))}
+        </ol>
       )}
     </section>
   );

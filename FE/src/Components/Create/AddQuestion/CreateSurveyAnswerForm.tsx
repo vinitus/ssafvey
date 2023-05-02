@@ -1,6 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
-import { currentQuestionTypeState, inputOpenState, answersState, plusButtonOpenState } from '../../Store/Create/atom';
+import {
+  currentQuestionTypeState,
+  inputOpenState,
+  answersState,
+  plusButtonOpenState,
+} from '../../../Store/Create/atom';
 import style from './CreateSurveyAnswerForm.module.css';
 
 const START_NO = 1;
