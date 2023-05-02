@@ -16,7 +16,6 @@ COPY . .
 # 소스 코드가 조금 달라질때도 항상 npm install을 수행해서 리소스가 낭비된다.
 
 # npm start 스크립트 실행
-CMD ["yarn", "dev"]
-
+RUN yarn dev
 # 그리고 Dockerfile로 docker 이미지를 빌드해야한다.
 # $ docker build .
