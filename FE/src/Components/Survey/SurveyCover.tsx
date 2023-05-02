@@ -45,7 +45,7 @@ export default function SurveyCover() {
               <button type="button" className={style.startSurveyBtn}>
                 설문 참여
               </button>
-              <button type="button">
+              <button type="button" >
                 <img src="/icons/share.svg" alt="share-icon" />
               </button>
             </section>
