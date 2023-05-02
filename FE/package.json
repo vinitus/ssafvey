@@ -51,5 +51,8 @@
     "typescript": "*",
     "vite": "^4.2.1",
     "vite-plugin-pwa": "^0.14.7"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }
