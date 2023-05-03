@@ -24,3 +24,8 @@
     @apply flex flex-wrap max-w-480 my-auto;
   }
 }
+@media screen and (max-width: 480px) {
+  .card {
+    @apply flex flex-wrap max-w-320 my-auto;
+  }
+}
