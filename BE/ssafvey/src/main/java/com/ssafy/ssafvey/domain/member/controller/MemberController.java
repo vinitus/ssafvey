@@ -7,6 +7,7 @@ import com.ssafy.ssafvey.domain.member.dto.LoginResponseDto;
 import com.ssafy.ssafvey.domain.member.dto.SignUpRequestDto;
 import com.ssafy.ssafvey.domain.member.service.MemberService;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
-//@Api(tags = "사용자 관련 기능 API")
+@Api(tags = "사용자 관련 기능 API")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
@@ -65,7 +66,6 @@ public class MemberController {
     })
     @PutMapping("/api/auth/member/changeProfil")
     public ResponseEntity updateUser(HttpServletRequest request, @RequestBody SignUpRequestDto signUpRequestDto ) {
-        System.out.println("signUpRequestDto = " + memberService.getMemberId(request));
         memberService.updateUser(memberService.getMemberId(request),signUpRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK).body("저장 완료");
@@ -82,10 +82,8 @@ public class MemberController {
     })
     @GetMapping("/api/member/refresh")
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
-        System.out.println("request = " + request);
         // refreshAccessToken을 조회해서 재생성
         String refreshToken = request.getHeader(JwtFilter.REFRESH_HEADER);
-        System.out.println("request = " + refreshToken);
         Map<String, Object> result = memberService.refreshAccessToken(refreshToken.substring(7));
         HttpHeaders headers = returnTokenHeader(result);
 

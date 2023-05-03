@@ -26,8 +26,6 @@ public class SignUpRequestDto {
 
     @SneakyThrows
     public Member tomember(Member member, Long id, SignUpRequestDto signUpRequestDto,List<MemberJob> jobList){
-        System.out.println(signUpRequestDto.getJobs());
-
         Authority userAuthority = Authority.user();
         // 빌더 방식으로 DB에 저장
         return  Member.builder()

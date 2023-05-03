@@ -40,23 +40,20 @@ public class MemberServiceImpl implements MemberService {
     private final MemberJobRepository memberJobRepository;
     // TokenProvider 선언
     private final TokenProvider tokenProvider;
-    @Transactional
+
     public void updateUser(Long id, SignUpRequestDto signUpRequestDto){
         Optional<Member> findMember = memberRepository.findById(id);
-        System.out.println("id = " + findMember);
         List<MemberJob> jobList = new ArrayList<>();
         for (Long job : signUpRequestDto.getJobs()) {
             MemberJob memberJob = new MemberJob();
-            Job findJob = jobRepository.findById(job).get();
-            System.out.println("id = " + findJob);
+            Job findJob = jobRepository.findById(job).get();;
             memberJob.setMember(findMember.get());
             memberJob.setJob(findJob);
-            System.out.println("hoho = " + memberJob);
             jobList.add(memberJob);
+            memberJobRepository.save(memberJob);
         }
         memberRepository.save(signUpRequestDto.tomember(findMember.get(),id,signUpRequestDto,jobList));
-        List<MemberJob> memberJob = findMember.get().getMemberJobs();
-        System.out.println("id = " + findMember);
+//        List<MemberJob> memberJob = findMember.get().getMemberJobs();
     }
 
 
@@ -296,9 +293,12 @@ public class MemberServiceImpl implements MemberService {
         // 주어진 토큰(token)을 이용하여 인증(authentication)을 수행합니다. 이때, 인증된 사용자 정보는 authentication 객체로 반환됩니다.
         Authentication authentication = tokenProvider.getAuthentication(token);
         // 인증된 사용자의 주소를 이용하여 DB에서 사용자 정보를 찾아 반환합니다.
+        System.out.println("까먹음");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
+        System.out.println("1");
         Long memberId = (long) Integer.parseInt(username);
+        System.out.println("2");
         return memberRepository.findById(memberId);
     }
 
