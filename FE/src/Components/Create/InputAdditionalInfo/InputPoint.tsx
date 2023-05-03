@@ -13,10 +13,7 @@ export default function InputPoint() {
 
   return (
     <label htmlFor="point">
-      <div>
-        <h3 className="titleFont inline mr-10">포인트</h3>
-        <p className="descFont inline">500포인트 단위로 소모됩니다</p>
-      </div>
+      <h3 className="titleFont">포인트</h3>
       <div className={style.inputContainer}>
         <input
           type="number"
