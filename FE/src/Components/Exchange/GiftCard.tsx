@@ -18,30 +18,22 @@ export default function GiftCard({ productTitle, point }: GiftCardProps) {
 
   const imgSrc = mappingImgSrc[productTitle];
 
-  const [giftmodal, setGiftmodal] = useState<boolean | string>(false);
-
-  const closemodal = () => {
-    setGiftmodal(false)
-  }
-
   return (
-    <div>
-      <div className={point !== undefined ? style.giftcardWithPoint : style.giftcardWithoutPoint}>
-        <div className={style.giftimg}>
-          <img src={imgSrc} alt="tmp" />
-        </div>
-
-        <div className={style.gifttitle}>{productTitle}</div>
-
-        {point && (
-          <div className={style.coin}>
-            <div className={style.coin_content}>
-              <img src="./icons/coin_color.svg" alt="coin" className="-ml-8" />
-              <div className="ml-5">{point}</div>
-            </div>
-          </div>
-        )}
+    <div className={point !== undefined ? style.giftcardWithPoint : style.giftcardWithoutPoint}>
+      <div className={style.giftimg}>
+        <img src={imgSrc} alt="tmp" />
       </div>
+
+      <div className={style.gifttitle}>{productTitle}</div>
+
+      {point && (
+        <div className={style.coin}>
+          <div className={style.coin_content}>
+            <img src="./icons/coin_color.svg" alt="coin" className="-ml-8" />
+            <div className="ml-5">{point}</div>
+          </div>
+        </div>
+      )}
     </div>
 
   );
