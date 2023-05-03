@@ -12,7 +12,7 @@
 }
 
 .cardlist {
-  @apply flex justify-center
+  @apply flex justify-center;
 }
 
 .card button {

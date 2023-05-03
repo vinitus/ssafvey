@@ -51,7 +51,7 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
       if (currentY < 300) {
         setTranslate(0, sectionRef.current);
         yOffset = 0;
-      } else {
+      } else if(Math.abs(currentY-initialY) >= 10){
         close();
       }
 
