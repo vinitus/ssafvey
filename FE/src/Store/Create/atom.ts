@@ -58,3 +58,8 @@ export const expirationDateTimeState = atom({
   key: 'expirationDateTimeState',
   default: new Date(),
 });
+
+export const RequiredPeopleNumberState = atom({
+  key: 'RequiredPeopleNumberState',
+  default: 1,
+});
