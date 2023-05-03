@@ -1,5 +1,6 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
+import com.ssafy.ssafvey.domain.shop.entity.Order;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.lang.Nullable;
@@ -54,6 +55,9 @@ public class Member {
     private Boolean isActive;
     @NotNull
     private Boolean isRegistered;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 
 
 
