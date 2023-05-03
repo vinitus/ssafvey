@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import Modal from 'react-modal'
 import style from './GiftCard.module.css';
-import Lotto from '../Modal/Lotto';
+import BuyGift from '../Modal/BuyGift';
 
 // 지금 tmp 때문에 tmp를 받기도 합니다. 나중에 수정 필요해요.
 interface GiftCardProps {
@@ -19,53 +18,32 @@ export default function GiftCard({ productTitle, point }: GiftCardProps) {
 
   const imgSrc = mappingImgSrc[productTitle];
 
-  const [giftmodal, setGiftmodal] = useState(false);
+  const [giftmodal, setGiftmodal] = useState<boolean | string>(false);
 
   const closemodal = () => {
     setGiftmodal(false)
   }
 
-
   return (
-    <>
-      <button type='button' onClick={() => setGiftmodal(true)}>
-        <div className={point !== undefined ? style.giftcardWithPoint : style.giftcardWithoutPoint}>
-          <div className={style.giftimg}>
-            <img src={imgSrc} alt="tmp" />
-          </div>
-
-          <div className={style.gifttitle}>{productTitle}</div>
-
-          {point && (
-            <div className={style.coin}>
-              <div className={style.coin_content}>
-                <img src="./icons/coin_color.svg" alt="coin" className="-ml-8" />
-                <div className="ml-5">{point}</div>
-              </div>
-            </div>
-          )}
+    <div>
+      <div className={point !== undefined ? style.giftcardWithPoint : style.giftcardWithoutPoint}>
+        <div className={style.giftimg}>
+          <img src={imgSrc} alt="tmp" />
         </div>
 
-      </button>
-      <Modal
-        className={style.updatemodal}
-        closeTimeoutMS={200}
-        isOpen={giftmodal}
-        onRequestClose={closemodal}
-        style={{
-          overlay: {},
-          content: {
-            width: '300px',
-            height: '350px',
-            backgroundColor: '#c2e9fb',
-            margin: 'auto',
-            borderRadius: '20px',
-          },
-        }}
-      >
-        <Lotto closemodal={closemodal} />
-      </Modal>
-    </>
+        <div className={style.gifttitle}>{productTitle}</div>
+
+        {point && (
+          <div className={style.coin}>
+            <div className={style.coin_content}>
+              <img src="./icons/coin_color.svg" alt="coin" className="-ml-8" />
+              <div className="ml-5">{point}</div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+
   );
 }
 
