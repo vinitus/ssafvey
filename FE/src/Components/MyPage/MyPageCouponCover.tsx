@@ -17,10 +17,10 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
         <div className={style.cardWrapper}>
           {isCouponTitle(renderingData) &&
             renderingData.map((title, idx) => (
-              // idx를 쓰지만, title을 통해서 고유값을 지정했기에 idx를 사용해도 괜찮습니다.
-              // eslint-disable-next-line react/no-array-index-key
               <button
                 type="button"
+                // idx를 쓰지만, title을 통해서 고유값을 지정했기에 idx를 사용해도 괜찮습니다.
+                // eslint-disable-next-line react/no-array-index-key
                 key={idx}
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
