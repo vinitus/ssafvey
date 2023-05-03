@@ -7,7 +7,7 @@ interface Props {
   onClick?: () => void;
 }
 
-export default function RoundButton({ color, hidden, children, onClick }: Props) {
+export default function CircleButton({ color, hidden, children, onClick }: Props) {
   function colorClass() {
     if (color === 'green') {
       return 'bg-ssafveyGreen';
@@ -26,7 +26,7 @@ export default function RoundButton({ color, hidden, children, onClick }: Props)
   );
 }
 
-RoundButton.defaultProps = {
+CircleButton.defaultProps = {
   color: 'green',
   hidden: false,
   onClick: () => {

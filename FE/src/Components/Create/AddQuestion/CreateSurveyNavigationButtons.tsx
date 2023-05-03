@@ -9,7 +9,7 @@ import {
   answersState,
 } from '../../../Store/Create/atom';
 import style from './CreateSurveyNavigationButtons.module.css';
-import RoundButton from '../../../UI/Survey/RoundButton';
+import CircleButton from '../../../UI/Button/CircleButton';
 
 const START_NO = 1;
 
@@ -54,12 +54,12 @@ export default function CreateSurveyNavigationButtons() {
 
   return (
     <section className={style.buttons}>
-      {currentNumber === START_NO && <RoundButton hidden>&lt;</RoundButton>}
-      {currentNumber !== START_NO && <RoundButton onClick={handlePrevButtonClick}>&lt;</RoundButton>}
+      {currentNumber === START_NO && <CircleButton hidden>&lt;</CircleButton>}
+      {currentNumber !== START_NO && <CircleButton onClick={handlePrevButtonClick}>&lt;</CircleButton>}
       <button type="button" className={style.nextPhaseButton}>
         설문 등록
       </button>
-      <RoundButton onClick={handleNextButtonClick}>&gt;</RoundButton>
+      <CircleButton onClick={handleNextButtonClick}>&gt;</CircleButton>
     </section>
   );
 }
