@@ -59,7 +59,12 @@ export const expirationDateTimeState = atom({
   default: new Date(),
 });
 
-export const RequiredPeopleNumberState = atom({
-  key: 'RequiredPeopleNumberState',
+export const requiredPeopleNumberState = atom({
+  key: 'requiredPeopleNumberState',
   default: 1,
+});
+
+export const amountOfPointState = atom({
+  key: 'amountOfPointState',
+  default: 500,
 });

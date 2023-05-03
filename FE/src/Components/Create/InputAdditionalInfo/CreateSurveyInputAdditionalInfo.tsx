@@ -4,6 +4,7 @@ import SurveyBox from '../../../UI/Survey/SurveyBox';
 import InputExpirationDate from './InputExpirationDate';
 import InputTarget from './InputTarget';
 import InputPeopleNumber from './InputPeopleNumber';
+import InputPoint from './InputPoint';
 import RoundButton from '../../../UI/Button/RoundButton';
 
 export default function CreateSurveyInputAdditionalInfo() {
@@ -15,7 +16,7 @@ export default function CreateSurveyInputAdditionalInfo() {
           <InputExpirationDate />
           <InputTarget />
           <InputPeopleNumber />
-          {/* <InputPoint /> */}
+          <InputPoint />
         </div>
       </SurveyBox>
       <div>

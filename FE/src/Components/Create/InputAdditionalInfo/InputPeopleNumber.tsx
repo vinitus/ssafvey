@@ -1,12 +1,12 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { RequiredPeopleNumberState } from '../../../Store/Create/atom';
+import { requiredPeopleNumberState } from '../../../Store/Create/atom';
 import style from './InputPeopleNumber.module.css';
 
 export default function InputPeopleNumber() {
-  const [requiredPeopleNumber, setRequiredPeopleNumber] = useRecoilState(RequiredPeopleNumberState);
+  const [requiredPeopleNumber, setRequiredPeopleNumber] = useRecoilState(requiredPeopleNumberState);
 
-  const handleInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePeopleInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     if (value) setRequiredPeopleNumber(Number(value));
     else setRequiredPeopleNumber(0);
   };
@@ -17,7 +17,7 @@ export default function InputPeopleNumber() {
       <input
         type="number"
         value={requiredPeopleNumber === 0 ? '' : requiredPeopleNumber}
-        onChange={handleInputChange}
+        onChange={handlePeopleInputChange}
         min={MIN_PEOPLE}
         max={MAX_PEOPLE}
         pattern="\d*"
