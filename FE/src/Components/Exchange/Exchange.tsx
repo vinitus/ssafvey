@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal'
+import Modal from 'react-modal';
 import GiftCard from './GiftCard';
 import Lotto from '../Modal/Lotto';
 import style from './Exchange.module.css';
 
 export default function Exchange() {
-  const [giftmodal, setGiftmodal] = useState(false)
+  const [giftmodal, setGiftmodal] = useState(false);
   const closemodal = () => {
-    setGiftmodal(false)
-  }
+    setGiftmodal(false);
+  };
   return (
     <>
       <div>
@@ -19,21 +19,40 @@ export default function Exchange() {
 
         <div className={style.cardlist}>
           <div className={style.card}>
-            <button type='button' onClick={()=> {setGiftmodal(true)}}>
+            <button
+              type="button"
+              onClick={() => {
+                setGiftmodal(true);
+              }}
+            >
               <GiftCard productTitle="상품명" point={100} />
             </button>
-            <button type='button' onClick={()=> {setGiftmodal(true)}}>
+            <button
+              type="button"
+              onClick={() => {
+                setGiftmodal(true);
+              }}
+            >
               <GiftCard productTitle="상품명" point={100} />
             </button>
-            <button type='button' onClick={()=> {setGiftmodal(true)}}>
+            <button
+              type="button"
+              onClick={() => {
+                setGiftmodal(true);
+              }}
+            >
               <GiftCard productTitle="상품명" point={100} />
             </button>
-            <button type='button' onClick={()=> {setGiftmodal(true)}}>
+            <button
+              type="button"
+              onClick={() => {
+                setGiftmodal(true);
+              }}
+            >
               <GiftCard productTitle="상품명" point={100} />
             </button>
           </div>
         </div>
-
       </div>
 
       <Modal
