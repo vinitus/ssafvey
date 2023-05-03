@@ -15,7 +15,15 @@
 }
 
 .cardWrapper {
-  @apply w-full grid grid-cols-2;
+  @apply flex flex-wrap max-w-680 my-0 mx-auto;
+}
+
+.cardlist {
+  @apply flex justify-center;
+}
+
+.cardWrapper button {
+  @apply m-10;
 }
 
 .cardContentWrapper {
@@ -28,4 +36,15 @@
 
 .cardTitle {
   @apply mt-10;
+}
+
+@media screen and (max-width: 680px) {
+  .cardWrapper {
+    @apply flex flex-wrap max-w-510 my-0 mx-auto;
+  }
+}
+@media screen and (max-width: 510px) {
+  .cardWrapper {
+    @apply flex flex-wrap max-w-340 my-0 mx-auto;
+  }
 }

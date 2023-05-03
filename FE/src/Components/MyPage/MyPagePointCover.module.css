@@ -1,5 +1,5 @@
 .coverHeaderWrapper {
-  @apply flex flex-row justify-between font-bold mt-18;
+  @apply flex flex-row justify-between font-bold mt-18 w-[80%] mx-auto;
 }
 
 .text-shadow-044 {
@@ -7,7 +7,7 @@
 }
 
 .coverHeaderTitle {
-  @apply w-150 flex items-center justify-center text-20 text-shadow-044;
+  @apply w-150 justify-center text-20 text-shadow-044;
 }
 
 .coverHeaderQuantity {
@@ -23,11 +23,11 @@
 }
 
 .historyDay {
-  @apply font-bold text-12 w-100 flex items-center mt-20;
+  @apply font-bold text-12 w-[80%] mx-auto flex items-center mt-20;
 }
 
 .historyBlock {
-  @apply w-300 h-50 flex flex-row items-center justify-between bg-[#C2E9FB] border border-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 my-20 px-15;
+  @apply w-[80%] h-50 flex flex-row items-center justify-between bg-[#C2E9FB] border border-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 my-20 px-15 mx-auto;
 }
 
 .historyTitle {
