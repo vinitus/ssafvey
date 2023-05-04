@@ -1,5 +1,8 @@
 package com.ssafy.ssafvey.domain.survey.service;
 
+import com.ssafy.ssafvey.domain.survey.dto.request.ChoiceDto;
+import com.ssafy.ssafvey.domain.survey.entity.SurveyQuestion;
+import com.ssafy.ssafvey.domain.survey.entity.SurveyQuestionChoice;
 import com.ssafy.ssafvey.domain.survey.repository.SurveyQuestionChoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +17,15 @@ public class SurveyQuestionChoiceService {
         this.surveyQuestionChoiceRepository = surveyQuestionChoiceRepository;
     }
 
-//    public SurveyQuestionChoice create(int orderNum,) {
-//
-//    }
+    public SurveyQuestionChoice createSurveyQuestionChoice(ChoiceDto choiceDto, SurveyQuestion surveyQuestion) {
+        SurveyQuestionChoice surveyQuestionChoice = SurveyQuestionChoice.builder()
+                .orderNum(choiceDto.getOrder())
+                .choiceDescription(choiceDto.getChoice())
+                .surveyQuestion(surveyQuestion)
+                .build();
+
+        return surveyQuestionChoiceRepository.save(surveyQuestionChoice);
+
+
+    }
 }

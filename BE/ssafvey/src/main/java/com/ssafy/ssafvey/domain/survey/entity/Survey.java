@@ -30,8 +30,9 @@ public class Survey {
 
     private int targetSurveyParticipants;
 
-    private GenderType genderType;
+    private GenderType targetGender;
 
+    @Column(nullable = false, columnDefinition = "int default 0")
     private int surveyParticipants;
 
     private boolean isDone;

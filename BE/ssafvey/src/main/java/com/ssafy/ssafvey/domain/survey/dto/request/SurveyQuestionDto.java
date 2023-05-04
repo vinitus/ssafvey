@@ -1,12 +1,15 @@
 package com.ssafy.ssafvey.domain.survey.dto.request;
 
+import lombok.Getter;
+
 import java.util.List;
 
-public class SurveyQuestion {
+@Getter
+public class SurveyQuestionDto {
     private int order;
     private String question;
     private boolean isMultipleChoice;
-    private List<Choice> choices;
+    private List<ChoiceDto> choices;
 
     // getters and setters
 }
