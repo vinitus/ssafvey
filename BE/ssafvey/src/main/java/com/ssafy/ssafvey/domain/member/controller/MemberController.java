@@ -2,6 +2,7 @@ package com.ssafy.ssafvey.domain.member.controller;
 
 
 
+import com.ssafy.ssafvey.domain.member.dto.JobListResponseDto;
 import com.ssafy.ssafvey.domain.member.dto.LoginItem;
 import com.ssafy.ssafvey.domain.member.dto.LoginResponseDto;
 import com.ssafy.ssafvey.domain.member.dto.SignUpRequestDto;
@@ -40,6 +41,19 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(returnTokenHeader(loginItem.getToken()))
                 .body(loginResponseDto);
+    }
+
+    @ApiOperation(value="직업리스트", notes = "직업 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/jobs")
+    public ResponseEntity jobList() {
+        JobListResponseDto jobListResponseDto = memberService.getJobs();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(jobListResponseDto);
     }
 
     @ApiOperation(value="로그아웃", notes = "헤더의 access 토큰 정보를 통해 refreshToken을 삭제 시킨다.")

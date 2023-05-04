@@ -2,8 +2,7 @@ package com.ssafy.ssafvey.domain.member.service;
 
 //import com.fasterxml.jackson.core.JsonParser;
 import com.google.gson.JsonElement;
-import com.ssafy.ssafvey.domain.member.dto.LoginItem;
-import com.ssafy.ssafvey.domain.member.dto.SignUpRequestDto;
+import com.ssafy.ssafvey.domain.member.dto.*;
 import com.ssafy.ssafvey.domain.member.entity.*;
 import com.ssafy.ssafvey.domain.member.exception.BadRequestException;
 import com.ssafy.ssafvey.domain.member.exception.UnAuthorizationException;
@@ -192,7 +191,6 @@ public class MemberServiceImpl implements MemberService {
             //Gson 라이브러리로 JSON파싱
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
-            System.out.println("token = " +element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("profile").getAsJsonObject().get("nickname"));
             int id = element.getAsJsonObject().get("id").getAsInt();
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
 //            boolean hasAgeRange = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_age_range").getAsBoolean();
@@ -249,7 +247,7 @@ public class MemberServiceImpl implements MemberService {
         Authority userAuthority = Authority.user();
         GenderType isGender;
         if (gender.equals("male")) {
-            isGender=GenderType.MALE;
+            isGender=GenderType.MAN;
         }
         else{
             isGender=GenderType.WOMAN;
@@ -302,6 +300,22 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findById(memberId);
     }
 
-
+    public JobListResponseDto getJobs(){
+        JobListResponseDto jobListResponseDto = new JobListResponseDto();
+        List<JobItem> jobs = new ArrayList<>();
+        jobs.add(new JobItem(1, "전문직"));
+        jobs.add(new JobItem(2, "경영/관리직"));
+        jobs.add(new JobItem(3, "사무/기술직"));
+        jobs.add(new JobItem(4, "판매/서비스직"));
+        jobs.add(new JobItem(5, "기능/작업/단순노무직"));
+        jobs.add(new JobItem(6, "농림어축산업"));
+        jobs.add(new JobItem(7, "자영업"));
+        jobs.add(new JobItem(8, "전업주부"));
+        jobs.add(new JobItem(9, "학생"));
+        jobs.add(new JobItem(10, "무직"));
+        jobs.add(new JobItem(11, "기타"));
+        jobListResponseDto.setJobs(jobs);
+        return jobListResponseDto;
+    }
 
 }

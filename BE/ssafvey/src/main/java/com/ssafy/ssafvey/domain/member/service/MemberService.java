@@ -1,6 +1,7 @@
 package com.ssafy.ssafvey.domain.member.service;
 
 
+import com.ssafy.ssafvey.domain.member.dto.JobListResponseDto;
 import com.ssafy.ssafvey.domain.member.dto.LoginItem;
 import com.ssafy.ssafvey.domain.member.dto.SignUpRequestDto;
 
@@ -16,4 +17,6 @@ public interface MemberService {
     void logout(String accessToken);
 
     Map<String,Object> refreshAccessToken(String refreshToken);
+
+    JobListResponseDto getJobs();
 }
