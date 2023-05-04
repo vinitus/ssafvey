@@ -5,11 +5,10 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
+@Table(name = "orders")
 public class Order {
 
     @Id @GeneratedValue
@@ -21,7 +20,7 @@ public class Order {
     private Member member; //주문 회원
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private OrderItem orderItem;
 
     private LocalDateTime orderDate;
 
@@ -29,10 +28,5 @@ public class Order {
     public void setMember(Member member) {
         this.member = member;
         member.getOrders().add(this);
-    }
-
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
     }
 }

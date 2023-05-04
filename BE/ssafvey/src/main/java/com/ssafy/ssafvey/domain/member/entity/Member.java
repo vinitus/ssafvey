@@ -3,6 +3,7 @@ package com.ssafy.ssafvey.domain.member.entity;
 import com.ssafy.ssafvey.domain.shop.entity.Order;
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -58,6 +59,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+    @Value("0")
+    private Long point;
 
 
 

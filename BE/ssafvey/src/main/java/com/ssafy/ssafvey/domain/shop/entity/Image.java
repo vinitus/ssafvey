@@ -14,7 +14,7 @@ public class Image {
     @Column(name = "image_id")
     private Long id;
 
-    @OneToOne(mappedBy = "item", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "image", fetch = FetchType.LAZY)
     private Item item;
 
     private String image_url;
