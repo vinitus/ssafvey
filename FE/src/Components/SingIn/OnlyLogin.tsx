@@ -16,8 +16,8 @@ export default function OnlyLogin() {
       navigate('/');
     };
 
-    const navigateToSignup = () => {
-      navigate('/sign-up');
+    const navigateToSignup = (data: object ) => {
+      navigate('/sign-up', { state : {'data' : data}});
     };
 
     if (urlParams.has('code')) {
@@ -26,7 +26,7 @@ export default function OnlyLogin() {
 
       axios({
         method: 'get',
-        url: 'http://k8a608.p.ssafy.io:8081/api/member/login',
+        url: 'http://localhost:8081/api/member/login',
         params: {
           code,
         },
@@ -41,7 +41,12 @@ export default function OnlyLogin() {
         if (isRegist) {
           navigateToHome();
         } else {
-          navigateToSignup();
+          const data = {
+            name: res.data.name,
+            email: res.data.email,
+            gender: res.data.genderType,
+          };
+          navigateToSignup(data);
         }
       });
     } else {
