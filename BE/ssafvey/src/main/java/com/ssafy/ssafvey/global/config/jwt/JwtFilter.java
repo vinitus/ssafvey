@@ -20,7 +20,7 @@ public class JwtFilter extends GenericFilterBean {
    // logger 선언
    private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
    // ACCESS_HEADER 선언
-   public static final String ACCESS_HEADER = "accessToken";
+   public static final String ACCESS_HEADER = "Authorization";
    // REFRESH_HEADER 선언
    public static final String REFRESH_HEADER = "refreshToken";
    private TokenProvider tokenProvider;
