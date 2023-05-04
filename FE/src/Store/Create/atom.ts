@@ -1,5 +1,15 @@
 import { atom } from 'recoil';
 
+export const SurveyTitleState = atom({
+  key: 'SurveyTitleState',
+  default: '',
+});
+
+export const SurveyDescState = atom({
+  key: 'SurveyDescState',
+  default: '',
+});
+
 interface Question {
   id: number;
   title: string;
