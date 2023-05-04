@@ -10,6 +10,7 @@ import {
 } from '../../../Store/Create/atom';
 import style from './CreateSurveyNavigationButtons.module.css';
 import CircleButton from '../../../UI/Button/CircleButton';
+import RoundButton from '../../../UI/Button/RoundButton';
 
 const START_NO = 1;
 
@@ -48,18 +49,29 @@ export default function CreateSurveyNavigationButtons() {
     setAnswers([]);
   };
 
+  // Todo: 문제 있음
   useEffect(() => {
     navigate(`/create/${currentNumber}`);
   }, [navigate, currentNumber]);
 
   return (
     <section className={style.buttons}>
-      {currentNumber === START_NO && <CircleButton hidden>&lt;</CircleButton>}
-      {currentNumber !== START_NO && <CircleButton onClick={handlePrevButtonClick}>&lt;</CircleButton>}
-      <button type="button" className={style.nextPhaseButton}>
+      {currentNumber === START_NO && (
+        <CircleButton color="green" size="lg" hidden>
+          &lt;
+        </CircleButton>
+      )}
+      {currentNumber !== START_NO && (
+        <CircleButton color="green" size="lg" onClick={handlePrevButtonClick}>
+          &lt;
+        </CircleButton>
+      )}
+      <RoundButton color="blue" size="lg">
         설문 등록
-      </button>
-      <CircleButton onClick={handleNextButtonClick}>&gt;</CircleButton>
+      </RoundButton>
+      <CircleButton color="green" size="lg" onClick={handleNextButtonClick}>
+        &gt;
+      </CircleButton>
     </section>
   );
 }

@@ -13,7 +13,9 @@ const colorMap = {
 };
 
 const sizeMap = {
-  lg: 'w-full h-60 text-20',
+  sm: 'w-full min-h-20 text-12 rounded-10',
+  md: 'w-full min-h-40 text-16 rounded-20',
+  lg: 'w-full min-h-60 text-20 rounded-30',
 };
 
 export default function RoundButton({ color, size, children, onClick }: Props) {
@@ -21,7 +23,7 @@ export default function RoundButton({ color, size, children, onClick }: Props) {
   const sizeClass = sizeMap[size];
 
   return (
-    <button type="button" onClick={onClick} className={`${colorClass} ${sizeClass} rounded-30`}>
+    <button type="button" onClick={onClick} className={`${colorClass} ${sizeClass} text-white`}>
       {children}
     </button>
   );
