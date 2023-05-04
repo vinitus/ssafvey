@@ -213,6 +213,7 @@ public class MemberServiceImpl implements MemberService {
             if (memberRepository.findByEmail(email) != null) {
                 Member findMember = memberRepository.findByEmail(email);
                 Map<String, Object> resultToken = returnToken(findMember);
+                System.out.println("토큰"+resultToken);
                 LoginItem loginItem = LoginItem.builder()
                         .name(findMember.getName())
                         .email(findMember.getEmail())
@@ -273,7 +274,7 @@ public class MemberServiceImpl implements MemberService {
 
     public HashMap<String, Object> returnToken(Member member) {
         //  사용자 정보(member)를 기반으로 Access Token을 생성합니다. 사용자 정보를 기반으로 Refresh Token을 생성합니다.
-        String accessToken = tokenProvider.createAccessToken(member);
+        String Authorization = tokenProvider.createAccessToken(member);
         String refreshToken = tokenProvider.createRefreshToken(member);
 
         // 변경된 사용자 정보를 DB에 저장합니다.
@@ -282,7 +283,7 @@ public class MemberServiceImpl implements MemberService {
 
         //  put 메서드를 사용하여 Access Token과 Refresh Token 값을 key-value 형태로 저장한 뒤, 이를 반환합니다.
         return new HashMap<>() {{
-            put(JwtFilter.ACCESS_HEADER, accessToken);
+            put(JwtFilter.ACCESS_HEADER, Authorization);
             put(JwtFilter.REFRESH_HEADER, refreshToken);
         }};
     }
