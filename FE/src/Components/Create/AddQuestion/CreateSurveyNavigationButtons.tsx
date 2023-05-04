@@ -18,7 +18,6 @@ export default function CreateSurveyNavigationButtons() {
   const navigate = useNavigate();
 
   const [currentNumber, setCurrentNumber] = useRecoilState(currentQuestionNumberState);
-
   const handlePrevButtonClick = () => {
     setCurrentNumber(currentNumber - 1);
   };
