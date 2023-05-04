@@ -17,15 +17,15 @@ interface MakeSurvey {
 }
 
 interface choice {
-  order : number;
-  choice : string;
+  order: number;
+  choice: string;
 }
 
 interface surveytype {
-  order : number | string;
-  question : string;
-  is_multiple_choice : boolean;
-  choices : choice[] | null;
+  order: number | string;
+  question: string;
+  is_multiple_choice: boolean;
+  choices: choice[] | null;
 }
 
 export default function ImportExcel() {
@@ -33,8 +33,8 @@ export default function ImportExcel() {
   // let surveylist = useState([])
 
   const navigate = useNavigate();
-  function createsurvey(){
-    navigate(`/create/input1`)
+  function createsurvey() {
+    navigate(`basic`);
   }
 
   const clickplusbtn = () => {
@@ -44,57 +44,55 @@ export default function ImportExcel() {
 
   const setJSON = (datas: MakeSurvey[]) => {
     const survey = new FormData();
-    const questions : surveytype[] = [];
+    const questions: surveytype[] = [];
 
     for (let i = 0; i < datas.length; i += 1) {
       const data = datas[i];
       if (data.문항 === '') {
         break;
       } else if (i === 0) {
-        survey.append('title', data.질문)
+        survey.append('title', data.질문);
       } else if (i === 1) {
-        survey.append('description', data.질문)
+        survey.append('description', data.질문);
       } else if (i === 2) {
         /* empty */
       } else {
-        const question : surveytype = {
-          order : 0,
-          question : '',
-          is_multiple_choice : true,
-          choices : []
+        const question: surveytype = {
+          order: 0,
+          question: '',
+          is_multiple_choice: true,
+          choices: [],
         };
-        question.order = data['문항']
-        question.question = data['질문']
+        question.order = data['문항'];
+        question.question = data['질문'];
 
-        if(data['주관식/객관식'] === '주관식'){
+        if (data['주관식/객관식'] === '주관식') {
           // 주관식일때
-          question.is_multiple_choice = true
-        }
-        else {
+          question.is_multiple_choice = true;
+        } else {
           // 객관식일때
-          question.is_multiple_choice = false
+          question.is_multiple_choice = false;
 
-          let choices : choice[] = [];
+          let choices: choice[] = [];
 
-          const tmplist = ['객관식 보기 1', '객관식 보기 2', '객관식 보기 3', '객관식 보기 4', '객관식 보기 5']
-          for (let j = 0 ; j<5; j += 1){
-            const tmp = data[tmplist[j] as keyof MakeSurvey]
-            if(tmp){
-              const choice : choice = {
+          const tmplist = ['객관식 보기 1', '객관식 보기 2', '객관식 보기 3', '객관식 보기 4', '객관식 보기 5'];
+          for (let j = 0; j < 5; j += 1) {
+            const tmp = data[tmplist[j] as keyof MakeSurvey];
+            if (tmp) {
+              const choice: choice = {
                 order: 0,
-                choice: ''
+                choice: '',
               };
-              choice.order = j+1; 
-              choice.choice = tmp
-              choices = [...choices, choice]
+              choice.order = j + 1;
+              choice.choice = tmp;
+              choices = [...choices, choice];
             }
           }
-          question.choices = choices
+          question.choices = choices;
         }
 
-        questions.push(question)
+        questions.push(question);
       }
-  
     }
     survey.append('survey_questions', JSON.stringify(questions));
   };
@@ -139,5 +137,4 @@ export default function ImportExcel() {
       </section>
     </div>
   );
-  
 }

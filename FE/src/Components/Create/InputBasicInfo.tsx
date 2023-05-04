@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import style from './CreateSurveyInput1.module.css';
+import style from './InputBasicInfo.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
 
-export default function CreateSurveyInput1() {
+export default function InputBasicInfo() {
   const navigate = useNavigate();
   function makesurvey() {
     navigate(`/create/1`);
