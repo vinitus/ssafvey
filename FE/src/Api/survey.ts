@@ -59,7 +59,7 @@ export function getResult(id : number) {
 
 // 설문조사 목록
 export function getList(search : string, filter : boolean) {
-  axiosInstance.get(`survey/list?search=${search}&filter=${filter}`)
+  axiosInstance.get(`/survey/list?search=${search}&filter=${filter}`)
   .then(res => {
     return res.data
   })
