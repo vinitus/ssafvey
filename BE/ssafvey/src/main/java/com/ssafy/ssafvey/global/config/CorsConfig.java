@@ -20,8 +20,6 @@ public class CorsConfig {
         config.addExposedHeader("accessToken");
         config.addExposedHeader("refreshToken");
         config.addExposedHeader("access_token");
-        config.addExposedHeader("X-Rate-Limit-Retry-After"); // 요청 횟수 초과시 다음 요청까지 대기 시간 (초)
-        config.addExposedHeader("X-Rate-Limit-Remaining"); // 남은 요청 횟수
         // *를 설정하여 모든 Origin을 허용합니다.
         config.addAllowedOriginPattern("*");
         // *를 설정하여 모든 헤더를 허용합니다.
