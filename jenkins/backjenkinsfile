@@ -14,8 +14,10 @@ pipeline{
                                    }
                    stage('백엔드 이미지 생성'){
                     steps{
-                        dir('backend'){
+                        dir('BE'){
+                        dir('ssafvey'){
                         sh "./gradlew bootBuildImage"
+                        }
                         }
                     }
                    }
