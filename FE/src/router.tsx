@@ -16,6 +16,7 @@ import SurveyCover from './Components/Survey/SurveyCover';
 import SurveyQuestion from './Components/Survey/SurveyQuestion';
 import SignUp from './Pages/SignUp';
 import SignIn from './Pages/SignIn';
+import OnlyLogin from './Components/SingIn/OnlyLogin'
 import CreateSurveyInputAdditionalInfo from './Components/Create/InputAdditionalInfo/CreateSurveyInputAdditionalInfo';
 
 const router = createBrowserRouter([
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
         path: 'sign-in',
         element: <SignIn />,
       },
+      {
+        path: 'onlylogin',
+        element :<OnlyLogin />
+      }
     ],
   },
 ]);
