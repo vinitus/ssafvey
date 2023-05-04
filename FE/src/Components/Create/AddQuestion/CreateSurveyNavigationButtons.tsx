@@ -51,6 +51,10 @@ export default function CreateSurveyNavigationButtons() {
     navigate(`/create/${currentNumber + 1}`);
   };
 
+  const handleRouteAdditional = () => {
+    navigate('/create/additional');
+  };
+
   return (
     <section className={style.buttons}>
       {currentNumber === START_NO && (
@@ -63,8 +67,8 @@ export default function CreateSurveyNavigationButtons() {
           &lt;
         </CircleButton>
       )}
-      <RoundButton color="blue" size="lg">
-        설문 등록
+      <RoundButton color="blue" size="lg" onClick={handleRouteAdditional}>
+        추가 정보 입력하기
       </RoundButton>
       <CircleButton color="green" size="lg" onClick={handleNextButtonClick}>
         &gt;

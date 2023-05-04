@@ -8,6 +8,12 @@ import InputPoint from './InputPoint';
 import RoundButton from '../../../UI/Button/RoundButton';
 
 export default function CreateSurveyInputAdditionalInfo() {
+  const handleRouteOverviewSurvey = () => {
+    // Todo: 설문 생성하기 버튼 클릭 시,
+    // 1. POST 요청 보내기
+    // 2. reponse로 받은 pk를 이용하여 설문 커버 페이지로 라우팅
+  };
+
   return (
     <section className={style.sections}>
       <SurveyBox>
@@ -20,7 +26,9 @@ export default function CreateSurveyInputAdditionalInfo() {
         </div>
       </SurveyBox>
       <div>
-        <RoundButton size="lg">설문 생성하기</RoundButton>
+        <RoundButton color="blue" size="lg" onClick={handleRouteOverviewSurvey}>
+          설문 생성하기
+        </RoundButton>
       </div>
     </section>
   );
