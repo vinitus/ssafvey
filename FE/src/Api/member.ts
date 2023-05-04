@@ -4,7 +4,7 @@ const baseURL = "/auth/member"
 
 // 회원정보 수정
 export function putProfile(data : FormData) {
-  axiosInstance.put(`${baseURL}/changeProfil"`, data)
+  axiosInstance.put(`${baseURL}/changeProfil`, data)
     .then(res => {
       return res.data
     })

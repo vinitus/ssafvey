@@ -8,10 +8,7 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // You can modify the request config here
-    const token = "dfdafd"
-    config.params = {
-      ...config.params,
-    }
+    const token = "token" // 토큰
     config.headers.Authorization = `Bearer ${token}`
     return config;
   },
