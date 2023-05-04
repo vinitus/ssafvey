@@ -1,0 +1,19 @@
+.header {
+  @apply bg-darkBlue px-20 py-15 h-100 flex flex-col justify-between;
+}
+
+.just {
+  @apply bg-darkBlue px-20 py-15 h-100 flex flex-col justify-center;
+}
+
+.title {
+  @apply text-20 font-bold;
+}
+
+.mainDesc {
+  @apply flex justify-between;
+}
+
+.childInlineBlock > * {
+  @apply inline-block;
+}

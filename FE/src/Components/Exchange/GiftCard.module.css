@@ -1,0 +1,27 @@
+.giftcardWithPoint {
+  @apply w-150 h-200 m-5 relative shadow-md shadow-[#00000075] bg-[#E5F0FA] border-[1px] border-white rounded-20 p-15;
+}
+
+.giftcardWithoutPoint {
+  @apply w-150 h-200 mx-auto my-5 relative shadow-md shadow-[#00000075] bg-[#C2E9FB] border-[1px] border-white rounded-20 p-15;
+}
+
+.giftimg {
+  @apply w-120 h-120 m-auto;
+}
+
+.giftimg img {
+  @apply w-120 h-120 border-[1px] border-white rounded-10;
+}
+
+.gifttitle {
+  @apply text-12 font-bold mt-10;
+}
+
+.coin {
+  @apply text-12 absolute right-10 bottom-10;
+}
+
+.coin_content {
+  @apply w-45 h-25 font-bold flex items-center justify-items-center bg-headerFooter text-blue rounded-5;
+}

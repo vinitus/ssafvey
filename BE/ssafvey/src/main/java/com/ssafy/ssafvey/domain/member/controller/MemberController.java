@@ -93,8 +93,8 @@ public class MemberController {
     public HttpHeaders returnTokenHeader(Map<String, Object> result) {
         //  HTTP 요청 헤더에 액세스 토큰과 리프레시 토큰을 추가하여 인증에 필요한 정보를 제공
         HttpHeaders headers = new HttpHeaders();
-        headers.add(JwtFilter.ACCESS_HEADER, "Bearer " + result.get("accessToken"));
-        headers.add(JwtFilter.REFRESH_HEADER, "Bearer " + result.get("refreshToken"));
+        headers.add(JwtFilter.ACCESS_HEADER, (String) result.get("accessToken"));
+        headers.add(JwtFilter.REFRESH_HEADER, (String) result.get("refreshToken"));
 
         return headers;
     }
