@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import style from './ImportExcel.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
-import PlusButton from '../../UI/Survey/PlusButton';
+// import PlusButton from '../../UI/Survey/PlusButton';
 
 interface MakeSurvey {
   문항: string;
@@ -118,10 +118,9 @@ export default function ImportExcel() {
         <h2 className={style.title}>엑셀 파일을 업로드하세요!</h2>
         <p className={style.desc}>설문지를 바로 생성할 수 있어요</p>
         <div className={style.buttonContainer}>
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-          <span onClick={clickplusbtn}>
-            <PlusButton size="lg" />
-          </span>
+          <button onClick={clickplusbtn} className={style.plusBtn}>
+            +
+          </button>
         </div>
         <a href="/excel/template.xlsx" download>
           <button type="button" className={style.templateDownLoadButton}>
