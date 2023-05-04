@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Props {
-  color?: keyof typeof colorMap;
+  color: keyof typeof colorMap;
   size: keyof typeof sizeMap;
   children: React.ReactNode;
   onClick?: () => void;
@@ -16,7 +16,7 @@ const sizeMap = {
   lg: 'w-full h-60 text-20',
 };
 
-export default function RoundButton({ color = 'blue', size, children, onClick }: Props) {
+export default function RoundButton({ color, size, children, onClick }: Props) {
   const colorClass = colorMap[color];
   const sizeClass = sizeMap[size];
 
@@ -28,7 +28,6 @@ export default function RoundButton({ color = 'blue', size, children, onClick }:
 }
 
 RoundButton.defaultProps = {
-  color: 'blue',
   onClick: () => {
     /* empty */
   },
