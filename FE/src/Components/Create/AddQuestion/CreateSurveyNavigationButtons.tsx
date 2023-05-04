@@ -43,16 +43,13 @@ export default function CreateSurveyNavigationButtons() {
         },
       ];
     });
+    // Todo: 분기처리해야함
     setCurrentNumber(currentNumber + 1);
     setCurrentQuestionTitle('');
     setCurrentQuestionType('multiple');
     setAnswers([]);
+    navigate(`/create/${currentNumber + 1}`);
   };
-
-  // Todo: 문제 있음
-  useEffect(() => {
-    navigate(`/create/${currentNumber}`);
-  }, [navigate, currentNumber]);
 
   return (
     <section className={style.buttons}>
