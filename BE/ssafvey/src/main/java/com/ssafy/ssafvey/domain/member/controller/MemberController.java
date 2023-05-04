@@ -37,10 +37,10 @@ public class MemberController {
     @GetMapping("/api/member/login")
     public ResponseEntity kakaoLogin(@RequestParam String code) {
         LoginItem loginItem = memberService.getKakaoAccessToken(code);
-        LoginResponseDto loginResponseDto = LoginResponseDto.toLoginResponse(loginItem);
+//        LoginResponseDto loginResponseDto = LoginResponseDto.toLoginResponse(loginItem);
         return ResponseEntity.status(HttpStatus.OK)
-                .headers(returnTokenHeader(loginItem.getToken()))
-                .body(loginResponseDto);
+//                .headers(returnTokenHeader(loginItem.getToken()))
+                .body(loginItem);
     }
 
     @ApiOperation(value="직업리스트", notes = "직업 리스트 조회")
@@ -99,9 +99,10 @@ public class MemberController {
         // refreshAccessToken을 조회해서 재생성
         String refreshToken = request.getHeader(JwtFilter.REFRESH_HEADER);
         Map<String, Object> result = memberService.refreshAccessToken(refreshToken.substring(7));
-        HttpHeaders headers = returnTokenHeader(result);
+//        HttpHeaders headers = returnTokenHeader(result);
 
-        return ResponseEntity.status(200).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(result);
     }
 
     public HttpHeaders returnTokenHeader(Map<String, Object> result) {
