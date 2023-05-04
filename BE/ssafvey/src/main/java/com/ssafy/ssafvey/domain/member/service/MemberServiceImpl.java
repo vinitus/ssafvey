@@ -131,7 +131,7 @@ public class MemberServiceImpl implements MemberService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=d947c9ac2861fc14e2fe317acde101f1"); // TODO REST_API_KEY 입력
+            sb.append("&client_id=08464b27e8d442e6bde11f4a08656b53"); // TODO REST_API_KEY 입력
             sb.append("&redirect_uri=http://localhost:5173"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
@@ -155,7 +155,7 @@ public class MemberServiceImpl implements MemberService {
 
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-
+            System.out.println("여기왔나요?");
             br.close();
             bw.close();
         } catch (IOException e) {
