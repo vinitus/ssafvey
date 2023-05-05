@@ -78,7 +78,7 @@ public class MemberController {
             @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
             @ApiResponse(code = 500, message = "서버에러")
     })
-    @PutMapping("/api/auth/member/changeProfil")
+    @PutMapping("/api/member/changeProfil")
     public ResponseEntity updateUser(HttpServletRequest request, @RequestBody SignUpRequestDto signUpRequestDto ) {
         memberService.updateUser(memberService.getMemberId(request),signUpRequestDto);
 
