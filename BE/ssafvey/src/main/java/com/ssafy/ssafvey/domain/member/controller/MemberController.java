@@ -62,7 +62,7 @@ public class MemberController {
             @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
             @ApiResponse(code = 500, message = "서버에러")
     })
-    @GetMapping(path="/api/auth/member/logout")
+    @GetMapping(path="/api/member/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         // jwt토큰값을 받습니다.
         String accessToken = request.getHeader(JwtFilter.ACCESS_HEADER);
@@ -78,7 +78,7 @@ public class MemberController {
             @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
             @ApiResponse(code = 500, message = "서버에러")
     })
-    @PutMapping("/api/auth/member/changeProfil")
+    @PutMapping("/api/member/changeProfil")
     public ResponseEntity updateUser(HttpServletRequest request, @RequestBody SignUpRequestDto signUpRequestDto ) {
         memberService.updateUser(memberService.getMemberId(request),signUpRequestDto);
 
