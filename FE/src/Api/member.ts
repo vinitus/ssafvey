@@ -16,7 +16,7 @@ export function getJobs() {
 
 // 회원정보 수정
 export function putProfile(data: object, token: string) {
-  axiosInstance
+  return axiosInstance
     .put(`${baseURL}/changeProfil`, data, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
@@ -28,7 +28,7 @@ export function putProfile(data: object, token: string) {
 
 // 엑세스 토큰 재발급
 export function getRefresh() {
-  axiosInstance
+  return axiosInstance
     .get('/member/refresh')
     .then((res) => {
       return res.data;
@@ -40,7 +40,7 @@ export function getRefresh() {
 
 // 회원 탈퇴
 export function deleteMember() {
-  axiosInstance
+  return axiosInstance
     .delete(`${baseURL}/delete`)
     .then((res) => {
       return res.data;
@@ -52,7 +52,7 @@ export function deleteMember() {
 
 // 로그아웃
 export function getLogout() {
-  axiosInstance
+  return axiosInstance
     .get(`${baseURL}/logout`)
     .then((res) => {
       return res.data;
@@ -64,7 +64,7 @@ export function getLogout() {
 
 // 마이페이지 정보
 export function getMypage() {
-  axiosInstance
+  return axiosInstance
     .get(`${baseURL}/mypage`)
     .then((res) => {
       return res.data;
@@ -76,7 +76,7 @@ export function getMypage() {
 
 // 응답한 설문 리스트
 export function getSurveyResponse() {
-  axiosInstance
+  return axiosInstance
     .get(`${baseURL}/mypage/surveyResponse`)
     .then((res) => {
       return res.data;
@@ -88,7 +88,7 @@ export function getSurveyResponse() {
 
 // 만든 설문 리스트
 export function getSurvey() {
-  axiosInstance
+  return axiosInstance
     .get(`${baseURL}/mypage/survey`)
     .then((res) => {
       return res.data;

@@ -4,7 +4,7 @@ const baseURL = "/auth/survey"
 
 // 설문조사 작성
 export function postRegis(data : FormData) {
-  axiosInstance.post(`${baseURL}/regist`, data)
+  return axiosInstance.post(`${baseURL}/regist`, data)
   .then(res => {
     return res.data
   })
@@ -15,7 +15,7 @@ export function postRegis(data : FormData) {
 
 // 설문조사 시작 페이지
 export function getStart(id : number) {
-  axiosInstance.get(`/survey/start/${id}`)
+  return axiosInstance.get(`/survey/start/${id}`)
   .then(res => {
     return res.data
   })
@@ -26,7 +26,7 @@ export function getStart(id : number) {
 
 // 설문조사 디테일
 export function getDetail(id : number) {
-  axiosInstance.get(`${baseURL}/detail/${id}`)
+  return axiosInstance.get(`${baseURL}/detail/${id}`)
   .then(res => {
     return res.data
   })
@@ -37,7 +37,7 @@ export function getDetail(id : number) {
 
 // 설문조사 응답제출
 export function postAnswer(data : FormData) {
-  axiosInstance.post(`${baseURL}/answer`, data)
+  return axiosInstance.post(`${baseURL}/answer`, data)
   .then(res => {
     return res.data
   })
@@ -48,7 +48,7 @@ export function postAnswer(data : FormData) {
 
 // 설문조사 통계
 export function getResult(id : number) {
-  axiosInstance.get(`${baseURL}/result/${id}`)
+  return axiosInstance.get(`${baseURL}/result/${id}`)
   .then(res => {
     return res.data
   })
@@ -59,7 +59,7 @@ export function getResult(id : number) {
 
 // 설문조사 목록
 export function getList(search : string, filter : boolean) {
-  axiosInstance.get(`/survey/list?search=${search}&filter=${filter}`)
+  return axiosInstance.get(`/survey/list?search=${search}&filter=${filter}`)
   .then(res => {
     return res.data
   })
