@@ -27,9 +27,9 @@ export function putProfile(data: object, token: string) {
 }
 
 // 엑세스 토큰 재발급
-export function getRefresh() {
+export function getRefresh(token : string) {
   return axiosInstance
-    .get('/member/refresh')
+    .get('/member/refresh', { headers : {refreshToken : token}})
     .then((res) => {
       return res.data;
     })
@@ -39,9 +39,9 @@ export function getRefresh() {
 }
 
 // 회원 탈퇴
-export function deleteMember() {
+export function deleteMember(token : string) {
   return axiosInstance
-    .delete(`${baseURL}/delete`)
+    .delete(`${baseURL}/delete`, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
     })
@@ -51,9 +51,9 @@ export function deleteMember() {
 }
 
 // 로그아웃
-export function getLogout() {
+export function getLogout(token : string) {
   return axiosInstance
-    .get(`${baseURL}/logout`)
+    .get(`${baseURL}/logout`, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
     })
@@ -63,9 +63,9 @@ export function getLogout() {
 }
 
 // 마이페이지 정보
-export function getMypage() {
+export function getMypage(token : string) {
   return axiosInstance
-    .get(`${baseURL}/mypage`)
+    .get(`${baseURL}/mypage`, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
     })
@@ -75,9 +75,9 @@ export function getMypage() {
 }
 
 // 응답한 설문 리스트
-export function getSurveyResponse() {
+export function getSurveyResponse( token : string) {
   return axiosInstance
-    .get(`${baseURL}/mypage/surveyResponse`)
+    .get(`${baseURL}/mypage/surveyResponse`, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
     })
@@ -87,9 +87,9 @@ export function getSurveyResponse() {
 }
 
 // 만든 설문 리스트
-export function getSurvey() {
+export function getSurvey( token : string) {
   return axiosInstance
-    .get(`${baseURL}/mypage/survey`)
+    .get(`${baseURL}/mypage/survey`, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
     })
