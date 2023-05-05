@@ -4,8 +4,8 @@ import { useRecoilState } from "recoil";
 import { accessTokenState } from '../Store/Member/atom'
 
 const axiosInstance: AxiosInstance = axios.create({
-  // baseURL: "http://k8a608.p.ssafy.io:8081/api",
-  baseURL: "http://localhost:8081/api",
+  baseURL: "http://k8a608.p.ssafy.io:8081/api",
+  // baseURL: "http://localhost:8081/api",
 });
 
 axiosInstance.interceptors.request.use(

@@ -17,7 +17,7 @@ export function getJobs() {
 // 회원정보 수정
 export function putProfile(data: object, token: string) {
   axiosInstance
-    .put(`${baseURL}/changeProfile`, data, { headers: { Authorization: `Bearer ${token}` } })
+    .put(`${baseURL}/changeProfil`, data, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
     })

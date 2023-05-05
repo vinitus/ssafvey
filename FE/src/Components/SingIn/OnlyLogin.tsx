@@ -16,8 +16,8 @@ export default function OnlyLogin() {
       navigate('/');
     };
 
-    const navigateToSignup = (data: object ) => {
-      navigate('/sign-up', { state : {'data' : data}});
+    const navigateToSignup = (data: object) => {
+      navigate('/sign-up', { state: { data } });
     };
 
     if (urlParams.has('code')) {
@@ -26,14 +26,15 @@ export default function OnlyLogin() {
 
       axios({
         method: 'get',
-        url: 'http://localhost:8081/api/member/login',
+        // url: 'http://localhost:8081/api/member/login',
+        url: 'http://k8a608.p.ssafy.io:8081/api/member/login',
         params: {
           code,
         },
       }).then((res) => {
         console.log(res);
-        const accessToken = res.headers.accesstoken;
-        const refreshToken = res.headers.refreshtoken;
+        const accessToken = res.data.token.Authorization;
+        const {refreshToken} = res.data.token;
         setAccessToken(accessToken);
         localStorage.setItem('refreshToken', refreshToken);
 
