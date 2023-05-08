@@ -1,15 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
+import { accessTokenState } from '../Store/Member/atom';
+import { getMypage, getSurveyResponse, getSurvey } from '../Api/member';
 import styles from './MyPage.module.css';
 
+interface survey {
+  title: string;
+  author: string;
+}
+
+interface myinfo {
+  name: string;
+  point: number;
+  dosurvey: number;
+  makesurvey: number;
+  recent: survey[];
+  coupon: number;
+}
+
 export default function MyPage() {
-  const activityData: string[] = ['설문 참여1', '설문 참여2', '설문 참여3'];
-  const couponCnt = 10;
+  const activityData: survey[] = [{title : '설문조사1', author : '작성자1'}]; 
+  const couponCnt = 5;
 
+  let info: myinfo;
+
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
-
   const [send, setSend] = useState(false);
+
+  useEffect(() => {
+    async function getmypageinfo() {
+      let data;
+      try {
+        data = await getMypage(accessToken);
+        console.log(data)
+
+        // info.name = data.name;
+        // info.point = data.point;
+        // info.dosurvey = data.dosurvey;
+        // info.makesurvey = data.makesurvey;
+        // info.recent = data.recentActivity;
+        // info.coupon = data.coupon;
+      } catch (err) {
+        data = await getMypage(accessToken)
+        console.log(data)
+        console.error(err);
+      }
+    }
+
+    async function getdosurveylist() {
+      try {
+        const data = getSurveyResponse(accessToken);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    async function getmakesurveylist() {
+      try {
+        const data = getSurvey(accessToken);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getmypageinfo();
+    // getdosurveylist();
+    // getmakesurveylist();
+  }, [accessToken]);
 
   return (
     <section className={styles.MyPageWrapper}>
@@ -98,7 +158,7 @@ export default function MyPage() {
           sending={send}
           contentType="쿠폰"
           content={{
-            quantity: 10,
+            quantity: 5,
             infoType: openModalFlag,
             renderingData: ['아이스티', '커피', '커피', '아이스티', '아이스티'],
           }}
@@ -165,9 +225,12 @@ export default function MyPage() {
           </div>
           <div className={styles.recentActivityWrapper}>
             {activityData.map((activity) => (
-              <p className={styles.recentActivityBg} key={activity}>
-                {activity}
-              </p>
+              <div key={activity.title} className={styles.recentActivityBg} >
+                <div className={styles.title}>
+                  {activity.title}
+                </div>
+                <div className={styles.author}>{activity.author}</div>
+              </div>
             ))}
           </div>
         </article>

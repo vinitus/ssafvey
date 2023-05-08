@@ -39,7 +39,11 @@
 }
 
 .recentActivityBg {
-  @apply h-50 border border-white/30 bg-[#569AFF]/70 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 mx-6 pl-15 flex items-center text-white font-[400];
+  @apply h-50 border border-white/30 bg-[#569AFF]/70 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 mx-6 pl-15 text-white font-[400] pt-5;
+}
+
+.recentActivityBg .author {
+  @apply text-12
 }
 
 .couponBox {

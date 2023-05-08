@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import { useRecoilState } from 'recoil';
+import { useRecoilState } from "recoil";
 import { accessTokenState } from "../Store/Member/atom";
 import { getRefresh } from "./member";
 
@@ -19,35 +19,31 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-const resettoken = () => {
-  try {
-    const data = getRefresh(localStorage.getItem("refreshToken"))  
-    return data
-  }
-  catch(err) {
-    console.error(err)
-    return false;
-  }
-}
-
-axiosInstance.interceptors.response.use(
-  async (response: AxiosResponse) => {
+const inter = axiosInstance.interceptors.response.use(
+  (response: AxiosResponse) => {
     // You can modify the response here
-    // console.log(response.status)
-    if (response.status === 401) {
-      const token = await resettoken()
-
-      if(token) {
-        const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-        setAccessToken(token?.Authorization)
-        localStorage.setItem("refreshToken", token?.refreshToken)
-        return token
-      }
-    }
     return response
   },
-  (error) => {
+  async (error) => {
+    const {
+      config, response : {status}
+    } = error;
+    axiosInstance.interceptors.response.eject(inter)
+    if (status === 401) {
+
+      const originRequest = config;
+      const token = await getRefresh(localStorage.getItem("refreshToken"))
+      const accessToken = token?.Authorization
+      // const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+      // setAccessToken(token?.Authorization)
+      localStorage.setItem("refreshToken", token?.refreshToken)
+
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+      originRequest.headers.Authorization = `Bearer ${accessToken}`
+      return axios(originRequest)
+    }
     return Promise.reject(error);
+
   }
 );
 

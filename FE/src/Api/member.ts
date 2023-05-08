@@ -29,7 +29,7 @@ export function putProfile(data: object, token: string) {
 // 엑세스 토큰 재발급
 export function getRefresh(token : string | null) {
   return axiosInstance
-    .get('/refresh', { headers : {refreshToken : token}})
+    .get(`${baseURL}/refresh`, { headers : {refreshToken : token}})
     .then((res) => {
       return res.data;
     })
