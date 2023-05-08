@@ -10,7 +10,7 @@ export const SurveyDescState = atom({
   default: '',
 });
 
-interface Question {
+export interface Question {
   id: number;
   title: string;
   type: QuestionType;
@@ -24,6 +24,11 @@ export const questionsState = atom<Question[]>({
 
 export const currentQuestionNumberState = atom({
   key: 'currentQuestionNumberState',
+  default: 1,
+});
+
+export const endQuestionNumberState = atom({
+  key: 'endQuestionNumberState',
   default: 1,
 });
 

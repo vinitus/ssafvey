@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import {
   currentQuestionNumberState,
+  endQuestionNumberState,
   currentQuestionTitleState,
   currentQuestionTypeState,
   questionsState,
@@ -18,16 +19,23 @@ export default function CreateSurveyNavigationButtons() {
   const navigate = useNavigate();
 
   const [currentNumber, setCurrentNumber] = useRecoilState(currentQuestionNumberState);
+
+  const [endNumber, setEndNumber] = useRecoilState(endQuestionNumberState);
+
   const handlePrevButtonClick = () => {
     if (currentNumber === START_NO) {
       navigate('/create/basic');
-    } else {
-      setCurrentNumber(currentNumber - 1);
-      navigate(`/create/${currentNumber - 1}`);
+      return;
     }
+    setCurrentQuestionTitle(questions[currentNumber - 2].title);
+    setCurrentQuestionType(questions[currentNumber - 2].type);
+    setAnswers(questions[currentNumber - 2].answers);
+
+    setCurrentNumber(currentNumber - 1);
+    navigate(`/create/${currentNumber - 1}`);
   };
 
-  const setQuestions = useSetRecoilState(questionsState);
+  const [questions, setQuestions] = useRecoilState(questionsState);
 
   const [currentQuestionTitle, setCurrentQuestionTitle] = useRecoilState(currentQuestionTitleState);
 
@@ -36,22 +44,49 @@ export default function CreateSurveyNavigationButtons() {
   const [answers, setAnswers] = useRecoilState(answersState);
 
   const handleNextButtonClick = () => {
-    setQuestions((prev) => {
-      return [
-        ...prev,
-        {
-          id: currentNumber,
-          title: currentQuestionTitle,
-          type: currentQuestionType,
-          answers,
-        },
-      ];
-    });
-    // Todo: 분기처리해야함
+    if (currentNumber === endNumber) {
+      // 현재 위치가 endNumber이면 추가하기
+      setQuestions((prev) => {
+        return [
+          ...prev,
+          {
+            id: currentNumber,
+            title: currentQuestionTitle,
+            type: currentQuestionType,
+            answers,
+          },
+        ];
+      });
+
+      setEndNumber((prev) => prev + 1);
+    } else {
+      // 현재 위치가 endNumber가 아니면 수정하기
+      setQuestions((prev) => {
+        return [
+          ...prev.slice(0, currentNumber - 1),
+          {
+            id: currentNumber,
+            title: currentQuestionTitle,
+            type: currentQuestionType,
+            answers,
+          },
+          ...prev.slice(currentNumber),
+        ];
+      });
+    }
+
+    if (currentNumber < questions.length) {
+      // 이미 존재하는 값이면 가져오기
+      setCurrentQuestionTitle(questions[currentNumber].title);
+      setCurrentQuestionType(questions[currentNumber].type);
+      setAnswers(questions[currentNumber - 1].answers);
+    } else {
+      // 없는 값이면 기본값으로
+      setCurrentQuestionTitle('');
+      setCurrentQuestionType('multiple');
+      setAnswers([]);
+    }
     setCurrentNumber(currentNumber + 1);
-    setCurrentQuestionTitle('');
-    setCurrentQuestionType('multiple');
-    setAnswers([]);
     navigate(`/create/${currentNumber + 1}`);
   };
 

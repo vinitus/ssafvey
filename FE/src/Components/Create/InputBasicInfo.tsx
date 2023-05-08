@@ -23,7 +23,7 @@ export default function InputBasicInfo() {
   const currentQuestionNumber = useRecoilValue(currentQuestionNumberState);
 
   function makesurvey() {
-    navigate(`/create/${currentQuestionNumber}`);
+    navigate(`/create/1`);
   }
 
   return (

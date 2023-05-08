@@ -8,7 +8,6 @@ const HEADLINE = '설문지 만들기';
 
 export default function CreateSurvey() {
   const questions = useRecoilValue(questionsState);
-  console.log(questions);
 
   return (
     <article className="text-white">
