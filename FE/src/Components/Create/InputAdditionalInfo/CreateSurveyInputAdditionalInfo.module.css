@@ -1,0 +1,7 @@
+.sections {
+  @apply flex flex-col justify-between h-full;
+}
+
+.submitButton {
+  @apply h-60 px-30 bg-darkBlue rounded-30 font-bold text-20;
+}

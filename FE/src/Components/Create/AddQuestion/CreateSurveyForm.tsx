@@ -24,7 +24,7 @@ export default function CreateSurveyForm() {
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
+    <div role="form">
       <label htmlFor="title">
         <h3 className="titleFont my-5">{currentNumber}번 문항</h3>
         <input
@@ -42,6 +42,6 @@ export default function CreateSurveyForm() {
           <option value="essay">주관식</option>
         </select>
       </label>
-    </form>
+    </div>
   );
 }

@@ -20,7 +20,39 @@ const surveyState = {
   point: '200',
 };
 
-export default function SurveyCover() {
+declare global {
+  interface Window {
+    Kakao : any;
+  }
+}
+
+export default function SurveyCover() { 
+
+  const kakaoshare = () => {
+
+    window.Kakao.Share.sendDefault({
+      objectType : 'feed',
+      content : {
+        title : surveyState.title,
+        description : surveyState.desc,
+        imageUrl : 'http://k.kakaocdn.net/dn/rDzHQ/btsdi3qPQnW/nPUA8K0ihLCCakUjLcQEu0/kakaolink40_original.png',
+        link : {
+          mobileWebUrl: 'http://localhost:5173/survey/1',
+          webUrl: 'http://localhost:5173/survey/1',
+        },
+      },
+      buttons : [
+        {
+          title : '설문조사 바로가기',
+          link : {
+            mobileWebUrl: 'http://localhost:5173/survey/1',
+            webUrl: 'http://localhost:5173/survey/1',
+          },
+        }
+      ]
+    })
+  }
+
   return (
     <div className={style.coverBackgroundImg}>
       <div className={style.coverBackgroundFilter}>
@@ -45,8 +77,8 @@ export default function SurveyCover() {
               <button type="button" className={style.startSurveyBtn}>
                 설문 참여
               </button>
-              <button type="button" >
-                <img src="/icons/share.svg" alt="share-icon" />
+              <button type="button" onClick={kakaoshare}>
+                <img id="sharing-btn" src="/icons/share.svg" alt="share-icon" />
               </button>
             </section>
           </div>

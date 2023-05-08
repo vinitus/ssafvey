@@ -7,6 +7,7 @@ import NavBar from './UI/NavBar';
 function App() {
   return (
     <>
+      <div className={styles.overlay}>더 작은 화면에서 이용해주세요!</div>
       <AppBar />
       <div className={styles.divBgGradient}>
         <div className={styles.divBgBlur}>

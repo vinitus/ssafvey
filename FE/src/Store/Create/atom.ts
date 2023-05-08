@@ -53,3 +53,18 @@ export const inputRefState = atom({
   key: 'inputRefState',
   default: null,
 });
+
+export const expirationDateTimeState = atom({
+  key: 'expirationDateTimeState',
+  default: new Date(),
+});
+
+export const requiredPeopleNumberState = atom({
+  key: 'requiredPeopleNumberState',
+  default: 1,
+});
+
+export const amountOfPointState = atom({
+  key: 'amountOfPointState',
+  default: 500,
+});

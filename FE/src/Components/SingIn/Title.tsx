@@ -2,6 +2,13 @@ import React from "react";
 import style from "./Title.module.css"
 
 export default function Title() {
+
+  const login = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri : 'http://localhost:5173/onlylogin'
+    })
+  }
+
   return(
     <article className={style.signin}>
 
@@ -35,9 +42,9 @@ export default function Title() {
         </div>
       </main>
 
-      <div className={style.kakao}>
+      <button type='button' className={style.kakao} onClick={login}>
         <img src="/icons/kakao_login_medium_wide.png" alt="kakao"/>
-      </div>
+      </button>
       
     </article>
   )

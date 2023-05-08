@@ -8,7 +8,7 @@ import Search from './Pages/Search';
 import Exchange from './Pages/Exchange';
 import CreateSurvey from './Pages/CreateSurvey';
 import ImportExcel from './Components/Create/ImportExcel';
-import CreateSurveyInput1 from './Components/Create/AddQuestion/CreateSurveyInput1';
+import CreateSurveyInput1 from './Components/Create/CreateSurveyInput1';
 import CreateSurveyQuestion from './Components/Create/AddQuestion/CreateSurveyQuestion';
 import MyPage from './Pages/MyPage';
 import Survey from './Pages/Survey';
@@ -16,6 +16,8 @@ import SurveyCover from './Components/Survey/SurveyCover';
 import SurveyQuestion from './Components/Survey/SurveyQuestion';
 import SignUp from './Pages/SignUp';
 import SignIn from './Pages/SignIn';
+import OnlyLogin from './Components/SingIn/OnlyLogin'
+import CreateSurveyInputAdditionalInfo from './Components/Create/InputAdditionalInfo/CreateSurveyInputAdditionalInfo';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,7 @@ const router = createBrowserRouter([
           { element: <ImportExcel />, index: true },
           { path: 'input1', element: <CreateSurveyInput1 /> },
           { path: ':questionId', element: <CreateSurveyQuestion /> },
+          { path: 'additional', element: <CreateSurveyInputAdditionalInfo /> },
         ],
       },
       { path: 'exchange', element: <Exchange /> },
@@ -49,8 +52,12 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path : 'sign-in',
-        element : <SignIn />
+        path: 'sign-in',
+        element: <SignIn />,
+      },
+      {
+        path: 'onlylogin',
+        element :<OnlyLogin />
       }
     ],
   },

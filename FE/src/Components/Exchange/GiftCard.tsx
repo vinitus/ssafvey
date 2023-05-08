@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './GiftCard.module.css';
+import BuyGift from '../Modal/BuyGift';
 
 // 지금 tmp 때문에 tmp를 받기도 합니다. 나중에 수정 필요해요.
 interface GiftCardProps {
@@ -34,6 +35,7 @@ export default function GiftCard({ productTitle, point }: GiftCardProps) {
         </div>
       )}
     </div>
+
   );
 }
 
