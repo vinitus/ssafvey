@@ -1,6 +1,8 @@
 package com.ssafy.ssafvey.domain.survey.service;
 
 import com.ssafy.ssafvey.domain.survey.dto.request.ChoiceDto;
+import com.ssafy.ssafvey.domain.survey.dto.request.SurveyQuestionDto;
+import com.ssafy.ssafvey.domain.survey.entity.Survey;
 import com.ssafy.ssafvey.domain.survey.entity.SurveyQuestion;
 import com.ssafy.ssafvey.domain.survey.entity.SurveyQuestionChoice;
 import com.ssafy.ssafvey.domain.survey.repository.SurveyQuestionRepository;
@@ -21,21 +23,27 @@ public class SurveyQuestionService {
         this.surveyQuestionChoiceService = surveyQuestionChoiceService;
     }
 
-    public SurveyQuestion createSurveyQuestion(int order,String question,boolean isMultipleChoice,List<ChoiceDto> choices) {
+    public SurveyQuestion createSurveyQuestion(SurveyQuestionDto surveyQuestionDto, Survey survey) {
         SurveyQuestion surveyQuestion = SurveyQuestion.builder()
-                .orderNum(order)
-                .question(question)
-                .isMultipleChoice(isMultipleChoice)
+                .orderNum(surveyQuestionDto.getOrder())
+                .question(surveyQuestionDto.getQuestion())
+                .isMultipleChoice(surveyQuestionDto.isMultipleChoice())
                 .build();
+        surveyQuestion.setSurvey(survey);
+
         //TODO is_multiple_choice 따른 분기 해야함
-        List<SurveyQuestionChoice> surveyQuestionChoices = new ArrayList<>();
-        for (ChoiceDto choiceDto : choices) {
-            SurveyQuestionChoice surveyQuestionChoice = surveyQuestionChoiceService
-                    .createSurveyQuestionChoice(choiceDto, surveyQuestion);
-            surveyQuestionChoices.add(surveyQuestionChoice);
+        if (surveyQuestionDto.isMultipleChoice()) {
+            List<SurveyQuestionChoice> surveyQuestionChoices = new ArrayList<>();
+
+            for (ChoiceDto choiceDto : surveyQuestionDto.getChoices()) {
+                SurveyQuestionChoice surveyQuestionChoice = surveyQuestionChoiceService
+                        .createSurveyQuestionChoice(choiceDto, surveyQuestion);
+                surveyQuestionChoices.add(surveyQuestionChoice);
+            }
+
+            surveyQuestion.setSurveyQuestionChoices(surveyQuestionChoices);
         }
 
-        surveyQuestion.setSurveyQuestionChoices(surveyQuestionChoices);
 
         return surveyQuestionRepository.save(surveyQuestion);
 
