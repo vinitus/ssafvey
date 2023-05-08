@@ -1,9 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
-// import svgr from 'vite-plugin-svgr';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), VitePWA()],
   resolve: {
@@ -12,4 +10,9 @@ export default defineConfig({
       { find: '@', replacement: '/src' },
     ],
   },
+  server: {
+      host: 'http://k8a608.p.ssafy.io',
+      port: 5173
+    }
+
 });
