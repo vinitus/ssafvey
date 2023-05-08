@@ -3,6 +3,7 @@ import style from './CreateSurveyInputAdditionalInfo.module.css';
 import SurveyBox from '../../../UI/Survey/SurveyBox';
 import InputExpirationDate from './InputExpirationDate';
 import InputTarget from './InputTarget';
+import InputTargetAges from './InputTargetAges';
 import InputPeopleNumber from './InputPeopleNumber';
 import InputPoint from './InputPoint';
 import RoundButton from '../../../UI/Button/RoundButton';
@@ -21,6 +22,7 @@ export default function CreateSurveyInputAdditionalInfo() {
         <div role="form">
           <InputExpirationDate />
           <InputTarget />
+          <InputTargetAges />
           <InputPeopleNumber />
           <InputPoint />
         </div>
