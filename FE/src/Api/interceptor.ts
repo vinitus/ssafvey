@@ -1,8 +1,7 @@
 /* eslint-disable no-param-reassign */
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import { useRecoilState } from "recoil";
-import { accessTokenState } from "../Store/Member/atom";
 import { getRefresh } from "./member";
+import { queryClient } from "../main";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: "http://k8a608.p.ssafy.io:8081/api",
@@ -33,7 +32,10 @@ const inter = axiosInstance.interceptors.response.use(
 
       const originRequest = config;
       const token = await getRefresh(localStorage.getItem("refreshToken"))
+
       const accessToken = token?.Authorization
+
+      queryClient.setQueryData(['accessToken'], accessToken)
       // const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
       // setAccessToken(token?.Authorization)
       localStorage.setItem("refreshToken", token?.refreshToken)

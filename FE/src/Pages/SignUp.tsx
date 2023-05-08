@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { accessTokenState } from '../Store/Member/atom';
+// import { accessTokenState } from '../Store/Member/atom';
 import { getJobs, putProfile } from '../Api/member';
 import style from './SignUp.module.css';
+import { queryClient } from '../main';
 
 export default function SignUp() {
   const location = useLocation();
@@ -18,7 +19,8 @@ export default function SignUp() {
     name : string
   }
   const [jobList, setJobList] = useState<Job[]>([]);
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  // const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  
 
   useEffect(() => {
     async function getjoblist() {
@@ -44,6 +46,7 @@ export default function SignUp() {
   };
 
   async function putprofiledata(data : object){
+    const accessToken = queryClient.getQueryData(['accessToken']) as string
     try {
       await putProfile(data, accessToken)
       navigate('/');
@@ -51,6 +54,7 @@ export default function SignUp() {
     catch (err) {
       console.error(err)
     }   
+
   }
 
   const [selectjob, setSelectjob] = useState<string[]>([])

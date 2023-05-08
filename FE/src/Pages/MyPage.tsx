@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+// import { useRecoilState } from 'recoil';
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
-import { accessTokenState } from '../Store/Member/atom';
+// import { accessTokenState } from '../Store/Member/atom';
 import { getMypage, getSurveyResponse, getSurvey } from '../Api/member';
 import styles from './MyPage.module.css';
+import { queryClient } from '../main';
 
 interface survey {
   title: string;
-  author: string;
+  name: string;
 }
 
 interface myinfo {
@@ -21,14 +22,16 @@ interface myinfo {
 }
 
 export default function MyPage() {
-  const activityData: survey[] = [{title : '설문조사1', author : '작성자1'}]; 
+  // const activityData: survey[] = [{title : '설문조사1', author : '작성자1'}]; 
   const couponCnt = 5;
 
-  let info: myinfo;
+  const [info, setInfo] = useState<myinfo>({});
 
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  // const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
   const [send, setSend] = useState(false);
+  const accessToken = queryClient.getQueryData(['accessToken']) as string
+  const [activityData, setActivityData] = useState<survey[]>([]);
 
   useEffect(() => {
     async function getmypageinfo() {
@@ -37,6 +40,16 @@ export default function MyPage() {
         data = await getMypage(accessToken);
         console.log(data)
 
+        setInfo({
+          name : data.name,
+          point : data.point,
+          dosurvey : data.numSurveyParticipated,
+          makesurvey : data.numSurveyCreated,
+          recent : data.recentActivity,
+          coupon : data.couponCount,
+        })
+
+        setActivityData(data.recentActivity)
         // info.name = data.name;
         // info.point = data.point;
         // info.dosurvey = data.dosurvey;
@@ -44,8 +57,6 @@ export default function MyPage() {
         // info.recent = data.recentActivity;
         // info.coupon = data.coupon;
       } catch (err) {
-        data = await getMypage(accessToken)
-        console.log(data)
         console.error(err);
       }
     }
@@ -85,13 +96,15 @@ export default function MyPage() {
           }}
         >
           <article className={styles.nameIconWrapper}>
-            <h1 className={styles.nameDiv}>강신욱님</h1>
+            <h1 className={styles.nameDiv}>
+              {info?.name}님
+            </h1>
             <img src="./icons/settings.svg" alt="settings" />
           </article>
         </button>
       ) : (
         <article className={styles.nameIconWrapper}>
-          <h1 className={styles.nameDiv}>강신욱님</h1>
+          <h1 className={styles.nameDiv}>{info?.name}님</h1>
           <img src="./icons/settings.svg" alt="settings" />
         </article>
       )}
@@ -214,9 +227,9 @@ export default function MyPage() {
 
       <div className={styles.contentWrapper}>
         <article className={styles.cardWrapper}>
-          <MyPageCard tag="포인트" quantity={500} modalOpenFunc={setOpenModalFlag} />
-          <MyPageCard tag="참여설문" quantity={10} modalOpenFunc={setOpenModalFlag} />
-          <MyPageCard tag="제작설문" quantity={2} modalOpenFunc={setOpenModalFlag} />
+          <MyPageCard tag="포인트" quantity={info.point} modalOpenFunc={setOpenModalFlag} />
+          <MyPageCard tag="참여설문" quantity={info.dosurvey} modalOpenFunc={setOpenModalFlag} />
+          <MyPageCard tag="제작설문" quantity={info.makesurvey} modalOpenFunc={setOpenModalFlag} />
         </article>
         <article className={styles.recentDiv}>
           <div className={styles.recentDivImgWrapper}>
@@ -229,7 +242,7 @@ export default function MyPage() {
                 <div className={styles.title}>
                   {activity.title}
                 </div>
-                <div className={styles.author}>{activity.author}</div>
+                <div className={styles.author}>{activity.name}</div>
               </div>
             ))}
           </div>
@@ -237,7 +250,7 @@ export default function MyPage() {
         <button type="button" onClick={() => setOpenModalFlag('쿠폰')}>
           <article className={styles.couponBox}>
             <h3 className={styles.couponText}>보유한 쿠폰</h3>
-            <p className={styles.couponCntDiv}>{couponCnt}</p>
+            <p className={styles.couponCntDiv}>{info.coupon}</p>
           </article>
         </button>
       </div>
