@@ -272,6 +272,25 @@ public class MemberServiceImpl implements MemberService {
         return result;
     }
 
+    public MypageResponseDto getMypage(Long id){
+        Member findMember = memberRepository.findById(id).get();
+
+        return MypageResponseDto.mypageResponseDto(findMember);
+
+    }
+
+    public SurveysResponseDto getSurveyParticipated(Long id){
+        Member findMember = memberRepository.findById(id).get();
+
+        return SurveysResponseDto.getSurveyParticipated(findMember);
+    }
+
+    public SurveysResponseDto getSurveyCreated(Long id){
+        Member findMember = memberRepository.findById(id).get();
+
+        return SurveysResponseDto.getSurveyCreated(findMember);
+    }
+
     public HashMap<String, Object> returnToken(Member member) {
         //  사용자 정보(member)를 기반으로 Access Token을 생성합니다. 사용자 정보를 기반으로 Refresh Token을 생성합니다.
         String Authorization = tokenProvider.createAccessToken(member);

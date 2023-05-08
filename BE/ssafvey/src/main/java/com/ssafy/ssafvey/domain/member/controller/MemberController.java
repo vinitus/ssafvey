@@ -2,10 +2,7 @@ package com.ssafy.ssafvey.domain.member.controller;
 
 
 
-import com.ssafy.ssafvey.domain.member.dto.JobListResponseDto;
-import com.ssafy.ssafvey.domain.member.dto.LoginItem;
-import com.ssafy.ssafvey.domain.member.dto.LoginResponseDto;
-import com.ssafy.ssafvey.domain.member.dto.SignUpRequestDto;
+import com.ssafy.ssafvey.domain.member.dto.*;
 import com.ssafy.ssafvey.domain.member.service.MemberService;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
 import io.swagger.annotations.Api;
@@ -103,6 +100,45 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(result);
+    }
+
+    @ApiOperation(value="마이페이지", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/mypage")
+    public ResponseEntity getMypage(HttpServletRequest request) {
+        MypageResponseDto mypageResponseDto = memberService.getMypage(memberService.getMemberId(request));
+
+        return ResponseEntity.status(HttpStatus.OK).body(mypageResponseDto);
+    }
+
+    @ApiOperation(value="참가한 설문", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/mypage/surveyParticipated")
+    public ResponseEntity getParticipated(HttpServletRequest request) {
+        SurveysResponseDto surveysResponseDto = memberService.getSurveyParticipated(memberService.getMemberId(request));
+
+        return ResponseEntity.status(HttpStatus.OK).body(surveysResponseDto);
+    }
+
+    @ApiOperation(value="작성한 설문", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/mypage/surveyCreated")
+    public ResponseEntity getCreated(HttpServletRequest request) {
+        SurveysResponseDto surveysResponseDto = memberService.getSurveyCreated(memberService.getMemberId(request));
+
+        return ResponseEntity.status(HttpStatus.OK).body(surveysResponseDto);
     }
 
     public HttpHeaders returnTokenHeader(Map<String, Object> result) {
