@@ -1,0 +1,34 @@
+pipeline {
+
+   agent any
+
+   stages{
+    stage('프론트엔드 자동 배포'){
+
+        stages{
+            stage('프론트엔드 이미지 생성'){
+                            steps{
+                                dir('FE')
+                                {
+                                sh "docker build -t react-image ."
+                                }
+                                }
+        }
+            stage('프론트엔드 컨테이너 삭제'){
+                                    steps{
+                                    catchError{
+                                        sh "docker rm --force frontend"
+                                        }
+                                                           }
+                                                       }
+
+                    stage('컨테이너 생성') {
+                      steps {
+                        sh "docker run -d -p 5173:5173 --name frontend react-image"
+                      }
+                    }
+    }
+    }
+    }
+
+    }
