@@ -98,7 +98,7 @@ public class MemberController {
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
         // refreshAccessToken을 조회해서 재생성
         String refreshToken = request.getHeader(JwtFilter.REFRESH_HEADER);
-        Map<String, Object> result = memberService.refreshAccessToken(refreshToken.substring(7));
+        Map<String, Object> result = memberService.refreshAccessToken(refreshToken);
 //        HttpHeaders headers = returnTokenHeader(result);
 
         return ResponseEntity.status(HttpStatus.OK)
