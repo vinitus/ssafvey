@@ -17,8 +17,8 @@ public class SurveysResponseDto {
     public static SurveysResponseDto getSurveyParticipated(Member member){
         List<RecentItem> recentActivity = new ArrayList<>();
 
-        RecentItem item1 = new RecentItem("가오갤은 명작인가","이정범", "2023.05.07");
-        RecentItem item2 = new RecentItem("이유영은 짱짱인가","이유영", "2023-05-06");
+        RecentItem item1 = new RecentItem(1L,"가오갤은 명작인가","이정범", "2023.05.07");
+        RecentItem item2 = new RecentItem(2L,"이유영은 짱짱인가","이유영", "2023-05-06");
 
         recentActivity.add(item1);
         recentActivity.add(item2);
@@ -33,7 +33,7 @@ public class SurveysResponseDto {
     public static SurveysResponseDto getSurveyCreated(Member member){
         List<RecentItem> recentActivity = new ArrayList<>();
 
-        RecentItem item1 = new RecentItem("CA 잘한걸까?","김수빈", "2023-05-05");
+        RecentItem item1 = new RecentItem(3L,"CA 잘한걸까?","김수빈", "2023-05-05");
         recentActivity.add(item1);
 
 

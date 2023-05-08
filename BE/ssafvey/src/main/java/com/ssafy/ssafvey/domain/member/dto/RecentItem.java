@@ -10,6 +10,7 @@ import java.util.Date;
 //@AllArgsConstructor
 @NoArgsConstructor
 public class RecentItem {
+    private Long id;
 
     private String title;
 
@@ -17,7 +18,8 @@ public class RecentItem {
 
     private String endDate;
 
-    public RecentItem(String title, String name,String endDate){
+    public RecentItem(Long id,String title, String name,String endDate){
+        this.id = id;
         this.title = title;
         this.name = name;
         this.endDate=endDate;
