@@ -13,10 +13,12 @@ public class Item {
     @Column(name = "item_id")
     private Long id;
 
+    private String name;
     private int price;
     private int stockQuantity;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private Image image; //이미지
-    }
+
+}
