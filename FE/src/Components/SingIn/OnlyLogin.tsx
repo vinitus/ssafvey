@@ -33,7 +33,7 @@ export default function OnlyLogin() {
         },
       }).then((res) => {
         console.log(res);
-        const accessToken = res.data.token.Authorization;
+        const accessToken = res.data?.token.Authorization;
         const {refreshToken} = res.data.token;
         setAccessToken(accessToken);
         localStorage.setItem('refreshToken', refreshToken);

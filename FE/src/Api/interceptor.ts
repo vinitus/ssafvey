@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import { useRecoilState } from "recoil";
-import { accessTokenState } from '../Store/Member/atom'
+import { useRecoilState } from 'recoil';
+import { accessTokenState } from "../Store/Member/atom";
+import { getRefresh } from "./member";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: "http://k8a608.p.ssafy.io:8081/api",
@@ -10,10 +11,7 @@ const axiosInstance: AxiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // const [accessToken, setAccessToken ] = useRecoilState(accessTokenState)
     // You can modify the request config here
-    // const token = accessToken // 토큰
-    // config.headers.Authorization = `Bearer ${token}`
     return config;
   },
   (error) => {
@@ -21,9 +19,28 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+const resettoken = () => {
+  try {
+    const data = getRefresh(localStorage.getItem("refreshToken"))  
+    return data
+  }
+  catch(err) {
+    console.error(err)
+    return false;
+  }
+}
+
 axiosInstance.interceptors.response.use(
-  (response: AxiosResponse) => {
+  async (response: AxiosResponse) => {
     // You can modify the response here
+    console.log(response.status)
+    if (response.status === 401) {
+      const token = await resettoken()
+
+      const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+      setAccessToken(token?.Authorization)
+      localStorage.setItem("refreshToken", token?.refreshToken)
+    }
     return response;
   },
   (error) => {

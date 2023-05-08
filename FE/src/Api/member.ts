@@ -27,9 +27,9 @@ export function putProfile(data: object, token: string) {
 }
 
 // 엑세스 토큰 재발급
-export function getRefresh(token : string) {
+export function getRefresh(token : string | null) {
   return axiosInstance
-    .get('/member/refresh', { headers : {refreshToken : token}})
+    .get('/refresh', { headers : {refreshToken : token}})
     .then((res) => {
       return res.data;
     })
