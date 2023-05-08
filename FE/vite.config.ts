@@ -11,8 +11,6 @@ export default defineConfig({
     ],
   },
   server: {
-      host: 'http://k8a608.p.ssafy.io',
-      port: 5173
-    }
-
+    host: '0.0.0.0'
+  }
 });
