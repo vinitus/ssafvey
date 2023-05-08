@@ -18,19 +18,14 @@ export default function SignUp() {
     name : string
   }
   const [jobList, setJobList] = useState<Job[]>([]);
-
-  // useEffect(() => {
-  //   numberCheck(age)
-  // }, [age])
-
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
   useEffect(() => {
-    async function getjobs() {
+    async function getjoblist() {
       const list = await getJobs();
       setJobList(list.jobs)
     }
-    getjobs();
+    getjoblist();
   }, []);
 
   const change = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,11 +40,10 @@ export default function SignUp() {
     if (strnum !== '0' && !strnum.includes('.')) {
       strnum = strnum.replace(/^0/, '');
     }
-
     setAge(strnum);
   };
 
-  async function putprofile(data : object){
+  async function putprofiledata(data : object){
     try {
       await putProfile(data, accessToken)
       navigate('/');
@@ -79,8 +73,7 @@ export default function SignUp() {
       age,
       jobs : selectjob
     };
-    console.log(data)
-    putprofile(data)
+    putprofiledata(data)
   }
 
   return (

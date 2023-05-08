@@ -33,15 +33,18 @@ const resettoken = () => {
 axiosInstance.interceptors.response.use(
   async (response: AxiosResponse) => {
     // You can modify the response here
-    console.log(response.status)
+    // console.log(response.status)
     if (response.status === 401) {
       const token = await resettoken()
 
-      const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-      setAccessToken(token?.Authorization)
-      localStorage.setItem("refreshToken", token?.refreshToken)
+      if(token) {
+        const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+        setAccessToken(token?.Authorization)
+        localStorage.setItem("refreshToken", token?.refreshToken)
+        return token
+      }
     }
-    return response;
+    return response
   },
   (error) => {
     return Promise.reject(error);
