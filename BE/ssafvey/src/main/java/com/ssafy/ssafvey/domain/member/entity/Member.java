@@ -57,7 +57,8 @@ public class Member {
     @NotNull
     private Boolean isRegistered;
 
-
+//    @Nullable
+//    private Long point;
 
     @ManyToMany
     @JoinTable(
