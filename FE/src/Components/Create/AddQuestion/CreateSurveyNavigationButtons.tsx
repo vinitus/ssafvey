@@ -19,7 +19,12 @@ export default function CreateSurveyNavigationButtons() {
 
   const [currentNumber, setCurrentNumber] = useRecoilState(currentQuestionNumberState);
   const handlePrevButtonClick = () => {
-    setCurrentNumber(currentNumber - 1);
+    if (currentNumber === START_NO) {
+      navigate('/create/basic');
+    } else {
+      setCurrentNumber(currentNumber - 1);
+      navigate(`/create/${currentNumber - 1}`);
+    }
   };
 
   const setQuestions = useSetRecoilState(questionsState);
@@ -56,16 +61,9 @@ export default function CreateSurveyNavigationButtons() {
 
   return (
     <section className={style.buttons}>
-      {currentNumber === START_NO && (
-        <CircleButton color="green" size="lg" hidden>
-          &lt;
-        </CircleButton>
-      )}
-      {currentNumber !== START_NO && (
-        <CircleButton color="green" size="lg" onClick={handlePrevButtonClick}>
-          &lt;
-        </CircleButton>
-      )}
+      <CircleButton color="green" size="lg" onClick={handlePrevButtonClick}>
+        &lt;
+      </CircleButton>
       <RoundButton color="blue" size="lg" onClick={handleRouteAdditional}>
         추가 정보 입력하기
       </RoundButton>
