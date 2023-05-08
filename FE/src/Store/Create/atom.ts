@@ -74,6 +74,15 @@ export const expirationDateTimeState = atom({
   default: new Date(),
 });
 
+const AGES_SELECTION = ['전체', '10대', '20대', '30대', '40대', '50대', '60대'];
+
+export const agesSelectionState = atom({
+  key: 'agesSelectionState',
+  default: Array.from({ length: 7 }, (_, i) => {
+    return { id: i, name: AGES_SELECTION[i], checked: false };
+  }),
+});
+
 export const requiredPeopleNumberState = atom({
   key: 'requiredPeopleNumberState',
   default: 1,

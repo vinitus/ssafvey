@@ -1,32 +1,34 @@
-import React, { useRef, useEffect } from 'react';
-// import style from './InputTargetAges.module.css';
+import React from 'react';
+import { useRecoilState } from 'recoil';
+import { agesSelectionState } from '../../../Store/Create/atom';
 
 export default function InputTargetAges() {
-  const AGES_SELECTION = ['10대', '20대', '30대', '40대', '50대', '60대'];
+  const [agesSelection, setAgesSelection] = useRecoilState(agesSelectionState);
 
-  useEffect(() => {
-    const inputs = document.querySelector('input');
-  }, []);
+  const handleClickCheckBox = (e: React.MouseEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    const { value } = target;
 
-  // const agesRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   const ages = agesRef.current?.children;
-  //   // console.log(ages);
-  //   for (const age of ages) {
-  //     console.log(age.innerText);
-  //   }
-  // }, []);
+    setAgesSelection((prev) => {
+      const newAgesSelection = prev.map((age, idx) => {
+        if (idx === Number(value)) {
+          return { ...age, checked: !age.checked };
+        }
+        return age;
+      });
+      return newAgesSelection;
+    });
+  };
 
   return (
     <fieldset>
       <legend className="titleFont">설문 대상</legend>
-      <div id="targets" className="flex flex-wrap gap-5">
-        {AGES_SELECTION.map((age, idx) => (
-          <label htmlFor={age} key={age} className="inline-block p-5 bg-slate-300 h-34 rounded-10">
+      <div id="targetAges" className="flex flex-wrap gap-5">
+        {agesSelection.map((age, idx) => (
+          <label htmlFor={age.name} key={age.id} className="inline-block p-5 bg-slate-300 h-34 rounded-10">
             <span className="inline-flex gap-5">
-              <input type="checkbox" id={age} value={idx + 1} />
-              <span>{age}</span>
+              <input type="checkbox" id={age.name} value={idx} onClick={handleClickCheckBox} />
+              <span>{age.name}</span>
             </span>
           </label>
         ))}
