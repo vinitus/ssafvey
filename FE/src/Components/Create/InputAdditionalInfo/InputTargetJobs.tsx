@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function InputTarget() {
+export default function InputTargetJobs() {
   const targets = ['무관', '교육생', '컨설턴트', '프로', '코치', '기타'];
 
   return (
