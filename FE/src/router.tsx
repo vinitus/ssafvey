@@ -11,12 +11,12 @@ import ImportExcel from './Components/Create/ImportExcel';
 import CreateSurveyInput1 from './Components/Create/CreateSurveyInput1';
 import CreateSurveyQuestion from './Components/Create/AddQuestion/CreateSurveyQuestion';
 import MyPage from './Pages/MyPage';
-import Survey from './Pages/Survey';
-import SurveyCover from './Components/Survey/SurveyCover';
+import Survey, { loader as surveyCoverLoader } from './Pages/Survey';
+import SurveyCover from './Components/Survey/SurveyIndexComponent';
 import SurveyQuestion from './Components/Survey/SurveyQuestion';
 import SignUp from './Pages/SignUp';
 import SignIn from './Pages/SignIn';
-import OnlyLogin from './Components/SingIn/OnlyLogin'
+import OnlyLogin from './Components/SingIn/OnlyLogin';
 import CreateSurveyInputAdditionalInfo from './Components/Create/InputAdditionalInfo/CreateSurveyInputAdditionalInfo';
 
 const router = createBrowserRouter([
@@ -42,6 +42,7 @@ const router = createBrowserRouter([
       {
         path: 'survey/:id',
         element: <Survey />,
+        loader: surveyCoverLoader,
         children: [
           { element: <SurveyCover />, index: true },
           { path: ':questionId', element: <SurveyQuestion /> },
@@ -57,8 +58,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'onlylogin',
-        element :<OnlyLogin />
-      }
+        element: <OnlyLogin />,
+      },
     ],
   },
 ]);
