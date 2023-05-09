@@ -102,7 +102,7 @@ public class TokenProvider implements InitializingBean {
    }
    //  Member 객체를 전달하고, 인자로 1을 전달하여 만료 시간을 1배로 설정한 후, 생성된 JWT Access Token을 반환하는 메소드
    public String createAccessToken(Member member) {
-      return createToken(member, 1);
+      return createToken(member, 15);
    }
    // refresh token을 생성하는 역할 createToken 메소드를 호출하여 member 정보와 14일 간의 유효기간을 가진 토큰을 생성
    public String createRefreshToken(Member member) {
