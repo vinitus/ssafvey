@@ -74,11 +74,20 @@ export const expirationDateTimeState = atom({
   default: new Date(),
 });
 
+const JOBS_SELECTION = ['무관', '교육생', '컨설턴트', '프로', '코치', '기타'];
+
+export const jobsSelectionState = atom({
+  key: 'jobsSelectionState',
+  default: Array.from({ length: JOBS_SELECTION.length }, (_, i) => {
+    return { id: i, name: JOBS_SELECTION[i], checked: false };
+  }),
+});
+
 const AGES_SELECTION = ['전체', '10대', '20대', '30대', '40대', '50대', '60대'];
 
 export const agesSelectionState = atom({
   key: 'agesSelectionState',
-  default: Array.from({ length: 7 }, (_, i) => {
+  default: Array.from({ length: AGES_SELECTION.length }, (_, i) => {
     return { id: i, name: AGES_SELECTION[i], checked: false };
   }),
 });
