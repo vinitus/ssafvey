@@ -1,9 +1,9 @@
-export interface surveyData {
+export interface SurveyCoverData {
   isDone: boolean;
   title: string;
   description: string;
   creator: string;
-  endData: string;
+  endDate: string;
   targetSurveyParticipants: number;
   lotto: number;
 }
