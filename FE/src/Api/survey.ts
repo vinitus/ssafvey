@@ -20,7 +20,7 @@ export function postRegis(data: FormData, token: string) {
 /** @param id 설문조사 id
  * @returns isDone, title, description, creator, endData, targetSurveyParticipants, lotto
  */
-export function getStart<surveyData>(id: number) {
+export function getStart(id: number): Promise<surveyData> | Promise<Error> {
   return axiosInstance
     .get(`/survey/start/${id}`)
     .then((res) => {
@@ -35,7 +35,7 @@ export function getStart<surveyData>(id: number) {
 /** @param id 설문조사 id
  * @returns isDone, title, description, creator, endData, targetSurveyParticipants, lotto
  */
-export function getStart2<surveyData>(id: number) {
+export function getStart2(id: number): Promise<surveyData> | Promise<Error> {
   return axios
     .get(`https://f39cb0c6-0702-41ce-9de2-8704b59c51e8.mock.pstmn.io/survey/start/${id}`)
     .then((res) => {
