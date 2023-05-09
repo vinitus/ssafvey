@@ -1,14 +1,9 @@
 spring:
-  spring:
-    sql:
-      init:
-        mode=always
   datasource:
     url: jdbc:mysql://k8a608.p.ssafy.io:3306/ssafveydb?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
@@ -27,6 +22,9 @@ spring:
     multipart:
       max-request-size: 30MB
       max-file-size: 30MB
+  sql:
+    init:
+      mode: always
 
 logging.level:
   org.hibernate.SQL: error
