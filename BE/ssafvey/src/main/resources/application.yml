@@ -2,7 +2,7 @@ spring:
   spring:
     sql:
       init:
-        mode=always:
+        mode=always
   datasource:
     url: jdbc:mysql://k8a608.p.ssafy.io:3306/ssafveydb?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: root
