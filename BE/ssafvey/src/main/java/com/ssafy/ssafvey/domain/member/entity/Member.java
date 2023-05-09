@@ -27,12 +27,13 @@ public class Member {
     @Column(nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
     private String name;
 
+    @Nullable
     private int age;
 
     @Nullable
     private String password;
 
-    @NotNull
+    @Nullable
     private String email;
 
     @Nullable
