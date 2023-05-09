@@ -40,10 +40,9 @@ export default function MyPage() {
 
   useEffect(() => {
     async function getmypageinfo() {
-      let data;
       try {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        data = await getMypage(accessToken);
+        const data = await getMypage(accessToken);
         console.log('data 1:', data);
 
         setInfo({
