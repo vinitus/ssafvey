@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,11 +28,9 @@ public class Survey {
 
     private String title;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    private LocalDateTime createDate;
 
-    @Temporal(TemporalType.DATE)
-    private Date endDate;
+    private LocalDateTime endDate;
 
     private int targetSurveyParticipants;
 
@@ -42,7 +41,7 @@ public class Survey {
 
     private String description;
 
-    private String surveyOrganization;
+    private String organization;
 
     private boolean isDone;
 
@@ -76,5 +75,10 @@ public class Survey {
     @JsonIgnore
     private List<MemberSurvey> memberSurveys = new ArrayList<>();
 
+
+    @PrePersist
+    public void setCreatedAt() {
+        this.createDate = LocalDateTime.now();
+    }
 
 }

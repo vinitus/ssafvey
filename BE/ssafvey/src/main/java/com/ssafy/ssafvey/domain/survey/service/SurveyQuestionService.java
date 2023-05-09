@@ -24,15 +24,14 @@ public class SurveyQuestionService {
     }
 
     public SurveyQuestion createSurveyQuestion(SurveyQuestionDto surveyQuestionDto, Survey survey) {
+
         SurveyQuestion surveyQuestion = SurveyQuestion.builder()
                 .orderNum(surveyQuestionDto.getOrder())
                 .question(surveyQuestionDto.getQuestion())
-                .isMultipleChoice(surveyQuestionDto.isMultipleChoice())
+                .isMultipleChoice(surveyQuestionDto.getIsMultipleChoice())
                 .build();
         surveyQuestion.setSurvey(survey);
-
-        //TODO is_multiple_choice 따른 분기 해야함
-        if (surveyQuestionDto.isMultipleChoice()) {
+        if (surveyQuestionDto.getIsMultipleChoice()) {
             List<SurveyQuestionChoice> surveyQuestionChoices = new ArrayList<>();
 
             for (ChoiceDto choiceDto : surveyQuestionDto.getChoices()) {
@@ -43,7 +42,6 @@ public class SurveyQuestionService {
 
             surveyQuestion.setSurveyQuestionChoices(surveyQuestionChoices);
         }
-
 
         return surveyQuestionRepository.save(surveyQuestion);
 

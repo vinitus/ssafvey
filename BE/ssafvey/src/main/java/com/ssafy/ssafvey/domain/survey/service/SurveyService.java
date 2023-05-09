@@ -1,6 +1,7 @@
 package com.ssafy.ssafvey.domain.survey.service;
 
 import com.ssafy.ssafvey.domain.member.entity.Job;
+import com.ssafy.ssafvey.domain.survey.dto.StartSurveyDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.SurveyDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.SurveyQuestionDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.TargetAgeDto;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SurveyService {
@@ -48,6 +50,7 @@ public class SurveyService {
         List<SurveyTargetJob> surveyTargetJobs = new ArrayList<>();
 
         List<Job> jobs = jobRepository.findAllById(targetJobIds);
+        System.out.println(jobs);
         for (Job job : jobs) {
             SurveyTargetJob surveyTargetJob = SurveyTargetJob.builder()
                     .survey(survey)
@@ -70,10 +73,14 @@ public class SurveyService {
     @Transactional
     public Survey createSurvey(SurveyDto surveyDto) {
         //TODO member_survey 도 만들어야함
+        System.out.println(surveyDto.getEndDate());
         Survey survey = Survey.builder()
                 .title(surveyDto.getTitle())
                 .targetSurveyParticipants(surveyDto.getTargetSurveyParticipants())
                 .targetGender(surveyDto.getTargetGender())
+                .endDate(surveyDto.getEndDate())
+                .organization(surveyDto.getOrganization())
+                .description(surveyDto.getDescription())
                 .build();
         List<SurveyTargetJob> surveyTargetJobs = createSurveyTargetJobs(surveyDto.getTargetJob(), survey);
         List<SurveyTargetAge> surveyTargetAges = createSurveyTargetAgeList(surveyDto.getTargetAge(), survey);
@@ -92,4 +99,23 @@ public class SurveyService {
         return surveyRepository.save(survey);
     }
 
+    public StartSurveyDto getStartSurveyById(Long surveyId) {
+        Optional<Survey> optionalSurvey = surveyRepository.findById(surveyId);
+        if (optionalSurvey.isPresent()) {
+            Survey survey = optionalSurvey.get();
+            return StartSurveyDto.builder()
+                    .title(survey.getTitle())
+                    .isDone(survey.isDone())
+                    .description(survey.getDescription())
+                    .organization(survey.getOrganization())
+                    .endDate(survey.getEndDate())
+                    .targetSurveyParticipants(survey.getTargetSurveyParticipants())
+                    .build();
+        }
+        else {
+            StartSurveyDto surveyDto = StartSurveyDto.builder().build();
+            return surveyDto;
+        }
+
+    }
 }

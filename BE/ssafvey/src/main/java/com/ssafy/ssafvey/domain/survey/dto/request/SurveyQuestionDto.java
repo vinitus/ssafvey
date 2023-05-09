@@ -13,8 +13,7 @@ public class SurveyQuestionDto {
     private int order;
     private String question;
 
-    @JsonProperty("isMultipleChoice")
-    private boolean isMultipleChoice;
+    private Boolean isMultipleChoice;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ChoiceDto> choices;
