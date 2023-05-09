@@ -90,7 +90,7 @@ export default function MyPage() {
   async function logout() {
     try {
       const accessToken = queryClient.getQueryData(['accessToken']) as string;
-      const data = await getLogout(accessToken);
+      await getLogout(accessToken);
       localStorage.setItem('refreshToken', '');
       queryClient.setQueryData(['accessToken'], null)
       navigate('/')
