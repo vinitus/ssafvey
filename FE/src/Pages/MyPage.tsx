@@ -34,14 +34,15 @@ export default function MyPage() {
   });
 
   const [dosurvey, setDosurvey] = useState<SurveyHistoryObj>({});
+  const [makesurvey, setMakesurvey] = useState<SurveyHistoryObj>({});
 
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
   const [send, setSend] = useState(false);
   const [activityData, setActivityData] = useState<survey[]>([]);
 
   useEffect(() => {
-    console.log(dosurvey)
-  }, [dosurvey])
+    // 
+  }, [dosurvey, makesurvey])
 
   useEffect(() => {
     async function getmypageinfo() {
@@ -84,6 +85,7 @@ export default function MyPage() {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurvey(accessToken);
         console.log('data3 : ', data);
+        setMakesurvey(data)
       } catch (err) {
         console.log(err);
       }
@@ -137,7 +139,22 @@ export default function MyPage() {
         </article>
       )}
 
-      {typeof openModalFlag === 'string' && (openModalFlag === '응답한' || openModalFlag === '제작한') && (
+      {typeof openModalFlag === 'string' && (openModalFlag === '제작한') && (
+        <MyPageCover
+          closemodal={() => {
+            setOpenModalFlag(false);
+          }}
+          sending={send}
+          contentType="설문"
+          content={{
+            quantity: info.makesurvey,
+            infoType: openModalFlag,
+            renderingData: makesurvey,
+          }}
+        />
+      )}
+
+      {typeof openModalFlag === 'string' && (openModalFlag === '응답한') && (
         <MyPageCover
           closemodal={() => {
             setOpenModalFlag(false);
