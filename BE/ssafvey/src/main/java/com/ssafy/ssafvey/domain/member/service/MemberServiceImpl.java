@@ -279,13 +279,13 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public SurveysResponseDto getSurveyParticipated(Long id){
+    public Map<String, List<RecentItem>> getSurveyParticipated(Long id){
         Member findMember = memberRepository.findById(id).get();
 
         return SurveysResponseDto.getSurveyParticipated(findMember);
     }
 
-    public SurveysResponseDto getSurveyCreated(Long id){
+    public Map<String, List<RecentItem>> getSurveyCreated(Long id){
         Member findMember = memberRepository.findById(id).get();
 
         return SurveysResponseDto.getSurveyCreated(findMember);
