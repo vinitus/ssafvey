@@ -1,25 +1,26 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import SurveyHeader from '../Components/Survey/SurveyHeader';
-
-const surveyState = {
-  title: 'Survey Title',
-  desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam iure molestias reprehenderit omnis
-  quod ipsa inventore quisquam iusto sunt unde? Voluptatibus labore quas a hic quibusdam molestiae
-  molestias laudantium sit.`,
-  creator: 'SSAFY',
-  dueDate: '2023.04.10 ~ 2023.04.13',
-  headCount: '100명',
-  point: '200',
-};
+import { getStart2 } from '../Api/survey';
+import { SurveyCoverData } from '../types/surveyType';
 
 export default function Survey() {
+  const surveyCoverResData = useLoaderData() as SurveyCoverData;
   return (
     <article className="text-white">
-      <SurveyHeader title={surveyState.title} creator={surveyState.creator} dueDate={surveyState.dueDate} />
+      <SurveyHeader
+        title={surveyCoverResData.title}
+        creator={surveyCoverResData.creator}
+        dueDate={surveyCoverResData.endDate}
+      />
       <main>
-        <Outlet /> {/* 여기에 SurveyCover, SurveyQuestion가 들어감 */}
+        <Outlet context={{ surveyCoverResData }} /> {/* 여기에 SurveyCover, SurveyQuestion가 들어감 */}
       </main>
     </article>
   );
+}
+
+export async function loader() {
+  const data = await getStart2(1);
+  return data;
 }
