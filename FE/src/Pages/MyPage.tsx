@@ -5,6 +5,7 @@ import MyPageCover from '../Components/MyPage/MyPageCover';
 import { getMypage, getSurveyResponse, getSurvey, getLogout } from '../Api/member';
 import styles from './MyPage.module.css';
 import { queryClient } from '../main';
+import { SurveyHistoryObj } from "../types/myPageType"
 
 interface survey {
   title: string;
@@ -32,11 +33,16 @@ export default function MyPage() {
     coupon: 0,
   });
 
-  const [dosurvey, setDosurvey] = useState();
+  const [dosurvey, setDosurvey] = useState<SurveyHistoryObj>({});
+  const [makesurvey, setMakesurvey] = useState<SurveyHistoryObj>({});
 
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
   const [send, setSend] = useState(false);
   const [activityData, setActivityData] = useState<survey[]>([]);
+
+  useEffect(() => {
+    // 
+  }, [dosurvey, makesurvey])
 
   useEffect(() => {
     async function getmypageinfo() {
@@ -67,6 +73,7 @@ export default function MyPage() {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurveyResponse(accessToken);
         console.log('data 2 : ', data);
+        setDosurvey(data)
         getmakesurveylist();
       } catch (err) {
         console.log(err);
@@ -78,6 +85,7 @@ export default function MyPage() {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurvey(accessToken);
         console.log('data3 : ', data);
+        setMakesurvey(data)
       } catch (err) {
         console.log(err);
       }
@@ -131,7 +139,7 @@ export default function MyPage() {
         </article>
       )}
 
-      {typeof openModalFlag === 'string' && (openModalFlag === '응답한' || openModalFlag === '제작한') && (
+      {typeof openModalFlag === 'string' && (openModalFlag === '제작한') && (
         <MyPageCover
           closemodal={() => {
             setOpenModalFlag(false);
@@ -139,50 +147,24 @@ export default function MyPage() {
           sending={send}
           contentType="설문"
           content={{
-            quantity: 10,
+            quantity: info.makesurvey,
             infoType: openModalFlag,
-            renderingData: [
-              {
-                day: '2023.04.12',
-                history: [
-                  {
-                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    author: 'SSAFY',
-                  },
-                ],
-              },
-              {
-                day: '2023.04.10',
-                history: [
-                  {
-                    title: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-                    author: '강신욱',
-                  },
-                  {
-                    title:
-                      'when an unknown printer took a galley of type and scrambled it to make a type specimen book',
-                    author: 'vinitus',
-                  },
-                  {
-                    title: 'It has survived not only five centuries',
-                    author: 'benkim07',
-                  },
-                ],
-              },
-              {
-                day: '2023.04.07',
-                history: [
-                  {
-                    title: 'Why do we use it?',
-                    author: '뭘봐',
-                  },
-                  {
-                    title: 'Where can I get some?',
-                    author: '팍시',
-                  },
-                ],
-              },
-            ],
+            renderingData: makesurvey,
+          }}
+        />
+      )}
+
+      {typeof openModalFlag === 'string' && (openModalFlag === '응답한') && (
+        <MyPageCover
+          closemodal={() => {
+            setOpenModalFlag(false);
+          }}
+          sending={send}
+          contentType="설문"
+          content={{
+            quantity: info.dosurvey,
+            infoType: openModalFlag,
+            renderingData: dosurvey,
           }}
         />
       )}
