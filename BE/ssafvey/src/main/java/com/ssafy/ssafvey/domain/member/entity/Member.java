@@ -24,7 +24,7 @@ public class Member {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
     private String name;
 
     private int age;
@@ -40,9 +40,11 @@ public class Member {
     private GenderType genderType;
 
     @OneToMany(mappedBy = "member")
+    @ToString.Exclude
     private List<MemberJob> memberJobs = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @ToString.Exclude
     private List<MemberSurvey> memberSurveys = new ArrayList<>();
 
     @Nullable
@@ -70,5 +72,6 @@ public class Member {
             name = "user_authority_join",
             joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    @ToString.Exclude
     private Set<Authority> authorities;
 }

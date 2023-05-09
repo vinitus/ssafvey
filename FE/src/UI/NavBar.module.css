@@ -1,0 +1,19 @@
+.navbar {
+  @apply bottom-0 fixed w-full bg-headerFooter/90 backdrop-blur-[2px];
+}
+
+.navbarWrapper {
+  @apply flex flex-row justify-evenly items-center h-64;
+}
+
+.navbarIconWrapper {
+  @apply flex flex-col items-center w-[20%];
+}
+
+.navbarImg {
+  @apply w-24 h-24;
+}
+
+.navbarDiv {
+  @apply text-12;
+}
