@@ -1,23 +1,33 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
-import { jobsSelectionState } from '../../../Store/Create/atom';
+import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { selectedJobsState, jobOptionsSelector } from '@/Store/Create/atom';
 
 export default function InputTargetJobs() {
-  const [jobsSelection, setJobsSelection] = useRecoilState(jobsSelectionState);
-  console.log(jobsSelection);
+  const jobOptions = useRecoilValue(jobOptionsSelector);
+
+  const [selectedJobs, setSelectedJobs] = useRecoilState(selectedJobsState);
+
+  useEffect(() => {
+    const newSelectedJobs = jobOptions.map((option) => {
+      return { ...option, checked: false };
+    });
+
+    setSelectedJobs(newSelectedJobs);
+  }, []);
 
   const handleClickCheckBox = (e: React.MouseEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
 
-    setJobsSelection((prev) => {
-      const newJobsSelection = prev.map((job) => {
+    setSelectedJobs((prev) => {
+      const newSelectedJobs = prev.map((job) => {
         if (job.name === value) {
           return { ...job, checked: !job.checked };
         }
         return job;
       });
-      return newJobsSelection;
+
+      return newSelectedJobs;
     });
   };
 
@@ -25,7 +35,7 @@ export default function InputTargetJobs() {
     <fieldset>
       <legend className="titleFont">대상 직업</legend>
       <div className="flex flex-wrap gap-5">
-        {jobsSelection.map((job) => (
+        {selectedJobs.map((job) => (
           <label htmlFor={job.name} key={job.id} className="inline-block p-5 bg-slate-300 h-34 rounded-10">
             <span className="inline-flex gap-5">
               <input type="checkbox" id={job.name} value={job.name} onClick={handleClickCheckBox} />
