@@ -77,7 +77,7 @@ export function getMypage(token : string) {
 // 응답한 설문 리스트
 export function getSurveyResponse( token : string) {
   return axiosInstance
-    .get(`${baseURL}/mypage/surveyResponse`, { headers: { Authorization: `Bearer ${token}` } })
+    .get(`${baseURL}/mypage/surveyParticipated`, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
     })
@@ -89,7 +89,7 @@ export function getSurveyResponse( token : string) {
 // 만든 설문 리스트
 export function getSurvey( token : string) {
   return axiosInstance
-    .get(`${baseURL}/mypage/survey`, { headers: { Authorization: `Bearer ${token}` } })
+    .get(`${baseURL}/mypage/surveyCreated`, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => {
       return res.data;
     })

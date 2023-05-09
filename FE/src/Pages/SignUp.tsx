@@ -2,8 +2,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-// import { accessTokenState } from '../Store/Member/atom';
 import { getJobs, putProfile } from '../Api/member';
 import style from './SignUp.module.css';
 import { queryClient } from '../main';
@@ -19,8 +17,6 @@ export default function SignUp() {
     name : string
   }
   const [jobList, setJobList] = useState<Job[]>([]);
-  // const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  
 
   useEffect(() => {
     async function getjoblist() {
