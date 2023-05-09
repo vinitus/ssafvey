@@ -7,7 +7,7 @@
 }
 
 .nameIconWrapper {
-  @apply flex flex-row mx-24 justify-between;
+  @apply flex flex-row mx-24 justify-between relative;
 }
 
 .nameDiv {
@@ -56,4 +56,21 @@
 
 .couponCntDiv {
   @apply bg-[#F8FDFF] drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)] rounded-50 w-45 h-30 mr-16 flex justify-center items-center text-[#124678];
+}
+
+.hoverbtn {
+  display: none;
+  @apply absolute right-0 top-60 z-10;
+}
+
+.hoverbtn button {
+  @apply w-full h-30 bg-white border-[2px];
+}
+
+.nameIconWrapper img:hover ~ .hoverbtn {
+  display: unset;
+}
+
+.hoverbtn:hover {
+  display: unset;
 }

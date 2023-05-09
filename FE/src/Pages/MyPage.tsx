@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
-import { getMypage, getSurveyResponse, getSurvey } from '../Api/member';
+import { getMypage, getSurveyResponse, getSurvey, getLogout } from '../Api/member';
 import styles from './MyPage.module.css';
 import { queryClient } from '../main';
 
@@ -20,16 +21,18 @@ interface myinfo {
 }
 
 export default function MyPage() {
+  const navigate = useNavigate();
+
   const [info, setInfo] = useState<myinfo>({
     name: '',
-    point : 0,
-    dosurvey : 0,
-    makesurvey : 0,
-    recent : [],
-    coupon : 0
+    point: 0,
+    dosurvey: 0,
+    makesurvey: 0,
+    recent: [],
+    coupon: 0,
   });
 
-  const [dosurvey, setDosurvey] = useState()
+  const [dosurvey, setDosurvey] = useState();
 
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
   const [send, setSend] = useState(false);
@@ -39,22 +42,22 @@ export default function MyPage() {
     async function getmypageinfo() {
       let data;
       try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string
+        const accessToken = queryClient.getQueryData(['accessToken']) as string;
         data = await getMypage(accessToken);
-        console.log("data 1:", data)
+        console.log('data 1:', data);
 
         setInfo({
-          name : data.name,
-          point : data.point,
-          dosurvey : data.numSurveyParticipated,
-          makesurvey : data.numSurveyCreated,
-          recent : data.recentActivity,
-          coupon : data.couponCount,
-        })
+          name: data.name,
+          point: data.point,
+          dosurvey: data.numSurveyParticipated,
+          makesurvey: data.numSurveyCreated,
+          recent: data.recentActivity,
+          coupon: data.couponCount,
+        });
 
-        setActivityData(data.recentActivity)
+        setActivityData(data.recentActivity);
 
-        getdosurveylist()
+        getdosurveylist();
       } catch (err) {
         console.error(err);
       }
@@ -62,10 +65,10 @@ export default function MyPage() {
 
     async function getdosurveylist() {
       try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string
+        const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurveyResponse(accessToken);
-        console.log("data 2 : ",data)
-        getmakesurveylist()
+        console.log('data 2 : ', data);
+        getmakesurveylist();
       } catch (err) {
         console.log(err);
       }
@@ -73,9 +76,9 @@ export default function MyPage() {
 
     async function getmakesurveylist() {
       try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string
+        const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurvey(accessToken);
-        console.log("data3 : ", data)
+        console.log('data3 : ', data);
       } catch (err) {
         console.log(err);
       }
@@ -83,6 +86,18 @@ export default function MyPage() {
 
     getmypageinfo();
   }, []);
+
+  async function logout() {
+    try {
+      const accessToken = queryClient.getQueryData(['accessToken']) as string;
+      const data = await getLogout(accessToken);
+      localStorage.setItem('refreshToken', '');
+      queryClient.setQueryData(['accessToken'], null)
+      navigate('/')
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <section className={styles.MyPageWrapper}>
@@ -98,9 +113,7 @@ export default function MyPage() {
           }}
         >
           <article className={styles.nameIconWrapper}>
-            <h1 className={styles.nameDiv}>
-              {info?.name}님
-            </h1>
+            <h1 className={styles.nameDiv}>{info?.name}님</h1>
             <img src="./icons/settings.svg" alt="settings" />
           </article>
         </button>
@@ -108,6 +121,14 @@ export default function MyPage() {
         <article className={styles.nameIconWrapper}>
           <h1 className={styles.nameDiv}>{info?.name}님</h1>
           <img src="./icons/settings.svg" alt="settings" />
+          <div className={styles.hoverbtn}>
+            <button type="button" className={styles.logout} onClick={logout}>
+              로그아웃
+            </button>
+            <button type="button" className={styles.modify}>
+              회원정보수정
+            </button>
+          </div>
         </article>
       )}
 
@@ -240,10 +261,8 @@ export default function MyPage() {
           </div>
           <div className={styles.recentActivityWrapper}>
             {activityData?.map((activity) => (
-              <div key={activity.title} className={styles.recentActivityBg} >
-                <div className={styles.title}>
-                  {activity.title}
-                </div>
+              <div key={activity.title} className={styles.recentActivityBg}>
+                <div className={styles.title}>{activity.title}</div>
                 <div className={styles.author}>{activity.name}</div>
               </div>
             ))}
