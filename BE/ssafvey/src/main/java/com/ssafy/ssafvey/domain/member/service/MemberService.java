@@ -4,6 +4,8 @@ package com.ssafy.ssafvey.domain.member.service;
 import com.ssafy.ssafvey.domain.member.dto.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public interface MemberService {
@@ -20,7 +22,7 @@ public interface MemberService {
 
     JobListResponseDto getJobs();
 
-    SurveysResponseDto getSurveyParticipated(Long id);
+    Map<String, List<RecentItem>> getSurveyParticipated(Long id);
 
-    SurveysResponseDto getSurveyCreated(Long id);
+    Map<String, List<RecentItem>> getSurveyCreated(Long id);
 }
