@@ -52,7 +52,7 @@ public class SurveysResponseDto {
 
     public static Map<String, List<RecentItem>> getSurveyCreated(Member member){
         List<RecentItem> recentActivity = new ArrayList<>();
-
+        // member에서 membersurvey 가져오기 for문 돌려서 recentItem에 넣기 service에서 해야할듯?
         RecentItem item1 = new RecentItem(3L,"CA 잘한걸까?","김수빈", "2023.05.05");
         RecentItem item2 = new RecentItem(5L,"오늘의 명언 추천점","김수빈", "2023.05.05");
         RecentItem item3 = new RecentItem(6L,"우리 발표 누가할지 설문좀","김수빈", "2023.05.04");
