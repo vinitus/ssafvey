@@ -1,15 +1,22 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
-import { jobsSelectionState } from '../../../Store/Create/atom';
+import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { jobsSelectionState, jobsSelectionStateQuery } from '@/Store/Create/atom';
 
 export default function InputTargetJobs() {
   const [jobsSelection, setJobsSelection] = useRecoilState(jobsSelectionState);
-  console.log(jobsSelection);
+
+  const JOB_SELECTIONS = useRecoilValue(jobsSelectionStateQuery);
+
+  useEffect(() => {
+    const newJobSelection = JOB_SELECTIONS.map((selection) => {
+      return { ...selection, checked: false };
+    });
+    setJobsSelection(newJobSelection);
+  }, []);
 
   const handleClickCheckBox = (e: React.MouseEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
-
     setJobsSelection((prev) => {
       const newJobsSelection = prev.map((job) => {
         if (job.name === value) {

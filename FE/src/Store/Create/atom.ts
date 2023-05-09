@@ -1,4 +1,5 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
+import { getJobs } from '@/Api/member';
 
 export const SurveyTitleState = atom({
   key: 'SurveyTitleState',
@@ -74,13 +75,26 @@ export const expirationDateTimeState = atom({
   default: new Date(),
 });
 
-const JOBS_SELECTION = ['무관', '교육생', '컨설턴트', '프로', '코치', '기타'];
+interface Job {
+  id: number;
+  name: string;
+}
 
-export const jobsSelectionState = atom({
+export const jobsSelectionStateQuery = selector<Job[]>({
+  key: 'jobsSelectionStateQuery/get',
+  get: async () => {
+    const { jobs } = await getJobs();
+    return jobs;
+  },
+});
+
+interface checkedJobs extends Job {
+  checked: boolean;
+}
+
+export const jobsSelectionState = atom<checkedJobs[]>({
   key: 'jobsSelectionState',
-  default: Array.from({ length: JOBS_SELECTION.length }, (_, i) => {
-    return { id: i, name: JOBS_SELECTION[i], checked: false };
-  }),
+  default: [],
 });
 
 const AGES_SELECTION = ['전체', '10대', '20대', '30대', '40대', '50대', '60대'];

@@ -4,11 +4,10 @@ import { agesSelectionState } from '../../../Store/Create/atom';
 
 export default function InputTargetAges() {
   const [agesSelection, setAgesSelection] = useRecoilState(agesSelectionState);
-  console.log(agesSelection);
+
   const handleClickCheckBox = (e: React.MouseEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
-
     setAgesSelection((prev) => {
       const newAgesSelection = prev.map((age) => {
         if (age.name === value) {
