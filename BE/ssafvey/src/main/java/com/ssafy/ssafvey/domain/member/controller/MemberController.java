@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -123,7 +125,7 @@ public class MemberController {
     })
     @GetMapping("/api/member/mypage/surveyParticipated")
     public ResponseEntity getParticipated(HttpServletRequest request) {
-        SurveysResponseDto surveysResponseDto = memberService.getSurveyParticipated(memberService.getMemberId(request));
+        Map<String, List<RecentItem>> surveysResponseDto = memberService.getSurveyParticipated(memberService.getMemberId(request));
 
         return ResponseEntity.status(HttpStatus.OK).body(surveysResponseDto);
     }
@@ -136,7 +138,7 @@ public class MemberController {
     })
     @GetMapping("/api/member/mypage/surveyCreated")
     public ResponseEntity getCreated(HttpServletRequest request) {
-        SurveysResponseDto surveysResponseDto = memberService.getSurveyCreated(memberService.getMemberId(request));
+        Map<String, List<RecentItem>> surveysResponseDto = memberService.getSurveyCreated(memberService.getMemberId(request));
 
         return ResponseEntity.status(HttpStatus.OK).body(surveysResponseDto);
     }
