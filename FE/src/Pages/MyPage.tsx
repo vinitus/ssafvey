@@ -5,6 +5,7 @@ import MyPageCover from '../Components/MyPage/MyPageCover';
 import { getMypage, getSurveyResponse, getSurvey, getLogout } from '../Api/member';
 import styles from './MyPage.module.css';
 import { queryClient } from '../main';
+import { SurveyHistoryObj } from "../types/myPageType"
 
 interface survey {
   title: string;
@@ -32,11 +33,15 @@ export default function MyPage() {
     coupon: 0,
   });
 
-  const [dosurvey, setDosurvey] = useState();
+  const [dosurvey, setDosurvey] = useState<SurveyHistoryObj>({});
 
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
   const [send, setSend] = useState(false);
   const [activityData, setActivityData] = useState<survey[]>([]);
+
+  useEffect(() => {
+    console.log(dosurvey)
+  }, [dosurvey])
 
   useEffect(() => {
     async function getmypageinfo() {
@@ -67,6 +72,7 @@ export default function MyPage() {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurveyResponse(accessToken);
         console.log('data 2 : ', data);
+        setDosurvey(data)
         getmakesurveylist();
       } catch (err) {
         console.log(err);
@@ -139,50 +145,9 @@ export default function MyPage() {
           sending={send}
           contentType="설문"
           content={{
-            quantity: 10,
+            quantity: info.dosurvey,
             infoType: openModalFlag,
-            renderingData: [
-              {
-                day: '2023.04.12',
-                history: [
-                  {
-                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    author: 'SSAFY',
-                  },
-                ],
-              },
-              {
-                day: '2023.04.10',
-                history: [
-                  {
-                    title: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-                    author: '강신욱',
-                  },
-                  {
-                    title:
-                      'when an unknown printer took a galley of type and scrambled it to make a type specimen book',
-                    author: 'vinitus',
-                  },
-                  {
-                    title: 'It has survived not only five centuries',
-                    author: 'benkim07',
-                  },
-                ],
-              },
-              {
-                day: '2023.04.07',
-                history: [
-                  {
-                    title: 'Why do we use it?',
-                    author: '뭘봐',
-                  },
-                  {
-                    title: 'Where can I get some?',
-                    author: '팍시',
-                  },
-                ],
-              },
-            ],
+            renderingData: dosurvey,
           }}
         />
       )}
