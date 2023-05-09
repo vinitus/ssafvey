@@ -80,20 +80,20 @@ interface Job {
   name: string;
 }
 
-export const jobsSelectionStateQuery = selector<Job[]>({
-  key: 'jobsSelectionStateQuery/get',
+export const jobOptionsSelector = selector<Job[]>({
+  key: 'jobOptionsSelector/get',
   get: async () => {
     const { jobs } = await getJobs();
     return jobs;
   },
 });
 
-interface checkedJobs extends Job {
+interface selectedJob extends Job {
   checked: boolean;
 }
 
-export const jobsSelectionState = atom<checkedJobs[]>({
-  key: 'jobsSelectionState',
+export const selectedJobsState = atom<selectedJob[]>({
+  key: 'selectedJobsState',
   default: [],
 });
 
