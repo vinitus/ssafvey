@@ -1,0 +1,54 @@
+.chancetitle {
+  @apply font-[Zoo] text-50 text-center;
+  background: linear-gradient(to right, #A7BFD7, #3396F4, #124678);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  background-size: 500% auto;
+  animation: textShine 1s ease-in-out infinite alternate;
+}
+
+@keyframes textShine {
+  0% {
+      background-position: 0% 50%;
+  }
+  100% {
+      background-position: 100% 50%;
+  }
+}
+
+.subtitle {
+  @apply text-15 font-bold text-center my-5;
+}
+
+.ticket {
+  @apply relative;
+}
+
+.canvas{
+  @apply w-190 h-90 absolute top-18 left-30 rounded-10;
+}
+
+.result {
+  @apply w-190 h-90 bg-white absolute top-18 left-30 rounded-10 p-5;
+}
+
+.resulttitle {
+  @apply w-[100%] text-center text-48 leading-60 font-bold;
+  background: linear-gradient(to bottom, #FF0000, #FF5C00, #FBFF1E, #72FC42, #5CD7D0, #3554FB, #DB00FF, #FF068C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.2px black;
+}
+
+.resultsub {
+  @apply w-[100%] text-center text-20 font-bold;
+}
+
+.exitbtn{
+  @apply font-bold flex justify-end;
+}
+
+.openbtn {
+  @apply w-150 h-40 border-2 border-black rounded-10 bg-white;
+}

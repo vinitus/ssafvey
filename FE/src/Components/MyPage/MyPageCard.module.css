@@ -1,0 +1,15 @@
+.cardBgColor {
+  @apply bg-myPageGradient shadow-md text-white rounded-20 relative min-w-85 w-[27vw] min-h-102 h-[32.4vw];
+}
+
+.cardText {
+  @apply w-[80%] h-50 leading-21 flex items-center justify-center;
+}
+
+.img {
+  @apply right-0 top-0 absolute;
+}
+
+.cardQuantity {
+  @apply flex items-center justify-center text-24 leading-32 absolute right-15 bottom-15 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)];
+}
