@@ -17,6 +17,7 @@ export default function InputTargetJobs() {
   const handleClickCheckBox = (e: React.MouseEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
+
     setJobsSelection((prev) => {
       const newJobsSelection = prev.map((job) => {
         if (job.name === value) {

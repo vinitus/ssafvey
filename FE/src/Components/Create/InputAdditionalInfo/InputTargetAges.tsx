@@ -8,6 +8,7 @@ export default function InputTargetAges() {
   const handleClickCheckBox = (e: React.MouseEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
+
     setAgesSelection((prev) => {
       const newAgesSelection = prev.map((age) => {
         if (age.name === value) {

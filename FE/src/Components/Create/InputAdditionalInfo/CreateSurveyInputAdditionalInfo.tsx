@@ -1,6 +1,4 @@
 import React from 'react';
-import { jobsSelectionStateQuery } from '@store/Create/atom';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import style from './CreateSurveyInputAdditionalInfo.module.css';
 import SurveyBox from '../../../UI/Survey/SurveyBox';
 import InputExpirationDate from './InputExpirationDate';
