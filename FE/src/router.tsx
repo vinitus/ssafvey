@@ -8,7 +8,7 @@ import Search from './Pages/Search';
 import Exchange from './Pages/Exchange';
 import CreateSurvey from './Pages/CreateSurvey';
 import ImportExcel from './Components/Create/ImportExcel';
-import CreateSurveyInput1 from './Components/Create/CreateSurveyInput1';
+import InputBasicInfo from './Components/Create/InputBasicInfo';
 import CreateSurveyQuestion from './Components/Create/AddQuestion/CreateSurveyQuestion';
 import MyPage from './Pages/MyPage';
 import Survey from './Pages/Survey';
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         element: <CreateSurvey />,
         children: [
           { element: <ImportExcel />, index: true },
-          { path: 'input1', element: <CreateSurveyInput1 /> },
+          { path: 'basic', element: <InputBasicInfo /> },
           { path: ':questionId', element: <CreateSurveyQuestion /> },
           { path: 'additional', element: <CreateSurveyInputAdditionalInfo /> },
         ],
