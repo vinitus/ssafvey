@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         loader: surveyCoverLoader(queryClient),
         children: [
           { element: <SurveyCover />, index: true },
-          { path: ':questionId', element: <SurveyQuestion /> },
+          { path: 'doing', element: <SurveyQuestion /> },
         ],
       },
       {
