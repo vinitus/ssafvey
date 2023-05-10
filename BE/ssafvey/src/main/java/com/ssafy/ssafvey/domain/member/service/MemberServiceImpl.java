@@ -291,6 +291,29 @@ public class MemberServiceImpl implements MemberService {
         return SurveysResponseDto.getSurveyCreated(findMember);
     }
 
+    public int getPoint(Long id){
+//        Member findMember = memberRepository.findById(id).get();
+//        findMember.setCouponCount(findMember.getCouponCount()-1);
+
+        Random random = new Random();
+        int minPoint = 1;
+        int maxPoint = 100;
+        int randomPoint = random.nextInt(maxPoint - minPoint + 1) + minPoint;
+        System.out.println(randomPoint);
+
+
+//        memberRepository.save(findMember);
+
+        return randomPoint;
+    }
+
+    public Map<String,Object> tmpAccessToken(Long id){
+        Member findMember = memberRepository.findById(id).get();
+        HashMap<String, Object> token = returnToken(findMember);
+
+        return token;
+    }
+
     public HashMap<String, Object> returnToken(Member member) {
         //  사용자 정보(member)를 기반으로 Access Token을 생성합니다. 사용자 정보를 기반으로 Refresh Token을 생성합니다.
         String Authorization = tokenProvider.createAccessToken(member);
@@ -316,6 +339,8 @@ public class MemberServiceImpl implements MemberService {
         Long memberId = (long) Integer.parseInt(username);
         return memberRepository.findById(memberId);
     }
+
+
 
     public JobListResponseDto getJobs(){
         JobListResponseDto jobListResponseDto = new JobListResponseDto();
