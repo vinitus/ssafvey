@@ -20,7 +20,8 @@
       "@/*": ["*"],
       "@components/*": ["Components/*"],
       "@store/*": ["Store/*"],
-      "@api/*": ["Api/*"]
+      "@api/*": ["Api/*"],
+      "@util/*": ["Util/*"]
     }
   },
   "include": ["src", "src/types/myPageType.ts"],
