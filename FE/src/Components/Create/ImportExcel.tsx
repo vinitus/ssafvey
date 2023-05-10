@@ -2,10 +2,9 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { SurveyTitleState, SurveyDescState, questionsState } from '@store/Create/atom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import style from './ImportExcel.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
-// import PlusButton from '../../UI/Survey/PlusButton';
 
 interface MakeSurvey {
   문항: string;
@@ -27,7 +26,7 @@ interface surveytype {
   order: number | string;
   question: string;
   is_multiple_choice: boolean;
-  choices: choice[] | null;
+  choices: choice[];
 }
 
 export default function ImportExcel() {
@@ -44,12 +43,12 @@ export default function ImportExcel() {
     filebtn?.click();
   };
 
-  const [surveyTitle, setSurveyTitle] = useRecoilState(SurveyTitleState);
-  const [surveyDesc, setSurveyDesc] = useRecoilState(SurveyDescState);
-  const [questions, setQuestions] = useRecoilState(questionsState);
+  const setSurveyTitle = useSetRecoilState(SurveyTitleState);
+  const setSurveyDesc = useSetRecoilState(SurveyDescState);
+  const setQuestions = useSetRecoilState(questionsState);
 
   const setJSON = (datas: MakeSurvey[]) => {
-    const survey = new FormData();
+    // const survey = new FormData();
     const questions: surveytype[] = [];
 
     for (let i = 0; i < datas.length; i += 1) {
@@ -57,9 +56,11 @@ export default function ImportExcel() {
       if (data.문항 === '') {
         break;
       } else if (i === 0) {
-        survey.append('title', data.질문);
+        // survey.append('title', data.질문);
+        setSurveyTitle(data.질문)
       } else if (i === 1) {
-        survey.append('description', data.질문);
+        // survey.append('description', data.질문);
+        setSurveyDesc(data.질문)
       } else if (i === 2) {
         /* empty */
       } else {
@@ -100,12 +101,21 @@ export default function ImportExcel() {
         questions.push(question);
       }
     }
-    survey.append('survey_questions', JSON.stringify(questions));
-
-    for (const cur of survey) {
-      console.log(cur);
+    // survey.append('survey_questions', JSON.stringify(questions));
+    const tempQuestions = questions.map((question) => {
+      return {
+        id: question.order,
+        title: question.question,
+        type: question.is_multiple_choice ? 'multiple' : 'essay',
+        answers: [...question.choices]
+      }
     }
-  };
+    setQuestions(questions)
+
+    // for (const cur of survey.values()) {
+    //   console.log(cur);
+    // }
+  )};
 
   const readExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target;

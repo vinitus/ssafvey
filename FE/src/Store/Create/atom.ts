@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil';
 import { getJobs } from '@/Api/member';
+import { Question, QuestionType, Answer, Job, selectedJob } from '@/types/createSurveyType'
 
 export const SurveyTitleState = atom({
   key: 'SurveyTitleState',
@@ -10,13 +11,6 @@ export const SurveyDescState = atom({
   key: 'SurveyDescState',
   default: '',
 });
-
-export interface Question {
-  id: number;
-  title: string;
-  type: QuestionType;
-  answers: Answer[];
-}
 
 export const questionsState = atom<Question[]>({
   key: 'questionsState',
@@ -38,17 +32,10 @@ export const currentQuestionTitleState = atom({
   default: '',
 });
 
-type QuestionType = 'multiple' | 'essay';
-
 export const currentQuestionTypeState = atom<QuestionType>({
   key: 'currentQuestionTypeState',
   default: 'multiple',
 });
-
-interface Answer {
-  id: number;
-  value: string;
-}
 
 export const answersState = atom<Answer[]>({
   key: 'answersState',
@@ -109,10 +96,6 @@ export const expirationDateTimeState = atom({
   default: new Date(),
 });
 
-interface Job {
-  id: number;
-  name: string;
-}
 
 export const jobOptionsSelector = selector<Job[]>({
   key: 'jobOptionsSelector/get',
@@ -121,10 +104,6 @@ export const jobOptionsSelector = selector<Job[]>({
     return jobs;
   },
 });
-
-interface selectedJob extends Job {
-  checked: boolean;
-}
 
 export const selectedJobsState = atom<selectedJob[]>({
   key: 'selectedJobsState',
