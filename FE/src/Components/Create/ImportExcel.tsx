@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
+import { SurveyTitleState, SurveyDescState, questionsState } from '@store/Create/atom';
+import { useRecoilState } from 'recoil';
 import style from './ImportExcel.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
 // import PlusButton from '../../UI/Survey/PlusButton';
@@ -41,6 +43,10 @@ export default function ImportExcel() {
     const filebtn = fileRef.current;
     filebtn?.click();
   };
+
+  const [surveyTitle, setSurveyTitle] = useRecoilState(SurveyTitleState);
+  const [surveyDesc, setSurveyDesc] = useRecoilState(SurveyDescState);
+  const [questions, setQuestions] = useRecoilState(questionsState);
 
   const setJSON = (datas: MakeSurvey[]) => {
     const survey = new FormData();
@@ -95,6 +101,10 @@ export default function ImportExcel() {
       }
     }
     survey.append('survey_questions', JSON.stringify(questions));
+
+    for (const cur of survey) {
+      console.log(cur);
+    }
   };
 
   const readExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
