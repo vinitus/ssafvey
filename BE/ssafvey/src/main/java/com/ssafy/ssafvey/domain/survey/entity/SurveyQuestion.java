@@ -12,9 +12,9 @@ import java.util.List;
 @Table
 @Getter
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
-@ToString
 public class SurveyQuestion {
     @Id
     @GeneratedValue
@@ -37,14 +37,19 @@ public class SurveyQuestion {
     @OneToMany(mappedBy = "surveyQuestion")
     private List<MemberAnswerDescriptive> memberAnswerDescriptives = new ArrayList<>();
 
-    public void setSurveyQuestionChoices(List<SurveyQuestionChoice> surveyQuestionChoices) {
-        this.surveyQuestionChoices = surveyQuestionChoices;
+
+
+    @Override
+    public String toString() {
+        return "SurveyQuestion{" +
+                "id=" + id +
+                ", orderNum=" + orderNum +
+                ", question='" + question + '\'' +
+                '}';
     }
 
     @OneToMany(mappedBy = "surveyQuestion")
     private List<SurveyQuestionChoice> surveyQuestionChoices = new ArrayList<>();
 
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
-    }
+
 }

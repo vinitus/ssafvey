@@ -1,13 +1,16 @@
 package com.ssafy.ssafvey.domain.survey.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.ssafvey.domain.survey.entity.SurveyQuestion;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
+@Setter
 @ToString
 public class SurveyQuestionDto {
     private int order;
@@ -18,4 +21,18 @@ public class SurveyQuestionDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ChoiceDto> choices;
 
+    public static SurveyQuestionDto fromEntity(SurveyQuestion surveyQuestion) {
+        SurveyQuestionDto surveyQuestionDto = new SurveyQuestionDto();
+        surveyQuestionDto.setOrder(surveyQuestion.getOrderNum());
+        surveyQuestionDto.setQuestion(surveyQuestion.getQuestion());
+        surveyQuestionDto.setIsMultipleChoice(surveyQuestion.getIsMultipleChoice());
+
+        if (surveyQuestion.getIsMultipleChoice()) {
+            List<ChoiceDto> choiceDtos = surveyQuestion.getSurveyQuestionChoices().stream()
+                    .map(ChoiceDto::fromEntity)
+                    .collect(Collectors.toList());
+            surveyQuestionDto.setChoices(choiceDtos);
+        }
+        return surveyQuestionDto;
+    }
 }
