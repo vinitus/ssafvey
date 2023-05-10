@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './NavBar.module.css';
 import { accessTokenState } from '../Store/Member/atom';
-import { queryClient } from '../main';
+import { queryClient } from '../router';
 
 export default function NavBar() {
   const iconSVGArr = ['home', 'search', 'make', 'change', 'mypage'];
@@ -11,11 +11,11 @@ export default function NavBar() {
   const iconURLArr = ['/', '/survey', '/create', '/exchange', '/mypage'];
   const navigate = useNavigate();
   // const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const accessToken = queryClient.getQueryData(['accessToken'])
+  const accessToken = queryClient.getQueryData(['accessToken']);
 
   function navbarClickHandler(event: React.MouseEvent<HTMLButtonElement>) {
     const { id } = event.currentTarget;
-    if (id === '4' && !accessToken ) {
+    if (id === '4' && !accessToken) {
       navigate('/sign-in');
     } else {
       navigate(`${iconURLArr[Number(id)]}`);

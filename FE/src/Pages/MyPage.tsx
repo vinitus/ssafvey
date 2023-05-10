@@ -4,8 +4,8 @@ import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
 import { getMypage, getSurveyResponse, getSurvey, getLogout } from '../Api/member';
 import styles from './MyPage.module.css';
-import { queryClient } from '../main';
-import { SurveyHistoryObj } from "../types/myPageType"
+import { queryClient } from '../router';
+import { SurveyHistoryObj } from '../types/myPageType';
 
 interface survey {
   title: string;
@@ -41,8 +41,8 @@ export default function MyPage() {
   const [activityData, setActivityData] = useState<survey[]>([]);
 
   useEffect(() => {
-    // 
-  }, [dosurvey, makesurvey])
+    //
+  }, [dosurvey, makesurvey]);
 
   useEffect(() => {
     async function getmypageinfo() {
@@ -73,7 +73,7 @@ export default function MyPage() {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurveyResponse(accessToken);
         console.log('data 2 : ', data);
-        setDosurvey(data)
+        setDosurvey(data);
         getmakesurveylist();
       } catch (err) {
         console.log(err);
@@ -85,7 +85,7 @@ export default function MyPage() {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurvey(accessToken);
         console.log('data3 : ', data);
-        setMakesurvey(data)
+        setMakesurvey(data);
       } catch (err) {
         console.log(err);
       }
@@ -99,8 +99,8 @@ export default function MyPage() {
       const accessToken = queryClient.getQueryData(['accessToken']) as string;
       await getLogout(accessToken);
       localStorage.setItem('refreshToken', '');
-      queryClient.setQueryData(['accessToken'], null)
-      navigate('/')
+      queryClient.setQueryData(['accessToken'], null);
+      navigate('/');
     } catch (err) {
       console.error(err);
     }
@@ -139,7 +139,7 @@ export default function MyPage() {
         </article>
       )}
 
-      {typeof openModalFlag === 'string' && (openModalFlag === '제작한') && (
+      {typeof openModalFlag === 'string' && openModalFlag === '제작한' && (
         <MyPageCover
           closemodal={() => {
             setOpenModalFlag(false);
@@ -154,7 +154,7 @@ export default function MyPage() {
         />
       )}
 
-      {typeof openModalFlag === 'string' && (openModalFlag === '응답한') && (
+      {typeof openModalFlag === 'string' && openModalFlag === '응답한' && (
         <MyPageCover
           closemodal={() => {
             setOpenModalFlag(false);
