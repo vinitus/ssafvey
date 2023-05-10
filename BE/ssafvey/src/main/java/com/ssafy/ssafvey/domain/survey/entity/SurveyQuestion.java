@@ -15,6 +15,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
+@ToString(exclude = {"survey","memberAnswerMultipleChoices"})
+
 public class SurveyQuestion {
     @Id
     @GeneratedValue
@@ -36,7 +38,6 @@ public class SurveyQuestion {
 
     @OneToMany(mappedBy = "surveyQuestion")
     private List<MemberAnswerDescriptive> memberAnswerDescriptives = new ArrayList<>();
-
 
 
     @Override

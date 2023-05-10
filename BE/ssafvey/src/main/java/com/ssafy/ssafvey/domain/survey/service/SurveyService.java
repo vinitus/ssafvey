@@ -3,7 +3,9 @@ package com.ssafy.ssafvey.domain.survey.service;
 import com.ssafy.ssafvey.domain.member.entity.Job;
 import com.ssafy.ssafvey.domain.member.entity.MemberAnswerDescriptive;
 import com.ssafy.ssafvey.domain.member.entity.MemberAnswerMultipleChoice;
-import com.ssafy.ssafvey.domain.member.service.MemberAnswerService;
+import com.ssafy.ssafvey.domain.member.entity.MemberSurvey;
+import com.ssafy.ssafvey.domain.member.service.MemberAnswerServiceImpl;
+import com.ssafy.ssafvey.domain.member.service.MemberSurveyService;
 import com.ssafy.ssafvey.domain.survey.dto.StartSurveyDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.*;
 import com.ssafy.ssafvey.domain.survey.entity.Survey;
@@ -33,16 +35,18 @@ public class SurveyService {
     private final SurveyTargetJobRepository surveyTargetJobRepository;
 
     private final JobRepository jobRepository;
-    private final MemberAnswerService memberAnswerService;
+    private final MemberAnswerServiceImpl memberAnswerServiceImpl;
+    private final MemberSurveyService memberSurveyService;
 
     @Autowired
-    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerService memberAnswerService) {
+    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService) {
         this.surveyRepository = surveyRepository;
         this.surveyQuestionService = surveyQuestionService;
         this.surveyTargetAgeRepository = surveyTargetAgeRepository;
         this.surveyTargetJobRepository = surveyTargetJobRepository;
         this.jobRepository = jobRepository;
-        this.memberAnswerService = memberAnswerService;
+        this.memberAnswerServiceImpl = memberAnswerServiceImpl;
+        this.memberSurveyService = memberSurveyService;
     }
 
     private SurveyTargetAge createTargetAge(TargetAgeDto targetAgeDto, Survey survey) {
@@ -78,9 +82,8 @@ public class SurveyService {
     }
 
     @Transactional
-    public Survey createSurvey(SurveyDto surveyDto) {
+    public Survey createSurvey(Long memberId, SurveyDto surveyDto) {
         //TODO member_survey 도 만들어야함
-        System.out.println(surveyDto.getEndDate());
         Survey survey = Survey.builder()
                 .title(surveyDto.getTitle())
                 .targetSurveyParticipants(surveyDto.getTargetSurveyParticipants())
@@ -92,7 +95,10 @@ public class SurveyService {
         List<SurveyTargetJob> surveyTargetJobs = createSurveyTargetJobs(surveyDto.getTargetJob(), survey);
         List<SurveyTargetAge> surveyTargetAges = createSurveyTargetAgeList(surveyDto.getTargetAge(), survey);
         List<SurveyQuestion> surveyQuestions = new ArrayList<>();
+        List<MemberSurvey> memberSurveys = new ArrayList<>();
 
+        MemberSurvey memberSurvey = memberSurveyService.createMemberSurvey(memberId,survey);
+        memberSurveys.add(memberSurvey);
         for (SurveyQuestionDto surveyQuestionDto : surveyDto.getSurveyQuestions()) {
             System.out.println(surveyQuestionDto);
             SurveyQuestion surveyQuestion = surveyQuestionService.createSurveyQuestion(surveyQuestionDto, survey);
@@ -102,6 +108,7 @@ public class SurveyService {
         survey.setSurveyTargetJobs(surveyTargetJobs);
         survey.setSurveyTargetAges(surveyTargetAges);
         survey.setSurveyQuestions(surveyQuestions);
+        survey.setMemberSurveys(memberSurveys);
 
         return surveyRepository.save(survey);
     }
@@ -155,11 +162,11 @@ public class SurveyService {
                 SurveyAnswerDto surveyAnswerDto = sortedSurveyAnswerDto.get(index);
                 SurveyQuestion surveyQuestion = sortedSurveyQuestionList.get(index);
                 if (surveyAnswerDto.getIsMultipleChoice()) {
-                    MemberAnswerMultipleChoice memberAnswerMultipleChoice = memberAnswerService.createMemberAnswerMultipleChoice(surveyAnswerDto, surveyQuestion, UUID);
+                    MemberAnswerMultipleChoice memberAnswerMultipleChoice = memberAnswerServiceImpl.createMemberAnswerMultipleChoice(surveyAnswerDto, surveyQuestion, UUID);
 //                    memberAnswerMultipleChoices.add(memberAnswerMultipleChoice);
 
                 } else {
-                    MemberAnswerDescriptive memberAnswerDescriptive = memberAnswerService.createMemberAnswerDescriptive(surveyAnswerDto, surveyQuestion, UUID);
+                    MemberAnswerDescriptive memberAnswerDescriptive = memberAnswerServiceImpl.createMemberAnswerDescriptive(surveyAnswerDto, surveyQuestion, UUID);
 //                    memberAnswerDescriptives.add(memberAnswerDescriptive);
                 }
             }

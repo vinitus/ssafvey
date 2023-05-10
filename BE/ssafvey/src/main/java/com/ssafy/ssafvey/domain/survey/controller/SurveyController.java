@@ -19,23 +19,24 @@ public class SurveyController {
     private final SurveyService surveyService;
 
 
-    @PostMapping("/survey")
+    @PostMapping("/api/survey")
     public ResponseEntity<?> createSurvey(HttpServletRequest request, @RequestBody SurveyDto surveyDto) {
-        Survey survey = surveyService.createSurvey(surveyDto);
+        Survey survey = surveyService.createSurvey((Long) request.getAttribute("memberId"),surveyDto);
+
         return new ResponseEntity<>(survey, HttpStatus.CREATED);
     }
-    @GetMapping("/survey/start/{survey_id}")
+    @GetMapping("/api/survey/start/{survey_id}")
     public ResponseEntity<?> startSurvey(HttpServletRequest request, @PathVariable Long survey_id) {
         StartSurveyDto startSurveyDto = surveyService.getStartSurveyById(survey_id);
         return new ResponseEntity<>(startSurveyDto, HttpStatus.ACCEPTED);
     }
-    @GetMapping("/survey/detail/{survey_id}")
+    @GetMapping("/api/survey/detail/{survey_id}")
     public ResponseEntity<?> surveyDetail(HttpServletRequest request, @PathVariable Long survey_id) {
         SurveyDto surveyDetail = surveyService.getSurveyDetail(survey_id);
         return new ResponseEntity<>(surveyDetail, HttpStatus.OK);
     }
 
-    @PostMapping("/survey/answer")
+    @PostMapping("/api/survey/answer")
     public ResponseEntity<?> answerSurvey(HttpServletRequest request, @RequestBody SurveyAnswersDto surveyAnswersDto) {
         surveyService.createSurveyAnswer(surveyAnswersDto);
         return new ResponseEntity<>(new SurveyDto(), HttpStatus.OK);

@@ -71,6 +71,10 @@ public class Survey {
         this.surveyTargetJobs = surveyTargetJobs;
     }
 
+    public void setMemberSurveys(List<MemberSurvey> memberSurveys) {
+        this.memberSurveys = memberSurveys;
+    }
+
     @OneToMany(mappedBy = "survey",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<MemberSurvey> memberSurveys = new ArrayList<>();
