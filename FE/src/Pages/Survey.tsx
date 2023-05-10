@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, useLoaderData } from 'react-router-dom';
+import { QueryClient } from '@tanstack/react-query';
 import SurveyHeader from '../Components/Survey/SurveyHeader';
 import { getStart2 } from '../Api/survey';
 import { SurveyCoverData } from '../types/surveyType';
@@ -20,7 +21,12 @@ export default function Survey() {
   );
 }
 
-export async function loader() {
-  const data = await getStart2(1);
-  return data;
-}
+export const loader =
+  (queryClient: QueryClient) =>
+  async ({ params }: { params: { id: number } }) => {
+    let accessToken: string =
+      queryClient.getQueryData(['accessToken']) ?? (await queryClient.fetchQuery(['accessToken'], async () => 'tmp'));
+    if (accessToken == null) accessToken = 'tmp';
+    const data = await getStart2(params.id, accessToken);
+    return data;
+  };
