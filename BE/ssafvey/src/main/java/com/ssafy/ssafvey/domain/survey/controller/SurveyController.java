@@ -1,8 +1,8 @@
 package com.ssafy.ssafvey.domain.survey.controller;
 
 import com.ssafy.ssafvey.domain.survey.dto.StartSurveyDto;
+import com.ssafy.ssafvey.domain.survey.dto.request.SurveyAnswersDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.SurveyDto;
-import com.ssafy.ssafvey.domain.survey.dto.request.SurveyQuestionDto;
 import com.ssafy.ssafvey.domain.survey.entity.Survey;
 import com.ssafy.ssafvey.domain.survey.service.SurveyService;
 import lombok.RequiredArgsConstructor;
@@ -29,4 +29,16 @@ public class SurveyController {
         StartSurveyDto startSurveyDto = surveyService.getStartSurveyById(survey_id);
         return new ResponseEntity<>(startSurveyDto, HttpStatus.ACCEPTED);
     }
+    @GetMapping("/survey/detail/{survey_id}")
+    public ResponseEntity<?> surveyDetail(HttpServletRequest request, @PathVariable Long survey_id) {
+        SurveyDto surveyDetail = surveyService.getSurveyDetail(survey_id);
+        return new ResponseEntity<>(surveyDetail, HttpStatus.OK);
+    }
+
+    @PostMapping("/survey/answer")
+    public ResponseEntity<?> answerSurvey(HttpServletRequest request, @RequestBody SurveyAnswersDto surveyAnswersDto) {
+        surveyService.createSurveyAnswer(surveyAnswersDto);
+        return new ResponseEntity<>(new SurveyDto(), HttpStatus.OK);
+    }
+
 }
