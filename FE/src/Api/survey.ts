@@ -1,6 +1,6 @@
 import axiosInstance from "./interceptor"
 
-const baseURL = "/auth/survey"
+const baseURL = "/survey"
 
 // 설문조사 작성
 export async function postRegis(data : FormData, token : string) {
@@ -15,7 +15,7 @@ export async function postRegis(data : FormData, token : string) {
 // 설문조사 시작 페이지
 export async function getStart(id : number) {
   try {
-    const res = await axiosInstance.get(`/survey/start/${id}`)
+    const res = await axiosInstance.get(`${baseURL}/start/${id}`)
     return res.data
   } catch (err) {
     return err
@@ -55,7 +55,7 @@ export async function getResult(id : number, token : string) {
 // 설문조사 목록
 export async function getList(search : string, filter : boolean) {
   try {
-    const res = await axiosInstance.get(`/survey/list?search=${search}&filter=${filter}`)
+    const res = await axiosInstance.get(`${baseURL}/list?search=${search}&filter=${filter}`)
     return res.data
   } catch (err) {
     return err
