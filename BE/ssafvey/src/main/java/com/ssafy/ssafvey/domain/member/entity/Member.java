@@ -67,7 +67,6 @@ public class Member {
     private Long point;
 
 
-
     @ManyToMany
     @JoinTable(
             name = "user_authority_join",
