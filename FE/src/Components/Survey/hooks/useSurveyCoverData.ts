@@ -14,7 +14,8 @@ interface MappingKeyToKoreanType {
 const mappingKeyToKorean: MappingKeyToKoreanType = {
   creator: '만든이',
   endDate: '조사기간',
-  targetSurveyParticipants: '참여인원',
+  surveyParticipants: '참여인원',
+  targetSurveyParticipants: '목표인원',
   lotto: '복권',
 };
 
