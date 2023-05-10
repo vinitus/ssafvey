@@ -99,6 +99,11 @@ export const inputRefState = atom({
   default: null,
 });
 
+export const surveyClientState = atom({
+  key: 'surveyClientState',
+  default: '',
+});
+
 export const expirationDateTimeState = atom({
   key: 'expirationDateTimeState',
   default: new Date(),

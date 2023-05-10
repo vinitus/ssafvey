@@ -3,6 +3,7 @@ import { postRegis } from '@api/survey';
 import {
   SurveyTitleState,
   SurveyDescState,
+  surveyClientState,
   expirationDateTimeState,
   requiredPeopleNumberState,
   filteredJobsIdSelector,
@@ -19,6 +20,7 @@ export default function SubmitButton() {
 
   const surveyTitle = useRecoilValue(SurveyTitleState);
   const surveyDesc = useRecoilValue(SurveyDescState);
+  const surveyClient = useRecoilValue(surveyClientState);
   const expirationDateTime = useRecoilValue(expirationDateTimeState);
   const requiredPeopleNumber = useRecoilValue(requiredPeopleNumberState);
   const filteredJobsId = useRecoilValue(filteredJobsIdSelector);
@@ -31,7 +33,7 @@ export default function SubmitButton() {
       const formData = new FormData();
       formData.append('title', surveyTitle);
       formData.append('description', surveyDesc);
-      formData.append('organization', 'B6'); // Todo: 조직 입력 기능 추가
+      formData.append('organization', surveyClient);
       formData.append('endDate', parseDateToString(expirationDateTime));
       formData.append('targetSurveyParticipants', String(requiredPeopleNumber));
       formData.append('targetGender', 'MAN'); // Todo: 성별 선택 기능 추가
