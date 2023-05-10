@@ -11,7 +11,7 @@ export default function Survey() {
       <SurveyHeader
         title={surveyCoverResData.title}
         creator={surveyCoverResData.creator}
-        dueDate={surveyCoverResData.endDate}
+        endDate={surveyCoverResData.endDate}
       />
       <main>
         <Outlet context={{ surveyCoverResData }} /> {/* 여기에 SurveyCover, SurveyQuestion가 들어감 */}
