@@ -1,16 +1,4 @@
 import React from 'react';
-import { postRegis } from '@api/survey';
-import {
-  SurveyTitleState,
-  SurveyDescState,
-  expirationDateTimeState,
-  requiredPeopleNumberState,
-  filteredJobsIdSelector,
-  filteredAgesRangeSelector,
-  surveyQuestionsSelector,
-} from '@store/Create/atom';
-import { useRecoilValue } from 'recoil';
-import { useQueryClient } from '@tanstack/react-query';
 import style from './CreateSurveyInputAdditionalInfo.module.css';
 import SurveyBox from '../../../UI/Survey/SurveyBox';
 import InputExpirationDate from './InputExpirationDate';
@@ -18,48 +6,9 @@ import InputTargetJobs from './InputTargetJobs';
 import InputTargetAges from './InputTargetAges';
 import InputPeopleNumber from './InputPeopleNumber';
 import InputPoint from './InputPoint';
-import RoundButton from '../../../UI/Button/RoundButton';
-import parseDateToString from '@/Util/Date/parseDateToString';
+import SubmitButton from './SubmitButton';
 
 export default function CreateSurveyInputAdditionalInfo() {
-  const queryClient = useQueryClient();
-
-  const surveyTitle = useRecoilValue(SurveyTitleState);
-  const surveyDesc = useRecoilValue(SurveyDescState);
-  const expirationDateTime = useRecoilValue(expirationDateTimeState);
-  const requiredPeopleNumber = useRecoilValue(requiredPeopleNumberState);
-  const filteredJobsId = useRecoilValue(filteredJobsIdSelector);
-  const filteredAgesRange = useRecoilValue(filteredAgesRangeSelector);
-  const surveyQuestions = useRecoilValue(surveyQuestionsSelector);
-
-  const handleRouteOverviewSurvey = () => {
-    // Todo: 설문 생성하기 버튼 클릭 시,
-    const handleFormDataAndFetch = async () => {
-      const formData = new FormData();
-      formData.append('title', surveyTitle);
-      formData.append('description', surveyDesc);
-      formData.append('organization', 'B6'); // Todo: 조직 입력 기능 추가
-      formData.append('endDate', parseDateToString(expirationDateTime));
-      formData.append('targetSurveyParticipants', String(requiredPeopleNumber));
-      formData.append('targetGender', 'MAN'); // Todo: 성별 선택 기능 추가
-      formData.append('targetJob', JSON.stringify(filteredJobsId));
-      formData.append('targetAge', JSON.stringify(filteredAgesRange));
-      formData.append('surveyQuestions', JSON.stringify(surveyQuestions));
-
-      for (const entry of formData.entries()) {
-        console.log(entry);
-      }
-
-      // 1. POST 요청 보내기
-      const accessToken = queryClient.getQueryData(['accessToken']) as string;
-      const res = await postRegis(formData, accessToken);
-      console.log(res);
-
-      // 2. reponse로 받은 pk를 이용하여 설문 커버 페이지로 라우팅
-    };
-    handleFormDataAndFetch();
-  };
-
   return (
     <section className={style.sections}>
       <SurveyBox>
@@ -72,11 +21,7 @@ export default function CreateSurveyInputAdditionalInfo() {
           <InputPoint />
         </div>
       </SurveyBox>
-      <div>
-        <RoundButton color="blue" size="lg" onClick={handleRouteOverviewSurvey}>
-          설문 생성하기
-        </RoundButton>
-      </div>
+      <SubmitButton />
     </section>
   );
 }
