@@ -1,8 +1,10 @@
 import React from 'react';
-import { CoverData, isSurveyHistory } from '../../types/myPageType';
+import { CoverData, isSurveyHistory, SurveyHistory } from '../../types/myPageType';
 import style from './MyPageSurveyCover.module.css';
 
 export default function MyPageSurveyCover({ quantity, infoType, renderingData }: CoverData) {
+
+  const objectentri = Object.entries(renderingData)
   return (
     <>
       <header className={style.coverHeaderWrapper}>
@@ -10,23 +12,22 @@ export default function MyPageSurveyCover({ quantity, infoType, renderingData }:
         <p className={style.coverHeaderQuantity}>{quantity}</p>
       </header>
       <section className={style.historyWrapper}>
-        {isSurveyHistory(renderingData) &&
-          renderingData.map((history, idx) => (
-            <article className={idx + 1 < renderingData.length ? style.historyBlockWithDay : ''} key={history.day}>
-              <h2 className={style.historyDay}>{history.day}</h2>
-              {history.history.map(({ title, author }, idx) => (
-                // 단순한 배열 순회만 이뤄지기에 배열이 변경될 일은 없습니다.
-                // eslint-disable-next-line react/no-array-index-key
-                <article className={style.historyBlock} key={idx}>
-                  <h3 className={style.historyTitle}>{title}</h3>
-                  <div className={style.historyAuthorWrapper}>
-                    <img src="/icons/home.svg" alt="home" />
-                    <p className={style.historyAuthor}>{author}</p>
-                  </div>
-                </article>
-              ))}
-            </article>
-          ))}
+        { isSurveyHistory(objectentri) && objectentri.map(([day, history], idx) => (
+          <article className={idx+1 < objectentri.length ? style.historyBlockWithDay : ''}>
+            <h2 className={style.historyDay}>{day}</h2>
+            { history.map(({id, title, name} : SurveyHistory) => (
+              // 단순한 배열 순회만 이뤄지기에 배열이 변경될 일은 없습니다.
+                 // eslint-disable-next-line react/no-array-index-key
+              <article className={style.historyBlock} key={id}>
+                <h3 className={style.historyTitle}>{title}</h3>
+                <div className={style.historyAuthorWrapper}>
+                  <img src="/icons/home.svg" alt="home" />
+                  <p className={style.historyAuthor}>{name}</p>
+                </div>
+              </article>
+            ))}
+          </article>
+        ))}
       </section>
     </>
   );

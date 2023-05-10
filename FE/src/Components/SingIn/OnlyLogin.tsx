@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { accessTokenState } from '../../Store/Member/atom';
+import { queryClient } from '../../main';
 
 export default function OnlyLogin() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -32,10 +30,11 @@ export default function OnlyLogin() {
           code,
         },
       }).then((res) => {
-        console.log(res);
-        const accessToken = res.data.token.Authorization;
-        const {refreshToken} = res.data.token;
-        setAccessToken(accessToken);
+        // accesstoken => queryclient
+        queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
+
+        // refresh token => localstorage
+        const { refreshToken } = res.data.token;
         localStorage.setItem('refreshToken', refreshToken);
 
         const isRegist = res.data.isRegistered;
@@ -55,6 +54,6 @@ export default function OnlyLogin() {
     }
 
     navigateToHome();
-  }, [location, navigate, setAccessToken]);
+  }, [location, navigate]);
   return <div>{/*  */}</div>;
 }

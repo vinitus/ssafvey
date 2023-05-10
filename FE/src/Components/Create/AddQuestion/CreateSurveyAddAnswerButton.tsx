@@ -7,7 +7,7 @@ import {
   inputOpenState,
 } from '../../../Store/Create/atom';
 import style from './CreateSurveyAddAnswerButton.module.css';
-import PlusButton from '../../../UI/Survey/PlusButton';
+import CircleButton from '../../../UI/Button/CircleButton';
 
 const END_NO = 5;
 
@@ -29,7 +29,9 @@ export default function CreateSurveyAddAnswerButton() {
     <div>
       {currentQuestionType === 'multiple' && plusBtnOpen && answers.length < END_NO && (
         <div className={style.buttonContainer}>
-          <PlusButton onClick={handlePlusButtonClick} size="sm" />
+          <CircleButton size="md" color="green" onClick={handlePlusButtonClick}>
+            +
+          </CircleButton>
         </div>
       )}
     </div>

@@ -1,5 +1,5 @@
 .buttons {
-  @apply flex justify-between;
+  @apply flex justify-between gap-10;
 }
 
 .nextPhaseButton {

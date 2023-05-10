@@ -1,34 +1,31 @@
 import axiosInstance from "./interceptor"
 
 // 로또 까기
-export function postLotto(token : string) {
-  return axiosInstance.post("/auth/member/lotto", { headers: { Authorization: `Bearer ${token}` } })
-  .then(res => {
+export async function postLotto(token : string) {
+  try {
+    const res = await axiosInstance.post("/auth/member/lotto", { headers: { Authorization: `Bearer ${token}` } })
     return res.data
-  })
-  .catch(err => {
+  } catch (err) {
     return err
-  })
+  }
 }
 
 // 상품조회
-export function getItemlist(token : string) {
-  return axiosInstance.get("/shop/itemlist", { headers: { Authorization: `Bearer ${token}` } })
-  .then(res => {
+export async function getItemlist(token : string) {
+  try {
+    const res = await axiosInstance.get("/shop/itemlist", { headers: { Authorization: `Bearer ${token}` } })
     return res.data
-  })
-  .catch(err => {
+  } catch (err) {
     return err
-  })
+  }
 }
 
 // 상품구매
-export function postItemlist(id : number, token :string) {
-  return axiosInstance.post(`/auth/shop/item?item=${id}`, { headers: { Authorization: `Bearer ${token}` } })
-  .then(res => {
+export async function postItemlist(id : number, token :string) {
+  try {
+    const res = await axiosInstance.post(`/auth/shop/item?item=${id}`, { headers: { Authorization: `Bearer ${token}` } })
     return res.data
-  })
-  .catch(err => {
+  } catch (err) {
     return err
-  })
+  }
 }

@@ -11,7 +11,11 @@
 }
 
 .buttonContainer {
-  @apply flex flex-col items-center my-15;
+  @apply flex flex-col items-center my-25;
+}
+
+.plusBtn {
+  @apply w-120 h-120 text-60 bg-ssafveyGreen inline-block text-white rounded-full;
 }
 
 .templateDownLoadButton {
