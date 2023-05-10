@@ -292,8 +292,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public int getPoint(Long id){
-//        Member findMember = memberRepository.findById(id).get();
-//        findMember.setCouponCount(findMember.getCouponCount()-1);
+        Member findMember = memberRepository.findById(id).get();
+        findMember.setCouponCount(findMember.getCouponCount()-1);
 
         Random random = new Random();
         int minPoint = 1;
@@ -301,8 +301,8 @@ public class MemberServiceImpl implements MemberService {
         int randomPoint = random.nextInt(maxPoint - minPoint + 1) + minPoint;
         System.out.println(randomPoint);
 
-
-//        memberRepository.save(findMember);
+        findMember.setPoint(findMember.getPoint()+randomPoint);
+        memberRepository.save(findMember);
 
         return randomPoint;
     }
