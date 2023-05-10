@@ -2,8 +2,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import App from './App';
+import { QueryClientProvider } from '@tanstack/react-query';
 import './index.css';
 import router, { queryClient } from './router';
 
