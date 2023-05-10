@@ -1,14 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import GiftCard from './GiftCard';
-import Lotto from '../Modal/Lotto';
+import BuyGift from '../Modal/BuyGift';
 import style from './Exchange.module.css';
+import {getItemlist} from '../../Api/coupon'
+
+export interface ItemInfo {
+  id : number;
+  name : string;
+  image : string;
+  price : number;
+  stockQuantity : number;
+}
 
 export default function Exchange() {
   const [giftmodal, setGiftmodal] = useState(false);
   const closemodal = () => {
     setGiftmodal(false);
   };
+
+  const [ itemlist, setItemlist ] = useState<ItemInfo[]>([]);
+  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({id:0, name:"", image:"",price:0,stockQuantity:0});
+
+  useEffect(() => {
+    async function getitem(){
+      try{
+        const data = await getItemlist('')
+        setItemlist(data)
+      }
+      catch(err){
+        console.error(err)
+      }
+    }
+    getitem()
+  }, [])
+
+  useEffect(() => {
+    // console.log(itemlist)
+  }, [itemlist])
+
   return (
     <>
       <div>
@@ -19,38 +49,11 @@ export default function Exchange() {
 
         <div className={style.cardlist}>
           <div className={style.card}>
-            <button
-              type="button"
-              onClick={() => {
-                setGiftmodal(true);
-              }}
-            >
-              <GiftCard productTitle="상품명" point={100} />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setGiftmodal(true);
-              }}
-            >
-              <GiftCard productTitle="상품명" point={100} />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setGiftmodal(true);
-              }}
-            >
-              <GiftCard productTitle="상품명" point={100} />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setGiftmodal(true);
-              }}
-            >
-              <GiftCard productTitle="상품명" point={100} />
-            </button>
+            { itemlist.map((item : ItemInfo) => (
+              <button type='button' onClick={() => {setClickedinfo(item); setGiftmodal(true)}} key={item.id}>
+                <GiftCard productTitle={item.name} image={item.image} point={item.price}/>
+              </button>
+            ))}
           </div>
         </div>
       </div>
@@ -63,14 +66,14 @@ export default function Exchange() {
         style={{
           content: {
             width: '300px',
-            height: '350px',
+            height: '450px',
             backgroundColor: '#c2e9fb',
             margin: 'auto',
             borderRadius: '20px',
           },
         }}
       >
-        <Lotto closemodal={closemodal} />
+        <BuyGift title={clickedinfo.name} price={clickedinfo.price} closemodal={closemodal} />
       </Modal>
     </>
   );

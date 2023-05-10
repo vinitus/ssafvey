@@ -1,7 +1,7 @@
 import axios from 'axios';
 import axiosInstance from './interceptor';
 
-const baseURL = '/auth/survey';
+const baseURL = '/survey';
 
 // 설문조사 작성
 export async function postRegis(data: FormData, token: string) {
