@@ -163,6 +163,11 @@ export const filteredAgesRangeSelector = selector({
   },
 });
 
+export const targetGenderState = atom({
+  key: 'targetGenderState',
+  default: 'ALL',
+});
+
 export const requiredPeopleNumberState = atom({
   key: 'requiredPeopleNumberState',
   default: 1,

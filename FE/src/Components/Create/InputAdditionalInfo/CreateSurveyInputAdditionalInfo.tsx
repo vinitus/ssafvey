@@ -6,6 +6,7 @@ import InputExpirationDate from './InputExpirationDate';
 import InputTargetJobs from './InputTargetJobs';
 import InputTargetAges from './InputTargetAges';
 import InputPeopleNumber from './InputPeopleNumber';
+import InputTargetGender from './InputTargetGender';
 import InputPoint from './InputPoint';
 import SubmitButton from './SubmitButton';
 
@@ -19,7 +20,7 @@ export default function CreateSurveyInputAdditionalInfo() {
           <InputExpirationDate />
           <InputTargetJobs />
           <InputTargetAges />
-          {/* <InputTargetGender /> */}
+          <InputTargetGender />
           <InputPeopleNumber />
           <InputPoint />
         </div>

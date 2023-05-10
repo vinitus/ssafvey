@@ -9,6 +9,7 @@ import {
   filteredJobsIdSelector,
   filteredAgesRangeSelector,
   surveyQuestionsSelector,
+  targetGenderState,
 } from '@store/Create/atom';
 import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
@@ -23,6 +24,7 @@ export default function SubmitButton() {
   const surveyClient = useRecoilValue(surveyClientState);
   const expirationDateTime = useRecoilValue(expirationDateTimeState);
   const requiredPeopleNumber = useRecoilValue(requiredPeopleNumberState);
+  const targetGender = useRecoilValue(targetGenderState);
   const filteredJobsId = useRecoilValue(filteredJobsIdSelector);
   const filteredAgesRange = useRecoilValue(filteredAgesRangeSelector);
   const surveyQuestions = useRecoilValue(surveyQuestionsSelector);
@@ -36,7 +38,7 @@ export default function SubmitButton() {
       formData.append('organization', surveyClient);
       formData.append('endDate', parseDateToString(expirationDateTime));
       formData.append('targetSurveyParticipants', String(requiredPeopleNumber));
-      formData.append('targetGender', 'MAN'); // Todo: 성별 선택 기능 추가
+      formData.append('targetGender', targetGender); // Todo: 성별 선택 기능 추가
       formData.append('targetJob', JSON.stringify(filteredJobsId));
       formData.append('targetAge', JSON.stringify(filteredAgesRange));
       formData.append('surveyQuestions', JSON.stringify(surveyQuestions));
