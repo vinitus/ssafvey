@@ -26,21 +26,22 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<Item>> getAllItems() {
-        List<Item> items = itemService.findAllItems();
+        List<Item> items = itemService.findItems();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Item> getItemById(@PathVariable("id") Long id) {
-        Optional<Item> optionalItem = itemService.findById(id);
-        return optionalItem.map(item -> new ResponseEntity<>(item, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Item optionalItem = itemService.findOne(id);
+        return new ResponseEntity<>(optionalItem, HttpStatus.OK);
+//        return optionalItem(item -> new ResponseEntity<>(item, HttpStatus.OK))
+//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteItemById(@PathVariable("id") Long id) {
-        itemService.deleteItemById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteItemById(@PathVariable("id") Long id) {
+//        itemService.deleteItemById(id);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
 }
