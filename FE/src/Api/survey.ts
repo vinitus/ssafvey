@@ -14,7 +14,7 @@ export async function postRegis(data: FormData, token: string) {
 }
 
 // 설문조사 시작 페이지
-export async function getStart(id: number, token: string) {
+export async function getStart(id: number | string, token: string) {
   try {
     const res = await axiosInstance.get(`/survey/start/${id}`, {
       headers: {
@@ -27,7 +27,7 @@ export async function getStart(id: number, token: string) {
   }
 }
 
-export async function getStart2(id: number, token: string) {
+export async function getStart2(id: number | string, token: string) {
   try {
     const res = await axios.get(`https://f39cb0c6-0702-41ce-9de2-8704b59c51e8.mock.pstmn.io/survey/start/${id}`, {
       headers: {
