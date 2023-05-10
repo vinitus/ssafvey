@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getJobs, putProfile } from '../Api/member';
 import style from './SignUp.module.css';
-import { queryClient } from '../main';
+import { queryClient } from '../router';
 
 export default function SignUp() {
   const location = useLocation();
@@ -13,15 +13,15 @@ export default function SignUp() {
 
   const [age, setAge] = useState('0');
   interface Job {
-    id : string,
-    name : string
+    id: string;
+    name: string;
   }
   const [jobList, setJobList] = useState<Job[]>([]);
 
   useEffect(() => {
     async function getjoblist() {
       const list = await getJobs();
-      setJobList(list.jobs)
+      setJobList(list.jobs);
     }
     getjoblist();
   }, []);
@@ -41,40 +41,38 @@ export default function SignUp() {
     setAge(strnum);
   };
 
-  async function putprofiledata(data : object){
-    const accessToken = queryClient.getQueryData(['accessToken']) as string
+  async function putprofiledata(data: object) {
+    const accessToken = queryClient.getQueryData(['accessToken']) as string;
     try {
-      await putProfile(data, accessToken)
+      await putProfile(data, accessToken);
       navigate('/');
+    } catch (err) {
+      console.error(err);
     }
-    catch (err) {
-      console.error(err)
-    }   
-
   }
 
-  const [selectjob, setSelectjob] = useState<string[]>([])
+  const [selectjob, setSelectjob] = useState<string[]>([]);
 
-  const putjob = (id : string) => {
+  const putjob = (id: string) => {
     // 값이 없으면!
-    if (selectjob.indexOf(id) < 0){
-      setSelectjob([...selectjob, id])
+    if (selectjob.indexOf(id) < 0) {
+      setSelectjob([...selectjob, id]);
+    } else {
+      // 값이 있으면!
+      const index = selectjob.indexOf(id);
+      const tmp1 = selectjob.slice(0, index);
+      const tmp2 = selectjob.slice(index + 1, selectjob.length);
+      setSelectjob([...tmp1, ...tmp2]);
     }
-    else { // 값이 있으면!
-      const index = selectjob.indexOf(id)
-      const tmp1 = selectjob.slice(0, index)
-      const tmp2 = selectjob.slice(index+1, selectjob.length)
-      setSelectjob([...tmp1, ...tmp2])
-    }
-  }
+  };
 
   const sendprofile = () => {
     const data = {
       age,
-      jobs : selectjob
+      jobs: selectjob,
     };
-    putprofiledata(data)
-  }
+    putprofiledata(data);
+  };
 
   return (
     <div className={style.signUpWrapper}>
@@ -130,7 +128,7 @@ export default function SignUp() {
       <section className="grid grid-cols-2 gap-2">
         {jobList.map((job) => (
           <article key={job.id}>
-            <input type="checkbox" id={job.id} className="hidden" onClick={() => putjob(job.id) }/>
+            <input type="checkbox" id={job.id} className="hidden" onClick={() => putjob(job.id)} />
             <label htmlFor={job.id}>{job.name}</label>
           </article>
         ))}

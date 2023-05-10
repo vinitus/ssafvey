@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { queryClient } from '../../main';
+import { queryClient } from '../../router';
 
 export default function OnlyLogin() {
   const location = useLocation();

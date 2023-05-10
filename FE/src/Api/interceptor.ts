@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { getRefresh } from './member';
-import { queryClient } from '../main';
+import { queryClient } from '../router';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: 'http://k8a608.p.ssafy.io:8081/api',
@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
     } = error;
     // axiosInstance.interceptors.response.eject(inter);
     if (status === 401) {
-      console.log("Error!!!")
+      console.log('Error!!!');
       const originRequest = config;
       const token = await getRefresh(localStorage.getItem('refreshToken'));
       const accessToken = token.Authorization;
