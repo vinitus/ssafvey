@@ -1,7 +1,7 @@
 import axios from 'axios';
 import axiosInstance from './interceptor';
 
-const baseURL = '/auth/survey';
+const baseURL = "/auth/survey"
 
 // 설문조사 작성
 export async function postRegis(data: FormData, token: string) {
@@ -29,12 +29,8 @@ export async function getStart(id: number | string, token: string) {
 
 export async function getStart2(id: number | string, token: string) {
   try {
-    const res = await axios.get(`https://f39cb0c6-0702-41ce-9de2-8704b59c51e8.mock.pstmn.io/survey/start/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return res.data;
+    const res = await axiosInstance.get(`/survey/start/${id}`)
+    return res.data
   } catch (err) {
     return err;
   }
@@ -73,8 +69,8 @@ export async function getResult(id: number, token: string) {
 // 설문조사 목록
 export async function getList(search: string, filter: boolean) {
   try {
-    const res = await axiosInstance.get(`/survey/list?search=${search}&filter=${filter}`);
-    return res.data;
+    const res = await axiosInstance.get(`/survey/list?search=${search}&filter=${filter}`)
+    return res.data
   } catch (err) {
     return err;
   }
