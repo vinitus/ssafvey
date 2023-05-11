@@ -12,7 +12,7 @@ interface MappingKeyToKoreanType {
 }
 
 const mappingKeyToKorean: MappingKeyToKoreanType = {
-  creator: '만든이',
+  organization: '만든이',
   endDate: '조사기간',
   surveyParticipants: '참여인원',
   targetSurveyParticipants: '목표인원',
