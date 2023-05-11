@@ -1,8 +1,7 @@
-import axios from 'axios';
 import axiosInstance from './interceptor';
-import { SurveyQuestionData } from '@/types/surveyType';
+import { SurveyPostRequestData } from '@/types/surveyType';
 
-const baseURL = '/auth/survey';
+const baseURL = '/survey';
 
 // 설문조사 작성
 export async function postRegis(data: FormData, token: string) {
@@ -28,19 +27,6 @@ export async function getStart(id: number | string, token: string) {
   }
 }
 
-export async function getStart2(id: number | string, token: string) {
-  try {
-    const res = await axios.get(`https://f39cb0c6-0702-41ce-9de2-8704b59c51e8.mock.pstmn.io/survey/start/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return res.data;
-  } catch (err) {
-    return err;
-  }
-}
-
 // 설문조사 디테일
 export async function getDetail(id: number, token: string) {
   try {
@@ -51,20 +37,8 @@ export async function getDetail(id: number, token: string) {
   }
 }
 
-// 설문조사 디테일
-export async function getDetail2(id: number | string, token: string) {
-  try {
-    const res = await axios.get(`https://f39cb0c6-0702-41ce-9de2-8704b59c51e8.mock.pstmn.io/survey/detail/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return res.data;
-  } catch (err) {
-    return err;
-  }
-}
-
 // 설문조사 응답제출
-export async function postAnswer(data: FormData, token: string) {
+export async function postAnswer(data: SurveyPostRequestData, token: string) {
   try {
     const res = await axiosInstance.post(`${baseURL}/answer`, data, { headers: { Authorization: `Bearer ${token}` } });
     return res.data;
