@@ -158,7 +158,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
-    
+
     @ApiOperation(value="로또 뜯기", notes = "유저 정보를 업데이트 합니다")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),

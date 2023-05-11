@@ -29,8 +29,8 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false)
                 .select()
-                // Swagger가 문서화 할 대상 API 컨트롤러를 지정 여기서는 com.donjo.backend 패키지의 컨트롤러를 대상으로 설정
-                .apis(RequestHandlerSelectors.basePackage("ssafvey.backend"))
+                // Swagger가 문서화 할 대상 API 컨트롤러를 지정 여기서는 com.ssafy.ssafvey 패키지의 컨트롤러를 대상으로 설정
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.ssafvey"))
                 // 모든 API 엔드포인트를 문서화하도록 지정합니다.
                 .paths(PathSelectors.any())
                 .build()
