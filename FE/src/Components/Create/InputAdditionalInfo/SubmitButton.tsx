@@ -15,8 +15,11 @@ import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 import RoundButton from '../../../UI/Button/RoundButton';
 import parseDateToString from '@/Util/Date/parseDateToString';
+import { useNavigate } from 'react-router-dom';
 
 export default function SubmitButton() {
+  const navigate = useNavigate();
+
   const queryClient = useQueryClient();
 
   const surveyTitle = useRecoilValue(SurveyTitleState);
@@ -47,7 +50,7 @@ export default function SubmitButton() {
 
       const res = await postRegis(data, accessToken);
 
-      // Todo: reponse로 받은 pk를 이용하여 설문 커버 페이지로 라우팅
+      navigate(`/survey/${res.id}`);
     };
     handleFormDataAndFetch();
   };
