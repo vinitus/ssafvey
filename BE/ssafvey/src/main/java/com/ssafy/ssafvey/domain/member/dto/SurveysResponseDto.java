@@ -17,17 +17,17 @@ import java.util.*;
 public class SurveysResponseDto {
     private List<RecentItem> surveys;
 
-    public static Map<String, List<RecentItem>>  getSurveyParticipated(Member member){
+    public static Map<String, List<RecentItem>>  getSurveyParticipated(Member member,List<MemberSurvey> participatedMemberSurvey){
         List<RecentItem> recentActivity = new ArrayList<>();
 
 
-        RecentItem item1 = new RecentItem(1L,"가오갤은 명작인가","이정범", "2023.05.07");
-        RecentItem item2 = new RecentItem(2L,"이유영은 짱짱인가","이유영", "2023.05.06");
-        RecentItem item3 = new RecentItem(4L,"아침에 너무 배고픈데 아메추","김성수", "2023.05.07");
+        for (MemberSurvey memberSurvey : participatedMemberSurvey) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            String formattedDate = memberSurvey.getSurvey().getCreateDate().format(formatter);
+            RecentItem tmpItem = new RecentItem(memberSurvey.getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
+            recentActivity.add(tmpItem);
+        }
 
-        recentActivity.add(item1);
-        recentActivity.add(item2);
-        recentActivity.add(item3);
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");

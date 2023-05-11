@@ -1,8 +1,10 @@
 package com.ssafy.ssafvey.domain.member.dto;
 
 import com.ssafy.ssafvey.domain.member.entity.Member;
+import com.ssafy.ssafvey.domain.member.entity.MemberSurvey;
 import lombok.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class MypageResponseDto {
 
     private Integer point;
 
-    private Integer numSurveyParticipated;
+    private Long numSurveyParticipated;
 
     private Long numSurveyCreated;
 
@@ -25,27 +27,27 @@ public class MypageResponseDto {
 
     private Integer couponCount;
 
-    public static MypageResponseDto mypageResponseDto(Member member,Long numCreated){
+    public static MypageResponseDto mypageResponseDto(Member member, Long numCreated, Long numParticipated, List<MemberSurvey> latest3Surveys){
         List<RecentItem> recentActivity = new ArrayList<>();
 
-        RecentItem item1 = new RecentItem(1L,"가오갤은 명작인가","이정범", "2023.05.07");
-        RecentItem item2 = new RecentItem(2L,"이유영은 짱짱인가","이유영", "2023-05-06");
-        RecentItem item3 = new RecentItem(3L,"CA 잘한걸까?","김수빈", "2023-05-05");
-
-        recentActivity.add(item1);
-        recentActivity.add(item2);
-        recentActivity.add(item3);
+        for(MemberSurvey memberSurvey:latest3Surveys){
+            // member에서 membersurvey 가져오기 for문 돌려서 recentItem에 넣기 service에서 해야할듯?
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+                String formattedDate = memberSurvey.getSurvey().getCreateDate().format(formatter);
+                RecentItem tmpItem = new RecentItem(memberSurvey.getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
+                recentActivity.add(tmpItem);
+            }
 
 
 
         // 빌더 방식으로 DB에 저장
         return  MypageResponseDto.builder()
                 .name(member.getName())
-                .point(500)
-                .numSurveyParticipated(2)
+                .point(member.getPoint())
+                .numSurveyParticipated(numParticipated)
                 .numSurveyCreated(numCreated)
                 .recentActivity(recentActivity)
-                .couponCount(5)
+                .couponCount(member.getCouponCount())
                 .build();
     }
 }
