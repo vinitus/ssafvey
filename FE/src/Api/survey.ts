@@ -1,12 +1,13 @@
 import axios from 'axios';
 import axiosInstance from './interceptor';
+import { SurveyPost } from '@/types/createSurveyType';
 
 const baseURL = '/survey';
 
 // 설문조사 작성
-export async function postRegis(data: FormData, token: string) {
+export async function postRegis(data: SurveyPost, token: string) {
   try {
-    const res = await axiosInstance.post(`${baseURL}/regist`, data, { headers: { Authorization: `Bearer ${token}` } });
+    const res = await axiosInstance.post(`${baseURL}`, data, { headers: { Authorization: `Bearer ${token}` } });
     return res.data;
   } catch (err) {
     return err;
