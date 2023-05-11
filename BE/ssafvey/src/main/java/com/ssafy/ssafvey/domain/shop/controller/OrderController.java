@@ -27,7 +27,16 @@ public class OrderController {
     @PostMapping(value = "new")
     public ResponseEntity<?> order(@RequestBody OrderDto orderDto) {
         Long order_Id = orderService.order(orderDto.getMemberId(), orderDto.getItemId());
+        if (order_Id == null) {
+            return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
+        }
         return new ResponseEntity<>(order_Id, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "list")
+    public ResponseEntity<List<Order>> orderList(@RequestParam Long memberId) {
+        List<Order> orderList = orderService.orderList(memberId);
+        return new ResponseEntity<List<Order>>(orderList, HttpStatus.CREATED);
     }
 
 //    @GetMapping

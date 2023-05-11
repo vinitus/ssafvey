@@ -1,5 +1,6 @@
 package com.ssafy.ssafvey.domain.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ssafy.ssafvey.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @JsonIgnore
+    @JsonBackReference
     private Member member; //주문 회원
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
