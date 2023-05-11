@@ -20,7 +20,7 @@ public class MemberAnswerMultipleChoice {
 
     private int orderNum;
 
-    private int distinctUUID;
+    private String distinctUUID;
 
     @ManyToOne
     @JoinColumn(name = "survey_question_id")

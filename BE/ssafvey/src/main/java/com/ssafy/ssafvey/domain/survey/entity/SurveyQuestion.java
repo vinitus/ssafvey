@@ -11,11 +11,12 @@ import java.util.List;
 @Entity
 @Table
 @Getter
-@Setter
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
-@ToString
+@ToString(exclude = {"survey","memberAnswerMultipleChoices"})
+
 public class SurveyQuestion {
     @Id
     @GeneratedValue
@@ -38,6 +39,18 @@ public class SurveyQuestion {
     @OneToMany(mappedBy = "surveyQuestion")
     private List<MemberAnswerDescriptive> memberAnswerDescriptives = new ArrayList<>();
 
+
+    @Override
+    public String toString() {
+        return "SurveyQuestion{" +
+                "id=" + id +
+                ", orderNum=" + orderNum +
+                ", question='" + question + '\'' +
+                '}';
+    }
+
     @OneToMany(mappedBy = "surveyQuestion")
     private List<SurveyQuestionChoice> surveyQuestionChoices = new ArrayList<>();
+
+
 }

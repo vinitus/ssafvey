@@ -1,5 +1,6 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.ssafvey.domain.survey.entity.SurveyTargetJob;
 import lombok.*;
 
@@ -25,8 +26,10 @@ public class Job {
 
 
     @OneToMany(mappedBy = "job")
+    @JsonIgnore
     private List<MemberJob> memberJobs = new ArrayList<>();
 
     @OneToMany(mappedBy = "job")
+    @JsonIgnore
     private List<SurveyTargetJob> surveyTargetJobs = new ArrayList<>();
 }
