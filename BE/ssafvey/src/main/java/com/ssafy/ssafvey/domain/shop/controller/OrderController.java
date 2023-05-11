@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,8 @@ public class OrderController {
     private final ItemService itemService;
 
     @PostMapping(value = "new")
-    public ResponseEntity<?> order(@RequestBody OrderDto orderDto) {
-        Long order_Id = orderService.order(orderDto.getMemberId(), orderDto.getItemId());
+    public ResponseEntity<?> order(HttpServletRequest request, @RequestBody OrderDto orderDto) {
+        Long order_Id = orderService.order((Long) request.getAttribute("memberId"),orderDto.getItemId());
         if (order_Id == null) {
             return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
         }
