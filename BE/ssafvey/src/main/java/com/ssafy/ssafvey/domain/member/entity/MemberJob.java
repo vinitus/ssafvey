@@ -19,10 +19,12 @@ public class MemberJob {
     private Long id;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "JOB_ID")
     private Job job;
 }
