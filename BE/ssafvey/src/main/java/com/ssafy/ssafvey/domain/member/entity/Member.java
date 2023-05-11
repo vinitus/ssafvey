@@ -1,5 +1,6 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ssafy.ssafvey.domain.shop.entity.Order;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -61,6 +62,7 @@ public class Member {
     private Boolean isRegistered;
 
     @OneToMany(mappedBy = "member")
+    @JsonManagedReference
     private List<Order> orders = new ArrayList<>();
 
     @Column(columnDefinition = "int default 0")
