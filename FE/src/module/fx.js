@@ -60,3 +60,12 @@ export const map = curry((f, iter) => {
   }
   return res;
 });
+
+module.exports = {
+  curry,
+  reduce,
+  go,
+  take,
+  slice,
+  map,
+};
