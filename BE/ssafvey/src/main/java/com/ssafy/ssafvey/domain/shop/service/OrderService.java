@@ -28,7 +28,7 @@ public class OrderService {
         //엔티티 조회
         Member member = memberRepository.findById(memberId).get();
         Item item = itemRepository.findOne(itemId);
-        Long point = member.getPoint();
+        int point = member.getPoint();
         int price = item.getPrice();
         if (point >= price) {
             //주문상품 생성
