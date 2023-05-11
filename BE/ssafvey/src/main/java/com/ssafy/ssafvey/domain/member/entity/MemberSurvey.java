@@ -4,10 +4,10 @@ import com.ssafy.ssafvey.domain.survey.entity.Survey;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name = "member_survey")
 @Getter
 @Setter
 @Builder
@@ -19,9 +19,9 @@ public class MemberSurvey {
     @GeneratedValue
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
+    @Column(name = "is_owner", columnDefinition = "BOOLEAN DEFAULT false")
     private Boolean isOwner;
 
     @ManyToOne
@@ -31,4 +31,10 @@ public class MemberSurvey {
     @ManyToOne
     @JoinColumn(name = "survey_id")
     private Survey survey;
+
+
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

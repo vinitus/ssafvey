@@ -83,7 +83,7 @@ public class SurveyService {
 
     @Transactional
     public Survey createSurvey(Long memberId, SurveyDto surveyDto) {
-        //TODO member_survey 도 만들어야함
+        //TODO member_survey에 created at 값 넣어야함
         Survey survey = Survey.builder()
                 .title(surveyDto.getTitle())
                 .targetSurveyParticipants(surveyDto.getTargetSurveyParticipants())
@@ -97,7 +97,7 @@ public class SurveyService {
         List<SurveyQuestion> surveyQuestions = new ArrayList<>();
         List<MemberSurvey> memberSurveys = new ArrayList<>();
 
-        MemberSurvey memberSurvey = memberSurveyService.createMemberSurvey(memberId,survey);
+        MemberSurvey memberSurvey = memberSurveyService.createMemberSurvey(memberId,survey,true);
         memberSurveys.add(memberSurvey);
         for (SurveyQuestionDto surveyQuestionDto : surveyDto.getSurveyQuestions()) {
             System.out.println(surveyQuestionDto);
@@ -118,6 +118,7 @@ public class SurveyService {
         if (optionalSurvey.isPresent()) {
             Survey survey = optionalSurvey.get();
             return StartSurveyDto.builder()
+                    .id(survey.getId())
                     .title(survey.getTitle())
                     .isDone(survey.isDone())
                     .description(survey.getDescription())
@@ -126,9 +127,9 @@ public class SurveyService {
                     .targetSurveyParticipants(survey.getTargetSurveyParticipants())
                     .build();
         }
+
         else {
-            StartSurveyDto surveyDto = StartSurveyDto.builder().build();
-            return surveyDto;
+            return StartSurveyDto.builder().build();
         }
 
     }
@@ -138,16 +139,15 @@ public class SurveyService {
         //TODO request member 에 대해 처리해줘야함
         if (optionalSurvey.isPresent()) {
             Survey survey = optionalSurvey.get();
-            SurveyDto surveyDto = SurveyDto.fromEntity(survey);
 
-            return surveyDto;
+            return SurveyDto.fromEntity(survey);
         } else {
             return new SurveyDto();
         }
     }
 
     @Transactional
-    public void createSurveyAnswer(SurveyAnswersDto surveyAnswersDto) {
+    public void createSurveyAnswer(Long memberId, SurveyAnswersDto surveyAnswersDto) {
         //TODO user request Json에 대한 Validation을 해야함
         Optional<Survey> optionalSurvey = surveyRepository.findById(surveyAnswersDto.getSurveyId());
         if (optionalSurvey.isPresent()) {
@@ -156,23 +156,19 @@ public class SurveyService {
             List<SurveyQuestion> sortedSurveyQuestionList = getSortedSurveyQuestionListFromSurvey(survey);
             List<SurveyAnswerDto> sortedSurveyAnswerDto = getSortedSurveyAnswerDtos(surveyAnswersDto);
 
-
+            survey.surveyParticipate();
+            memberSurveyService.createMemberSurvey(memberId, survey, false);
 
             for (int index = 0; index < sortedSurveyQuestionList.size(); index++) {
                 SurveyAnswerDto surveyAnswerDto = sortedSurveyAnswerDto.get(index);
                 SurveyQuestion surveyQuestion = sortedSurveyQuestionList.get(index);
                 if (surveyAnswerDto.getIsMultipleChoice()) {
                     MemberAnswerMultipleChoice memberAnswerMultipleChoice = memberAnswerServiceImpl.createMemberAnswerMultipleChoice(surveyAnswerDto, surveyQuestion, UUID);
-//                    memberAnswerMultipleChoices.add(memberAnswerMultipleChoice);
 
                 } else {
                     MemberAnswerDescriptive memberAnswerDescriptive = memberAnswerServiceImpl.createMemberAnswerDescriptive(surveyAnswerDto, surveyQuestion, UUID);
-//                    memberAnswerDescriptives.add(memberAnswerDescriptive);
                 }
             }
-
-
-
         }
     }
 
