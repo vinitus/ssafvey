@@ -11,6 +11,4 @@ public class OrderDto {
     @NotNull
     private Long itemId;
 
-    @NotNull
-    private Long memberId;
 }
