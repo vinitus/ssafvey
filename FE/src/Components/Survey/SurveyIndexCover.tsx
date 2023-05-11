@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SurveyCoverData } from '../../types/surveyType';
 import style from './SurveyIndexComponent.module.css';
 
@@ -40,10 +41,11 @@ function SurveyBtnWrapepr({
   kakaoshare: any;
   surveyCoverResData: SurveyCoverData;
 }) {
+  const navigate = useNavigate();
   return (
     <section className={style.buttons}>
       <div style={{ width: '30px' }} />
-      <button type="button" className={style.startSurveyBtn}>
+      <button type="button" className={style.startSurveyBtn} onClick={() => navigate('doing')}>
         설문 참여
       </button>
       <button type="button" onClick={() => kakaoshare(surveyCoverResData)}>
