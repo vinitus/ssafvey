@@ -30,29 +30,24 @@ export default function SubmitButton() {
   const surveyQuestions = useRecoilValue(surveyQuestionsSelector);
 
   const handleRouteOverviewSurvey = () => {
-    // Todo: 설문 생성하기 버튼 클릭 시,
     const handleFormDataAndFetch = async () => {
-      const formData = new FormData();
-      formData.append('title', surveyTitle);
-      formData.append('description', surveyDesc);
-      formData.append('organization', surveyClient);
-      formData.append('endDate', parseDateToString(expirationDateTime));
-      formData.append('targetSurveyParticipants', String(requiredPeopleNumber));
-      formData.append('targetGender', targetGender); // Todo: 성별 선택 기능 추가
-      formData.append('targetJob', JSON.stringify(filteredJobsId));
-      formData.append('targetAge', JSON.stringify(filteredAgesRange));
-      formData.append('surveyQuestions', JSON.stringify(surveyQuestions));
+      const data = {
+      'title': surveyTitle,
+      'description': surveyDesc,
+      'organization': surveyClient,
+      'endDate': parseDateToString(expirationDateTime),
+      'targetSurveyParticipants': requiredPeopleNumber,
+      'targetGender': targetGender,
+      'targetJob': filteredJobsId,
+      'targetAge': filteredAgesRange,
+      'surveyQuestions': surveyQuestions,
+      };
 
-      for (const entry of formData.entries()) {
-        console.log(entry);
-      }
-
-      // 1. POST 요청 보내기
       const accessToken = queryClient.getQueryData(['accessToken']) as string;
-      const res = await postRegis(formData, accessToken);
-      console.log(res);
 
-      // 2. reponse로 받은 pk를 이용하여 설문 커버 페이지로 라우팅
+      const res = await postRegis(data, accessToken);
+
+      // Todo: reponse로 받은 pk를 이용하여 설문 커버 페이지로 라우팅
     };
     handleFormDataAndFetch();
   };
