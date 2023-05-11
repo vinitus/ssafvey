@@ -1,10 +1,12 @@
 package com.ssafy.ssafvey.domain.member.dto;
 
 import com.ssafy.ssafvey.domain.member.entity.Member;
+import com.ssafy.ssafvey.domain.member.entity.MemberSurvey;
 import lombok.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Getter
@@ -50,16 +52,15 @@ public class SurveysResponseDto {
         return itemMap;
     }
 
-    public static Map<String, List<RecentItem>> getSurveyCreated(Member member){
+    public static Map<String, List<RecentItem>> getSurveyCreated(Member member, List<MemberSurvey> createdMemberSurvey){
         List<RecentItem> recentActivity = new ArrayList<>();
         // member에서 membersurvey 가져오기 for문 돌려서 recentItem에 넣기 service에서 해야할듯?
-        RecentItem item1 = new RecentItem(3L,"CA 잘한걸까?","김수빈", "2023.05.05");
-        RecentItem item2 = new RecentItem(5L,"오늘의 명언 추천점","김수빈", "2023.05.05");
-        RecentItem item3 = new RecentItem(6L,"우리 발표 누가할지 설문좀","김수빈", "2023.05.04");
-
-        recentActivity.add(item1);
-        recentActivity.add(item2);
-        recentActivity.add(item3);
+        for (MemberSurvey memberSurvey : createdMemberSurvey) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            String formattedDate = memberSurvey.getSurvey().getCreateDate().format(formatter);
+            RecentItem tmpItem = new RecentItem(memberSurvey.getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
+            recentActivity.add(tmpItem);
+        }
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
