@@ -4,21 +4,18 @@ import style from './BuyGift.module.css';
 interface Props {
   closemodal: () => void;
   title: string;
-  point?: number;
+  price: number;
 }
-
-BuyGift.defaultProps = {
-  point: undefined,
-};
 
 const isMouseEvent = (e: any): e is MouseEvent =>
   e.type === 'mousedown' || e.type === 'mouseend' || e.type === 'mousemove';
 const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
-export default function BuyGift({ closemodal, point, title }: Props) {
-  const [price] = useState(4500);
+export default function BuyGift({ closemodal, price, title }: Props) {
 
+  const point = 4500;
+  
   // const makeQSDragItem = () => document.querySelector('#slidebtn');
   // const makeQSContainer = () => document.querySelector('#slide');
 

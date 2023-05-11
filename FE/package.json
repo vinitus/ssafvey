@@ -17,6 +17,7 @@
     "front": "git pull"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.29.5",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.58.0",
     "autoprefixer": "^10.4.14",
