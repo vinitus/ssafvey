@@ -183,4 +183,8 @@ public class SurveyService {
                 .sorted(Comparator.comparingInt(SurveyQuestion::getOrderNum))
                 .collect(Collectors.toList());
     }
+
+    public List<Survey> getSurveyList(Long memberId) {
+        return surveyRepository.findSurveyByMemberJobAndAge(memberId);
+    }
 }

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,10 +20,15 @@ public class SurveyController {
 
     private final SurveyService surveyService;
 
-//    @GetMapping("/api/survey")
-//    public ResponseEntity<?> getSurveyList(HttpServletRequest request, @RequestParam String search, @RequestParam ){
-//
-//    }
+    @GetMapping("/api/survey")
+    public ResponseEntity<?> getSurveyList(HttpServletRequest request, @RequestParam String search){
+
+        List<Survey> surveyList = surveyService.getSurveyList((Long) request.getAttribute("memberId"));
+        for (Survey survey : surveyList) {
+            System.out.println(survey.getId());
+        }
+        return new ResponseEntity<>(new HashMap<>(), HttpStatus.ACCEPTED);
+    }
 
     @PostMapping("/api/survey")
     public ResponseEntity<?> createSurvey(HttpServletRequest request, @RequestBody SurveyDto surveyDto) {
