@@ -13,9 +13,10 @@ import {
 } from '@store/Create/atom';
 import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import RoundButton from '../../../UI/Button/RoundButton';
 import parseDateToString from '@/Util/Date/parseDateToString';
-import { useNavigate } from 'react-router-dom';
+import { SurveyPost } from '@/types/createSurveyType';
 
 export default function SubmitButton() {
   const navigate = useNavigate();
@@ -34,16 +35,16 @@ export default function SubmitButton() {
 
   const handleRouteOverviewSurvey = () => {
     const handleFormDataAndFetch = async () => {
-      const data = {
-      'title': surveyTitle,
-      'description': surveyDesc,
-      'organization': surveyClient,
-      'endDate': parseDateToString(expirationDateTime),
-      'targetSurveyParticipants': requiredPeopleNumber,
-      'targetGender': targetGender,
-      'targetJob': filteredJobsId,
-      'targetAge': filteredAgesRange,
-      'surveyQuestions': surveyQuestions,
+      const data: SurveyPost = {
+        title: surveyTitle,
+        description: surveyDesc,
+        organization: surveyClient,
+        endDate: parseDateToString(expirationDateTime),
+        targetSurveyParticipants: requiredPeopleNumber,
+        targetGender,
+        targetJob: filteredJobsId,
+        targetAge: filteredAgesRange,
+        surveyQuestions,
       };
 
       const accessToken = queryClient.getQueryData(['accessToken']) as string;

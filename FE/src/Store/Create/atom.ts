@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import { getJobs } from '@/Api/member';
-import { Question, QuestionType, Answer, Job, selectedJob } from '@/types/createSurveyType'
+import { Question, QuestionType, Answer, Job, selectedJob } from '@/types/createSurveyType';
 
 export const SurveyTitleState = atom({
   key: 'SurveyTitleState',
@@ -47,12 +47,12 @@ export const surveyQuestionsSelector = selector({
   get: ({ get }) => {
     const questions = get(questionsState);
     const reformQuestions = questions.map((question) => {
-      const isMultipleChoice = question.type === 'multiple' ? true : false;
+      const isMultipleChoice = question.type === 'multiple';
       if (isMultipleChoice) {
         return {
           order: question.id,
           question: question.title,
-          isMultipleChoice: isMultipleChoice,
+          isMultipleChoice,
           choices: question.answers.map((answer) => {
             return {
               order: answer.id,
@@ -64,7 +64,7 @@ export const surveyQuestionsSelector = selector({
       return {
         order: question.id,
         question: question.title,
-        isMultipleChoice: isMultipleChoice,
+        isMultipleChoice,
       };
     });
     return reformQuestions;
@@ -95,7 +95,6 @@ export const expirationDateTimeState = atom({
   key: 'expirationDateTimeState',
   default: new Date(),
 });
-
 
 export const jobOptionsSelector = selector<Job[]>({
   key: 'jobOptionsSelector/get',

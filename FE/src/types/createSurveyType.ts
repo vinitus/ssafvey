@@ -31,3 +31,28 @@ export interface MakeSurvey {
   '객관식 보기 4': string | null;
   '객관식 보기 5': string | null;
 }
+
+export interface SurveyPost {
+  title: string;
+  description: string;
+  organization: string;
+  endDate: string;
+  targetSurveyParticipants: number;
+  targetGender: string;
+  targetJob: number[];
+  targetAge: {
+    min: number;
+    max: number;
+  }[];
+  surveyQuestions: QuestionForPostQuery[];
+}
+
+interface QuestionForPostQuery {
+  order: number;
+  question: string;
+  isMultipleChoice: boolean;
+  choices?: {
+    order: number;
+    choice: string;
+  }[];
+}
