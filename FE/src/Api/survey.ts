@@ -28,7 +28,7 @@ export async function getStart(id: number | string, token: string) {
 }
 
 // 설문조사 디테일
-export async function getDetail(id: number, token: string) {
+export async function getDetail(id: number | string, token: string) {
   try {
     const res = await axiosInstance.get(`${baseURL}/detail/${id}`, { headers: { Authorization: `Bearer ${token}` } });
     return res.data;
