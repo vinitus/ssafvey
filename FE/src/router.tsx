@@ -14,7 +14,7 @@ import CreateSurveyQuestion from './Components/Create/AddQuestion/CreateSurveyQu
 import MyPage from './Pages/MyPage';
 import Survey, { loader as surveyCoverLoader } from './Pages/Survey';
 import SurveyCover from './Components/Survey/SurveyIndexComponent';
-import SurveyQuestion from './Components/Survey/SurveyQuestion';
+import SurveyQuestion, { loader as surveyQuestionLoader } from './Components/Survey/SurveyQuestion';
 import SignUp from './Pages/SignUp';
 import SignIn from './Pages/SignIn';
 import OnlyLogin from './Components/SingIn/OnlyLogin';
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         loader: surveyCoverLoader(queryClient),
         children: [
           { element: <SurveyCover />, index: true },
-          { path: 'doing', element: <SurveyQuestion /> },
+          { path: 'doing', element: <SurveyQuestion />, loader: surveyQuestionLoader(queryClient) },
         ],
       },
       {
