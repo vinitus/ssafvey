@@ -2,7 +2,7 @@ export interface SurveyCoverData {
   isDone: boolean;
   title: string;
   description: string;
-  creator: string;
+  organization: string;
   endDate: string;
   targetSurveyParticipants: number;
   surveyParticipants: number;
@@ -14,13 +14,25 @@ export interface SurveyQuestionData {
 }
 
 export interface OrderObj {
-  order: string;
+  order: number;
   question: string;
-  isMultipleChoice: string;
-  choices: ChoicesObj[];
+  isMultipleChoice: boolean;
+  choices?: ChoicesObj[];
 }
 
 export interface ChoicesObj {
   order: number;
   choice: string;
+}
+
+export interface Answer {
+  order: number;
+  isMultipleChoice: boolean;
+  answer?: string;
+  chosenOrder?: number;
+}
+
+export interface SurveyPostRequestData {
+  surveyId: number;
+  answers: Answer[];
 }
