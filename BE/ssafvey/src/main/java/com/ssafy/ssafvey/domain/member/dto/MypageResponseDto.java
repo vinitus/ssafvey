@@ -19,13 +19,13 @@ public class MypageResponseDto {
 
     private Integer numSurveyParticipated;
 
-    private Integer numSurveyCreated;
+    private Long numSurveyCreated;
 
     private List<RecentItem> recentActivity;
 
     private Integer couponCount;
 
-    public static MypageResponseDto mypageResponseDto(Member member){
+    public static MypageResponseDto mypageResponseDto(Member member,Long numCreated){
         List<RecentItem> recentActivity = new ArrayList<>();
 
         RecentItem item1 = new RecentItem(1L,"가오갤은 명작인가","이정범", "2023.05.07");
@@ -43,7 +43,7 @@ public class MypageResponseDto {
                 .name(member.getName())
                 .point(500)
                 .numSurveyParticipated(2)
-                .numSurveyCreated(1)
+                .numSurveyCreated(numCreated)
                 .recentActivity(recentActivity)
                 .couponCount(5)
                 .build();

@@ -275,20 +275,42 @@ public class MemberServiceImpl implements MemberService {
     public MypageResponseDto getMypage(Long id){
         Member findMember = memberRepository.findById(id).get();
 
-        return MypageResponseDto.mypageResponseDto(findMember);
+        List<MemberSurvey> createdMemberSurvey = new ArrayList<>();
+        List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
+        Long numCreated = 0L;
+        for (MemberSurvey memberSurvey : memberSurveys) {
+            // 각 memberSurvey에 대한 작업 수행
+            if (memberSurvey.getIsOwner()) {
+                numCreated++;
+            }else {
+                // isOwner가 false일 때 실행할 코드
+            }
+        }
+
+        return MypageResponseDto.mypageResponseDto(findMember,numCreated);
 
     }
 
     public Map<String, List<RecentItem>> getSurveyParticipated(Long id){
         Member findMember = memberRepository.findById(id).get();
 
+
         return SurveysResponseDto.getSurveyParticipated(findMember);
     }
 
     public Map<String, List<RecentItem>> getSurveyCreated(Long id){
         Member findMember = memberRepository.findById(id).get();
+        System.out.println(findMember.getMemberSurveys());
+        List<MemberSurvey> createdMemberSurvey = new ArrayList<>();
+        List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
+        for (MemberSurvey memberSurvey : memberSurveys) {
+            // 각 memberSurvey에 대한 작업 수행
+            if (memberSurvey.getIsOwner()) {
+                createdMemberSurvey.add(memberSurvey);
+            }
+        }
 
-        return SurveysResponseDto.getSurveyCreated(findMember);
+        return SurveysResponseDto.getSurveyCreated(findMember,createdMemberSurvey);
     }
 
     public int getPoint(Long id){
