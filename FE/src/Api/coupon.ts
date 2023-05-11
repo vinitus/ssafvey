@@ -22,8 +22,9 @@ export async function getItemlist(id : number | '') {
 
 // 상품구매
 export async function postItemlist(id : number, token :string) {
+  const data = { itemId : id }
   try {
-    const res = await axiosInstance.post(`/shop/item?item=${id}`, { headers: { Authorization: `Bearer ${token}` } })
+    const res = await axiosInstance.post(`/shop/order/new`, data, { headers: { Authorization: `Bearer ${token}` } })
     return res.data
   } catch (err) {
     return err

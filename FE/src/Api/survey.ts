@@ -28,19 +28,6 @@ export async function getStart(id: number | string, token: string) {
   }
 }
 
-export async function getStart2(id: number | string, token: string) {
-  try {
-    const res = await axios.get(`https://f39cb0c6-0702-41ce-9de2-8704b59c51e8.mock.pstmn.io/survey/start/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return res.data;
-  } catch (err) {
-    return err;
-  }
-}
-
 // 설문조사 디테일
 export async function getDetail(id: number, token: string) {
   try {
