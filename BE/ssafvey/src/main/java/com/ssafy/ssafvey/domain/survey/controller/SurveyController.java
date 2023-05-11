@@ -19,7 +19,7 @@ public class SurveyController {
     private final SurveyService surveyService;
 
 //    @GetMapping("/api/survey")
-//    public ResponseEntity<?> getSurveyList(HttpServletRequest request, @RequestParam String search,@ ){
+//    public ResponseEntity<?> getSurveyList(HttpServletRequest request, @RequestParam String search, @RequestParam ){
 //
 //    }
 
