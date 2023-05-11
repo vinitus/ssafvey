@@ -73,7 +73,7 @@ export default function Exchange() {
           },
         }}
       >
-        <BuyGift title={clickedinfo.name} price={clickedinfo.price} closemodal={closemodal} />
+        <BuyGift title={clickedinfo.name} id={clickedinfo.id} price={clickedinfo.price} closemodal={closemodal} />
       </Modal>
     </>
   );
