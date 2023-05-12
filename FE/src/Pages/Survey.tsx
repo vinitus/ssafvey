@@ -4,6 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 import SurveyHeader from '../Components/Survey/SurveyHeader';
 import { getStart } from '../Api/survey';
 import { SurveyCoverData } from '../types/surveyType';
+import tokenQuery from '@/Components/Survey/module/tokenQuery';
 
 export default function Survey() {
   const surveyCoverResData = useLoaderData() as SurveyCoverData;
@@ -11,7 +12,7 @@ export default function Survey() {
     <article className="text-white">
       <SurveyHeader
         title={surveyCoverResData.title}
-        creator={surveyCoverResData.creator}
+        organization={surveyCoverResData.organization}
         endDate={surveyCoverResData.endDate}
       />
       <main>
@@ -26,9 +27,7 @@ export const loader =
   async ({ params }: LoaderFunctionArgs) => {
     const { id } = params;
     if (!id) return 0;
-    let accessToken: string =
-      queryClient.getQueryData(['accessToken']) ?? (await queryClient.fetchQuery(['accessToken'], async () => 'tmp'));
-    if (accessToken == null) accessToken = 'tmp';
+    const accessToken = await tokenQuery(queryClient);
     const data = await getStart(id, accessToken);
     return data;
   };

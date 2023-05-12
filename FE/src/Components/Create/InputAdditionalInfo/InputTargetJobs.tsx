@@ -13,7 +13,7 @@ export default function InputTargetJobs() {
     });
 
     setSelectedJobs(newSelectedJobs);
-  }, []);
+  }, [jobOptions, setSelectedJobs]);
 
   const handleClickCheckBox = (e: React.MouseEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;

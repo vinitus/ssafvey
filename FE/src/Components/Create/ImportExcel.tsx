@@ -140,7 +140,7 @@ export default function ImportExcel() {
         <h2 className={style.title}>엑셀 파일을 업로드하세요!</h2>
         <p className={style.desc}>설문지를 바로 생성할 수 있어요</p>
         <div className={style.buttonContainer}>
-          <button onClick={clickplusbtn} className={style.plusBtn}>
+          <button type="button" onClick={clickplusbtn} className={style.plusBtn}>
             +
           </button>
         </div>
