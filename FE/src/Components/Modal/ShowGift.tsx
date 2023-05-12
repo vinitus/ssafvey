@@ -2,33 +2,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef } from 'react';
 import style from './BuyGift.module.css';
-import { postItemlist } from '../../Api/coupon';
+import { putGift } from '../../Api/member';
 import { queryClient } from '@/router';
 
 interface Props {
   closemodal: () => void;
   info : iteminfo;
-  point: number;
 }
 
 interface iteminfo {
   id: number;
   name: string;
   imageUrl: string;
-  price: number;
 }
-
-// BuyGift.defaultProps = {
-//   price: '',
-//   id: '',
-// };
 
 const isMouseEvent = (e: any): e is MouseEvent =>
   e.type === 'mousedown' || e.type === 'mouseend' || e.type === 'mousemove';
 const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
-export default function BuyGift({ closemodal, info, point }: Props) {
+export default function ShowGift({ closemodal, info }: Props) {
 
   const slideRef = useRef<HTMLDivElement | null>(null);
   const slideBtnRef = useRef<HTMLDivElement | null>(null);
@@ -41,10 +34,10 @@ export default function BuyGift({ closemodal, info, point }: Props) {
 
     const token = queryClient.getQueryData(['accessToken']) as string;
 
-    async function ordernew() {
+    async function putitem() {
       try {
         if (info.id) {
-          await postItemlist(info.id, token);
+          await putGift(token);
         }
       } catch (error) {
         console.error(error);
@@ -80,7 +73,7 @@ export default function BuyGift({ closemodal, info, point }: Props) {
         xOffset = 0;
       } else if (currentX >= 130) {
         setTranslate(170, slideBtnRef.current);
-        ordernew();
+        putitem();
         slideRef.current.removeEventListener('touchstart', dragStart);
         slideRef.current.removeEventListener('touchend', dragEnd);
         slideRef.current.removeEventListener('touchmove', drag);
@@ -111,7 +104,7 @@ export default function BuyGift({ closemodal, info, point }: Props) {
         setTranslate(currentX, slideBtnRef.current);
       }
     };
-    if (slideBtnRef.current && slideRef.current && token && point!==-1 && info.price && point >= info.price) {
+    if (slideBtnRef.current && slideRef.current && token) {
       slideRef.current.addEventListener('touchstart', dragStart);
       slideRef.current.addEventListener('touchend', dragEnd);
       slideRef.current.addEventListener('touchmove', drag);
@@ -120,7 +113,7 @@ export default function BuyGift({ closemodal, info, point }: Props) {
       slideRef.current.addEventListener('mouseup', dragEnd);
       slideRef.current.addEventListener('mousemove', drag);
     }
-  }, [info, point]);
+  }, [info]);
 
   return (
     <div>
@@ -133,20 +126,14 @@ export default function BuyGift({ closemodal, info, point }: Props) {
         <img src={info.imageUrl} alt="giftcon" />
       </div>
       <div className={style.gifttitle}>{info.name}</div>
-      {point >= 0 && (
-        <div className={style.point}>
-          보유한 포인트 :<span>{point}</span>
-        </div>
-      )}
 
       {/* 우리의 리액트는 PWA로써, 스마트폰에서 터치 방식이 주이기에 필요없다고 생각함 */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={style.slider} id="slide" ref={slideRef}>
         <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
-          {point ? info.price : '사용하기'}
+          사용하기
         </div>
-        {point >= 0 && info.price && (point >= info.price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>)}
-        {point === -2 && <span>밀어서 사용하기</span>}
+        <span>밀어서 사용하기</span>
       </div>
     </div>
   );

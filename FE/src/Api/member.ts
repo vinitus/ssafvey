@@ -87,3 +87,28 @@ export async function getSurvey(token: string) {
     return err;
   }
 }
+
+
+// 기프티콘 사용
+export async function getGift(token : string) {
+  try {
+    const res = await axiosInstance.get(`${baseURL}/mypage/gift`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  return res.data
+  } catch(err) {
+    return err;
+  }
+}
+
+// 기프티콘 사용
+export async function putGift(token : string) {
+  try {
+    const res = await axiosInstance.put(`${baseURL}/mypage/gift`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  return res.data
+  } catch(err) {
+    return err;
+  }
+}

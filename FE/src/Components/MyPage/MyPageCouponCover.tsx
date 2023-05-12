@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { CoverData, isCouponTitle } from '../../types/myPageType';
 import GiftCard from '../Exchange/GiftCard';
-import BuyGift from '../Modal/BuyGift';
+import BuyGift from '../Modal/ShowGift';
 import style from './MyPageCouponCover.module.css';
+
+export interface ItemInfo {
+  id: number;
+  name: string;
+  imageUrl: string;
+}
 
 export default function MyPageCouponCover({ quantity, infoType, renderingData }: CoverData) {
   const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
+   const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ id: 0, name: '', imageUrl: ''});
+
   return (
     <>
       <header className={style.coverHeaderWrapper}>
@@ -49,7 +57,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
         }}
       >
         {typeof modalOpenFlag === 'string' && (
-          <BuyGift title={modalOpenFlag} id={0} price={5} closemodal={() => setModalOpenFlag(false)} />
+          <BuyGift info={clickedinfo} closemodal={() => setModalOpenFlag(false)} />
         )}
       </Modal>
     </>
