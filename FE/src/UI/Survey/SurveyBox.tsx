@@ -81,20 +81,23 @@ function MultipleAnswer({
   }
 
   const multiChoiceHadler = (e: React.MouseEvent<HTMLFieldSetElement>) => {
-    const { currentTarget } = e;
-    const { id } = currentTarget;
-    const [, questionOrder, answerOrder] = id.split('-');
-    const preAnswer = answer[order] as number;
-    dispatcher((prev) => {
-      prev[Number(questionOrder)] = Number(answerOrder);
-      return prev;
-    });
-    if (preAnswer) {
-      const preRef = refArr[preAnswer - 1];
-      if (preRef.current) preRef.current.className = style.choice;
+    if (e.target instanceof Element) {
+      const { target } = e;
+      const { id } = target;
+      const [, questionOrder, answerOrder] = id.split('-');
+      const preAnswer = answer[order] as number;
+      dispatcher((prev) => {
+        prev[Number(questionOrder)] = Number(answerOrder);
+        return prev;
+      });
+      if (preAnswer) {
+        const preRef = refArr[preAnswer - 1];
+        if (preRef.current) preRef.current.className = style.choice;
+      }
+      const answerRef = refArr[Number(answerOrder) - 1];
+      console.log(answerRef, refArr, answerOrder);
+      if (answerRef.current) answerRef.current.className = style.choiceClick;
     }
-    const answerRef = refArr[Number(answerOrder) - 1];
-    if (answerRef.current) answerRef.current.className = style.choiceClick;
   };
 
   return (
