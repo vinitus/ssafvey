@@ -89,10 +89,10 @@ export async function getSurvey(token: string) {
 }
 
 
-// 기프티콘 사용
+// 기프티콘 조회
 export async function getGift(token : string) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/mypage/gift`, {
+    const res = await axiosInstance.get('/shop/order/list', {
       headers: { Authorization: `Bearer ${token}` },
     })
   return res.data
@@ -117,7 +117,6 @@ export async function putGift(token : string) {
 export async function putLotto(token : string) {
   try {
     const res = await axiosInstance.put(`${baseURL}/mypage/lotto`, {headers: { Authorization: `Bearer ${token}` }})
-    console.log(res)
   return res.data
   } catch(err) {
     return err;

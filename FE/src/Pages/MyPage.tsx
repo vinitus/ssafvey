@@ -4,7 +4,7 @@ import Modal from 'react-modal'
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
 import Lotto from '../Components/Modal/Lotto'
-import { getMypage, getSurveyResponse, getSurvey, getLogout, putLotto } from '../Api/member';
+import { getMypage, getSurveyResponse, getSurvey, getLogout, getGift } from '../Api/member';
 import styles from './MyPage.module.css';
 import { queryClient } from '../router';
 import { SurveyHistoryObj } from '../types/myPageType';
@@ -95,8 +95,20 @@ export default function MyPage() {
       }
     }
 
+    async function getGiftcon(){
+      try {
+        const accessToken = queryClient.getQueryData(['accessToken']) as string;
+        const data = await getGift(accessToken);
+        console.log(data)
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     getmypageinfo();
+    getGiftcon()
   }, []);
+
 
   async function logout() {
     try {
