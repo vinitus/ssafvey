@@ -112,3 +112,14 @@ export async function putGift(token : string) {
     return err;
   }
 }
+
+// 로또 사용
+export async function putLotto(token : string) {
+  try {
+    const res = await axiosInstance.put(`${baseURL}/mypage/lotto`, {headers: { Authorization: `Bearer ${token}` }})
+    console.log(res)
+  return res.data
+  } catch(err) {
+    return err;
+  }
+}
