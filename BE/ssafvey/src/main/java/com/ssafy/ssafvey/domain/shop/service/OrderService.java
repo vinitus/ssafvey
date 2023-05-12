@@ -5,6 +5,7 @@ import com.ssafy.ssafvey.domain.member.entity.PointHistory;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.repository.PointHistoryRepository;
 import com.ssafy.ssafvey.domain.shop.dto.OrderItemDto;
+import com.ssafy.ssafvey.domain.shop.dto.OrderResponseDto;
 import com.ssafy.ssafvey.domain.shop.entity.Item;
 import com.ssafy.ssafvey.domain.shop.entity.Order;
 import com.ssafy.ssafvey.domain.shop.entity.OrderItem;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,19 +69,21 @@ public class OrderService {
     }
 
     @Transactional
-    public List<Order> orderList(Long memberId) {
+    public List<OrderResponseDto> orderList(Long memberId) {
 
         Member member = memberRepository.findById(memberId).get();
 
         List<Order> orders = member.getOrders();
-
+        List<OrderResponseDto> orderList = new ArrayList<>();
         for(Order order : orders){
-            System.out.println(order.getOrderItem());
-            System.out.println(order.getPrice());
-            System.out.println(order);
+            OrderResponseDto orderResponseDto = new OrderResponseDto();
+            orderResponseDto.setOrderItemId(order.getOrderItem().getId());
+            orderResponseDto.setItemName(order.getOrderItem().getItem().getName());
+            orderResponseDto.setImageUrl(order.getOrderItem().getItem().getImage().getImage_url());
+            orderList.add(orderResponseDto);
         }
 
-        return orders;
+        return orderList;
     }
 
 }

@@ -23,5 +23,4 @@ public class ImageController {
         imageService.saveImage(imageDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 }
