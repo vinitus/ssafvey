@@ -1,7 +1,7 @@
 import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { SurveyTitleState, SurveyDescState, currentQuestionNumberState } from '../../Store/Create/atom';
+import { SurveyTitleState, SurveyDescState } from '../../Store/Create/atom';
 import style from './InputBasicInfo.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
 
@@ -19,8 +19,6 @@ export default function InputBasicInfo() {
   const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSurveyDesc(e.target.value);
   };
-
-  const currentQuestionNumber = useRecoilValue(currentQuestionNumberState);
 
   function makesurvey() {
     navigate(`/create/1`);
