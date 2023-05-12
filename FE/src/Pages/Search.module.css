@@ -1,0 +1,11 @@
+.inputform {
+  @apply w-[80%] border-b-[3px] h-50 border-black mt-10 bg-[#00000000];
+}
+
+.searchpage {
+  @apply text-center;
+}
+
+.cardpart {
+  @apply w-[80%] flex flex-col items-center mt-10 mx-[10%];
+}
