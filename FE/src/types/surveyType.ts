@@ -6,4 +6,5 @@ export interface SurveyCoverData {
   endDate: string;
   targetSurveyParticipants: number;
   lotto: number;
+  id: number;
 }

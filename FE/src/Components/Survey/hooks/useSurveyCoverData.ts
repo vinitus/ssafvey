@@ -19,7 +19,7 @@ const mappingKeyToKorean: MappingKeyToKoreanType = {
 };
 
 export const useSurveyCoverData = (surveyCoverResData: SurveyCoverData) => {
-  const data = go(Object.entries(surveyCoverResData), slice(3), map(surveyInfoParser));
+  const data = go(Object.entries(surveyCoverResData), slice(4), map(surveyInfoParser));
   return [data, kakaoshare];
 };
 
@@ -38,16 +38,16 @@ const kakaoshare = (surveyState: SurveyCoverData) => {
       description: surveyState.description,
       imageUrl: 'http://k.kakaocdn.net/dn/rDzHQ/btsdi3qPQnW/nPUA8K0ihLCCakUjLcQEu0/kakaolink40_original.png',
       link: {
-        mobileWebUrl: 'http://localhost:5173/survey/1',
-        webUrl: 'http://localhost:5173/survey/1',
+        mobileWebUrl: `http://k8a608.p.ssafy.io:3000/survey/${surveyState.id}`,
+        webUrl: `http://k8a608.p.ssafy.io:3000/survey/${surveyState.id}`,
       },
     },
     buttons: [
       {
         title: '설문조사 바로가기',
         link: {
-          mobileWebUrl: 'http://localhost:5173/survey/1',
-          webUrl: 'http://localhost:5173/survey/1',
+          mobileWebUrl: `http://k8a608.p.ssafy.io:3000/survey/${surveyState.id}`,
+          webUrl: `http://k8a608.p.ssafy.io:3000/survey/${surveyState.id}`,
         },
       },
     ],
