@@ -1,10 +1,6 @@
 import React from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import {
-  currentQuestionTitleState,
-  currentQuestionNumberState,
-  currentQuestionTypeState,
-} from '../../../Store/Create/atom';
+import { currentQuestionTitleState, currentQuestionTypeState } from '../../../Store/Create/atom';
 import style from './CreateSurveyForm.module.css';
 
 type QuestionType = 'multiple' | 'essay';
@@ -16,7 +12,7 @@ export default function CreateSurveyForm() {
     setCurrentQuestionTitle(e.target.value);
   };
 
-  const currentNumber = useRecoilValue(currentQuestionNumberState);
+  // const currentNumber = useRecoilValue(currentQuestionNumberState);
 
   const [type, setType] = useRecoilState(currentQuestionTypeState);
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -26,7 +22,7 @@ export default function CreateSurveyForm() {
   return (
     <div role="form">
       <label htmlFor="title">
-        <h3 className="titleFont my-5">{currentNumber}번 문항</h3>
+        {/* <h3 className="titleFont my-5">{currentNumber}번 문항</h3> */}
         <input
           type="text"
           value={currentQuestionTitle}

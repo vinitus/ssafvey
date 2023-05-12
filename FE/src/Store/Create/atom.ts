@@ -17,16 +17,6 @@ export const questionsState = atom<Question[]>({
   default: [],
 });
 
-export const currentQuestionNumberState = atom({
-  key: 'currentQuestionNumberState',
-  default: 1,
-});
-
-export const endQuestionNumberState = atom({
-  key: 'endQuestionNumberState',
-  default: 1,
-});
-
 export const currentQuestionTitleState = atom({
   key: 'currentQuestionTitleState',
   default: '',
