@@ -7,23 +7,28 @@ import { queryClient } from '@/router';
 
 interface Props {
   closemodal: () => void;
-  title: string;
-  price?: number;
-  id?: number;
+  info : iteminfo;
+  point: number;
 }
 
-BuyGift.defaultProps = {
-  price: '',
-  id: '',
-};
+interface iteminfo {
+  id: number;
+  name: string;
+  imageUrl: string;
+  price: number;
+}
+
+// BuyGift.defaultProps = {
+//   price: '',
+//   id: '',
+// };
 
 const isMouseEvent = (e: any): e is MouseEvent =>
   e.type === 'mousedown' || e.type === 'mouseend' || e.type === 'mousemove';
 const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
-export default function BuyGift({ closemodal, id, price, title }: Props) {
-  const point = 45000;
+export default function BuyGift({ closemodal, info, point }: Props) {
 
   const slideRef = useRef<HTMLDivElement | null>(null);
   const slideBtnRef = useRef<HTMLDivElement | null>(null);
@@ -38,8 +43,8 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
 
     async function ordernew() {
       try {
-        if (id) {
-          await postItemlist(id, token);
+        if (info.id) {
+          await postItemlist(info.id, token);
         }
       } catch (error) {
         console.error(error);
@@ -106,7 +111,7 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
         setTranslate(currentX, slideBtnRef.current);
       }
     };
-    if (slideBtnRef.current && slideRef.current && token && point && price && point >= price) {
+    if (slideBtnRef.current && slideRef.current && token && point!==-1 && info.price && point >= info.price) {
       slideRef.current.addEventListener('touchstart', dragStart);
       slideRef.current.addEventListener('touchend', dragEnd);
       slideRef.current.addEventListener('touchmove', drag);
@@ -115,7 +120,7 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
       slideRef.current.addEventListener('mouseup', dragEnd);
       slideRef.current.addEventListener('mousemove', drag);
     }
-  }, [id, price]);
+  }, [info, point]);
 
   return (
     <div>
@@ -125,10 +130,10 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
         </button>
       </div>
       <div className={style.giftimage}>
-        <img src="./tmpFile/tmp.jpg" alt="giftcon" />
+        <img src={info.imageUrl} alt="giftcon" />
       </div>
-      <div className={style.gifttitle}>{title}</div>
-      {point && (
+      <div className={style.gifttitle}>{info.name}</div>
+      {point >= 0 && (
         <div className={style.point}>
           보유한 포인트 :<span>{point}</span>
         </div>
@@ -138,9 +143,9 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={style.slider} id="slide" ref={slideRef}>
         <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
-          {point ? price : '사용하기'}
+          {point ? info.price : '사용하기'}
         </div>
-        {point && price && (point >= price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>)}
+        {point >= 0 && info.price && (point >= info.price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>)}
         {!point && <span>밀어서 사용하기</span>}
       </div>
     </div>
