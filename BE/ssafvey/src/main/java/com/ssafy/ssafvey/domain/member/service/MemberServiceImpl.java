@@ -9,6 +9,7 @@ import com.ssafy.ssafvey.domain.member.exception.UnAuthorizationException;
 import com.ssafy.ssafvey.domain.member.repository.JobsRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberJobRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
+import com.ssafy.ssafvey.domain.member.repository.PointHistoryRepository;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
 import com.ssafy.ssafvey.global.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -39,6 +45,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberJobRepository memberJobRepository;
     // TokenProvider 선언
     private final TokenProvider tokenProvider;
+
+    private final PointHistoryRepository pointHistoryRepository;
 
     public void updateUser(Long id, SignUpRequestDto signUpRequestDto){
         Optional<Member> findMember = memberRepository.findById(id);
@@ -341,29 +349,76 @@ public class MemberServiceImpl implements MemberService {
 
         Random random = new Random();
         int minNum = 1;
-        int maxNum = 50;
+        int maxNum = 100;
         int point = 0;
         int randomPoint = random.nextInt(maxNum - minNum + 1) + minNum;
         System.out.println(randomPoint);
         if (randomPoint == 1) {
+            point=1000;
+        } else if (randomPoint >= 2 && randomPoint <= 8) {
+            point=800;
+
+        }else if (randomPoint >= 9 && randomPoint <= 18) {
+            point=600;
+
+        }else if (randomPoint >= 19 && randomPoint <= 28) {
             point=500;
-        } else if (randomPoint >= 2 && randomPoint <= 7) {
-            point=100;
+
+        }else if (randomPoint >= 29 && randomPoint <= 45) {
+            point=400;
             // 11부터 20까지의 경우 처리할 내용
-        }else if (randomPoint >= 8 && randomPoint <= 20) {
-            point=30;
-            // 11부터 20까지의 경우 처리할 내용
+        }else if (randomPoint >= 46 && randomPoint <= 75) {
+            point=300;
+
         }
         else {
-            point=10;
-            // 1부터 20까지의 범위를 벗어나는 경우 처리할 내용
+            point=100;
+
         }
 
 
         findMember.setPoint(findMember.getPoint()+point);
         memberRepository.save(findMember);
 
+        PointHistory pointHistory = new PointHistory();
+        pointHistory.setPoint(point);
+        pointHistory.setMember(findMember);
+        pointHistory.setPointUsageHistory("로또 뜯기");
+        pointHistory.setPlusMinus(true);
+        pointHistory.setCreateDate(LocalDateTime.now());
+        pointHistoryRepository.save(pointHistory);
+
+
         return point;
+    }
+
+    public Map<String, List<PointResponseDto>> getMypagePoint(Long id){
+        Member findMember = memberRepository.findById(id).get();
+
+        List<PointHistory> pointHistoryList = findMember.getPointHistories();
+
+        pointHistoryList.sort(Comparator.comparing(PointHistory::getCreateDate).reversed());
+
+
+        List<PointResponseDto> pointResponseDtoList = new ArrayList<>();
+
+        for(PointHistory tmpPointHistory : pointHistoryList){
+            PointResponseDto pointResponseDto = new PointResponseDto();
+            pointResponseDto.setPointUsageHistory(tmpPointHistory.getPointUsageHistory());
+            pointResponseDto.setPoint(tmpPointHistory.getPoint());
+            pointResponseDto.setPlusMinus(tmpPointHistory.getPlusMinus());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            String formattedDate =tmpPointHistory.getCreateDate().format(formatter);
+            pointResponseDto.setDate(formattedDate);
+            pointResponseDtoList.add(pointResponseDto);
+        }
+
+
+        // PointHistory 객체 리스트를 날짜(date)별로 그룹화하여 Map 객체에 저장
+        Map<String, List<PointResponseDto>> result = pointResponseDtoList.stream()
+                .collect(Collectors.groupingBy(PointResponseDto::getDate));
+
+        return result;
     }
 
     public Map<String,Object> tmpAccessToken(Long id){

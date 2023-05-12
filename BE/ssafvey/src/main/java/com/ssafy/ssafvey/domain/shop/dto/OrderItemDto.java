@@ -21,5 +21,6 @@ public class OrderItemDto {
     @NotNull
     private String itemName;
 
+    @NotNull
     private String itemImage;
 }
