@@ -1,8 +1,9 @@
-import React from 'react';
+/* eslint-disable no-param-reassign */
+import React, { createRef } from 'react';
 import style from './SurveyBox.module.css';
 import { ChoicesObj } from '@/types/surveyType';
 import { AnswerObj } from '@/Components/Survey/hooks/useSurveyQuestionDataParser';
-import { go, map, curry } from '@/module/fx';
+import { go, map } from '@/module/fx';
 
 interface Props {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ interface AnswerProps {
   isMultipleChoice: boolean;
   choices: ChoicesObj[] | undefined;
   order: number;
-  choiceObjState: string | number;
+  choiceObjState: AnswerObj;
   choiceStateDispatcher: React.Dispatch<React.SetStateAction<AnswerObj>>;
 }
 
@@ -24,15 +25,11 @@ function isNumber(a: string) {
   return Number.isNaN(Number(a)) ? a : Number(a);
 }
 
-function Question({ children }) {
+function Question({ children }: { children: string }) {
   return <h2 className={style.title}>{children}</h2>;
 }
 
 function Answer({ isMultipleChoice, choices, order, choiceObjState, choiceStateDispatcher }: AnswerProps) {
-  let renderComponent = <SingleAnswer order={order} />;
-  if (isMultipleChoice && choices && typeof choiceObjState === 'number')
-    renderComponent = <MultipleAnswer choices={choices} order={order} />;
-
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     const [choiceType, questionOrder, answerOrder] = go(id.split('-'), map(isNumber));
@@ -55,29 +52,74 @@ function Answer({ isMultipleChoice, choices, order, choiceObjState, choiceStateD
     }
   };
 
+  if (isMultipleChoice && choices)
+    return (
+      <MultipleAnswer choices={choices} order={order} answer={choiceObjState} dispatcher={choiceStateDispatcher} />
+    );
+
   return (
     <fieldset className={style.choices} onChange={fieldChangeHandler}>
-      {renderComponent}
+      <SingleAnswer order={order} />
     </fieldset>
   );
 }
 
-function MultipleAnswer({ order, choices, answer }: { order: number; choices: ChoicesObj[]; answer: number }) {
+function MultipleAnswer({
+  order,
+  choices,
+  answer,
+  dispatcher,
+}: {
+  order: number;
+  choices: ChoicesObj[];
+  answer: AnswerObj;
+  dispatcher: React.Dispatch<React.SetStateAction<AnswerObj>>;
+}) {
+  const refArr: React.RefObject<HTMLLabelElement>[] = [];
+  for (let i = 0; i < choices.length; i += 1) {
+    refArr.push(createRef());
+  }
+
+  const multiChoiceHadler = (e: React.MouseEvent<HTMLFieldSetElement>) => {
+    const { currentTarget } = e;
+    const { id } = currentTarget;
+    const [, questionOrder, answerOrder] = id.split('-');
+    const preAnswer = answer[order] as number;
+    dispatcher((prev) => {
+      prev[Number(questionOrder)] = Number(answerOrder);
+      return prev;
+    });
+    if (preAnswer) {
+      const preRef = refArr[preAnswer - 1];
+      if (preRef.current) preRef.current.className = style.choice;
+    }
+    const answerRef = refArr[Number(answerOrder) - 1];
+    if (answerRef.current) answerRef.current.className = style.choiceClick;
+  };
+
   return (
-    <>
-      {choices.map((choice) => {
+    // 안에 인풋 잇음!
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <fieldset className={style.choices} onClick={multiChoiceHadler}>
+      {choices.map((choice, idx) => {
         return (
-          <label key={choice.order} htmlFor={`choices-${order}-${choice.order}`} className={style.choice}>
+          <label
+            key={`${order}-${choice.order}`}
+            htmlFor={`choices-${order}-${choice.order}`}
+            className={style.choice}
+            ref={refArr[idx]}
+            id={`choices-${order}-${choice.order}`}
+          >
             <input type="radio" name="choices" id={`choices-${order}-${choice.order}`} className="invisible" />
             {choice.choice}
           </label>
         );
       })}
-    </>
+    </fieldset>
   );
 }
 
-function SingleAnswer({ order, answer }: { order: number; answer: string }) {
+function SingleAnswer({ order }: { order: number }) {
   return <input type="text" name="choices" id={`choice-${order}-0`} className={style.choice} />;
 }
 

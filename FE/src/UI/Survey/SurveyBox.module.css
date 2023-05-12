@@ -16,5 +16,5 @@
 }
 
 .choiceClick {
-  @apply bg-darkBlue rounded-10 text-white;
+  @apply block py-13 rounded-10 bg-darkBlue rounded-10 text-white;
 }
