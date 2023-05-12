@@ -2,6 +2,7 @@ package com.ssafy.ssafvey.domain.shop.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -17,8 +18,8 @@ public class Item {
     private int price;
     private int stockQuantity;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
+    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Image image; //이미지
 
 }

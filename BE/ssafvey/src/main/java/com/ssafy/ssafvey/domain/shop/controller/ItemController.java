@@ -1,5 +1,6 @@
 package com.ssafy.ssafvey.domain.shop.controller;
 
+import com.ssafy.ssafvey.domain.shop.dto.ItemDto;
 import com.ssafy.ssafvey.domain.shop.entity.Item;
 import com.ssafy.ssafvey.domain.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -25,23 +26,17 @@ public class ItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Item>> getAllItems() {
-        List<Item> items = itemService.findItems();
+    public ResponseEntity<List<ItemDto>> getAllItems() {
+        List<ItemDto> items = itemService.findItems();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Item> getItemById(@PathVariable("id") Long id) {
-        Item optionalItem = itemService.findOne(id);
+    public ResponseEntity<ItemDto> getItemById(@PathVariable("id") Long id) {
+        ItemDto optionalItem = itemService.findOne(id);
         return new ResponseEntity<>(optionalItem, HttpStatus.OK);
-//        return optionalItem(item -> new ResponseEntity<>(item, HttpStatus.OK))
-//                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 //
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteItemById(@PathVariable("id") Long id) {
-//        itemService.deleteItemById(id);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+
 
 }
