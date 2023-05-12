@@ -9,6 +9,7 @@ import com.ssafy.ssafvey.domain.member.exception.UnAuthorizationException;
 import com.ssafy.ssafvey.domain.member.repository.JobsRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberJobRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
+import com.ssafy.ssafvey.domain.member.repository.PointHistoryRepository;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
 import com.ssafy.ssafvey.global.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberJobRepository memberJobRepository;
     // TokenProvider 선언
     private final TokenProvider tokenProvider;
+
+    private final PointHistoryRepository pointHistoryRepository;
 
     public void updateUser(Long id, SignUpRequestDto signUpRequestDto){
         Optional<Member> findMember = memberRepository.findById(id);
@@ -362,6 +365,14 @@ public class MemberServiceImpl implements MemberService {
 
         findMember.setPoint(findMember.getPoint()+point);
         memberRepository.save(findMember);
+
+        PointHistory pointHistory = new PointHistory();
+        pointHistory.setPoint(point);
+        pointHistory.setMember(findMember);
+        pointHistory.setPointUsageHistory("로또 뜯기");
+        pointHistory.setPlusMinus(true);
+        pointHistoryRepository.save(pointHistory);
+
 
         return point;
     }

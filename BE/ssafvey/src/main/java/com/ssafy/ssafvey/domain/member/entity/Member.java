@@ -49,6 +49,10 @@ public class Member {
     @ToString.Exclude
     private List<MemberSurvey> memberSurveys = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private List<PointHistory> pointHistories = new ArrayList<>();
+
     @Nullable
     @Column(columnDefinition = "int default 0")
     private int couponCount;
