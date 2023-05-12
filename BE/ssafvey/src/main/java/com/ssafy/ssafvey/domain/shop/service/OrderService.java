@@ -27,7 +27,7 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final PointHistoryRepository pointHistoryRepository;
 
-
+    @Transactional
     public Long order(Long memberId, Long itemId) {
         //엔티티 조회
         Member member = memberRepository.findById(memberId).get();
@@ -44,10 +44,9 @@ public class OrderService {
             //포인트 차감
             point -= price;
             member.setPoint(point);
-            memberRepository.save(member);
 
             PointHistory pointHistory = new PointHistory();
-            pointHistory.setPoint(point);
+            pointHistory.setPoint(price);
             pointHistory.setMember(member);
             pointHistory.setPointUsageHistory("상품 구매");
             pointHistory.setPlusMinus(false);
