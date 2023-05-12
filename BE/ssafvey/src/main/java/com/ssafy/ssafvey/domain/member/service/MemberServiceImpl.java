@@ -422,6 +422,14 @@ public class MemberServiceImpl implements MemberService {
         return result;
     }
 
+    public MemberPointResponseDto getMemberPoint(Long id){
+        Member findMember = memberRepository.findById(id).get();
+        MemberPointResponseDto memberPointResponseDto = new MemberPointResponseDto();
+        memberPointResponseDto.setPoint(findMember.getPoint());
+
+        return memberPointResponseDto;
+    }
+
     public Map<String,Object> tmpAccessToken(Long id){
         Member findMember = memberRepository.findById(id).get();
         HashMap<String, Object> token = returnToken(findMember);
