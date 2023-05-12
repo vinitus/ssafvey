@@ -21,6 +21,7 @@ function Description({ children }: { children: string }) {
 }
 
 function SurveyInfoWrapper({ surveyInfoArr }: { surveyInfoArr: SurveyInfoInterface[] }) {
+  console.log(surveyInfoArr)
   return (
     <section className={style.stateBox}>
       {surveyInfoArr.map((surveyInfo) => (
@@ -43,9 +44,15 @@ function SurveyBtnWrapepr({
   return (
     <section className={style.buttons}>
       <div style={{ width: '30px' }} />
-      <button type="button" className={style.startSurveyBtn}>
-        설문 참여
-      </button>
+      {surveyCoverResData.isDone ?
+        <button type="button" className={style.startSurveyBtn}>
+          종료
+        </button>
+        :
+        <button type="button" className={style.startSurveyBtn}>
+          설문 시작
+        </button>
+      }
       <button type="button" onClick={() => kakaoshare(surveyCoverResData)}>
         <img id="sharing-btn" src="/icons/share.svg" alt="share-icon" />
       </button>
