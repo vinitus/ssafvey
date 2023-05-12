@@ -20,7 +20,6 @@ export default function OnlyLogin() {
 
     if (urlParams.has('code')) {
       const code = urlParams.get('code');
-      console.log('Code exists : ', code);
 
       axios({
         method: 'get',
@@ -49,8 +48,6 @@ export default function OnlyLogin() {
           navigateToSignup(data);
         }
       });
-    } else {
-      console.log('Code does not exist');
     }
 
     navigateToHome();
