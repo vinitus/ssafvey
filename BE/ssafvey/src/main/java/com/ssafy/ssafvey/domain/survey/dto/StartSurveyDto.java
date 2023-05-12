@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class StartSurveyDto {
+    private Long id;
     private Boolean isDone;
     private String title;
     private String description;

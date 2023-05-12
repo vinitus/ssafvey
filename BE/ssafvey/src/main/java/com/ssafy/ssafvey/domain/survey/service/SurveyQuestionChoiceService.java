@@ -25,7 +25,5 @@ public class SurveyQuestionChoiceService {
                 .build();
 
         return surveyQuestionChoiceRepository.save(surveyQuestionChoice);
-
-
     }
 }
