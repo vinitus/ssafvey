@@ -5,7 +5,7 @@ export default function Title() {
 
   const login = () => {
     window.Kakao.Auth.authorize({
-      redirectUri : 'http://localhost:5173/onlylogin'
+      redirectUri : 'http://k8a608.p.ssafy.io:3000/onlylogin'
     })
   }
 
