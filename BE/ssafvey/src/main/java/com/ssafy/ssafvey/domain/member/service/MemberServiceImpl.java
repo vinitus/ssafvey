@@ -340,15 +340,30 @@ public class MemberServiceImpl implements MemberService {
         findMember.setCouponCount(findMember.getCouponCount()-1);
 
         Random random = new Random();
-        int minPoint = 1;
-        int maxPoint = 100;
-        int randomPoint = random.nextInt(maxPoint - minPoint + 1) + minPoint;
+        int minNum = 1;
+        int maxNum = 50;
+        int point = 0;
+        int randomPoint = random.nextInt(maxNum - minNum + 1) + minNum;
         System.out.println(randomPoint);
+        if (randomPoint == 1) {
+            point=500;
+        } else if (randomPoint >= 2 && randomPoint <= 7) {
+            point=100;
+            // 11부터 20까지의 경우 처리할 내용
+        }else if (randomPoint >= 8 && randomPoint <= 20) {
+            point=30;
+            // 11부터 20까지의 경우 처리할 내용
+        }
+        else {
+            point=10;
+            // 1부터 20까지의 범위를 벗어나는 경우 처리할 내용
+        }
 
-        findMember.setPoint(findMember.getPoint()+randomPoint);
+
+        findMember.setPoint(findMember.getPoint()+point);
         memberRepository.save(findMember);
 
-        return randomPoint;
+        return point;
     }
 
     public Map<String,Object> tmpAccessToken(Long id){
