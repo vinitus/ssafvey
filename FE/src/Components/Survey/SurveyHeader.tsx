@@ -3,8 +3,8 @@ import style from './SurveyHeader.module.css';
 
 interface Props {
   title: string;
-  organization: string;
-  endDate: string;
+  organization?: string;
+  endDate?: string;
 }
 
 export default function SurveyHeader({ title, organization, endDate }: Props) {
@@ -24,3 +24,8 @@ export default function SurveyHeader({ title, organization, endDate }: Props) {
     </header>
   );
 }
+
+SurveyHeader.defaultProps = {
+  organization: '',
+  endDate: '',
+};
