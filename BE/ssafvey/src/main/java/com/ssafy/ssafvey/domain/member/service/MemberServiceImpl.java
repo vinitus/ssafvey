@@ -25,6 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -371,10 +375,50 @@ public class MemberServiceImpl implements MemberService {
         pointHistory.setMember(findMember);
         pointHistory.setPointUsageHistory("로또 뜯기");
         pointHistory.setPlusMinus(true);
+        pointHistory.setCreateDate(LocalDateTime.now());
         pointHistoryRepository.save(pointHistory);
 
 
         return point;
+    }
+
+    public List<PointResponseDto> getMypagePoint(Long id){
+        Member findMember = memberRepository.findById(id).get();
+
+        List<PointResponseDto> pointResponseDtoList = new ArrayList<>();
+
+        for(PointHistory tmpPointHistory : findMember.getPointHistories()){
+            PointResponseDto pointResponseDto = new PointResponseDto();
+            pointResponseDto.setPointUsageHistory(tmpPointHistory.getPointUsageHistory());
+            pointResponseDto.setPoint(tmpPointHistory.getPoint());
+            pointResponseDto.setPlusMinus(tmpPointHistory.getPlusMinus());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            String formattedDate =tmpPointHistory.getCreateDate().format(formatter);
+            pointResponseDto.setDate(formattedDate);
+            pointResponseDtoList.add(pointResponseDto);
+        }
+
+        Map<String, List<PointHistory>> itemMap = new HashMap<>();
+
+        // PointHistory 리스트를 날짜(date)별로 그룹화하여 맵(Map) 객체에 저장
+        for (PointHistory pointHistory : findMember.getPointHistories()) {
+            LocalDateTime createDate = pointHistory.getCreateDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+            String dateString = createDate.format(formatter);
+
+            if (itemMap.containsKey(dateString)) {
+                itemMap.get(dateString).add(pointHistory);
+            } else {
+                List<PointHistory> list = new ArrayList<>();
+                list.add(pointHistory);
+                itemMap.put(dateString, list);
+            }
+        }
+
+
+
+
+        return pointResponseDtoList;
     }
 
     public Map<String,Object> tmpAccessToken(Long id){

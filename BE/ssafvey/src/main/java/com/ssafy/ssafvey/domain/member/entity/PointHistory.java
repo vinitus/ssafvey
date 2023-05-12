@@ -3,6 +3,7 @@ package com.ssafy.ssafvey.domain.member.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -31,4 +32,5 @@ public class PointHistory {
 
     private Boolean plusMinus;
 
+    private LocalDateTime createDate;
 }
