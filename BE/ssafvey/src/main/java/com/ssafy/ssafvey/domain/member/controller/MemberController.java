@@ -181,7 +181,6 @@ public class MemberController {
     @PutMapping("/api/member/mypage/lotto")
     public ResponseEntity useLotto(HttpServletRequest request) {
 
-
         return ResponseEntity.status(HttpStatus.OK).body(memberService.getPoint((Long) request.getAttribute("memberId")));
     }
 
