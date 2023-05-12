@@ -1,7 +1,9 @@
 package com.ssafy.ssafvey.domain.shop.service;
 
 import com.ssafy.ssafvey.domain.member.entity.Member;
+import com.ssafy.ssafvey.domain.member.entity.PointHistory;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
+import com.ssafy.ssafvey.domain.member.repository.PointHistoryRepository;
 import com.ssafy.ssafvey.domain.shop.dto.OrderItemDto;
 import com.ssafy.ssafvey.domain.shop.entity.Item;
 import com.ssafy.ssafvey.domain.shop.entity.Order;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,6 +25,7 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
+    private final PointHistoryRepository pointHistoryRepository;
 
     @Transactional
     public Long order(Long memberId, Long itemId) {
@@ -40,6 +44,14 @@ public class OrderService {
             //포인트 차감
             point -= price;
             member.setPoint(point);
+
+            PointHistory pointHistory = new PointHistory();
+            pointHistory.setPoint(point);
+            pointHistory.setMember(member);
+            pointHistory.setPointUsageHistory("상품 구매");
+            pointHistory.setPlusMinus(false);
+            pointHistory.setCreateDate(LocalDateTime.now());
+            pointHistoryRepository.save(pointHistory);
 
             return order.getId();
         }

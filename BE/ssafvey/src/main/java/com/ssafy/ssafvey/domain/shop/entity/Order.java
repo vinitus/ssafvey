@@ -45,6 +45,7 @@ public class Order {
         Order order = new Order();
         order.setMember(member);
 
+        order.setOrderDate(LocalDateTime.now());
         order.addOrderItem(orderItem);
         order.setOrderItem(orderItem);
         return order;
