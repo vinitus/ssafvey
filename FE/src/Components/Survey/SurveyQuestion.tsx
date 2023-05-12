@@ -34,7 +34,7 @@ export default function SurveyQuestion() {
               isMultipleChoice={isMultipleChoice}
               choices={choices}
               order={order}
-              choiceObjState={answers[order]}
+              choiceObjState={answers}
               choiceStateDispatcher={setAnswers}
             />
           </SurveyBox>
