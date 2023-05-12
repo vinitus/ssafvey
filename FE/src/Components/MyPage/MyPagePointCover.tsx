@@ -1,8 +1,11 @@
 import React from 'react';
-import { CoverData, isPointHistory } from '../../types/myPageType';
+import { CoverData, isPointHistory, PointHistory } from '../../types/myPageType';
 import style from './MyPagePointCover.module.css';
 
 export default function MyPageSurveyCover({ quantity, infoType, renderingData }: CoverData) {
+  
+  const objectentri = Object.entries(renderingData)
+  
   return (
     <>
       <header className={style.coverHeaderWrapper}>
@@ -10,20 +13,24 @@ export default function MyPageSurveyCover({ quantity, infoType, renderingData }:
         <p className={style.coverHeaderQuantity}>{quantity}</p>
       </header>
       <section className={style.historyWrapper}>
-        {isPointHistory(renderingData) &&
-          renderingData.map((history, idx) => (
-            <article className={idx + 1 < renderingData.length ? style.historyBlockWithDay : ''} key={history.day}>
-              <h2 className={style.historyDay}>{history.day}</h2>
-              {history.history.map(({ pointHistoryType, pointUsed }, idx) => (
+        {isPointHistory(objectentri) &&
+          objectentri.map(([day, history], idx) => (
+            <article className={idx + 1 < objectentri.length ? style.historyBlockWithDay : ''} key={day}>
+              <h2 className={style.historyDay}>{day}</h2>
+              {history.map(({ point, pointUsageHistory, plusMinus } : PointHistory) => (
                 <article
                   className={style.historyBlock}
-                  style={pointUsed < 0 ? { backgroundColor: '#FEC1FF' } : { backgroundColor: '' }}
+                  style={!plusMinus ? { backgroundColor: '#FEC1FF' } : { backgroundColor: '' }}
                   // 배열의 UPDATE나 순서가 변경될 일은 없습니다.
                   // eslint-disable-next-line react/no-array-index-key
                   key={`${idx}`}
                 >
-                  <h3 className={style.historyTitle}>{pointHistoryType}</h3>
-                  <p className={style.historyPoint}>{pointUsed}</p>
+                  <h3 className={style.historyTitle}>{pointUsageHistory}</h3>
+                  {plusMinus ?
+                    <p className={style.historyPoint}>+{point}</p>
+                    :
+                    <p className={style.historyPoint}>-{point}</p>
+                  }
                 </article>
               ))}
             </article>

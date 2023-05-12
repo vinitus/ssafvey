@@ -1,7 +1,7 @@
 {
   "name": "SSAFVEY",
   "short_name": "SSAFVEY",
-  "start_url": "",
+  "start_url": "https://k8a608.p.ssafy.io",
   "display": "standalone",
   "background_color": "#F8F7DA",
   "theme_color": "#8C383A",
