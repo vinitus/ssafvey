@@ -349,22 +349,31 @@ public class MemberServiceImpl implements MemberService {
 
         Random random = new Random();
         int minNum = 1;
-        int maxNum = 50;
+        int maxNum = 100;
         int point = 0;
         int randomPoint = random.nextInt(maxNum - minNum + 1) + minNum;
         System.out.println(randomPoint);
         if (randomPoint == 1) {
+            point=1000;
+        } else if (randomPoint >= 2 && randomPoint <= 8) {
+            point=800;
+
+        }else if (randomPoint >= 9 && randomPoint <= 18) {
+            point=600;
+
+        }else if (randomPoint >= 19 && randomPoint <= 28) {
             point=500;
-        } else if (randomPoint >= 2 && randomPoint <= 7) {
-            point=100;
+
+        }else if (randomPoint >= 29 && randomPoint <= 45) {
+            point=400;
             // 11부터 20까지의 경우 처리할 내용
-        }else if (randomPoint >= 8 && randomPoint <= 20) {
-            point=30;
-            // 11부터 20까지의 경우 처리할 내용
+        }else if (randomPoint >= 46 && randomPoint <= 75) {
+            point=300;
+
         }
         else {
-            point=10;
-            // 1부터 20까지의 범위를 벗어나는 경우 처리할 내용
+            point=100;
+
         }
 
 
@@ -386,9 +395,14 @@ public class MemberServiceImpl implements MemberService {
     public Map<String, List<PointResponseDto>> getMypagePoint(Long id){
         Member findMember = memberRepository.findById(id).get();
 
+        List<PointHistory> pointHistoryList = findMember.getPointHistories();
+
+        pointHistoryList.sort(Comparator.comparing(PointHistory::getCreateDate).reversed());
+
+
         List<PointResponseDto> pointResponseDtoList = new ArrayList<>();
 
-        for(PointHistory tmpPointHistory : findMember.getPointHistories()){
+        for(PointHistory tmpPointHistory : pointHistoryList){
             PointResponseDto pointResponseDto = new PointResponseDto();
             pointResponseDto.setPointUsageHistory(tmpPointHistory.getPointUsageHistory());
             pointResponseDto.setPoint(tmpPointHistory.getPoint());
@@ -403,9 +417,6 @@ public class MemberServiceImpl implements MemberService {
         // PointHistory 객체 리스트를 날짜(date)별로 그룹화하여 Map 객체에 저장
         Map<String, List<PointResponseDto>> result = pointResponseDtoList.stream()
                 .collect(Collectors.groupingBy(PointResponseDto::getDate));
-
-
-
 
         return result;
     }
