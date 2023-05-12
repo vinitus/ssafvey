@@ -31,5 +31,9 @@
 }
 
 .coin_content {
-  @apply w-40 h-25 font-bold flex items-center justify-items-center bg-headerFooter text-blue rounded-5;
+  @apply px-10 h-25 font-bold flex items-center justify-items-center bg-headerFooter text-blue rounded-5;
+}
+
+.cardpart {
+  @apply w-[80%] flex flex-col items-center mt-10 mx-[10%];
 }
