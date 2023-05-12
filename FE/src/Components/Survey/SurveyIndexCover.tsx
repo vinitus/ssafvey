@@ -38,7 +38,7 @@ function SurveyBtnWrapepr({
   kakaoshare,
   surveyCoverResData,
 }: {
-  kakaoshare: any;
+  kakaoshare: (a: SurveyCoverData) => void;
   surveyCoverResData: SurveyCoverData;
 }) {
   const navigate = useNavigate();
