@@ -1,9 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
+import { SurveyTitleState, SurveyDescState, questionsState } from '@store/Create/atom';
+import { useSetRecoilState } from 'recoil';
 import style from './ImportExcel.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
-// import PlusButton from '../../UI/Survey/PlusButton';
+import { Question, QuestionType, Answer } from '@/types/createSurveyType';
 
 interface MakeSurvey {
   문항: string;
@@ -25,14 +27,14 @@ interface surveytype {
   order: number | string;
   question: string;
   is_multiple_choice: boolean;
-  choices: choice[] | null;
+  choices: choice[];
 }
 
 export default function ImportExcel() {
-  const fileRef = useRef<HTMLInputElement>(null);
-  // let surveylist = useState([])
-
   const navigate = useNavigate();
+
+  const fileRef = useRef<HTMLInputElement>(null);
+
   function createsurvey() {
     navigate(`basic`);
   }
@@ -42,8 +44,11 @@ export default function ImportExcel() {
     filebtn?.click();
   };
 
+  const setSurveyTitle = useSetRecoilState(SurveyTitleState);
+  const setSurveyDesc = useSetRecoilState(SurveyDescState);
+  const setQuestions = useSetRecoilState(questionsState);
+
   const setJSON = (datas: MakeSurvey[]) => {
-    const survey = new FormData();
     const questions: surveytype[] = [];
 
     for (let i = 0; i < datas.length; i += 1) {
@@ -51,9 +56,9 @@ export default function ImportExcel() {
       if (data.문항 === '') {
         break;
       } else if (i === 0) {
-        survey.append('title', data.질문);
+        setSurveyTitle(data.질문);
       } else if (i === 1) {
-        survey.append('description', data.질문);
+        setSurveyDesc(data.질문);
       } else if (i === 2) {
         /* empty */
       } else {
@@ -68,10 +73,10 @@ export default function ImportExcel() {
 
         if (data['주관식/객관식'] === '주관식') {
           // 주관식일때
-          question.is_multiple_choice = true;
+          question.is_multiple_choice = false;
         } else {
           // 객관식일때
-          question.is_multiple_choice = false;
+          question.is_multiple_choice = true;
 
           let choices: choice[] = [];
 
@@ -94,7 +99,24 @@ export default function ImportExcel() {
         questions.push(question);
       }
     }
-    survey.append('survey_questions', JSON.stringify(questions));
+
+    const typeChangedQuestions: Question[] = questions.map((question) => {
+      return {
+        id: Number(question.order),
+        title: question.question,
+        type: question.is_multiple_choice ? 'multiple' : ('essay' as QuestionType),
+        answers: question.choices.map((choice) => {
+          return {
+            id: choice.order,
+            value: choice.choice,
+          } as Answer;
+        }),
+      };
+    });
+
+    setQuestions(typeChangedQuestions);
+
+    navigate('additional');
   };
 
   const readExcel = (e: React.ChangeEvent<HTMLInputElement>) => {

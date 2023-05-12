@@ -27,7 +27,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
                   setModalOpenFlag(title);
                 }}
               >
-                <GiftCard productTitle={title} />
+                <GiftCard productTitle={title} image="df" point={500} />
               </button>
             ))}
         </div>
@@ -49,7 +49,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
         }}
       >
         {typeof modalOpenFlag === 'string' && (
-          <BuyGift title={modalOpenFlag} closemodal={() => setModalOpenFlag(false)} />
+          <BuyGift title={modalOpenFlag} id={0} price={5} closemodal={() => setModalOpenFlag(false)} />
         )}
       </Modal>
     </>

@@ -4,7 +4,7 @@ import style from './HomeCard.module.css';
 
 export default function HomeCardRight() {
   const navigate = useNavigate();
-  const id = 1; // 카드 id
+  const id = 22; // 카드 id
   function cardclick() {
     navigate(`/survey/${id}`);
   }
