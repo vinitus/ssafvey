@@ -1,14 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+// 사용된 any는 사용자 타입 가드를 위한 것이에요
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useRef } from 'react';
 import style from './BuyGift.module.css';
-import { postItemlist } from '../../Api/coupon'
+import { postItemlist } from '../../Api/coupon';
 import { queryClient } from '@/router';
 
 interface Props {
   closemodal: () => void;
   title: string;
-  price: number;
-  id : number;
+  price?: number;
+  id?: number;
 }
+
+BuyGift.defaultProps = {
+  price: '',
+  id: '',
+};
 
 const isMouseEvent = (e: any): e is MouseEvent =>
   e.type === 'mousedown' || e.type === 'mouseend' || e.type === 'mousemove';
@@ -16,11 +23,7 @@ const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
 export default function BuyGift({ closemodal, id, price, title }: Props) {
-
   const point = 45000;
-  
-  // const makeQSDragItem = () => document.querySelector('#slidebtn');
-  // const makeQSContainer = () => document.querySelector('#slide');
 
   const slideRef = useRef<HTMLDivElement | null>(null);
   const slideBtnRef = useRef<HTMLDivElement | null>(null);
@@ -31,15 +34,15 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
     let initialX: number;
     let xOffset = 0;
 
-    const token = queryClient.getQueryData(['accessToken']) as string
+    const token = queryClient.getQueryData(['accessToken']) as string;
 
-    async function ordernew(){
-      try{
-        const data = await postItemlist(id, token)
-        console.log(data);
-      }
-      catch(error) {
-        console.error(error)
+    async function ordernew() {
+      try {
+        if (id) {
+          await postItemlist(id, token);
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
 
@@ -72,11 +75,11 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
         xOffset = 0;
       } else if (currentX >= 130) {
         setTranslate(170, slideBtnRef.current);
-        ordernew()
+        ordernew();
         slideRef.current.removeEventListener('touchstart', dragStart);
         slideRef.current.removeEventListener('touchend', dragEnd);
         slideRef.current.removeEventListener('touchmove', drag);
-  
+
         slideRef.current.removeEventListener('mousedown', dragStart);
         slideRef.current.removeEventListener('mouseup', dragEnd);
         slideRef.current.removeEventListener('mousemove', drag);
@@ -103,7 +106,7 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
         setTranslate(currentX, slideBtnRef.current);
       }
     };
-    if ((slideBtnRef.current && slideRef.current) && (token) && (point && price && point >= price)) {
+    if (slideBtnRef.current && slideRef.current && token && point && price && point >= price) {
       slideRef.current.addEventListener('touchstart', dragStart);
       slideRef.current.addEventListener('touchend', dragEnd);
       slideRef.current.addEventListener('touchmove', drag);
@@ -137,7 +140,7 @@ export default function BuyGift({ closemodal, id, price, title }: Props) {
         <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
           {point ? price : '사용하기'}
         </div>
-        {point && (point >= price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>)}
+        {point && price && (point >= price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>)}
         {!point && <span>밀어서 사용하기</span>}
       </div>
     </div>

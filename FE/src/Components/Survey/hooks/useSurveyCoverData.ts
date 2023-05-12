@@ -3,6 +3,8 @@ import { go, map, slice } from '../../../module/fx';
 
 declare global {
   interface Window {
+    // 카카오 객체에 어떤 타입을 넣어야할지 모르겠어요
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Kakao: any;
   }
 }
@@ -12,9 +14,10 @@ interface MappingKeyToKoreanType {
 }
 
 const mappingKeyToKorean: MappingKeyToKoreanType = {
-  creator: '만든이',
+  organization: '만든이',
   endDate: '조사기간',
-  targetSurveyParticipants: '참여인원',
+  surveyParticipants: '참여인원',
+  targetSurveyParticipants: '목표인원',
   lotto: '복권',
 };
 
