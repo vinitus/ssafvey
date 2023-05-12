@@ -34,7 +34,7 @@ public class MypageResponseDto {
             // member에서 membersurvey 가져오기 for문 돌려서 recentItem에 넣기 service에서 해야할듯?
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
                 String formattedDate = memberSurvey.getSurvey().getCreateDate().format(formatter);
-                RecentItem tmpItem = new RecentItem(memberSurvey.getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
+                RecentItem tmpItem = new RecentItem(memberSurvey.getSurvey().getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
                 recentActivity.add(tmpItem);
             }
 

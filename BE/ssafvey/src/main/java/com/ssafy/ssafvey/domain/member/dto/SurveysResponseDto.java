@@ -24,7 +24,7 @@ public class SurveysResponseDto {
         for (MemberSurvey memberSurvey : participatedMemberSurvey) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
             String formattedDate = memberSurvey.getSurvey().getCreateDate().format(formatter);
-            RecentItem tmpItem = new RecentItem(memberSurvey.getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
+            RecentItem tmpItem = new RecentItem(memberSurvey.getSurvey().getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
             recentActivity.add(tmpItem);
         }
 
@@ -58,7 +58,7 @@ public class SurveysResponseDto {
         for (MemberSurvey memberSurvey : createdMemberSurvey) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
             String formattedDate = memberSurvey.getSurvey().getCreateDate().format(formatter);
-            RecentItem tmpItem = new RecentItem(memberSurvey.getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
+            RecentItem tmpItem = new RecentItem(memberSurvey.getSurvey().getId(),memberSurvey.getSurvey().getTitle(),memberSurvey.getSurvey().getOrganization(),formattedDate);
             recentActivity.add(tmpItem);
         }
 

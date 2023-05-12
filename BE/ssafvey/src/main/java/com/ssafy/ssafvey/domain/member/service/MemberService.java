@@ -28,5 +28,7 @@ public interface MemberService {
 
     int getPoint(Long id);
 
+    Map<String, List<PointResponseDto>> getMypagePoint(Long id);
+
     Map<String,Object> tmpAccessToken(Long id);
 }

@@ -1,5 +1,7 @@
 package com.ssafy.ssafvey.domain.shop.dto;
 
+import com.ssafy.ssafvey.domain.member.entity.Member;
+import com.ssafy.ssafvey.domain.shop.entity.OrderItem;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +13,12 @@ public class OrderDto {
     @NotNull
     private Long itemId;
 
-    @NotNull
-    private Long memberId;
+    private Member member;
+
+    private OrderItem orderItem;
+
+
+
+
+
 }
