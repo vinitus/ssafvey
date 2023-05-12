@@ -7,6 +7,7 @@ export interface SurveyCoverData {
   targetSurveyParticipants: number;
   surveyParticipants: number;
   lotto: number;
+  id: number;
 }
 
 export interface SurveyQuestionData {
