@@ -2,6 +2,7 @@ package com.ssafy.ssafvey.domain.shop.controller;
 
 import com.ssafy.ssafvey.domain.member.service.MemberService;
 import com.ssafy.ssafvey.domain.shop.dto.OrderDto;
+import com.ssafy.ssafvey.domain.shop.dto.OrderResponseDto;
 import com.ssafy.ssafvey.domain.shop.entity.Order;
 import com.ssafy.ssafvey.domain.shop.service.ItemService;
 import com.ssafy.ssafvey.domain.shop.service.OrderService;
@@ -35,9 +36,9 @@ public class OrderController {
     }
 
     @GetMapping(value = "list")
-    public ResponseEntity<List<Order>> orderList(@RequestParam Long memberId) {
-        List<Order> orderList = orderService.orderList(memberId);
-        return new ResponseEntity<List<Order>>(orderList, HttpStatus.CREATED);
+    public ResponseEntity<List<OrderResponseDto>> orderList(HttpServletRequest request) {
+        List<OrderResponseDto> orderList = orderService.orderList((Long) request.getAttribute("memberId"));
+        return new ResponseEntity<>(orderList, HttpStatus.CREATED);
     }
 
 //    @GetMapping

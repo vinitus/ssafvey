@@ -8,13 +8,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderDto {
+public class OrderResponseDto {
 
     @NotNull
+
     private Long itemId;
 
-    private Member member;
+    private Long orderItemId;
 
-    private OrderItem orderItem;
+    private String imageUrl;
+
+    private String itemName;
 
 }
