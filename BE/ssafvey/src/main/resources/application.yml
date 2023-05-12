@@ -25,6 +25,13 @@ spring:
   sql:
     init:
       mode: always
+  rabbitmq:
+    host: blossom-orange-seahorse.rmq5.cloudamqp.com
+    username: xpwglmeq
+    password: yT7bKH9oqhdb60bQzdPpgpOfwcRYM9Et
+    virtual-host: xpwglmeq
+    port: 5672
+
 
 logging.level:
   org.hibernate.SQL: error

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -83,6 +82,10 @@ public class Survey {
     @PrePersist
     public void setCreatedAt() {
         this.createDate = LocalDateTime.now();
+    }
+
+    public void surveyParticipate(){
+        this.surveyParticipants++;
     }
 
 }

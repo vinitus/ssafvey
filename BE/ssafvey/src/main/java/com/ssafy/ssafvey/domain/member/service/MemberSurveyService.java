@@ -3,7 +3,6 @@ package com.ssafy.ssafvey.domain.member.service;
 import com.ssafy.ssafvey.domain.member.entity.Member;
 import com.ssafy.ssafvey.domain.member.entity.MemberSurvey;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
-import com.ssafy.ssafvey.domain.member.repository.MemberSurveyRepository;
 import com.ssafy.ssafvey.domain.survey.entity.Survey;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +17,16 @@ public class MemberSurveyService {
         this.memberRepository = memberRepository;
     }
 
-    public MemberSurvey createMemberSurvey(Long memberId, Survey survey) {
+    public MemberSurvey createMemberSurvey(Long memberId, Survey survey, boolean isOwner) {
         Optional<Member> member = memberRepository.findById(memberId);
         MemberSurvey memberSurvey = new MemberSurvey();
 
         if (member.isPresent()) {
             memberSurvey.setSurvey(survey);
             memberSurvey.setMember(member.get());
-            memberSurvey.setIsOwner(true);
-            return memberSurvey;
-        } else {
-            return memberSurvey;
+            memberSurvey.setIsOwner(isOwner);
         }
+        return memberSurvey;
 
     }
 }

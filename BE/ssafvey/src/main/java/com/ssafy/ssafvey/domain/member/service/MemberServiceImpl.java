@@ -275,32 +275,54 @@ public class MemberServiceImpl implements MemberService {
     public MypageResponseDto getMypage(Long id){
         Member findMember = memberRepository.findById(id).get();
 
-        List<MemberSurvey> createdMemberSurvey = new ArrayList<>();
         List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
         Long numCreated = 0L;
+        Long numParticipated = 0L;
+        // date 필드를 기준으로 비교하는 Comparator 객체 생성
+        Comparator<MemberSurvey> compareByDate = new Comparator<MemberSurvey>() {
+            @Override
+            public int compare(MemberSurvey s1, MemberSurvey s2) {
+                return s2.getCreatedAt().compareTo(s1.getCreatedAt());
+            }
+        };
+
+        // MemberSurvey 객체의 리스트를 date 필드를 기준으로 정렬
+        Collections.sort(memberSurveys, compareByDate);
+
+        // 최신 3개의 객체 가져오기
+        List<MemberSurvey> latest3Surveys = memberSurveys.subList(0, Math.min(3, memberSurveys.size()));
+
         for (MemberSurvey memberSurvey : memberSurveys) {
             // 각 memberSurvey에 대한 작업 수행
             if (memberSurvey.getIsOwner()) {
                 numCreated++;
             }else {
                 // isOwner가 false일 때 실행할 코드
+                numParticipated++;
             }
         }
 
-        return MypageResponseDto.mypageResponseDto(findMember,numCreated);
+        return MypageResponseDto.mypageResponseDto(findMember,numCreated,numParticipated,latest3Surveys);
 
     }
 
     public Map<String, List<RecentItem>> getSurveyParticipated(Long id){
         Member findMember = memberRepository.findById(id).get();
+        List<MemberSurvey> participatedMemberSurvey = new ArrayList<>();
+        List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
+        for (MemberSurvey memberSurvey : memberSurveys) {
+            // 각 memberSurvey에 대한 작업 수행
+            if (!memberSurvey.getIsOwner()) {
+                participatedMemberSurvey.add(memberSurvey);
+            }
+        }
 
 
-        return SurveysResponseDto.getSurveyParticipated(findMember);
+        return SurveysResponseDto.getSurveyParticipated(findMember,participatedMemberSurvey);
     }
 
     public Map<String, List<RecentItem>> getSurveyCreated(Long id){
         Member findMember = memberRepository.findById(id).get();
-        System.out.println(findMember.getMemberSurveys());
         List<MemberSurvey> createdMemberSurvey = new ArrayList<>();
         List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
         for (MemberSurvey memberSurvey : memberSurveys) {
@@ -318,15 +340,30 @@ public class MemberServiceImpl implements MemberService {
         findMember.setCouponCount(findMember.getCouponCount()-1);
 
         Random random = new Random();
-        int minPoint = 1;
-        int maxPoint = 100;
-        int randomPoint = random.nextInt(maxPoint - minPoint + 1) + minPoint;
+        int minNum = 1;
+        int maxNum = 50;
+        int point = 0;
+        int randomPoint = random.nextInt(maxNum - minNum + 1) + minNum;
         System.out.println(randomPoint);
+        if (randomPoint == 1) {
+            point=500;
+        } else if (randomPoint >= 2 && randomPoint <= 7) {
+            point=100;
+            // 11부터 20까지의 경우 처리할 내용
+        }else if (randomPoint >= 8 && randomPoint <= 20) {
+            point=30;
+            // 11부터 20까지의 경우 처리할 내용
+        }
+        else {
+            point=10;
+            // 1부터 20까지의 범위를 벗어나는 경우 처리할 내용
+        }
 
-        findMember.setPoint(findMember.getPoint()+randomPoint);
+
+        findMember.setPoint(findMember.getPoint()+point);
         memberRepository.save(findMember);
 
-        return randomPoint;
+        return point;
     }
 
     public Map<String,Object> tmpAccessToken(Long id){
