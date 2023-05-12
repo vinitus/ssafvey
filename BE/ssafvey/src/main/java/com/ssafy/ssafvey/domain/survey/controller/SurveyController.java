@@ -2,6 +2,7 @@ package com.ssafy.ssafvey.domain.survey.controller;
 
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberSurveyRepository;
+import com.ssafy.ssafvey.domain.survey.dto.MQSendSurveyDto;
 import com.ssafy.ssafvey.domain.survey.dto.StartSurveyDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.SurveyAnswersDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.SurveyDto;
@@ -9,6 +10,7 @@ import com.ssafy.ssafvey.domain.survey.dto.response.SurveyListDto;
 import com.ssafy.ssafvey.domain.survey.entity.Survey;
 import com.ssafy.ssafvey.domain.survey.repository.SurveyRepository;
 import com.ssafy.ssafvey.domain.survey.service.SurveyService;
+import com.ssafy.ssafvey.utils.Publisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ public class SurveyController {
     private final MemberSurveyRepository memberSurveyRepository;
     private final MemberRepository memberRepository;
     private final SurveyRepository surveyRepository;
+    private final Publisher publisher;
 
     @GetMapping("/api/survey")
     public ResponseEntity<?> getSurveyList(HttpServletRequest request, @RequestParam(required = false) String search){
@@ -65,6 +68,15 @@ public class SurveyController {
     @PostMapping("/api/survey/answer")
     public ResponseEntity<?> answerSurvey(HttpServletRequest request, @RequestBody SurveyAnswersDto surveyAnswersDto) {
         surveyService.createSurveyAnswer((Long) request.getAttribute("memberId"),surveyAnswersDto);
+        return new ResponseEntity<>(new HashMap<>(), HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/ttest")
+    public ResponseEntity<?> testtest(HttpServletRequest request) {
+        MQSendSurveyDto mqSendSurveyDto = new MQSendSurveyDto();
+        mqSendSurveyDto.setId(1L);
+        publisher.send(mqSendSurveyDto);
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.CREATED);
     }
 }
