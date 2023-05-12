@@ -158,6 +158,19 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
+    @ApiOperation(value="포인트 가져오기", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/mypage/point")
+    public ResponseEntity getMypagePoint(HttpServletRequest request) {
+        Map<String, List<PointResponseDto>> pointHistorys = memberService.getMypagePoint((Long) request.getAttribute("memberId"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(pointHistorys);
+    }
+
 
     @ApiOperation(value="로또 뜯기", notes = "유저 정보를 업데이트 합니다")
     @ApiResponses({
