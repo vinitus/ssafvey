@@ -49,7 +49,6 @@ export default function MyPage() {
       try {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getMypage(accessToken);
-        console.log('data 1:', data);
 
         setInfo({
           name: data.name,
@@ -72,7 +71,6 @@ export default function MyPage() {
       try {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurveyResponse(accessToken);
-        console.log('data 2 : ', data);
         setDosurvey(data);
         getmakesurveylist();
       } catch (err) {
@@ -84,7 +82,6 @@ export default function MyPage() {
       try {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurvey(accessToken);
-        console.log('data3 : ', data);
         setMakesurvey(data);
       } catch (err) {
         console.log(err);
@@ -175,7 +172,7 @@ export default function MyPage() {
           sending={send}
           contentType="쿠폰"
           content={{
-            quantity: 5,
+            quantity: info.coupon,
             infoType: openModalFlag,
             renderingData: ['아이스티', '커피', '커피', '아이스티', '아이스티'],
           }}
@@ -187,44 +184,34 @@ export default function MyPage() {
           sending={send}
           contentType="포인트"
           content={{
-            quantity: 4500,
+            quantity: info.point,
             infoType: openModalFlag,
-            renderingData: [
-              {
-                day: '2023.04.11',
-                history: [
+            renderingData: 
+            {
+              "2023.05.12": [
                   {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
+                      "point": 30,
+                      "pointUsageHistory": "로또 뜯기",
+                      "plusMinus": true,
+                      "date": "2023.05.12"
                   },
                   {
-                    pointHistoryType: '설문 제작',
-                    pointUsed: -200,
-                  },
-                ],
-              },
-              {
-                day: '3325.12.10',
-                history: [
+                      "point": 10,
+                      "pointUsageHistory": "로또 뜯기",
+                      "plusMinus": false,
+                      "date": "2023.05.12"
+                  }
+              ],
+              "2023.05.11": [
                   {
-                    pointHistoryType: '쿠폰 교환',
-                    pointUsed: -100,
-                  },
-                  {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
-                  },
-                  {
-                    pointHistoryType: '복권 교환',
-                    pointUsed: -100,
-                  },
-                  {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
-                  },
-                ],
-              },
-            ],
+                      "point": 10,
+                      "pointUsageHistory": "로또 뜯기",
+                      "plusMinus": true,
+                      "date": "2023.05.11"
+                  }
+              ]
+          }
+            
           }}
         />
       )}

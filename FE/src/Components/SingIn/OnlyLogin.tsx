@@ -24,17 +24,17 @@ export default function OnlyLogin() {
       axios({
         method: 'get',
         // url: 'http://localhost:8081/api/member/login',
-        url: 'http://k8a608.p.ssafy.io:8081/api/member/login',
+        url: 'https://k8a608.p.ssafy.io/api/member/login',
         params: {
           code,
         },
       }).then((res) => {
         // accesstoken => queryclient
-        queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
-
+        // queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
+        queryClient.setQueryData(['accessToken'], "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY4MzkyNTgwM30.eKgcsafOH8ScIZdPWugJQH-x-4Jw4qK2pLDE8O1E7GMugm0doqEyPpTgriN9kIAihF9QFO1TO8CNnO_QGSWlUg")
         // refresh token => localstorage
-        const { refreshToken } = res.data.token;
-        localStorage.setItem('refreshToken', refreshToken);
+        // const { refreshToken } = res.data.token;
+        // localStorage.setItem('refreshToken', refreshToken);
 
         const isRegist = res.data.isRegistered;
         if (isRegist) {
