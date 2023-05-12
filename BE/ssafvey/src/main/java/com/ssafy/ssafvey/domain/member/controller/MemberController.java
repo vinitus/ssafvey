@@ -166,7 +166,7 @@ public class MemberController {
     })
     @GetMapping("/api/member/mypage/point")
     public ResponseEntity getMypagePoint(HttpServletRequest request) {
-        List<PointResponseDto> pointHistorys = memberService.getMypagePoint((Long) request.getAttribute("memberId"));
+        Map<String, List<PointResponseDto>> pointHistorys = memberService.getMypagePoint((Long) request.getAttribute("memberId"));
 
         return ResponseEntity.status(HttpStatus.OK).body(pointHistorys);
     }

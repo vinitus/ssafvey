@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -382,7 +383,7 @@ public class MemberServiceImpl implements MemberService {
         return point;
     }
 
-    public List<PointResponseDto> getMypagePoint(Long id){
+    public Map<String, List<PointResponseDto>> getMypagePoint(Long id){
         Member findMember = memberRepository.findById(id).get();
 
         List<PointResponseDto> pointResponseDtoList = new ArrayList<>();
@@ -398,27 +399,15 @@ public class MemberServiceImpl implements MemberService {
             pointResponseDtoList.add(pointResponseDto);
         }
 
-        Map<String, List<PointHistory>> itemMap = new HashMap<>();
 
-        // PointHistory 리스트를 날짜(date)별로 그룹화하여 맵(Map) 객체에 저장
-        for (PointHistory pointHistory : findMember.getPointHistories()) {
-            LocalDateTime createDate = pointHistory.getCreateDate();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
-            String dateString = createDate.format(formatter);
-
-            if (itemMap.containsKey(dateString)) {
-                itemMap.get(dateString).add(pointHistory);
-            } else {
-                List<PointHistory> list = new ArrayList<>();
-                list.add(pointHistory);
-                itemMap.put(dateString, list);
-            }
-        }
+        // PointHistory 객체 리스트를 날짜(date)별로 그룹화하여 Map 객체에 저장
+        Map<String, List<PointResponseDto>> result = pointResponseDtoList.stream()
+                .collect(Collectors.groupingBy(PointResponseDto::getDate));
 
 
 
 
-        return pointResponseDtoList;
+        return result;
     }
 
     public Map<String,Object> tmpAccessToken(Long id){
