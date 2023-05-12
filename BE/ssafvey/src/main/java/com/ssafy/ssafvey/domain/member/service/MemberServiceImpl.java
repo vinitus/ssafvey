@@ -10,6 +10,7 @@ import com.ssafy.ssafvey.domain.member.repository.JobsRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberJobRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.repository.PointHistoryRepository;
+import com.ssafy.ssafvey.domain.shop.entity.Order;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
 import com.ssafy.ssafvey.global.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -283,6 +284,8 @@ public class MemberServiceImpl implements MemberService {
 
     public MypageResponseDto getMypage(Long id){
         Member findMember = memberRepository.findById(id).get();
+
+
 
         List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
         Long numCreated = 0L;
