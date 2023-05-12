@@ -32,7 +32,6 @@ spring:
     virtual-host: xpwglmeq
     port: 5672
 
-
 logging.level:
   org.hibernate.SQL: error
 # org.hibernate.type: trace
