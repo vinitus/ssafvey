@@ -16,7 +16,7 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    @Transactional
+
     public Item saveItem(Item item) {
         itemRepository.save(item);
         return item;
