@@ -13,15 +13,24 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
         <h1 className={style.coverHeaderTitle}>{`보유한 ${infoType}`}</h1>
         <p className={style.coverHeaderQuantity}>{quantity}</p>
       </header>
-      <section className={style.cardWrapper}>
-        {isCouponTitle(renderingData) &&
-          renderingData.map((title, idx) => (
-            // idx를 쓰지만, title을 통해서 고유값을 지정했기에 idx를 사용해도 괜찮습니다.
-            // eslint-disable-next-line react/no-array-index-key
-            <button type="button" key={idx} onClick={() => setModalOpenFlag(title)}>
-              <GiftCard productTitle={title} />
-            </button>
-          ))}
+      <section className={style.cardlist}>
+        <div className={style.cardWrapper}>
+          {isCouponTitle(renderingData) &&
+            renderingData.map((title, idx) => (
+              <button
+                type="button"
+                // idx를 쓰지만, title을 통해서 고유값을 지정했기에 idx를 사용해도 괜찮습니다.
+                // eslint-disable-next-line react/no-array-index-key
+                key={idx}
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  setModalOpenFlag(title);
+                }}
+              >
+                <GiftCard productTitle={title} image="df" point={500} />
+              </button>
+            ))}
+        </div>
       </section>
       <Modal
         className={style.updatemodal}
@@ -34,13 +43,13 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
             width: '300px',
             height: '450px',
             backgroundColor: '#ffffff',
-            margin: 'auto -10px',
+            margin: 'auto',
             borderRadius: '20px',
           },
         }}
       >
         {typeof modalOpenFlag === 'string' && (
-          <BuyGift closemodal={() => setModalOpenFlag(false)} title={modalOpenFlag} />
+          <BuyGift title={modalOpenFlag} id={0} price={5} closemodal={() => setModalOpenFlag(false)} />
         )}
       </Modal>
     </>

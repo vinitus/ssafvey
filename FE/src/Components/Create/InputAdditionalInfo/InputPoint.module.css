@@ -1,0 +1,7 @@
+.input {
+  @apply inline-block w-120 px-10 text-20 rounded-10 border-2 border-slate-300;
+}
+
+.inputContainer {
+  @apply flex items-center gap-5;
+}

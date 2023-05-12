@@ -2,12 +2,11 @@ package com.ssafy.ssafvey.domain.member.service;
 
 //import com.fasterxml.jackson.core.JsonParser;
 import com.google.gson.JsonElement;
-import com.ssafy.ssafvey.domain.member.dto.LoginItem;
-import com.ssafy.ssafvey.domain.member.dto.SignUpRequestDto;
+import com.ssafy.ssafvey.domain.member.dto.*;
 import com.ssafy.ssafvey.domain.member.entity.*;
 import com.ssafy.ssafvey.domain.member.exception.BadRequestException;
 import com.ssafy.ssafvey.domain.member.exception.UnAuthorizationException;
-import com.ssafy.ssafvey.domain.member.repository.JobRepository;
+import com.ssafy.ssafvey.domain.member.repository.JobsRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberJobRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
@@ -35,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
     // MemberRepository 선언
     private final MemberRepository memberRepository;
 
-    private final JobRepository jobRepository;
+    private final JobsRepository jobsRepository;
 
     private final MemberJobRepository memberJobRepository;
     // TokenProvider 선언
@@ -46,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
         List<MemberJob> jobList = new ArrayList<>();
         for (Long job : signUpRequestDto.getJobs()) {
             MemberJob memberJob = new MemberJob();
-            Job findJob = jobRepository.findById(job).get();;
+            Job findJob = jobsRepository.findById(job).get();;
             memberJob.setMember(findMember.get());
             memberJob.setJob(findJob);
             jobList.add(memberJob);
@@ -192,7 +191,6 @@ public class MemberServiceImpl implements MemberService {
             //Gson 라이브러리로 JSON파싱
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
-            System.out.println("token = " +element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("profile").getAsJsonObject().get("nickname"));
             int id = element.getAsJsonObject().get("id").getAsInt();
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
 //            boolean hasAgeRange = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_age_range").getAsBoolean();
@@ -215,6 +213,7 @@ public class MemberServiceImpl implements MemberService {
             if (memberRepository.findByEmail(email) != null) {
                 Member findMember = memberRepository.findByEmail(email);
                 Map<String, Object> resultToken = returnToken(findMember);
+                System.out.println("토큰"+resultToken);
                 LoginItem loginItem = LoginItem.builder()
                         .name(findMember.getName())
                         .email(findMember.getEmail())
@@ -249,7 +248,7 @@ public class MemberServiceImpl implements MemberService {
         Authority userAuthority = Authority.user();
         GenderType isGender;
         if (gender.equals("male")) {
-            isGender=GenderType.MALE;
+            isGender=GenderType.MAN;
         }
         else{
             isGender=GenderType.WOMAN;
@@ -273,9 +272,110 @@ public class MemberServiceImpl implements MemberService {
         return result;
     }
 
+    public MypageResponseDto getMypage(Long id){
+        Member findMember = memberRepository.findById(id).get();
+
+        List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
+        Long numCreated = 0L;
+        Long numParticipated = 0L;
+        // date 필드를 기준으로 비교하는 Comparator 객체 생성
+        Comparator<MemberSurvey> compareByDate = new Comparator<MemberSurvey>() {
+            @Override
+            public int compare(MemberSurvey s1, MemberSurvey s2) {
+                return s2.getCreatedAt().compareTo(s1.getCreatedAt());
+            }
+        };
+
+        // MemberSurvey 객체의 리스트를 date 필드를 기준으로 정렬
+        Collections.sort(memberSurveys, compareByDate);
+
+        // 최신 3개의 객체 가져오기
+        List<MemberSurvey> latest3Surveys = memberSurveys.subList(0, Math.min(3, memberSurveys.size()));
+
+        for (MemberSurvey memberSurvey : memberSurveys) {
+            // 각 memberSurvey에 대한 작업 수행
+            if (memberSurvey.getIsOwner()) {
+                numCreated++;
+            }else {
+                // isOwner가 false일 때 실행할 코드
+                numParticipated++;
+            }
+        }
+
+        return MypageResponseDto.mypageResponseDto(findMember,numCreated,numParticipated,latest3Surveys);
+
+    }
+
+    public Map<String, List<RecentItem>> getSurveyParticipated(Long id){
+        Member findMember = memberRepository.findById(id).get();
+        List<MemberSurvey> participatedMemberSurvey = new ArrayList<>();
+        List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
+        for (MemberSurvey memberSurvey : memberSurveys) {
+            // 각 memberSurvey에 대한 작업 수행
+            if (!memberSurvey.getIsOwner()) {
+                participatedMemberSurvey.add(memberSurvey);
+            }
+        }
+
+
+        return SurveysResponseDto.getSurveyParticipated(findMember,participatedMemberSurvey);
+    }
+
+    public Map<String, List<RecentItem>> getSurveyCreated(Long id){
+        Member findMember = memberRepository.findById(id).get();
+        List<MemberSurvey> createdMemberSurvey = new ArrayList<>();
+        List<MemberSurvey> memberSurveys = findMember.getMemberSurveys();
+        for (MemberSurvey memberSurvey : memberSurveys) {
+            // 각 memberSurvey에 대한 작업 수행
+            if (memberSurvey.getIsOwner()) {
+                createdMemberSurvey.add(memberSurvey);
+            }
+        }
+
+        return SurveysResponseDto.getSurveyCreated(findMember,createdMemberSurvey);
+    }
+
+    public int getPoint(Long id){
+        Member findMember = memberRepository.findById(id).get();
+        findMember.setCouponCount(findMember.getCouponCount()-1);
+
+        Random random = new Random();
+        int minNum = 1;
+        int maxNum = 50;
+        int point = 0;
+        int randomPoint = random.nextInt(maxNum - minNum + 1) + minNum;
+        System.out.println(randomPoint);
+        if (randomPoint == 1) {
+            point=500;
+        } else if (randomPoint >= 2 && randomPoint <= 7) {
+            point=100;
+            // 11부터 20까지의 경우 처리할 내용
+        }else if (randomPoint >= 8 && randomPoint <= 20) {
+            point=30;
+            // 11부터 20까지의 경우 처리할 내용
+        }
+        else {
+            point=10;
+            // 1부터 20까지의 범위를 벗어나는 경우 처리할 내용
+        }
+
+
+        findMember.setPoint(findMember.getPoint()+point);
+        memberRepository.save(findMember);
+
+        return point;
+    }
+
+    public Map<String,Object> tmpAccessToken(Long id){
+        Member findMember = memberRepository.findById(id).get();
+        HashMap<String, Object> token = returnToken(findMember);
+
+        return token;
+    }
+
     public HashMap<String, Object> returnToken(Member member) {
         //  사용자 정보(member)를 기반으로 Access Token을 생성합니다. 사용자 정보를 기반으로 Refresh Token을 생성합니다.
-        String accessToken = tokenProvider.createAccessToken(member);
+        String Authorization = tokenProvider.createAccessToken(member);
         String refreshToken = tokenProvider.createRefreshToken(member);
 
         // 변경된 사용자 정보를 DB에 저장합니다.
@@ -284,7 +384,7 @@ public class MemberServiceImpl implements MemberService {
 
         //  put 메서드를 사용하여 Access Token과 Refresh Token 값을 key-value 형태로 저장한 뒤, 이를 반환합니다.
         return new HashMap<>() {{
-            put(JwtFilter.ACCESS_HEADER, accessToken);
+            put(JwtFilter.ACCESS_HEADER, Authorization);
             put(JwtFilter.REFRESH_HEADER, refreshToken);
         }};
     }
@@ -293,15 +393,30 @@ public class MemberServiceImpl implements MemberService {
         // 주어진 토큰(token)을 이용하여 인증(authentication)을 수행합니다. 이때, 인증된 사용자 정보는 authentication 객체로 반환됩니다.
         Authentication authentication = tokenProvider.getAuthentication(token);
         // 인증된 사용자의 주소를 이용하여 DB에서 사용자 정보를 찾아 반환합니다.
-        System.out.println("까먹음");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
-        System.out.println("1");
         Long memberId = (long) Integer.parseInt(username);
-        System.out.println("2");
         return memberRepository.findById(memberId);
     }
 
 
+
+    public JobListResponseDto getJobs(){
+        JobListResponseDto jobListResponseDto = new JobListResponseDto();
+        List<JobItem> jobs = new ArrayList<>();
+        jobs.add(new JobItem(1, "전문직"));
+        jobs.add(new JobItem(2, "경영/관리직"));
+        jobs.add(new JobItem(3, "사무/기술직"));
+        jobs.add(new JobItem(4, "판매/서비스직"));
+        jobs.add(new JobItem(5, "기능/작업/단순노무직"));
+        jobs.add(new JobItem(6, "농림어축산업"));
+        jobs.add(new JobItem(7, "자영업"));
+        jobs.add(new JobItem(8, "전업주부"));
+        jobs.add(new JobItem(9, "학생"));
+        jobs.add(new JobItem(10, "무직"));
+        jobs.add(new JobItem(11, "기타"));
+        jobListResponseDto.setJobs(jobs);
+        return jobListResponseDto;
+    }
 
 }

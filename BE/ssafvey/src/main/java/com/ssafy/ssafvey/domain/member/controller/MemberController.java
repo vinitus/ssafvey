@@ -2,9 +2,7 @@ package com.ssafy.ssafvey.domain.member.controller;
 
 
 
-import com.ssafy.ssafvey.domain.member.dto.LoginItem;
-import com.ssafy.ssafvey.domain.member.dto.LoginResponseDto;
-import com.ssafy.ssafvey.domain.member.dto.SignUpRequestDto;
+import com.ssafy.ssafvey.domain.member.dto.*;
 import com.ssafy.ssafvey.domain.member.service.MemberService;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
 import io.swagger.annotations.Api;
@@ -19,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,10 +37,23 @@ public class MemberController {
     @GetMapping("/api/member/login")
     public ResponseEntity kakaoLogin(@RequestParam String code) {
         LoginItem loginItem = memberService.getKakaoAccessToken(code);
-        LoginResponseDto loginResponseDto = LoginResponseDto.toLoginResponse(loginItem);
+//        LoginResponseDto loginResponseDto = LoginResponseDto.toLoginResponse(loginItem);
         return ResponseEntity.status(HttpStatus.OK)
-                .headers(returnTokenHeader(loginItem.getToken()))
-                .body(loginResponseDto);
+//                .headers(returnTokenHeader(loginItem.getToken()))
+                .body(loginItem);
+    }
+
+    @ApiOperation(value="직업리스트", notes = "직업 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/jobs")
+    public ResponseEntity jobList() {
+        JobListResponseDto jobListResponseDto = memberService.getJobs();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(jobListResponseDto);
     }
 
     @ApiOperation(value="로그아웃", notes = "헤더의 access 토큰 정보를 통해 refreshToken을 삭제 시킨다.")
@@ -48,7 +62,7 @@ public class MemberController {
             @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
             @ApiResponse(code = 500, message = "서버에러")
     })
-    @GetMapping(path="/api/auth/member/logout")
+    @GetMapping(path="/api/member/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         // jwt토큰값을 받습니다.
         String accessToken = request.getHeader(JwtFilter.ACCESS_HEADER);
@@ -64,9 +78,9 @@ public class MemberController {
             @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
             @ApiResponse(code = 500, message = "서버에러")
     })
-    @PutMapping("/api/auth/member/changeProfil")
+    @PutMapping("/api/member/changeProfil")
     public ResponseEntity updateUser(HttpServletRequest request, @RequestBody SignUpRequestDto signUpRequestDto ) {
-        memberService.updateUser(memberService.getMemberId(request),signUpRequestDto);
+        memberService.updateUser((Long) request.getAttribute("memberId"),signUpRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK).body("저장 완료");
     }
@@ -84,16 +98,85 @@ public class MemberController {
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request) {
         // refreshAccessToken을 조회해서 재생성
         String refreshToken = request.getHeader(JwtFilter.REFRESH_HEADER);
-        Map<String, Object> result = memberService.refreshAccessToken(refreshToken.substring(7));
-        HttpHeaders headers = returnTokenHeader(result);
+        Map<String, Object> result = memberService.refreshAccessToken(refreshToken);
+//        HttpHeaders headers = returnTokenHeader(result);
 
-        return ResponseEntity.status(200).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(result);
     }
+
+    @ApiOperation(value="마이페이지", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/mypage")
+    public ResponseEntity getMypage(HttpServletRequest request) {
+        MypageResponseDto mypageResponseDto = memberService.getMypage((Long) request.getAttribute("memberId"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(mypageResponseDto);
+    }
+
+    @ApiOperation(value="참가한 설문", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/mypage/surveyParticipated")
+    public ResponseEntity getParticipated(HttpServletRequest request) {
+        Map<String, List<RecentItem>> surveysResponseDto = memberService.getSurveyParticipated((Long) request.getAttribute("memberId"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(surveysResponseDto);
+    }
+
+    @ApiOperation(value="작성한 설문", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/mypage/surveyCreated")
+    public ResponseEntity getCreated(HttpServletRequest request) {
+        Map<String, List<RecentItem>> surveysResponseDto = memberService.getSurveyCreated((Long) request.getAttribute("memberId"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(surveysResponseDto);
+    }
+
+    //TODO 이건 꼭 지울 것
+    @ApiOperation(value="tmp 엑세스토큰", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/tmpToken")
+    public ResponseEntity tmpToken(@RequestParam Long id) {
+
+        Map<String, Object> token = memberService.tmpAccessToken(id);
+        return ResponseEntity.status(HttpStatus.OK).body(token);
+    }
+
+
+    @ApiOperation(value="로또 뜯기", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @PutMapping("/api/member/mypage/lotto")
+    public ResponseEntity useLotto(HttpServletRequest request) {
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.getPoint((Long) request.getAttribute("memberId")));
+    }
+
 
     public HttpHeaders returnTokenHeader(Map<String, Object> result) {
         //  HTTP 요청 헤더에 액세스 토큰과 리프레시 토큰을 추가하여 인증에 필요한 정보를 제공
         HttpHeaders headers = new HttpHeaders();
-        headers.add(JwtFilter.ACCESS_HEADER, (String) result.get("accessToken"));
+        headers.add(JwtFilter.ACCESS_HEADER, (String) result.get("Authorization"));
         headers.add(JwtFilter.REFRESH_HEADER, (String) result.get("refreshToken"));
 
         return headers;

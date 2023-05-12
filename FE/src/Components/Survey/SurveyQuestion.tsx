@@ -2,7 +2,7 @@ import React from 'react';
 import style from './SurveyQuestion.module.css';
 import ProgressBar from './ProgressBar';
 import SurveyBox from '../../UI/Survey/SurveyBox';
-import RoundButton from '../../UI/Survey/RoundButton';
+import CircleButton from '../../UI/Button/CircleButton';
 
 const currentQuestion = 7;
 const totalQuestion = 10;
@@ -47,8 +47,8 @@ export default function SurveyQuestion() {
         </SurveyBox>
       </div>
       <section className={style.buttons}>
-        <RoundButton>왼</RoundButton>
-        <RoundButton>우</RoundButton>
+        <CircleButton>&lt;</CircleButton>
+        <CircleButton>&gt;</CircleButton>
       </section>
     </div>
   );

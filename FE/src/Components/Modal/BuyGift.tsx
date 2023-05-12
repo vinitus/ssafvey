@@ -1,24 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import style from './BuyGift.module.css';
+import { postItemlist } from '../../Api/coupon'
+import { queryClient } from '@/router';
 
 interface Props {
   closemodal: () => void;
   title: string;
-  point?: number;
+  price: number;
+  id : number;
 }
-
-BuyGift.defaultProps = {
-  point: undefined,
-};
 
 const isMouseEvent = (e: any): e is MouseEvent =>
   e.type === 'mousedown' || e.type === 'mouseend' || e.type === 'mousemove';
 const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
-export default function BuyGift({ closemodal, point, title }: Props) {
-  const [price] = useState(4500);
+export default function BuyGift({ closemodal, id, price, title }: Props) {
 
+  const point = 45000;
+  
   // const makeQSDragItem = () => document.querySelector('#slidebtn');
   // const makeQSContainer = () => document.querySelector('#slide');
 
@@ -30,6 +30,18 @@ export default function BuyGift({ closemodal, point, title }: Props) {
     let currentX: number;
     let initialX: number;
     let xOffset = 0;
+
+    const token = queryClient.getQueryData(['accessToken']) as string
+
+    async function ordernew(){
+      try{
+        const data = await postItemlist(id, token)
+        console.log(data);
+      }
+      catch(error) {
+        console.error(error)
+      }
+    }
 
     const setTranslate = (xPos: number, el: HTMLDivElement) => {
       let x = xPos;
@@ -60,6 +72,14 @@ export default function BuyGift({ closemodal, point, title }: Props) {
         xOffset = 0;
       } else if (currentX >= 130) {
         setTranslate(170, slideBtnRef.current);
+        ordernew()
+        slideRef.current.removeEventListener('touchstart', dragStart);
+        slideRef.current.removeEventListener('touchend', dragEnd);
+        slideRef.current.removeEventListener('touchmove', drag);
+  
+        slideRef.current.removeEventListener('mousedown', dragStart);
+        slideRef.current.removeEventListener('mouseup', dragEnd);
+        slideRef.current.removeEventListener('mousemove', drag);
         xOffset = 170;
       }
 
@@ -83,7 +103,7 @@ export default function BuyGift({ closemodal, point, title }: Props) {
         setTranslate(currentX, slideBtnRef.current);
       }
     };
-    if (slideBtnRef.current && slideRef.current) {
+    if ((slideBtnRef.current && slideRef.current) && (token) && (point && price && point >= price)) {
       slideRef.current.addEventListener('touchstart', dragStart);
       slideRef.current.addEventListener('touchend', dragEnd);
       slideRef.current.addEventListener('touchmove', drag);
@@ -92,7 +112,7 @@ export default function BuyGift({ closemodal, point, title }: Props) {
       slideRef.current.addEventListener('mouseup', dragEnd);
       slideRef.current.addEventListener('mousemove', drag);
     }
-  }, []);
+  }, [id, price]);
 
   return (
     <div>

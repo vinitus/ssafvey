@@ -1,13 +1,13 @@
 .card2 {
-  @apply h-120 w-300 bg-main rounded-20 relative shadow-md shadow-black m-5;
+  @apply h-120 w-full bg-main rounded-20 relative shadow-md shadow-black m-5;
 }
 
 .background2 {
-  @apply h-120 w-300 bg-clearMain rounded-20 opacity-30 absolute -left-4 -top-4;
+  @apply h-120 w-full bg-clearMain rounded-20 opacity-30 absolute -left-4 -top-4;
 }
 
 .content2 {
-  @apply h-120 w-300 rounded-r-20 rounded-b-20 absolute -left-4 -top-4 text-white p-15;
+  @apply h-120 w-full rounded-r-20 rounded-b-20 absolute -left-4 -top-4 text-white p-15;
 }
 
 .title {

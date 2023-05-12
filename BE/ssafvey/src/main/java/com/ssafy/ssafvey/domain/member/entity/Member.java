@@ -1,7 +1,10 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ssafy.ssafvey.domain.shop.entity.Order;
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -25,12 +28,13 @@ public class Member {
     @Column(nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
     private String name;
 
+    @Nullable
     private int age;
 
     @Nullable
     private String password;
 
-    @NotNull
+    @Nullable
     private String email;
 
     @Nullable
@@ -57,6 +61,12 @@ public class Member {
     @NotNull
     private Boolean isRegistered;
 
+    @OneToMany(mappedBy = "member")
+    @JsonManagedReference
+    private List<Order> orders = new ArrayList<>();
+
+    @Column(columnDefinition = "int default 0")
+    private int point;
 
 
     @ManyToMany

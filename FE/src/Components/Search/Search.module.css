@@ -7,5 +7,5 @@
 }
 
 .cardpart {
-  @apply flex flex-col items-center mt-10;
+  @apply w-[80%] flex flex-col items-center mt-10 mx-[10%];
 }

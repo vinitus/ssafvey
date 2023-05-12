@@ -1,9 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
+import { SurveyTitleState, SurveyDescState, questionsState } from '@store/Create/atom';
+import { useSetRecoilState } from 'recoil';
 import style from './ImportExcel.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
-import PlusButton from '../../UI/Survey/PlusButton';
+import { Question, QuestionType, Answer } from '@/types/createSurveyType';
 
 interface MakeSurvey {
   문항: string;
@@ -17,24 +19,24 @@ interface MakeSurvey {
 }
 
 interface choice {
-  order : number;
-  choice : string;
+  order: number;
+  choice: string;
 }
 
 interface surveytype {
-  order : number | string;
-  question : string;
-  is_multiple_choice : boolean;
-  choices : choice[] | null;
+  order: number | string;
+  question: string;
+  is_multiple_choice: boolean;
+  choices: choice[];
 }
 
 export default function ImportExcel() {
-  const fileRef = useRef<HTMLInputElement>(null);
-  // let surveylist = useState([])
-
   const navigate = useNavigate();
-  function createsurvey(){
-    navigate(`/create/input1`)
+
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  function createsurvey() {
+    navigate(`basic`);
   }
 
   const clickplusbtn = () => {
@@ -42,61 +44,79 @@ export default function ImportExcel() {
     filebtn?.click();
   };
 
+  const setSurveyTitle = useSetRecoilState(SurveyTitleState);
+  const setSurveyDesc = useSetRecoilState(SurveyDescState);
+  const setQuestions = useSetRecoilState(questionsState);
+
   const setJSON = (datas: MakeSurvey[]) => {
-    const survey = new FormData();
-    const questions : surveytype[] = [];
+    const questions: surveytype[] = [];
 
     for (let i = 0; i < datas.length; i += 1) {
       const data = datas[i];
       if (data.문항 === '') {
         break;
       } else if (i === 0) {
-        survey.append('title', data.질문)
+        setSurveyTitle(data.질문);
       } else if (i === 1) {
-        survey.append('description', data.질문)
+        setSurveyDesc(data.질문);
       } else if (i === 2) {
         /* empty */
       } else {
-        const question : surveytype = {
-          order : 0,
-          question : '',
-          is_multiple_choice : true,
-          choices : []
+        const question: surveytype = {
+          order: 0,
+          question: '',
+          is_multiple_choice: true,
+          choices: [],
         };
-        question.order = data['문항']
-        question.question = data['질문']
+        question.order = data['문항'];
+        question.question = data['질문'];
 
-        if(data['주관식/객관식'] === '주관식'){
+        if (data['주관식/객관식'] === '주관식') {
           // 주관식일때
-          question.is_multiple_choice = true
-        }
-        else {
+          question.is_multiple_choice = false;
+        } else {
           // 객관식일때
-          question.is_multiple_choice = false
+          question.is_multiple_choice = true;
 
-          let choices : choice[] = [];
+          let choices: choice[] = [];
 
-          const tmplist = ['객관식 보기 1', '객관식 보기 2', '객관식 보기 3', '객관식 보기 4', '객관식 보기 5']
-          for (let j = 0 ; j<5; j += 1){
-            const tmp = data[tmplist[j] as keyof MakeSurvey]
-            if(tmp){
-              const choice : choice = {
+          const tmplist = ['객관식 보기 1', '객관식 보기 2', '객관식 보기 3', '객관식 보기 4', '객관식 보기 5'];
+          for (let j = 0; j < 5; j += 1) {
+            const tmp = data[tmplist[j] as keyof MakeSurvey];
+            if (tmp) {
+              const choice: choice = {
                 order: 0,
-                choice: ''
+                choice: '',
               };
-              choice.order = j+1; 
-              choice.choice = tmp
-              choices = [...choices, choice]
+              choice.order = j + 1;
+              choice.choice = tmp;
+              choices = [...choices, choice];
             }
           }
-          question.choices = choices
+          question.choices = choices;
         }
 
-        questions.push(question)
+        questions.push(question);
       }
-  
     }
-    survey.append('survey_questions', JSON.stringify(questions));
+
+    const typeChangedQuestions: Question[] = questions.map((question) => {
+      return {
+        id: Number(question.order),
+        title: question.question,
+        type: question.is_multiple_choice ? 'multiple' : ('essay' as QuestionType),
+        answers: question.choices.map((choice) => {
+          return {
+            id: choice.order,
+            value: choice.choice,
+          } as Answer;
+        }),
+      };
+    });
+
+    setQuestions(typeChangedQuestions);
+
+    navigate('additional');
   };
 
   const readExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,10 +140,9 @@ export default function ImportExcel() {
         <h2 className={style.title}>엑셀 파일을 업로드하세요!</h2>
         <p className={style.desc}>설문지를 바로 생성할 수 있어요</p>
         <div className={style.buttonContainer}>
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-          <span onClick={clickplusbtn}>
-            <PlusButton size="lg" />
-          </span>
+          <button onClick={clickplusbtn} className={style.plusBtn}>
+            +
+          </button>
         </div>
         <a href="/excel/template.xlsx" download>
           <button type="button" className={style.templateDownLoadButton}>
@@ -139,5 +158,4 @@ export default function ImportExcel() {
       </section>
     </div>
   );
-  
 }
