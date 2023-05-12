@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// 이 파일에서 any는 사용자 타입 가드를 위한 것이에요
+
 export interface SurveyHistory {
-  id : number;
+  id: number;
   title: string;
-  name : string;
-  endDate : string;
+  name: string;
+  endDate: string;
 }
 
 export interface SurveyHistoryObj {
-  [day : string] : SurveyHistory[];
+  [day: string]: SurveyHistory[];
 }
 
 export interface CoverData {
