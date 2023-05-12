@@ -51,7 +51,7 @@ function SurveyBtnWrapepr({
           종료
         </button>
       ) : (
-        <button type="button" className={style.startSurveyBtn} onClick={() => navigate('10')}>
+        <button type="button" className={style.startSurveyBtn} onClick={() => navigate('doing')}>
           설문 시작
         </button>
       )}
