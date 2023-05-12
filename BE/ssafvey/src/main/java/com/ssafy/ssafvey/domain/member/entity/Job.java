@@ -1,6 +1,6 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ssafy.ssafvey.domain.survey.entity.SurveyTargetJob;
 import lombok.*;
 
@@ -24,12 +24,13 @@ public class Job {
     @Column(columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci")
     private String name;
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "job")
-    @JsonIgnore
+    @ToString.Exclude
     private List<MemberJob> memberJobs = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "job")
-    @JsonIgnore
+    @ToString.Exclude
     private List<SurveyTargetJob> surveyTargetJobs = new ArrayList<>();
 }

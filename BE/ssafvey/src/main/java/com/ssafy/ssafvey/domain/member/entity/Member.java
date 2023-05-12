@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ssafy.ssafvey.domain.shop.entity.Order;
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -41,6 +40,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private GenderType genderType;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     private List<MemberJob> memberJobs = new ArrayList<>();

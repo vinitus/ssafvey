@@ -1,9 +1,8 @@
 package com.ssafy.ssafvey.domain.survey.service;
 
-import com.ssafy.ssafvey.domain.member.entity.Job;
-import com.ssafy.ssafvey.domain.member.entity.MemberAnswerDescriptive;
-import com.ssafy.ssafvey.domain.member.entity.MemberAnswerMultipleChoice;
-import com.ssafy.ssafvey.domain.member.entity.MemberSurvey;
+import com.ssafy.ssafvey.domain.member.entity.*;
+import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
+import com.ssafy.ssafvey.domain.member.repository.MemberSurveyRepository;
 import com.ssafy.ssafvey.domain.member.service.MemberAnswerServiceImpl;
 import com.ssafy.ssafvey.domain.member.service.MemberSurveyService;
 import com.ssafy.ssafvey.domain.survey.dto.StartSurveyDto;
@@ -37,9 +36,11 @@ public class SurveyService {
     private final JobRepository jobRepository;
     private final MemberAnswerServiceImpl memberAnswerServiceImpl;
     private final MemberSurveyService memberSurveyService;
+    private final MemberRepository memberRepository;
+    private final MemberSurveyRepository memberSurveyRepository;
 
     @Autowired
-    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService) {
+    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService, MemberRepository memberRepository, MemberSurveyRepository memberSurveyRepository) {
         this.surveyRepository = surveyRepository;
         this.surveyQuestionService = surveyQuestionService;
         this.surveyTargetAgeRepository = surveyTargetAgeRepository;
@@ -47,6 +48,8 @@ public class SurveyService {
         this.jobRepository = jobRepository;
         this.memberAnswerServiceImpl = memberAnswerServiceImpl;
         this.memberSurveyService = memberSurveyService;
+        this.memberRepository = memberRepository;
+        this.memberSurveyRepository = memberSurveyRepository;
     }
 
     private SurveyTargetAge createTargetAge(TargetAgeDto targetAgeDto, Survey survey) {
@@ -85,6 +88,7 @@ public class SurveyService {
     public Survey createSurvey(Long memberId, SurveyDto surveyDto) {
         //TODO member_survey에 created at 값 넣어야함
         Survey survey = Survey.builder()
+                .isDone(false)
                 .title(surveyDto.getTitle())
                 .targetSurveyParticipants(surveyDto.getTargetSurveyParticipants())
                 .targetGender(surveyDto.getTargetGender())
@@ -113,22 +117,33 @@ public class SurveyService {
         return surveyRepository.save(survey);
     }
 
-    public StartSurveyDto getStartSurveyById(Long surveyId) {
+    public StartSurveyDto getStartSurveyById(Object memberId, Long surveyId) {
         Optional<Survey> optionalSurvey = surveyRepository.findById(surveyId);
         if (optionalSurvey.isPresent()) {
+
+
             Survey survey = optionalSurvey.get();
-            return StartSurveyDto.builder()
+            StartSurveyDto startSurveyDto = StartSurveyDto.builder()
                     .id(survey.getId())
+                    .surveyParticipants(survey.getSurveyParticipants())
                     .title(survey.getTitle())
-                    .isDone(survey.isDone())
+                    .isDone(survey.getIsDone())
                     .description(survey.getDescription())
                     .organization(survey.getOrganization())
                     .endDate(survey.getEndDate())
                     .targetSurveyParticipants(survey.getTargetSurveyParticipants())
                     .build();
+            if (memberId != null) {
+                Member member = memberRepository.findById((Long) memberId).get();
+                startSurveyDto.setHaveDone(memberSurveyRepository.findByMemberAndSurvey(member, survey).isPresent());
+            } else {
+                startSurveyDto.setHaveDone(false);
+            }
+            return startSurveyDto;
         }
 
         else {
+            //TODO Survey없는 에러 띄우기
             return StartSurveyDto.builder().build();
         }
 
@@ -184,7 +199,11 @@ public class SurveyService {
                 .collect(Collectors.toList());
     }
 
-    public List<Survey> getSurveyList(Long memberId) {
+    public List<Survey> getRecommendSurveyList(Long memberId) {
         return surveyRepository.findSurveyByMemberJobAndAge(memberId);
+    }
+
+    public List<Survey> getSearchSurveyList(String search) {
+        return surveyRepository.findByTitleContaining(search);
     }
 }
