@@ -1,3 +1,6 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-cond-assign */
+/* eslint-disable no-param-reassign */
 export const curry =
   (f) =>
   (arg, ...args) =>
@@ -21,7 +24,7 @@ export const reduce = curry((f, acc, iter) => {
 export const go = (...args) => reduce((arg, f) => f(arg), args);
 
 export const take = curry((l, iter) => {
-  let res = [];
+  const res = [];
   iter = iter[Symbol.iterator]();
   let cur;
   while (!(cur = iter.next()).done) {
@@ -33,7 +36,7 @@ export const take = curry((l, iter) => {
 });
 
 export const slice = curry((l, iter) => {
-  let res = [];
+  const res = [];
   iter = iter[Symbol.iterator]();
   let cnt = 0;
   let cur;
@@ -51,7 +54,7 @@ export const slice = curry((l, iter) => {
 });
 
 export const map = curry((f, iter) => {
-  let res = [];
+  const res = [];
   iter = iter[Symbol.iterator]();
   let cur;
   while (!(cur = iter.next()).done) {
@@ -60,12 +63,3 @@ export const map = curry((f, iter) => {
   }
   return res;
 });
-
-module.exports = {
-  curry,
-  reduce,
-  go,
-  take,
-  slice,
-  map,
-};
