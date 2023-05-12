@@ -36,6 +36,7 @@ export default function CreateSurveyNavigationButtons() {
   };
 
   const [questions, setQuestions] = useRecoilState(questionsState);
+  console.log(questions);
 
   const [currentQuestionTitle, setCurrentQuestionTitle] = useRecoilState(currentQuestionTitleState);
 
