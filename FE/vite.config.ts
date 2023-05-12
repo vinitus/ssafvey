@@ -4,7 +4,6 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 // import svgr from 'vite-plugin-svgr';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), VitePWA()],
   resolve: {
@@ -16,4 +15,7 @@ export default defineConfig({
       { find: '@util', replacement: path.resolve(__dirname, './src/Util') },
     ],
   },
+  server: {
+    host: '0.0.0.0'
+  }
 });
