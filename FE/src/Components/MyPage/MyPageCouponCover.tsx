@@ -19,7 +19,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
             renderingData.map((title, idx) => (
               <button
                 type="button"
-                // idx를 쓰지만, title을 통해서 고유값을 지정했기에 idx를 사용해도 괜찮습니다.
+                // idx가 변해도 상관 없음
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
                 onClick={(e: React.MouseEvent) => {
@@ -27,7 +27,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
                   setModalOpenFlag(title);
                 }}
               >
-                <GiftCard productTitle={title} />
+                <GiftCard productTitle={title} image="/tmpFile/tmp.jpg" />
               </button>
             ))}
         </div>
