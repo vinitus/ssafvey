@@ -30,11 +30,11 @@ export default function OnlyLogin() {
         },
       }).then((res) => {
         // accesstoken => queryclient
-        // queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
-        queryClient.setQueryData(['accessToken'], "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY4MzkyNTgwM30.eKgcsafOH8ScIZdPWugJQH-x-4Jw4qK2pLDE8O1E7GMugm0doqEyPpTgriN9kIAihF9QFO1TO8CNnO_QGSWlUg")
+        queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
+        
         // refresh token => localstorage
-        // const { refreshToken } = res.data.token;
-        // localStorage.setItem('refreshToken', refreshToken);
+        const { refreshToken } = res.data.token;
+        localStorage.setItem('refreshToken', refreshToken);
 
         const isRegist = res.data.isRegistered;
         if (isRegist) {
