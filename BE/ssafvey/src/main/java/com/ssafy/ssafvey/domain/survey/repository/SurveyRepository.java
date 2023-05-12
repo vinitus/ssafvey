@@ -15,4 +15,7 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
             "where m.id = :memberId and m.age between  sta.minAge and  sta.maxAge " +
             "and m.id = mj.member.id and mj.job.id = j.id")
     List<Survey> findSurveyByMemberJobAndAge(@Param("memberId") Long memberId);
+
+    List<Survey> findByTitleContaining(String keyword);
+
 }
