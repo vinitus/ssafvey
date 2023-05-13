@@ -6,14 +6,14 @@ import BuyGift from '../Modal/ShowGift';
 import style from './MyPageCouponCover.module.css';
 
 export interface ItemInfo {
-  id: number;
-  name: string;
+  orderItemid: number;
+  itemName: string;
   imageUrl: string;
 }
 
 export default function MyPageCouponCover({ quantity, infoType, renderingData }: CoverData) {
   const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
-   const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ id: 0, name: '', imageUrl: ''});
+  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemid: 0, itemName: '', imageUrl: ''});
 
   return (
     <>
@@ -23,19 +23,20 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
       </header>
       <section className={style.cardlist}>
         <div className={style.cardWrapper}>
-          {isCouponTitle(renderingData) &&
-            renderingData.map((title, idx) => (
+          
+          { isCouponTitle(renderingData) && renderingData.map(({orderItemid, itemName, imageUrl}) => (
               <button
                 type="button"
                 // idx가 변해도 상관 없음
                 // eslint-disable-next-line react/no-array-index-key
-                key={idx}
+                key={orderItemid}
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
-                  setModalOpenFlag(title);
+                  setModalOpenFlag(true);
+                  setClickedinfo({orderItemid, itemName, imageUrl});
                 }}
               >
-                <GiftCard productTitle={title} image="/tmpFile/tmp.jpg" />
+                <GiftCard productTitle={itemName} image={imageUrl} />
               </button>
             ))}
         </div>
@@ -56,7 +57,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
           },
         }}
       >
-        {typeof modalOpenFlag === 'string' && (
+        {modalOpenFlag && (
           <BuyGift info={clickedinfo} closemodal={() => setModalOpenFlag(false)} />
         )}
       </Modal>

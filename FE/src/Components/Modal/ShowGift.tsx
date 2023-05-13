@@ -11,8 +11,8 @@ interface Props {
 }
 
 interface iteminfo {
-  id: number;
-  name: string;
+  orderItemid: number;
+  itemName: string;
   imageUrl: string;
 }
 
@@ -36,7 +36,7 @@ export default function ShowGift({ closemodal, info }: Props) {
 
     async function putitem() {
       try {
-        if (info.id) {
+        if (info.orderItemid) {
           await putGift(token);
         }
       } catch (error) {
@@ -125,7 +125,7 @@ export default function ShowGift({ closemodal, info }: Props) {
       <div className={style.giftimage}>
         <img src={info.imageUrl} alt="giftcon" />
       </div>
-      <div className={style.gifttitle}>{info.name}</div>
+      <div className={style.gifttitle}>{info.itemName}</div>
 
       {/* 우리의 리액트는 PWA로써, 스마트폰에서 터치 방식이 주이기에 필요없다고 생각함 */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
