@@ -37,3 +37,15 @@ export interface SurveyPostRequestData {
   surveyId: number;
   answers: Answer[];
 }
+
+export interface SurveyListDataObj {
+  id: string;
+  title: string;
+  organization: string;
+  createDate: string;
+  endDate: string;
+}
+
+export interface SurveyListDataObjArr {
+  surveylist: SurveyListDataObj[];
+}
