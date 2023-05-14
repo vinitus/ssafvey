@@ -12,13 +12,19 @@ export interface SurveyHistoryObj {
   [day: string]: SurveyHistory[];
 }
 
+export interface OrderItemObj {
+  orderItemid: number;
+  itemName: string;
+  imageUrl: string;
+}
+
 export interface CoverData {
   quantity: number;
   infoType: '응답한' | '제작한' | '쿠폰' | '포인트';
-  renderingData: SurveyHistoryObj | CouponTitle[] | PointHistoryObj;
+  renderingData: SurveyHistoryObj | OrderItemObj[] | PointHistoryObj;
 }
 
-export type CouponTitle = '아이스티' | '커피';
+
 
 export interface PointHistory {
   point: number;
@@ -35,8 +41,8 @@ export function isSurveyHistory(arr: any): arr is SurveyHistoryObj[] {
   return arr[0] !== undefined;
 }
 
-export function isCouponTitle(arr: any): arr is CouponTitle[] {
-  return arr[0] === '아이스티' || arr[0] === '커피';
+export function isCouponTitle(arr: any): arr is OrderItemObj[] {
+  return arr[0] !== undefined
 }
 
 export function isPointHistory(arr: any): arr is PointHistoryObj[] {

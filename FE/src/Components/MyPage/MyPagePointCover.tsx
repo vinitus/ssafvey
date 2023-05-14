@@ -23,7 +23,7 @@ export default function MyPageSurveyCover({ quantity, infoType, renderingData }:
                   style={!plusMinus ? { backgroundColor: '#FEC1FF' } : { backgroundColor: '' }}
                   // 배열의 UPDATE나 순서가 변경될 일은 없습니다.
                   // eslint-disable-next-line react/no-array-index-key
-                  key={`${idx}`}
+                  key={idx}
                 >
                   <h3 className={style.historyTitle}>{pointUsageHistory}</h3>
                   {plusMinus ?
