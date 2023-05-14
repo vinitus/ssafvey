@@ -1,25 +1,33 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { LoaderFunctionArgs, Outlet, useLoaderData } from 'react-router-dom';
+import { QueryClient } from '@tanstack/react-query';
 import SurveyHeader from '../Components/Survey/SurveyHeader';
-
-const surveyState = {
-  title: 'Survey Title',
-  desc: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam iure molestias reprehenderit omnis
-  quod ipsa inventore quisquam iusto sunt unde? Voluptatibus labore quas a hic quibusdam molestiae
-  molestias laudantium sit.`,
-  creator: 'SSAFY',
-  dueDate: '2023.04.10 ~ 2023.04.13',
-  headCount: '100명',
-  point: '200',
-};
+import { getStart } from '../Api/survey';
+import { SurveyCoverData } from '../types/surveyType';
+import tokenQuery from '@/Components/Survey/module/tokenQuery';
 
 export default function Survey() {
+  const surveyCoverResData = useLoaderData() as SurveyCoverData;
   return (
     <article className="text-white">
-      <SurveyHeader title={surveyState.title} creator={surveyState.creator} dueDate={surveyState.dueDate} />
+      <SurveyHeader
+        title={surveyCoverResData.title}
+        organization={surveyCoverResData.organization}
+        endDate={surveyCoverResData.endDate}
+      />
       <main>
-        <Outlet /> {/* 여기에 SurveyCover, SurveyQuestion가 들어감 */}
+        <Outlet context={{ surveyCoverResData }} /> {/* 여기에 SurveyCover, SurveyQuestion가 들어감 */}
       </main>
     </article>
   );
 }
+
+export const loader =
+  (queryClient: QueryClient) =>
+  async ({ params }: LoaderFunctionArgs) => {
+    const { id } = params;
+    if (!id) return 0;
+    const accessToken = await tokenQuery(queryClient);
+    const data = await getStart(id, accessToken);
+    return data;
+  };

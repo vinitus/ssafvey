@@ -4,9 +4,9 @@ import style from './HomeCard.module.css';
 
 export default function HomeCardRight() {
   const navigate = useNavigate();
-  const id = 1 // 카드 id
-  function cardclick(){
-    navigate(`/survey/${id}`)
+  const id = 22; // 카드 id
+  function cardclick() {
+    navigate(`/survey/${id}`);
   }
 
   return (
@@ -38,7 +38,7 @@ export default function HomeCardRight() {
       </div>
 
       <div className="flex justify-end">
-        <button type='button' className={style.dosurvey} onClick={cardclick}>
+        <button type="button" className={style.dosurvey} onClick={cardclick}>
           <div className={style.surveytitle}>참여하기</div>
           <img src="/icons/dosurvey.svg" alt="참여하기" />
         </button>

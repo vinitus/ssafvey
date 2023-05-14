@@ -9,7 +9,7 @@ export default function Card() {
     navigate(`/survey/${id}`)
   }
   return (
-    <button type='button'onClick={cardclick}>
+    <button type='button'onClick={cardclick} className='w-full'>
       <div className={style.card2}>
         <div className={style.background2} />
         <div className={style.content2}>

@@ -1,55 +1,59 @@
 import React from 'react';
+import { LoaderFunctionArgs, useLoaderData, useParams } from 'react-router-dom';
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import style from './SurveyQuestion.module.css';
-import ProgressBar from './ProgressBar';
+import Progress from './ProgressBar';
 import SurveyBox from '../../UI/Survey/SurveyBox';
-import RoundButton from '../../UI/Survey/RoundButton';
+import { getDetail } from '@/Api/survey';
+import { SurveyQuestionData } from '@/types/surveyType';
+import { useSurveyQuestionDataParser } from './hooks/useSurveyQuestionDataParser';
+import RoundButton from '@/UI/Button/RoundButton';
+import tokenQuery from './module/tokenQuery';
 
-const currentQuestion = 7;
-const totalQuestion = 10;
-const progressPercentage = Math.floor((currentQuestion / totalQuestion) * 100);
-
-const title = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.`;
-
-const choices = [
-  { order: 1, value: `This is choice 1` },
-  { order: 2, value: `This is choice 2` },
-  { order: 3, value: `This is choice 3` },
-  { order: 4, value: `This is choice 4` },
-  { order: 5, value: `This is choice 5` },
-];
+const questionIdx = 7;
+const questionLength = 10;
 
 export default function SurveyQuestion() {
+  const surveyQuestionData = useLoaderData() as SurveyQuestionData;
+  const { id } = useParams();
+  const [answers, setAnswers, submitAnswer] = useSurveyQuestionDataParser(surveyQuestionData, Number(id));
+  const queryClient = useQueryClient();
+  const accessToken = queryClient.getQueryData(['accessToken']);
+
   return (
     <div className={style.sectionsWrapper}>
       <div className={style.upperSectionsWrapper}>
-        <section>
-          <div className="text-20 text-black">
-            Progress State: {currentQuestion} / {totalQuestion}
-          </div>
-          <ProgressBar progressPercentage={progressPercentage} />
-        </section>
-        <SurveyBox>
-          <form>
-            <legend>
-              <h2 className={style.title}>{title}</h2>
-            </legend>
-            <fieldset className={style.choices}>
-              {choices.map((choice) => {
-                return (
-                  <label key={choice.order} htmlFor={`choice-${choice.order}`} className={style.choice}>
-                    <input type="radio" name="choices" id={`choice-${choice.order}`} className="invisible" />
-                    {choice.value}
-                  </label>
-                );
-              })}
-            </fieldset>
-          </form>
-        </SurveyBox>
+        <Progress>
+          <Progress.Header questionIdx={questionIdx} questionLength={questionLength} />
+          <Progress.ProgressBar questionIdx={questionIdx} questionLength={questionLength} />
+        </Progress>
+        {surveyQuestionData.surveyQuestions.map(({ question, order, isMultipleChoice, choices }) => (
+          <SurveyBox key={order}>
+            <SurveyBox.Question>{question}</SurveyBox.Question>
+            <SurveyBox.Answer
+              isMultipleChoice={isMultipleChoice}
+              choices={choices}
+              order={order}
+              choiceObjState={answers}
+              choiceStateDispatcher={setAnswers}
+            />
+          </SurveyBox>
+        ))}
+        <RoundButton color="blue" size="lg" onClick={() => submitAnswer(accessToken)}>
+          제출
+        </RoundButton>
+        <div style={{ marginBottom: '30px' }} />
       </div>
-      <section className={style.buttons}>
-        <RoundButton>왼</RoundButton>
-        <RoundButton>우</RoundButton>
-      </section>
     </div>
   );
 }
+
+export const loader =
+  (queryClient: QueryClient) =>
+  async ({ params }: LoaderFunctionArgs) => {
+    const { id } = params;
+    if (!id) return 0;
+    const accessToken = await tokenQuery(queryClient);
+    const data = await getDetail(id, accessToken);
+    return data;
+  };

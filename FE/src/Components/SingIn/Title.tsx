@@ -1,44 +1,53 @@
-import React from "react";
-import style from "./Title.module.css"
+import React from 'react';
+import style from './Title.module.css';
 
 export default function Title() {
-  return(
-    <article className={style.signin}>
+  const login = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri : 'http://k8a608.p.ssafy.io:3000/onlylogin'
+      // redirectUri: 'http://localhost:5173/onlylogin',
+    });
+  };
 
-      <div className={`${style.circle1} ${style.circle}`}/>
-      <div className={`${style.circle2} ${style.circleani}`}/>
-      <div className={`${style.circle3} ${style.circleani}`}/>
-      <div className={`${style.circle4} ${style.circle}`}/>
-      <div className={`${style.circle5} ${style.circle}`}/>
+  return (
+    <article className={style.signin}>
+      <div className={`${style.circle1} ${style.circle}`} />
+      <div className={`${style.circle2} ${style.circleani}`} />
+      <div className={`${style.circle3} ${style.circleani}`} />
+      <div className={`${style.circle4} ${style.circle}`} />
+      <div className={`${style.circle5} ${style.circle}`} />
 
       <header className={style.subtitle}>
-        <div>쉽게 <span>참여</span>하는</div>
-        <div>쉽게 <span>등록</span>하는</div>
-        <div>쉽게 <span>확인</span>하는</div>
+        <div>
+          쉽게 <span>참여</span>하는
+        </div>
+        <div>
+          쉽게 <span>등록</span>하는
+        </div>
+        <div>
+          쉽게 <span>확인</span>하는
+        </div>
         <div>설문조사</div>
       </header>
       <main className={style.backgroundtitle}>
         <div className={style.btmrect}>
-          <div className={style.solid}/>
-          <div className={style.rect}/>
-          <div className={style.dash}/>
+          <div className={style.solid} />
+          <div className={style.rect} />
+          <div className={style.dash} />
         </div>
 
         <div className={style.toprect}>
-          <div className={style.dash}/>
-          <div className={style.rect}/>
-          <div className={style.solid}/>
+          <div className={style.dash} />
+          <div className={style.rect} />
+          <div className={style.solid} />
         </div>
 
-        <div className={style.title}>
-          SSAFVEY
-        </div>
+        <div className={style.title}>SSAFVEY</div>
       </main>
 
-      <div className={style.kakao}>
-        <img src="/icons/kakao_login_medium_wide.png" alt="kakao"/>
-      </div>
-      
+      <button type="button" className={style.kakao} onClick={login}>
+        <img src="/icons/kakao_login_medium_wide.png" alt="kakao" />
+      </button>
     </article>
-  )
+  );
 }

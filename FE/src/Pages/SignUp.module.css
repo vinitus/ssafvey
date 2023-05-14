@@ -34,12 +34,7 @@
   @apply bg-[#0064FF] rounded-15 text-white px-10 py-5 font-bold mx-auto w-100 mt-20;
 }
 
-input[type='checkbox'] {
-  display: none;
-}
-
 input[type='checkbox'] + label {
-  cursor: pointer;
   padding-left: 23px;
   background-repeat: no-repeat;
   background-image: url('./icons/uncheck-mark.svg');

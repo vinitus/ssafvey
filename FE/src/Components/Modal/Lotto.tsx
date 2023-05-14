@@ -7,8 +7,7 @@ interface Props {
 
 export default  function Lotto({ closemodal } : Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const [getCtx, setGetCtx] = useState(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const WIDTH = 190;
   const HEIGHT = 90;
   const ERASE_RADIUS = 5;
@@ -27,8 +26,6 @@ export default  function Lotto({ closemodal } : Props) {
         image.onload = function() {
           context.drawImage(image, 0, 0)
         }
-        // context.strokeStyle = '#999';
-        // context.fillStyle = '#999';
         context.beginPath();
         context.roundRect(0, 0, WIDTH, HEIGHT, 8);
         context.stroke();
