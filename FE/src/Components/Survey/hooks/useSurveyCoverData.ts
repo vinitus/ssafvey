@@ -41,16 +41,16 @@ const kakaoshare = (surveyState: SurveyCoverData) => {
       description: surveyState.description,
       imageUrl: 'http://k.kakaocdn.net/dn/rDzHQ/btsdi3qPQnW/nPUA8K0ihLCCakUjLcQEu0/kakaolink40_original.png',
       link: {
-        mobileWebUrl: `http://k8a608.p.ssafy.io:3000/survey/${surveyState.id}`,
-        webUrl: `http://k8a608.p.ssafy.io:3000/survey/${surveyState.id}`,
+        mobileWebUrl: `https://k8a608.p.ssafy.io/survey/${surveyState.id}`,
+        webUrl: `https://k8a608.p.ssafy.io/survey/${surveyState.id}`,
       },
     },
     buttons: [
       {
         title: '설문조사 바로가기',
         link: {
-          mobileWebUrl: `http://k8a608.p.ssafy.io:3000/survey/${surveyState.id}`,
-          webUrl: `http://k8a608.p.ssafy.io:3000/survey/${surveyState.id}`,
+          mobileWebUrl: `https://k8a608.p.ssafy.io/survey/${surveyState.id}`,
+          webUrl: `https://k8a608.p.ssafy.io/survey/${surveyState.id}`,
         },
       },
     ],

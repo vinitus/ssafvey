@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Modal from 'react-modal'
 import style from './Lotto.module.css'; 
+import { queryClient } from '../../router';
+import { SurveyHistoryObj } from '../../types/myPageType';
+import { putLotto } from '../../Api/member';
 
 interface Props {
   closemodal : () => void;
@@ -12,9 +16,24 @@ export default  function Lotto({ closemodal } : Props) {
   const HEIGHT = 90;
   const ERASE_RADIUS = 5;
 
+  const [point, setPoint] = useState(0)
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const button = buttonRef.current;
+
+    async function Lotto() {
+      try {
+        const accessToken = queryClient.getQueryData(['accessToken']) as string;
+        const data = await putLotto(accessToken);
+        console.log(data)
+        setPoint(data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    
+    Lotto()
 
     if (canvas && button) {
       canvas.width = WIDTH;
@@ -116,6 +135,8 @@ export default  function Lotto({ closemodal } : Props) {
 
       button.addEventListener("click", openonce)
     }
+
+
   }, []);
 
   return (
@@ -128,9 +149,9 @@ export default  function Lotto({ closemodal } : Props) {
         <img src="./icons/lotto.svg" alt="lotto" className={style.ticketimg} />
         <div className={style.result}>
           <div className={style.resulttitle}>
-            당첨
+            {point}원
           </div>
-          <div className={style.resultsub}>축하합니다</div>
+          <div className={style.resultsub}>당첨 축하합니다</div>
         </div>
         <canvas ref={canvasRef} className={style.canvas} id="canvas" />
       </div>
