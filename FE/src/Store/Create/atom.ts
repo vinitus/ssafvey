@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import { getJobs } from '@/Api/member';
-import { Question, QuestionType, Answer, Job, selectedJob } from '@/types/createSurveyType';
+import { Question, QuestionType, Answer, Job, selectedJob, QuestionForPostQuery } from '@/types/createSurveyType';
 
 export const SurveyTitleState = atom({
   key: 'SurveyTitleState',
@@ -10,6 +10,11 @@ export const SurveyTitleState = atom({
 export const SurveyDescState = atom({
   key: 'SurveyDescState',
   default: '',
+});
+
+export const refactoringQuestionsState = atom<QuestionForPostQuery[]>({
+  key: 'refactoringQuestionsState',
+  default: [],
 });
 
 export const questionsState = atom<Question[]>({

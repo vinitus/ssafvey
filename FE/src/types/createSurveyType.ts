@@ -47,7 +47,7 @@ export interface SurveyPost {
   surveyQuestions: QuestionForPostQuery[];
 }
 
-interface QuestionForPostQuery {
+export interface QuestionForPostQuery {
   order: number;
   question: string;
   isMultipleChoice: boolean;

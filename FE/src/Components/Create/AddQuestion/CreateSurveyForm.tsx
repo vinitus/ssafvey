@@ -1,35 +1,42 @@
 import React from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { currentQuestionTitleState, currentQuestionTypeState } from '../../../Store/Create/atom';
+import { useRecoilState } from 'recoil';
+import { refactoringQuestionsState } from '../../../Store/Create/atom';
 import style from './CreateSurveyForm.module.css';
 
-type QuestionType = 'multiple' | 'essay';
+interface Props {
+  idx: number;
+}
 
-export default function CreateSurveyForm() {
-  const [currentQuestionTitle, setCurrentQuestionTitle] = useRecoilState(currentQuestionTitleState);
+export default function CreateSurveyForm({ idx }: Props) {
+  const [refactoringQuestions, setRefactoringQuestions] = useRecoilState(refactoringQuestionsState);
+
+  const title = refactoringQuestions[idx].question;
+
+  const type = refactoringQuestions[idx].isMultipleChoice ? 'multiple' : 'essay';
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentQuestionTitle(e.target.value);
+    setRefactoringQuestions((prev) => {
+      const newQuestions = [...prev.slice(0, idx), { ...prev[idx], question: e.target.value }, ...prev.slice(idx + 1)];
+      return newQuestions;
+    });
   };
 
-  // const currentNumber = useRecoilValue(currentQuestionNumberState);
-
-  const [type, setType] = useRecoilState(currentQuestionTypeState);
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setType(e.target.value as QuestionType);
+    setRefactoringQuestions((prev) => {
+      const newQuestions = [
+        ...prev.slice(0, idx),
+        { ...prev[idx], isMultipleChoice: e.target.value === 'multiple' },
+        ...prev.slice(idx + 1),
+      ];
+      return newQuestions;
+    });
   };
 
   return (
     <div role="form">
       <label htmlFor="title">
-        {/* <h3 className="titleFont my-5">{currentNumber}번 문항</h3> */}
-        <input
-          type="text"
-          value={currentQuestionTitle}
-          onChange={handleTitleChange}
-          id="title"
-          className={style.titleInput}
-        />
+        <h3 className="titleFont my-5">{idx + 1}번 문항</h3>
+        <input type="text" value={title} onChange={handleTitleChange} id="title" className={style.titleInput} />
       </label>
       <label htmlFor="questionType">
         <h3 className="titleFont my-5">유형</h3>
