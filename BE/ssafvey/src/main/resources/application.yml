@@ -13,7 +13,6 @@ spring:
         format_sql: true
         show_sql: false
     defer-datasource-initialization: true
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
