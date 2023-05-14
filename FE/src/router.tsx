@@ -5,7 +5,7 @@ import { QueryClient } from '@tanstack/react-query';
 import App from './App';
 import NotFound from './Pages/NotFound';
 import Home from './Pages/Home';
-import Search from './Pages/Search';
+import Search, { loader as searchLoader } from './Pages/Search';
 import Exchange from './Pages/Exchange';
 import CreateSurvey from './Pages/CreateSurvey';
 import ImportExcel from './Components/Create/ImportExcel';
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Home /> },
-      { path: 'survey', element: <Search /> },
+      { path: 'survey', element: <Search />, loader: searchLoader },
       {
         path: 'create',
         element: <CreateSurvey />,

@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import axiosInstance from './interceptor';
 import { SurveyPost } from '@/types/createSurveyType';
 import { SurveyPostRequestData } from '@/types/surveyType';
@@ -59,9 +60,16 @@ export async function getResult(id: number, token: string) {
 }
 
 // 설문조사 목록
-export async function getList(search: string, filter: boolean) {
+export async function getList(search?: string, token?: string) {
+  let res: AxiosResponse;
   try {
-    const res = await axiosInstance.get(`/survey/list?search=${search}&filter=${filter}`);
+    if (token && !search)
+      res = await axiosInstance.get(`/survey/list`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    else if (search) res = await axiosInstance.get(`/survey/list?search=${search}`);
+    else res = await axiosInstance.get(`/survey/list`);
+
     return res.data;
   } catch (err) {
     return err;
