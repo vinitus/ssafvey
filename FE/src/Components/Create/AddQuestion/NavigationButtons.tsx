@@ -8,8 +8,12 @@ interface Props {
   idx: number;
 }
 
+const StartIndexNumber = 0;
+
 export default function NavigationButtons({ idx }: Props) {
   const navigate = useNavigate();
+
+  const pageNumber = idx + 1;
 
   const handlePrevButtonClick = () => {
     if (idx === StartIndexNumber) {
@@ -17,11 +21,11 @@ export default function NavigationButtons({ idx }: Props) {
       return;
     }
 
-    navigate(`/create/${idx - 1}`);
+    navigate(`/create/${pageNumber - 1}`);
   };
 
   const handleNextButtonClick = () => {
-    navigate(`/create/${idx + 1}`);
+    navigate(`/create/${pageNumber + 1}`);
   };
 
   const handleRouteAdditional = () => {
@@ -42,5 +46,3 @@ export default function NavigationButtons({ idx }: Props) {
     </section>
   );
 }
-
-const StartIndexNumber = 0;
