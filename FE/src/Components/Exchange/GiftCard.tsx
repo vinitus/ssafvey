@@ -3,24 +3,16 @@ import style from './GiftCard.module.css';
 
 // 지금 tmp 때문에 tmp를 받기도 합니다. 나중에 수정 필요해요.
 interface GiftCardProps {
-  productTitle: '상품명' | '커피' | '아이스티';
+  productTitle: string;
+  image: string;
   point?: number;
 }
 
-export default function GiftCard({ productTitle, point }: GiftCardProps) {
-  // 나중에 통일성을 위해 수정이 필요해요.
-  const mappingImgSrc = {
-    상품명: './tmpFile/tmp.jpg',
-    커피: '/reward/coffee.svg',
-    아이스티: '/reward/iceTea.svg',
-  };
-
-  const imgSrc = mappingImgSrc[productTitle];
-
+export default function GiftCard({ productTitle, image, point }: GiftCardProps) {
   return (
     <div className={point !== undefined ? style.giftcardWithPoint : style.giftcardWithoutPoint}>
       <div className={style.giftimg}>
-        <img src={imgSrc} alt="tmp" />
+        <img src={image} alt="tmp" />
       </div>
 
       <div className={style.gifttitle}>{productTitle}</div>

@@ -48,7 +48,7 @@ public class OrderService {
             member.setPoint(point);
 
             PointHistory pointHistory = new PointHistory();
-            pointHistory.setPoint(point);
+            pointHistory.setPoint(price);
             pointHistory.setMember(member);
             pointHistory.setPointUsageHistory("상품 구매");
             pointHistory.setPlusMinus(false);
