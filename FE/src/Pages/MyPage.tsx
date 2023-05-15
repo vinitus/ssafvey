@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
-import Lotto from '../Components/Modal/Lotto'
-import { getMypage, getSurveyResponse, getSurvey, getLogout, getGift, getPointlist } from '../Api/member';
+import Lotto from '../Components/Modal/Lotto';
+import { getMypage, getSurveyResponse, getSurvey, getLogout, getGift, getPointlist, getRefresh } from '../Api/member';
 import styles from './MyPage.module.css';
 import { queryClient } from '../router';
 import { SurveyHistoryObj } from '../types/myPageType';
-import { useQuery } from '@tanstack/react-query';
+import { useTokenQuery } from '@/hooks/useTokenQuery';
 
 interface survey {
   title: string;
@@ -49,93 +49,72 @@ export default function MyPage() {
 
   const [lottomodal, setLottomodal] = useState(false);
 
-  useEffect(() => {
-    //
-  }, [dosurvey, makesurvey]);
-
-  useEffect(() => {
-    async function getmypageinfo() {
-      try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getMypage(accessToken);
-        console.log(data);
-        setInfo({
-          name: data.name,
-          point: data.point,
-          dosurvey: data.numSurveyParticipated,
-          makesurvey: data.numSurveyCreated,
-          recent: data.recentActivity,
-          coupon: data.couponCount,
-          numOrder: data.numOrder,
-        });
-
-        setActivityData(data.recentActivity);
-
-        getdosurveylist();
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    async function getdosurveylist() {
-      try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getSurveyResponse(accessToken);
-        setDosurvey(data);
-        getmakesurveylist();
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    async function getmakesurveylist() {
-      try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getSurvey(accessToken);
-        setMakesurvey(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    async function getGiftcon() {
-      try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getGift(accessToken);
-        console.log(data);
-        setOrderlist(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    async function getPointlistdata() {
-      try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getPointlist(accessToken);
-        console.log(data);
-        setPointlist(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    getmypageinfo();
-    getGiftcon()
-    getPointlistdata()
-
-  }, [lottomodal, openModalFlag]);
-
-  async function logout() {
-    try {
-      const accessToken = queryClient.getQueryData(['accessToken']) as string;
-      await getLogout(accessToken);
+  const tokenQuery = useTokenQuery({
+    onError: () => {
       localStorage.setItem('refreshToken', '');
-      queryClient.setQueryData(['accessToken'], null);
-      navigate('/');
-    } catch (err) {
-      console.error(err);
+      navigate('/sign-in');
+    },
+    onSuccess: (accessToken) => {
+      fetchAll(accessToken);
+    },
+  });
+
+  const fetchAll = useCallback((accessToken: string) => {
+    getmypageinfo();
+    getGiftcon(accessToken);
+    getPointlistdata(accessToken);
+    getdosurveylist(accessToken);
+    getmakesurveylist(accessToken);
+  }, []);
+
+  async function getmypageinfo() {
+    const accessToken = queryClient.getQueryData(['accessToken']) as string;
+    const data = await getMypage(accessToken);
+    setInfo({
+      name: data.name,
+      point: data.point,
+      dosurvey: data.numSurveyParticipated,
+      makesurvey: data.numSurveyCreated,
+      recent: data.recentActivity,
+      coupon: data.couponCount,
+      numOrder: data.numOrder,
+    });
+
+    setActivityData(data.recentActivity);
+  }
+
+  useEffect(() => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (!info.name && (!refreshToken || tokenQuery.data)) {
+      if (tokenQuery.data) fetchAll(tokenQuery.data);
     }
+  }, [fetchAll, info.name, tokenQuery]);
+
+  async function getdosurveylist(accessToken: string) {
+    const data = await getSurveyResponse(accessToken);
+    setDosurvey(data);
+  }
+
+  async function getmakesurveylist(accessToken: string) {
+    const data = await getSurvey(accessToken);
+    setMakesurvey(data);
+  }
+
+  async function getGiftcon(accessToken: string) {
+    const data = await getGift(accessToken);
+    setOrderlist(data);
+  }
+
+  async function getPointlistdata(accessToken: string) {
+    const data = await getPointlist(accessToken);
+    setPointlist(data);
+  }
+
+  async function logout(accessToken: string) {
+    await getLogout(accessToken);
+    localStorage.setItem('refreshToken', '');
+    queryClient.setQueryData(['accessToken'], null);
+    navigate('/');
   }
 
   return (
@@ -161,7 +140,15 @@ export default function MyPage() {
           <h1 className={styles.nameDiv}>{info?.name}님</h1>
           <img src="./icons/settings.svg" alt="settings" />
           <div className={styles.hoverbtn}>
-            <button type="button" className={styles.logout} onClick={logout}>
+            <button
+              type="button"
+              className={styles.logout}
+              onClick={() => {
+                if (tokenQuery.data) logout(tokenQuery.data);
+                else
+                  getRefresh(localStorage.getItem('refreshToken')).then(({ Authorization }) => logout(Authorization));
+              }}
+            >
               로그아웃
             </button>
             <button type="button" className={styles.modify}>
