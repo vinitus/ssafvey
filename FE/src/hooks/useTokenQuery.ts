@@ -21,7 +21,7 @@ export const useTokenQuery = (options?: Options) => {
     staleTime: 1500000,
     cacheTime: Infinity,
     onError: () => (options && options.onError ? options.onError() : {}),
-    onSuccess: (accessToken) => (options && options.onSuccess ? options.onSuccess(accessToken) : {}),
+    onSuccess: (accessToken) => (options && accessToken && options.onSuccess ? options.onSuccess(accessToken) : {}),
   });
   return tokenQuery;
 };
