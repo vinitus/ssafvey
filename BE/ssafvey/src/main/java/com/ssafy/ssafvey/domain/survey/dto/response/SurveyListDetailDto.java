@@ -17,6 +17,8 @@ public class SurveyListDetailDto {
 
     private LocalDateTime endDate;
 
+    private int targetSurveyParticipants;
+
 
     public SurveyListDetailDto(Survey survey) {
         this.id = survey.getId();
@@ -24,5 +26,6 @@ public class SurveyListDetailDto {
         this.organization = survey.getOrganization();
         this.createDate = survey.getCreateDate();
         this.endDate = survey.getEndDate();
+        this.targetSurveyParticipants = survey.getTargetSurveyParticipants();
     }
 }
