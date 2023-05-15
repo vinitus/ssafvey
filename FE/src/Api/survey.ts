@@ -60,15 +60,14 @@ export async function getResult(id: number, token: string) {
 }
 
 // 설문조사 목록
-export async function getList(search?: string, token?: string) {
+export async function getList(token?: string, search = '') {
   let res: AxiosResponse;
   try {
-    if (token && !search)
-      res = await axiosInstance.get(`/survey/list`, {
+    if (token)
+      res = await axiosInstance.get(`/survey/list?search=${search}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-    else if (search) res = await axiosInstance.get(`/survey/list?search=${search}`);
-    else res = await axiosInstance.get(`/survey/list`);
+    else res = await axiosInstance.get(`/survey/list?search=${search}`);
 
     return res.data;
   } catch (err) {
