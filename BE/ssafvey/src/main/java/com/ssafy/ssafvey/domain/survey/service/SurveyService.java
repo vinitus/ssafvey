@@ -165,6 +165,7 @@ public class SurveyService {
     public void createSurveyAnswer(Long memberId, SurveyAnswersDto surveyAnswersDto) {
         //TODO user request Json에 대한 Validation을 해야함
         Optional<Survey> optionalSurvey = surveyRepository.findById(surveyAnswersDto.getSurveyId());
+        Member findMember = memberRepository.findById(memberId).get();
         if (optionalSurvey.isPresent()) {
             Survey survey = optionalSurvey.get();
             String UUID = UUIDGenerator.generateUUID();
@@ -174,6 +175,8 @@ public class SurveyService {
             survey.surveyParticipate();
             MemberSurvey memberSurvey=memberSurveyService.createMemberSurvey(memberId, survey, false);
             memberSurveyRepository.save(memberSurvey);
+            findMember.setCouponCount(findMember.getCouponCount()+1);
+
             for (int index = 0; index < sortedSurveyQuestionList.size(); index++) {
                 SurveyAnswerDto surveyAnswerDto = sortedSurveyAnswerDto.get(index);
                 SurveyQuestion surveyQuestion = sortedSurveyQuestionList.get(index);
