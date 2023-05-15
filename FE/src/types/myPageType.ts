@@ -13,9 +13,10 @@ export interface SurveyHistoryObj {
 }
 
 export interface OrderItemObj {
-  orderItemid: number;
+  orderItemId: number;
   itemName: string;
   imageUrl: string;
+  used : boolean;
 }
 
 export interface CoverData {

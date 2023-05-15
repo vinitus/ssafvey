@@ -4,7 +4,7 @@ import Modal from 'react-modal'
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
 import Lotto from '../Components/Modal/Lotto'
-import { getMypage, getSurveyResponse, getSurvey, getLogout, getGift, getPointlist, getorder } from '../Api/member';
+import { getMypage, getSurveyResponse, getSurvey, getLogout, getGift, getPointlist } from '../Api/member';
 import styles from './MyPage.module.css';
 import { queryClient } from '../router';
 import { SurveyHistoryObj } from '../types/myPageType';
@@ -123,7 +123,7 @@ export default function MyPage() {
     getGiftcon()
     getPointlistdata()
 
-  }, []);
+  }, [lottomodal, openModalFlag]);
 
 
   async function logout() {
@@ -207,7 +207,7 @@ export default function MyPage() {
           sending={send}
           contentType="쿠폰"
           content={{
-            quantity: info.coupon,
+            quantity: info.numOrder,
             infoType: openModalFlag,
             renderingData: orderlist,
           }}
