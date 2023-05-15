@@ -16,4 +16,6 @@ public class OrderResponseDto {
 
     private String itemName;
 
+    private boolean isUsed;
+
 }

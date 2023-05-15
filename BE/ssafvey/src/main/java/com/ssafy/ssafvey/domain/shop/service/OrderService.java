@@ -79,6 +79,7 @@ public class OrderService {
             orderResponseDto.setOrderItemId(order.getOrderItem().getId());
             orderResponseDto.setItemName(order.getOrderItem().getItem().getName());
             orderResponseDto.setImageUrl(order.getOrderItem().getItem().getImage().getImage_url());
+            orderResponseDto.setUsed(order.getOrderItem().isUsed());
             orderList.add(orderResponseDto);
         }
 
