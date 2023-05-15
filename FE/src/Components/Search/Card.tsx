@@ -15,7 +15,14 @@ export default function Card({ surveyListDataObjArr }: CardProps) {
   return (
     <div className={style.cardpart}>
       {surveyListDataObjArr.surveylist.map(({ id, title, organization, createDate, endDate }) => (
-        <CardDetail id={id} title={title} organization={organization} createDate={createDate} endDate={endDate} />
+        <CardDetail
+          id={id}
+          title={title}
+          organization={organization}
+          createDate={createDate}
+          endDate={endDate}
+          key={id}
+        />
       ))}
     </div>
   );
