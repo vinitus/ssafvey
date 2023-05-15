@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(value = "api/member/mypage" )
@@ -19,8 +21,8 @@ public class OrderItemController {
     private final OrderItemService orderItemService;
 
     @PutMapping(value = "/{orderItem_id}")
-    public ResponseEntity<?> useOrderItem(@PathVariable("orderItem_id") Long orderItem_id) {
-         orderItemService.useItem(orderItem_id);
+    public ResponseEntity<?> useOrderItem(HttpServletRequest request, @PathVariable("orderItem_id") Long orderItem_id) {
+         orderItemService.useItem((Long) request.getAttribute("memberId"), orderItem_id);
          return new ResponseEntity<>(HttpStatus.OK);
     }
 }
