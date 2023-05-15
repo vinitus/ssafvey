@@ -46,13 +46,12 @@ public class SurveyController {
     }
 
     @GetMapping("/api/survey/list")
-    public ResponseEntity<?> getSurveyListSW(HttpServletRequest request, @RequestParam(required = false) String search){
-
+    public ResponseEntity<?> getSurveyListSW(HttpServletRequest request){
         List<Survey> surveyList;
-        if (search == null) {
-            surveyList = surveyService.getRecommendSurveyList((Long) request.getAttribute("memberId"));
+        if ((Long) request.getAttribute("memberId") == null) {
+            surveyList = surveyService.getStartSurveyList();
         } else {
-            surveyList = surveyService.getSearchSurveyList(search);
+            surveyList = surveyService.getLoginSurveyList((Long) request.getAttribute("memberId"));
         }
 
         SurveyListDto surveyListDto = new SurveyListDto(surveyList);

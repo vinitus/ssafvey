@@ -17,13 +17,11 @@ import com.ssafy.ssafvey.domain.survey.repository.SurveyTargetAgeRepository;
 import com.ssafy.ssafvey.domain.survey.repository.SurveyTargetJobRepository;
 import com.ssafy.ssafvey.utils.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -204,6 +202,21 @@ public class SurveyService {
 
     public List<Survey> getRecommendSurveyList(Long memberId) {
         return surveyRepository.findSurveyByMemberJobAndAge(memberId);
+    }
+
+    public List<Survey> getStartSurveyList(){
+        List<Survey> allSurveys = surveyRepository.findAll(); // 모든 Survey를 가져옴
+        Collections.shuffle(allSurveys); // Survey 리스트를 랜덤하게 섞음
+        return allSurveys.subList(0, Math.min(5, allSurveys.size())); // 5개의 Survey를 선택하여 반환
+    }
+
+    public List<Survey> getLoginSurveyList(Long memberId){
+        List<Survey> allSurveys =surveyRepository.findSurveyByMemberJobAndAge(memberId); // 모든 Survey를 가져옴;
+        if(allSurveys.isEmpty()){
+            allSurveys=surveyRepository.findAll();
+        }
+        Collections.shuffle(allSurveys); // Survey 리스트를 랜덤하게 섞음
+        return allSurveys.subList(0, Math.min(5, allSurveys.size())); // 5개의 Survey를 선택하여 반환
     }
 
     public List<Survey> getSearchSurveyList(String search) {

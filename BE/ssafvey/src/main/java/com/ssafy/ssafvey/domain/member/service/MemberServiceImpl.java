@@ -11,6 +11,8 @@ import com.ssafy.ssafvey.domain.member.repository.MemberJobRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.repository.PointHistoryRepository;
 import com.ssafy.ssafvey.domain.shop.entity.Order;
+import com.ssafy.ssafvey.domain.survey.entity.Survey;
+import com.ssafy.ssafvey.domain.survey.repository.SurveyRepository;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
 import com.ssafy.ssafvey.global.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,8 @@ public class MemberServiceImpl implements MemberService {
     // MemberRepository 선언
     private final MemberRepository memberRepository;
 
+    private final SurveyRepository surveyRepository;
+
     private final JobsRepository jobsRepository;
 
     private final MemberJobRepository memberJobRepository;
@@ -48,6 +52,7 @@ public class MemberServiceImpl implements MemberService {
     private final TokenProvider tokenProvider;
 
     private final PointHistoryRepository pointHistoryRepository;
+
 
     public void updateUser(Long id, SignUpRequestDto signUpRequestDto){
         Optional<Member> findMember = memberRepository.findById(id);
@@ -465,7 +470,10 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findById(memberId);
     }
 
+    public void survey5Recommend(){
+        List<Survey> surveyList = surveyRepository.findAll();
 
+    }
 
     public JobListResponseDto getJobs(){
         JobListResponseDto jobListResponseDto = new JobListResponseDto();
