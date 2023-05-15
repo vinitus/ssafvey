@@ -172,8 +172,8 @@ public class SurveyService {
             List<SurveyAnswerDto> sortedSurveyAnswerDto = getSortedSurveyAnswerDtos(surveyAnswersDto);
 
             survey.surveyParticipate();
-            memberSurveyService.createMemberSurvey(memberId, survey, false);
-
+            MemberSurvey memberSurvey=memberSurveyService.createMemberSurvey(memberId, survey, false);
+            memberSurveyRepository.save(memberSurvey);
             for (int index = 0; index < sortedSurveyQuestionList.size(); index++) {
                 SurveyAnswerDto surveyAnswerDto = sortedSurveyAnswerDto.get(index);
                 SurveyQuestion surveyQuestion = sortedSurveyQuestionList.get(index);
