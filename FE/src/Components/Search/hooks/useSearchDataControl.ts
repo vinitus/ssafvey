@@ -19,7 +19,7 @@ export function useSearchDataControl(
   };
 
   const searchAPICall = async () => {
-    const res = (await getList(keyword)) as SurveyListDataObjArr;
+    const res = (await getList('', keyword)) as SurveyListDataObjArr;
     setDataArr(res);
   };
 
