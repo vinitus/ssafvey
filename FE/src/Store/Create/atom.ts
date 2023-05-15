@@ -37,35 +37,6 @@ export const answersState = atom<Answer[]>({
   default: [],
 });
 
-export const surveyQuestionsSelector = selector({
-  key: 'surveyQuestionsSelector',
-  get: ({ get }) => {
-    const questions = get(questionsState);
-    const reformQuestions = questions.map((question) => {
-      const isMultipleChoice = question.type === 'multiple';
-      if (isMultipleChoice) {
-        return {
-          order: question.id,
-          question: question.title,
-          isMultipleChoice,
-          choices: question.answers.map((answer) => {
-            return {
-              order: answer.id,
-              choice: answer.value,
-            };
-          }),
-        };
-      }
-      return {
-        order: question.id,
-        question: question.title,
-        isMultipleChoice,
-      };
-    });
-    return reformQuestions;
-  },
-});
-
 export const inputOpenState = atom({
   key: 'inputOpenState',
   default: false,

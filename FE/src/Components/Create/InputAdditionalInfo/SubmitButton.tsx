@@ -8,8 +8,8 @@ import {
   requiredPeopleNumberState,
   filteredJobsIdSelector,
   filteredAgesRangeSelector,
-  surveyQuestionsSelector,
   targetGenderState,
+  refactoringQuestionsState,
 } from '@store/Create/atom';
 import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
@@ -23,6 +23,8 @@ export default function SubmitButton() {
 
   const queryClient = useQueryClient();
 
+  const refactoringQuestions = useRecoilValue(refactoringQuestionsState);
+
   const surveyTitle = useRecoilValue(SurveyTitleState);
   const surveyDesc = useRecoilValue(SurveyDescState);
   const surveyClient = useRecoilValue(surveyClientState);
@@ -31,7 +33,6 @@ export default function SubmitButton() {
   const targetGender = useRecoilValue(targetGenderState);
   const filteredJobsId = useRecoilValue(filteredJobsIdSelector);
   const filteredAgesRange = useRecoilValue(filteredAgesRangeSelector);
-  const surveyQuestions = useRecoilValue(surveyQuestionsSelector);
 
   const handleRouteOverviewSurvey = () => {
     const handleFormDataAndFetch = async () => {
@@ -44,7 +45,7 @@ export default function SubmitButton() {
         targetGender,
         targetJob: filteredJobsId,
         targetAge: filteredAgesRange,
-        surveyQuestions,
+        surveyQuestions: refactoringQuestions,
       };
 
       const accessToken = queryClient.getQueryData(['accessToken']) as string;
