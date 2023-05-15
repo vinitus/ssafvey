@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
+import { useQuery } from '@tanstack/react-query';
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
 import Lotto from '../Components/Modal/Lotto'
@@ -8,7 +9,6 @@ import { getMypage, getSurveyResponse, getSurvey, getLogout, getGift, getPointli
 import styles from './MyPage.module.css';
 import { queryClient } from '../router';
 import { SurveyHistoryObj } from '../types/myPageType';
-import { useQuery } from '@tanstack/react-query';
 
 interface survey {
   title: string;

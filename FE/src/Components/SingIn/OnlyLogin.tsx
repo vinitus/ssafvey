@@ -23,7 +23,6 @@ export default function OnlyLogin() {
 
       axios({
         method: 'get',
-        // url: 'http://localhost:8081/api/member/login',
         url: 'https://k8a608.p.ssafy.io/api/member/login',
         params: {
           code,
