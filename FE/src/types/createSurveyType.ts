@@ -51,7 +51,7 @@ export interface QuestionForPostQuery {
   order: number;
   question: string;
   isMultipleChoice: boolean;
-  choices?: {
+  choices: {
     order: number;
     choice: string;
   }[];

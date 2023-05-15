@@ -37,9 +37,9 @@ export default function CreateSurveyQuestion() {
       <SurveyBox>
         <p className="descFont text-right">* 문항 정보를 입력해주세요!</p>
         <CreateSurveyForm idx={questionsIdx} key={questionsIdx} />
-        <CreateSurveyAnswerList />
-        <CreateSurveyAnswerForm />
-        <CreateSurveyAddAnswerButton />
+        <CreateSurveyAnswerList idx={questionsIdx} />
+        <CreateSurveyAnswerForm idx={questionsIdx} />
+        <CreateSurveyAddAnswerButton idx={questionsIdx} />
       </SurveyBox>
       <NavigationButtons idx={questionsIdx} />
     </div>

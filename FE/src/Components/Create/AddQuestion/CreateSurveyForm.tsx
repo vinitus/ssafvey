@@ -23,11 +23,13 @@ export default function CreateSurveyForm({ idx }: Props) {
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setRefactoringQuestions((prev) => {
+      const tempChoices = e.target.value === 'multiple' ? refactoringQuestions[idx].choices : [];
       const newQuestions = [
         ...prev.slice(0, idx),
-        { ...prev[idx], isMultipleChoice: e.target.value === 'multiple' },
+        { ...prev[idx], isMultipleChoice: e.target.value === 'multiple', choices: tempChoices },
         ...prev.slice(idx + 1),
       ];
+
       return newQuestions;
     });
   };
