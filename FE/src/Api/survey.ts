@@ -5,6 +5,17 @@ import { SurveyPostRequestData } from '@/types/surveyType';
 
 const baseURL = '/survey';
 
+// home 설문조사 리스트
+export async function getlist(token?:string) {
+  try{
+    const res = await axiosInstance.get(`${baseURL}/list`, { headers: { Authorization: `Bearer ${token}` } })
+    return res.data
+  }
+  catch(err){
+    return err
+  }
+}
+
 // 설문조사 작성
 export async function postRegis(data: SurveyPost, token: string) {
   try {
