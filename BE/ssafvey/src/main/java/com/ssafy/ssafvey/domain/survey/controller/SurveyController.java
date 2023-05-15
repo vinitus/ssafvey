@@ -45,6 +45,21 @@ public class SurveyController {
         return new ResponseEntity<>(surveyListDto, HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/api/survey/list")
+    public ResponseEntity<?> getSurveyList(HttpServletRequest request, @RequestParam(required = false) String search){
+
+        List<Survey> surveyList;
+        if (search == null) {
+            surveyList = surveyService.getRecommendSurveyList((Long) request.getAttribute("memberId"));
+        } else {
+            surveyList = surveyService.getSearchSurveyList(search);
+        }
+
+        SurveyListDto surveyListDto = new SurveyListDto(surveyList);
+
+        return new ResponseEntity<>(surveyListDto, HttpStatus.ACCEPTED);
+    }
+
     @PostMapping("/api/survey")
     public ResponseEntity<?> createSurvey(HttpServletRequest request, @RequestBody SurveyDto surveyDto) {
 
