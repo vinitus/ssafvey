@@ -4,7 +4,6 @@ import com.ssafy.ssafvey.domain.member.entity.Member;
 import com.ssafy.ssafvey.domain.member.entity.PointHistory;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.repository.PointHistoryRepository;
-import com.ssafy.ssafvey.domain.shop.dto.OrderItemDto;
 import com.ssafy.ssafvey.domain.shop.dto.OrderResponseDto;
 import com.ssafy.ssafvey.domain.shop.entity.Item;
 import com.ssafy.ssafvey.domain.shop.entity.Order;
