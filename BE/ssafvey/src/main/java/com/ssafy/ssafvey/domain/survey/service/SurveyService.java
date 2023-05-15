@@ -210,6 +210,15 @@ public class SurveyService {
         return allSurveys.subList(0, Math.min(5, allSurveys.size())); // 5개의 Survey를 선택하여 반환
     }
 
+    public List<Survey> getLoginSurveyList(Long memberId){
+        List<Survey> allSurveys =surveyRepository.findSurveyByMemberJobAndAge(memberId); // 모든 Survey를 가져옴;
+        if(allSurveys.isEmpty()){
+            allSurveys=surveyRepository.findAll();
+        }
+        Collections.shuffle(allSurveys); // Survey 리스트를 랜덤하게 섞음
+        return allSurveys.subList(0, Math.min(5, allSurveys.size())); // 5개의 Survey를 선택하여 반환
+    }
+
     public List<Survey> getSearchSurveyList(String search) {
         return surveyRepository.findByTitleContaining(search);
     }

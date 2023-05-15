@@ -46,8 +46,13 @@ public class SurveyController {
     }
 
     @GetMapping("/api/survey/list")
-    public ResponseEntity<?> getSurveyListSW(){
-        List<Survey> surveyList = surveyService.getStartSurveyList();
+    public ResponseEntity<?> getSurveyListSW(HttpServletRequest request){
+        List<Survey> surveyList;
+        if ((Long) request.getAttribute("memberId") == null) {
+            surveyList = surveyService.getStartSurveyList();
+        } else {
+            surveyList = surveyService.getLoginSurveyList((Long) request.getAttribute("memberId"));
+        }
 
         SurveyListDto surveyListDto = new SurveyListDto(surveyList);
 
