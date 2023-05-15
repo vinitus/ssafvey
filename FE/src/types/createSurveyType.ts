@@ -44,10 +44,10 @@ export interface SurveyPost {
     min: number;
     max: number;
   }[];
-  surveyQuestions: QuestionForPostQuery[];
+  surveyQuestions: (QuestionForMultiple | QuestionForEssay)[];
 }
 
-export interface QuestionForPostQuery {
+export interface QuestionForMultiple {
   order: number;
   question: string;
   isMultipleChoice: boolean;
@@ -55,4 +55,10 @@ export interface QuestionForPostQuery {
     order: number;
     choice: string;
   }[];
+}
+
+export interface QuestionForEssay {
+  order: number;
+  question: string;
+  isMultipleChoice: boolean;
 }

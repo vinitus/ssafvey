@@ -16,7 +16,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import RoundButton from '../../../UI/Button/RoundButton';
 import parseDateToString from '@/Util/Date/parseDateToString';
-import { SurveyPost } from '@/types/createSurveyType';
+import { SurveyPost, QuestionForMultiple, QuestionForEssay } from '@/types/createSurveyType';
 
 export default function SubmitButton() {
   const navigate = useNavigate();
@@ -24,6 +24,17 @@ export default function SubmitButton() {
   const queryClient = useQueryClient();
 
   const refactoringQuestions = useRecoilValue(refactoringQuestionsState);
+
+  const reformQuestions: (QuestionForMultiple | QuestionForEssay)[] = refactoringQuestions.map((question) => {
+    if (!question.isMultipleChoice) {
+      return {
+        order: question.order,
+        question: question.question,
+        isMultipleChoice: question.isMultipleChoice,
+      };
+    }
+    return question;
+  });
 
   const surveyTitle = useRecoilValue(SurveyTitleState);
   const surveyDesc = useRecoilValue(SurveyDescState);
@@ -45,7 +56,7 @@ export default function SubmitButton() {
         targetGender,
         targetJob: filteredJobsId,
         targetAge: filteredAgesRange,
-        surveyQuestions: refactoringQuestions,
+        surveyQuestions: reformQuestions,
       };
 
       const accessToken = queryClient.getQueryData(['accessToken']) as string;
