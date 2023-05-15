@@ -46,7 +46,7 @@ public class SurveyController {
     }
 
     @GetMapping("/api/survey/list")
-    public ResponseEntity<?> getSurveyList(HttpServletRequest request, @RequestParam(required = false) String search){
+    public ResponseEntity<?> getSurveyListSW(HttpServletRequest request, @RequestParam(required = false) String search){
 
         List<Survey> surveyList;
         if (search == null) {
