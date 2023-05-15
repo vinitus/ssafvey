@@ -30,3 +30,14 @@ export async function postItemlist(id : number, token :string) {
     return err
   }
 }
+
+// 포인트조회
+export async function getPoint(token : string) {
+  try {
+    const res = await axiosInstance.get("/member/point",{headers : {Authorization: `Bearer ${token}`}})
+    return res.data
+  }
+  catch (err) {
+    return err
+  }
+}
