@@ -16,6 +16,7 @@ export interface OrderItemObj {
   orderItemId: number;
   itemName: string;
   imageUrl: string;
+  used : boolean;
 }
 
 export interface CoverData {

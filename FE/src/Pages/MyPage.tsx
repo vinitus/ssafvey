@@ -123,7 +123,7 @@ export default function MyPage() {
     getGiftcon()
     getPointlistdata()
 
-  }, []);
+  }, [lottomodal, openModalFlag]);
 
 
   async function logout() {

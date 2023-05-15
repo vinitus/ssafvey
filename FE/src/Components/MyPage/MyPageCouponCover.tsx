@@ -9,11 +9,12 @@ export interface ItemInfo {
   orderItemId: number;
   itemName: string;
   imageUrl: string;
+  used : boolean;
 }
 
 export default function MyPageCouponCover({ quantity, infoType, renderingData }: CoverData) {
   const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
-  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemId: 0, itemName: '', imageUrl: ''});
+  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemId: 0, itemName: '', imageUrl: '', used : false});
 
   return (
     <>
@@ -24,7 +25,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
       <section className={style.cardlist}>
         <div className={style.cardWrapper}>
           
-          { isCouponTitle(renderingData) && renderingData.map(({orderItemId, itemName, imageUrl}) => (
+          { isCouponTitle(renderingData) && renderingData.map(({orderItemId, itemName, imageUrl, used}) => (
               <button
                 type="button"
                 // idx가 변해도 상관 없음
@@ -33,10 +34,10 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   setModalOpenFlag(true);
-                  setClickedinfo({orderItemId, itemName, imageUrl});
+                  setClickedinfo({orderItemId, itemName, imageUrl, used});
                 }}
               >
-                <GiftCard productTitle={itemName} image={imageUrl} />
+                <GiftCard productTitle={itemName} image={imageUrl} used={used}/>
               </button>
             ))}
         </div>
