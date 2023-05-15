@@ -7,13 +7,14 @@ import { queryClient } from '@/router';
 
 interface Props {
   closemodal: () => void;
-  info : iteminfo;
+  info: iteminfo;
 }
 
 interface iteminfo {
-  orderItemid: number;
+  orderItemId: number;
   itemName: string;
   imageUrl: string;
+  used: boolean;
 }
 
 const isMouseEvent = (e: any): e is MouseEvent =>
@@ -22,7 +23,6 @@ const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
 export default function ShowGift({ closemodal, info }: Props) {
-
   const slideRef = useRef<HTMLDivElement | null>(null);
   const slideBtnRef = useRef<HTMLDivElement | null>(null);
 
@@ -33,11 +33,10 @@ export default function ShowGift({ closemodal, info }: Props) {
     let xOffset = 0;
 
     const token = queryClient.getQueryData(['accessToken']) as string;
-
     async function putitem() {
       try {
-        if (info.orderItemid) {
-          await putGift(token);
+        if (info.orderItemId) {
+          await putGift(info.orderItemId, token);
         }
       } catch (error) {
         console.error(error);
@@ -71,9 +70,14 @@ export default function ShowGift({ closemodal, info }: Props) {
       if (currentX < 130) {
         setTranslate(0, slideBtnRef.current);
         xOffset = 0;
+        if (info.used) {
+          putitem();
+        }
       } else if (currentX >= 130) {
         setTranslate(170, slideBtnRef.current);
-        putitem();
+        if (!info.used) {
+          putitem();
+        }
         slideRef.current.removeEventListener('touchstart', dragStart);
         slideRef.current.removeEventListener('touchend', dragEnd);
         slideRef.current.removeEventListener('touchmove', drag);
@@ -105,6 +109,11 @@ export default function ShowGift({ closemodal, info }: Props) {
       }
     };
     if (slideBtnRef.current && slideRef.current && token) {
+      if(info.used) {
+        setTranslate(170, slideBtnRef.current);
+        xOffset = 170
+      }
+
       slideRef.current.addEventListener('touchstart', dragStart);
       slideRef.current.addEventListener('touchend', dragEnd);
       slideRef.current.addEventListener('touchmove', drag);
@@ -129,12 +138,21 @@ export default function ShowGift({ closemodal, info }: Props) {
 
       {/* 우리의 리액트는 PWA로써, 스마트폰에서 터치 방식이 주이기에 필요없다고 생각함 */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      <div className={style.slider} id="slide" ref={slideRef}>
-        <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
-          사용하기
+      {info.used ? 
+        <div className={style.slider} id="slide" ref={slideRef}>
+          <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
+            취소하기
+          </div>
+          <span>밀어서 취소하기</span>
         </div>
-        <span>밀어서 사용하기</span>
-      </div>
+      :  
+        <div className={style.slider} id="slide" ref={slideRef}>
+          <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
+            사용하기
+          </div>
+          <span>밀어서 사용하기</span>
+        </div>
+      } 
     </div>
   );
 }

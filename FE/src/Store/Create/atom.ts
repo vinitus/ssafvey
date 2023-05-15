@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import { getJobs } from '@/Api/member';
-import { Question, QuestionType, Answer, Job, selectedJob } from '@/types/createSurveyType';
+import { Question, QuestionType, Answer, Job, selectedJob, QuestionForMultiple } from '@/types/createSurveyType';
 
 export const SurveyTitleState = atom({
   key: 'SurveyTitleState',
@@ -12,19 +12,21 @@ export const SurveyDescState = atom({
   default: '',
 });
 
+export const refactoringQuestionsState = atom<QuestionForMultiple[]>({
+  key: 'refactoringQuestionsState',
+  default: [
+    {
+      order: 1,
+      question: '',
+      isMultipleChoice: true,
+      choices: [],
+    },
+  ],
+});
+
 export const questionsState = atom<Question[]>({
   key: 'questionsState',
   default: [],
-});
-
-export const currentQuestionNumberState = atom({
-  key: 'currentQuestionNumberState',
-  default: 1,
-});
-
-export const endQuestionNumberState = atom({
-  key: 'endQuestionNumberState',
-  default: 1,
 });
 
 export const currentQuestionTitleState = atom({
@@ -40,35 +42,6 @@ export const currentQuestionTypeState = atom<QuestionType>({
 export const answersState = atom<Answer[]>({
   key: 'answersState',
   default: [],
-});
-
-export const surveyQuestionsSelector = selector({
-  key: 'surveyQuestionsSelector',
-  get: ({ get }) => {
-    const questions = get(questionsState);
-    const reformQuestions = questions.map((question) => {
-      const isMultipleChoice = question.type === 'multiple';
-      if (isMultipleChoice) {
-        return {
-          order: question.id,
-          question: question.title,
-          isMultipleChoice,
-          choices: question.answers.map((answer) => {
-            return {
-              order: answer.id,
-              choice: answer.value,
-            };
-          }),
-        };
-      }
-      return {
-        order: question.id,
-        question: question.title,
-        isMultipleChoice,
-      };
-    });
-    return reformQuestions;
-  },
 });
 
 export const inputOpenState = atom({
