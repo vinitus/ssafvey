@@ -24,14 +24,14 @@ export default function OnlyLogin() {
       axios({
         method: 'get',
         // url: 'http://localhost:8081/api/member/login',
-        url: 'http://k8a608.p.ssafy.io:8081/api/member/login',
+        url: 'https://k8a608.p.ssafy.io/api/member/login',
         params: {
           code,
         },
       }).then((res) => {
         // accesstoken => queryclient
         queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
-
+        
         // refresh token => localstorage
         const { refreshToken } = res.data.token;
         localStorage.setItem('refreshToken', refreshToken);

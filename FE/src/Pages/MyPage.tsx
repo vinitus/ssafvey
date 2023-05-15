@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-modal'
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
-import { getMypage, getSurveyResponse, getSurvey, getLogout } from '../Api/member';
+import Lotto from '../Components/Modal/Lotto'
+import { getMypage, getSurveyResponse, getSurvey, getLogout, getGift, getPointlist, getorder } from '../Api/member';
 import styles from './MyPage.module.css';
 import { queryClient } from '../router';
 import { SurveyHistoryObj } from '../types/myPageType';
@@ -19,6 +21,7 @@ interface myinfo {
   makesurvey: number;
   recent: survey[];
   coupon: number;
+  numOrder : number;
 }
 
 export default function MyPage() {
@@ -31,14 +34,19 @@ export default function MyPage() {
     makesurvey: 0,
     recent: [],
     coupon: 0,
+    numOrder : 0,
   });
 
   const [dosurvey, setDosurvey] = useState<SurveyHistoryObj>({});
   const [makesurvey, setMakesurvey] = useState<SurveyHistoryObj>({});
+  const [pointlist, setPointlist] = useState({});
+  const [orderlist, setOrderlist] = useState([]);
 
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
   const [send, setSend] = useState(false);
   const [activityData, setActivityData] = useState<survey[]>([]);
+
+  const [lottomodal, setLottomodal] = useState(false)
 
   useEffect(() => {
     //
@@ -49,8 +57,7 @@ export default function MyPage() {
       try {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getMypage(accessToken);
-        console.log('data 1:', data);
-
+        console.log(data)
         setInfo({
           name: data.name,
           point: data.point,
@@ -58,6 +65,7 @@ export default function MyPage() {
           makesurvey: data.numSurveyCreated,
           recent: data.recentActivity,
           coupon: data.couponCount,
+          numOrder : data.numOrder
         });
 
         setActivityData(data.recentActivity);
@@ -72,7 +80,6 @@ export default function MyPage() {
       try {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurveyResponse(accessToken);
-        console.log('data 2 : ', data);
         setDosurvey(data);
         getmakesurveylist();
       } catch (err) {
@@ -84,15 +91,40 @@ export default function MyPage() {
       try {
         const accessToken = queryClient.getQueryData(['accessToken']) as string;
         const data = await getSurvey(accessToken);
-        console.log('data3 : ', data);
         setMakesurvey(data);
       } catch (err) {
         console.log(err);
       }
     }
 
+    async function getGiftcon(){
+      try {
+        const accessToken = queryClient.getQueryData(['accessToken']) as string;
+        const data = await getGift(accessToken);
+        console.log(data)
+        setOrderlist(data)
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    async function getPointlistdata(){
+      try {
+        const accessToken = queryClient.getQueryData(['accessToken']) as string;
+        const data = await getPointlist(accessToken);
+        console.log(data)
+        setPointlist(data)
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     getmypageinfo();
+    getGiftcon()
+    getPointlistdata()
+
   }, []);
+
 
   async function logout() {
     try {
@@ -175,9 +207,9 @@ export default function MyPage() {
           sending={send}
           contentType="쿠폰"
           content={{
-            quantity: 5,
+            quantity: info.coupon,
             infoType: openModalFlag,
-            renderingData: ['아이스티', '커피', '커피', '아이스티', '아이스티'],
+            renderingData: orderlist,
           }}
         />
       )}
@@ -187,44 +219,9 @@ export default function MyPage() {
           sending={send}
           contentType="포인트"
           content={{
-            quantity: 4500,
+            quantity: info.point,
             infoType: openModalFlag,
-            renderingData: [
-              {
-                day: '2023.04.11',
-                history: [
-                  {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
-                  },
-                  {
-                    pointHistoryType: '설문 제작',
-                    pointUsed: -200,
-                  },
-                ],
-              },
-              {
-                day: '3325.12.10',
-                history: [
-                  {
-                    pointHistoryType: '쿠폰 교환',
-                    pointUsed: -100,
-                  },
-                  {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
-                  },
-                  {
-                    pointHistoryType: '복권 교환',
-                    pointUsed: -100,
-                  },
-                  {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
-                  },
-                ],
-              },
-            ],
+            renderingData: pointlist
           }}
         />
       )}
@@ -252,9 +249,42 @@ export default function MyPage() {
         <button type="button" onClick={() => setOpenModalFlag('쿠폰')}>
           <article className={styles.couponBox}>
             <h3 className={styles.couponText}>보유한 쿠폰</h3>
+            <p className={styles.couponCntDiv}>{info.numOrder}</p>
+          </article>
+        </button>
+        {info.coupon > 0 ?
+        <button type="button" onClick={() => setLottomodal(true)}>
+          <article className={styles.couponBox}>
+            <h3 className={styles.couponText}>보유한 로또</h3>
             <p className={styles.couponCntDiv}>{info.coupon}</p>
           </article>
         </button>
+        :
+        <button type="button">
+          <article className={styles.couponBox}>
+            <h3 className={styles.couponText}>보유한 로또</h3>
+            <p className={styles.couponCntDiv}>{info.coupon}</p>
+          </article>
+        </button>
+      }
+
+        <Modal
+            // className={style.updatemodal}
+            closeTimeoutMS={200}
+            isOpen={lottomodal}
+            onRequestClose={() => setLottomodal(false)}
+            style={{
+              content: {
+                width: '300px',
+                height: '350px',
+                backgroundColor: '#c2e9fb',
+                margin: 'auto',
+                borderRadius: '20px',
+              },
+            }}
+          >
+            <Lotto closemodal={() => setLottomodal(false)} />
+          </Modal>
       </div>
     </section>
   );

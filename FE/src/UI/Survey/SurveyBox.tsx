@@ -95,7 +95,6 @@ function MultipleAnswer({
         if (preRef.current) preRef.current.className = style.choice;
       }
       const answerRef = refArr[Number(answerOrder) - 1];
-      console.log(answerRef, refArr, answerOrder);
       if (answerRef.current) answerRef.current.className = style.choiceClick;
     }
   };

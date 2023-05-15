@@ -10,14 +10,12 @@ import lombok.Setter;
 @Setter
 public class OrderResponseDto {
 
-    @NotNull
-
-    private Long itemId;
-
     private Long orderItemId;
 
     private String imageUrl;
 
     private String itemName;
+
+    private boolean isUsed;
 
 }

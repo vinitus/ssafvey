@@ -23,8 +23,8 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;    //주문
 
-//    @Column(name = "order_item_used")
-//    private boolean isUsed;
+    @Column(name = "order_item_used")
+    private boolean isUsed;
 
     private int orderPrice; //주문 가격
 
@@ -36,9 +36,12 @@ public class OrderItem {
         return orderItem;
     }
 
+
     //==조회 로직==//
     /** 주문상품 전체 가격 조회 */
     public int getTotalPrice() {
         return getOrderPrice();
     }
+
+
 }

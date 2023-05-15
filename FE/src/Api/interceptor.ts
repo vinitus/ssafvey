@@ -4,8 +4,8 @@ import { getRefresh } from './member';
 import { queryClient } from '../router';
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: 'http://k8a608.p.ssafy.io:8081/api',
-  // baseURL: "http://localhost:8081/api",
+  baseURL: 'https://k8a608.p.ssafy.io/api',
+  // baseURL: "https://localhost:8080/api",
 });
 
 axiosInstance.interceptors.request.use(
