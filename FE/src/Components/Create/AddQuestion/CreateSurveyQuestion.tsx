@@ -18,6 +18,8 @@ export default function CreateSurveyQuestion() {
 
   const [refactoringQuestions, setRefactoringQuestions] = useRecoilState(refactoringQuestionsState);
 
+  console.log(refactoringQuestions);
+
   const needNewQuestion = questionsIdx >= refactoringQuestions.length;
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function CreateSurveyQuestion() {
         <p className="descFont text-right">* 문항 정보를 입력해주세요!</p>
         {!needNewQuestion && (
           <>
-            <CreateSurveyForm idx={questionsIdx} key={`question-${questionsIdx}`} />
+            <CreateSurveyForm idx={questionsIdx} />
             <CreateSurveyAnswerList idx={questionsIdx} />
             <CreateSurveyAnswerForm idx={questionsIdx} />
             <CreateSurveyAddAnswerButton idx={questionsIdx} key={`answer=${questionsIdx}`} />

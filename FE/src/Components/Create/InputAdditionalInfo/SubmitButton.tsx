@@ -33,7 +33,15 @@ export default function SubmitButton() {
         isMultipleChoice: question.isMultipleChoice,
       };
     }
-    return question;
+    return {
+      ...question,
+      choices: question.choices.map((choice, index) => {
+        return {
+          ...choice,
+          order: index + 1,
+        };
+      }),
+    };
   });
 
   const surveyTitle = useRecoilValue(SurveyTitleState);
