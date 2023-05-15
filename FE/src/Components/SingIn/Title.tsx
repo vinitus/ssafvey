@@ -4,8 +4,7 @@ import style from './Title.module.css';
 export default function Title() {
   const login = () => {
     window.Kakao.Auth.authorize({
-      redirectUri : 'https://k8a608.p.ssafy.io/onlylogin'
-      // redirectUri: 'http://localhost:5173/onlylogin',
+      redirectUri: 'http://localhost:5173/onlylogin'
     });
   };
 
