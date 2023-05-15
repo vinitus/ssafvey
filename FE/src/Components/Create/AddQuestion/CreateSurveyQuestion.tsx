@@ -18,13 +18,10 @@ export default function CreateSurveyQuestion() {
 
   const [refactoringQuestions, setRefactoringQuestions] = useRecoilState(refactoringQuestionsState);
 
-  console.log(refactoringQuestions);
-
   const needNewQuestion = questionsIdx >= refactoringQuestions.length;
 
   useEffect(() => {
     if (needNewQuestion) {
-      console.log(1);
       setRefactoringQuestions((prev) => {
         const newQuestions = [
           ...prev,
