@@ -102,9 +102,9 @@ export async function getGift(token : string) {
 }
 
 // 기프티콘 사용
-export async function putGift(token : string) {
+export async function putGift(id : number, token : string) {
   try {
-    const res = await axiosInstance.put(`${baseURL}/mypage/gift`, {
+    const res = await axiosInstance.put(`${baseURL}/mypage/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
   return res.data

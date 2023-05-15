@@ -11,7 +11,7 @@ interface Props {
 }
 
 interface iteminfo {
-  orderItemid: number;
+  orderItemId: number;
   itemName: string;
   imageUrl: string;
 }
@@ -33,11 +33,10 @@ export default function ShowGift({ closemodal, info }: Props) {
     let xOffset = 0;
 
     const token = queryClient.getQueryData(['accessToken']) as string;
-
     async function putitem() {
       try {
-        if (info.orderItemid) {
-          await putGift(token);
+        if (info.orderItemId) {
+          await putGift(info.orderItemId, token);
         }
       } catch (error) {
         console.error(error);

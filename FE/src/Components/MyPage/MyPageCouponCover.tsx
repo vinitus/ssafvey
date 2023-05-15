@@ -6,14 +6,14 @@ import BuyGift from '../Modal/ShowGift';
 import style from './MyPageCouponCover.module.css';
 
 export interface ItemInfo {
-  orderItemid: number;
+  orderItemId: number;
   itemName: string;
   imageUrl: string;
 }
 
 export default function MyPageCouponCover({ quantity, infoType, renderingData }: CoverData) {
   const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
-  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemid: 0, itemName: '', imageUrl: ''});
+  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemId: 0, itemName: '', imageUrl: ''});
 
   return (
     <>
@@ -24,16 +24,16 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
       <section className={style.cardlist}>
         <div className={style.cardWrapper}>
           
-          { isCouponTitle(renderingData) && renderingData.map(({orderItemid, itemName, imageUrl}) => (
+          { isCouponTitle(renderingData) && renderingData.map(({orderItemId, itemName, imageUrl}) => (
               <button
                 type="button"
                 // idx가 변해도 상관 없음
                 // eslint-disable-next-line react/no-array-index-key
-                key={orderItemid}
+                key={orderItemId}
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   setModalOpenFlag(true);
-                  setClickedinfo({orderItemid, itemName, imageUrl});
+                  setClickedinfo({orderItemId, itemName, imageUrl});
                 }}
               >
                 <GiftCard productTitle={itemName} image={imageUrl} />
