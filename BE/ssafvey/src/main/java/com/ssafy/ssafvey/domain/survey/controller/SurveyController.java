@@ -30,7 +30,7 @@ public class SurveyController {
     private final SurveyRepository surveyRepository;
     private final Publisher publisher;
 
-    @GetMapping("/api/survey")
+    @GetMapping("/api/survey/list")
     public ResponseEntity<?> getSurveyList(HttpServletRequest request, @RequestParam(required = false) String search){
 
         List<Survey> surveyList;
@@ -45,7 +45,7 @@ public class SurveyController {
         return new ResponseEntity<>(surveyListDto, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/api/survey/list")
+    @GetMapping("/api/survey")
     public ResponseEntity<?> getSurveyListSW(HttpServletRequest request){
         List<Survey> surveyList;
         if ((Long) request.getAttribute("memberId") == null) {

@@ -3,6 +3,7 @@ package com.ssafy.ssafvey.domain.member.controller;
 
 
 import com.ssafy.ssafvey.domain.member.dto.*;
+import com.ssafy.ssafvey.domain.member.exception.BadRequestException;
 import com.ssafy.ssafvey.domain.member.service.MemberService;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
 import io.swagger.annotations.Api;
@@ -180,8 +181,25 @@ public class MemberController {
     })
     @PutMapping("/api/member/mypage/lotto")
     public ResponseEntity useLotto(HttpServletRequest request) {
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(memberService.getPoint((Long) request.getAttribute("memberId")));
+        }
+        catch (BadRequestException ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("쿠폰 없음");
+        }
+    }
 
-        return ResponseEntity.status(HttpStatus.OK).body(memberService.getPoint((Long) request.getAttribute("memberId")));
+    @ApiOperation(value="맴버 정보 불러오기", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/changeProfil")
+    public ResponseEntity getMemberInfo(HttpServletRequest request) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.getMeberInfo((Long) request.getAttribute("memberId")));
+
     }
 
     @ApiOperation(value="맴버 포인트", notes = "유저 정보를 업데이트 합니다")
