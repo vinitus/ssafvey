@@ -2,38 +2,50 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './HomeCard.module.css';
 
-export default function HomeCardRight() {
+interface Props {
+  list : info
+}
+interface info{
+  id : number;
+  title : string;
+  organization : string;
+  createDate : string;
+  endDate : string;
+  targetSurveyParticipants : number;
+}
+
+export default function HomeCardRight({list}: Props) {
   const navigate = useNavigate();
-  const id = 22; // 카드 id
+  const {id} = list
   function cardclick() {
     navigate(`/survey/${id}`);
   }
 
   return (
     <div className={style.card}>
-      <div className={style.title}>IT 플랫폼 사용 실태 조사</div>
+      <div className={style.title}>{list?.title}</div>
       <div className={style.container}>
         <div className={style.subtitle}>
           <img src="/icons/house.svg" alt="house" className="mr-5" />
-          <div className={style.subtitle_writer}>기관명</div>
+          <div className={style.subtitle_writer}>{list?.organization}</div>
         </div>
 
         <div className={style.subtitle}>
           <img src="/icons/people.svg" alt="people" className="mr-5" />
-          <div className={style.subtitle_writer}>100</div>
+          <div className={style.subtitle_writer}>{list?.targetSurveyParticipants}</div>
         </div>
 
         <div className={style.subtitle}>
           <img src="/icons/clock.svg" alt="clock" className="mr-5" />
           <div className={style.subtitle_date}>
-            <div>2023.04.10 -</div>
-            <div>2023.04.13</div>
+            <div>{list && list.createDate.split('T')[0]} -</div>
+            <div>{list && list.endDate.split('T')[0]}</div>
           </div>
         </div>
 
         <div className={style.subtitle}>
           <img src="/icons/coin.svg" alt="people" className="mr-5" />
-          <div className={style.subtitle_date}>100</div>
+          <div className={style.subtitle_date}>로또 1개</div>
         </div>
       </div>
 
