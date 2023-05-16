@@ -106,6 +106,7 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
       )}
       {contentType === '쿠폰' && (
         <MyPageCouponCover
+          close = {() => closemodal}
           quantity={content.quantity}
           infoType={content.infoType}
           renderingData={content.renderingData}

@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import style from './BuyGift.module.css';
 import { putGift } from '../../Api/member';
 import { queryClient } from '@/router';
+import { useTokenQuery } from '@/hooks/useTokenQuery';
 
 interface Props {
   closemodal: () => void;
@@ -26,6 +27,8 @@ export default function ShowGift({ closemodal, info }: Props) {
   const slideRef = useRef<HTMLDivElement | null>(null);
   const slideBtnRef = useRef<HTMLDivElement | null>(null);
 
+  const tokenQuery = useTokenQuery();
+
   useEffect(() => {
     let active: boolean | 'touch' | 'mouse' = false;
     let currentX: number;
@@ -37,6 +40,8 @@ export default function ShowGift({ closemodal, info }: Props) {
       try {
         if (info.orderItemId) {
           await putGift(info.orderItemId, token);
+          tokenQuery.refetch();
+          closemodal();
         }
       } catch (error) {
         console.error(error);
@@ -109,9 +114,9 @@ export default function ShowGift({ closemodal, info }: Props) {
       }
     };
     if (slideBtnRef.current && slideRef.current && token) {
-      if(info.used) {
+      if (info.used) {
         setTranslate(170, slideBtnRef.current);
-        xOffset = 170
+        xOffset = 170;
       }
 
       slideRef.current.addEventListener('touchstart', dragStart);
@@ -122,7 +127,7 @@ export default function ShowGift({ closemodal, info }: Props) {
       slideRef.current.addEventListener('mouseup', dragEnd);
       slideRef.current.addEventListener('mousemove', drag);
     }
-  }, [info]);
+  }, [info, closemodal, tokenQuery]);
 
   return (
     <div>
@@ -138,21 +143,21 @@ export default function ShowGift({ closemodal, info }: Props) {
 
       {/* 우리의 리액트는 PWA로써, 스마트폰에서 터치 방식이 주이기에 필요없다고 생각함 */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      {info.used ? 
+      {info.used ? (
         <div className={style.slider} id="slide" ref={slideRef}>
           <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
             취소하기
           </div>
           <span>밀어서 취소하기</span>
         </div>
-      :  
+      ) : (
         <div className={style.slider} id="slide" ref={slideRef}>
           <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
             사용하기
           </div>
           <span>밀어서 사용하기</span>
         </div>
-      } 
+      )}
     </div>
   );
 }

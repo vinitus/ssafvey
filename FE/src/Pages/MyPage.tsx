@@ -61,6 +61,7 @@ export default function MyPage() {
   });
 
   const fetchAll = useCallback((accessToken: string) => {
+    console.log("dddddddddddd")
     getmypageinfo();
     getGiftcon(accessToken);
     getPointlistdata(accessToken);
