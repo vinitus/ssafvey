@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-modal';
 import { CoverData, isCouponTitle } from '../../types/myPageType';
 import GiftCard from '../Exchange/GiftCard';
