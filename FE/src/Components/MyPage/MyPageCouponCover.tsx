@@ -6,19 +6,19 @@ import BuyGift from '../Modal/ShowGift';
 import style from './MyPageCouponCover.module.css';
 
 interface Props {
-  close : () => void;
+  close: () => void;
 }
 
 export interface ItemInfo {
   orderItemId: number;
   itemName: string;
   imageUrl: string;
-  used : boolean;
+  used: boolean;
 }
 
 export default function MyPageCouponCover({ quantity, infoType, renderingData, close }: CoverData & Props) {
   const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
-  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemId: 0, itemName: '', imageUrl: '', used : false});
+  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemId: 0, itemName: '', imageUrl: '', used: false });
 
   return (
     <>
@@ -28,20 +28,18 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData, c
       </header>
       <section className={style.cardlist}>
         <div className={style.cardWrapper}>
-          
-          { isCouponTitle(renderingData) && renderingData.map(({orderItemId, itemName, imageUrl, used}) => (
+          {isCouponTitle(renderingData) &&
+            renderingData.map(({ orderItemId, itemName, imageUrl, used }) => (
               <button
                 type="button"
-                // idx가 변해도 상관 없음
-                // eslint-disable-next-line react/no-array-index-key
                 key={orderItemId}
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   setModalOpenFlag(true);
-                  setClickedinfo({orderItemId, itemName, imageUrl, used});
+                  setClickedinfo({ orderItemId, itemName, imageUrl, used });
                 }}
               >
-                <GiftCard productTitle={itemName} image={imageUrl} used={used}/>
+                <GiftCard productTitle={itemName} image={imageUrl} used={used} />
               </button>
             ))}
         </div>
@@ -62,9 +60,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData, c
           },
         }}
       >
-        {modalOpenFlag && (
-          <BuyGift info={clickedinfo} closemodal={() => setModalOpenFlag(false)} />
-        )}
+        {modalOpenFlag && <BuyGift info={clickedinfo} closemodal={() => setModalOpenFlag(false)} />}
       </Modal>
     </>
   );

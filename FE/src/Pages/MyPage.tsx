@@ -63,12 +63,14 @@ export default function MyPage() {
     },
   });
 
-  const fetchAll = useCallback((accessToken: string) => {
-    getmypageinfo();
-    getGiftcon(accessToken);
-    getPointlistdata(accessToken);
-    getdosurveylist(accessToken);
-    getmakesurveylist(accessToken);
+  const fetchAll = useCallback(async (accessToken: string) => {
+    const mypageinfo = await getmypageinfo();
+    const giftcon = await getGiftcon(accessToken);
+    const pointlistdata = await getPointlistdata(accessToken);
+    const dosurveylist = await getdosurveylist(accessToken);
+    const makesurveylist = await getmakesurveylist(accessToken);
+
+    await Promise.all([mypageinfo, giftcon, pointlistdata, dosurveylist, makesurveylist]);
   }, []);
 
   async function getmypageinfo() {
@@ -93,10 +95,11 @@ export default function MyPage() {
 
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken');
-    if (!info.name && (!refreshToken || tokenQuery.data)) {
-      if (tokenQuery.data) fetchAll(tokenQuery.data);
-    }
-  }, [fetchAll, info.name, tokenQuery]);
+    if (info.name) {
+      /* empty */
+    } else if (!refreshToken) navigate('/sign-in');
+    else if (tokenQuery.data && !tokenQuery.isFetchedAfterMount) fetchAll(tokenQuery.data);
+  }, [fetchAll, info.name, navigate, tokenQuery]);
 
   async function getdosurveylist(accessToken: string) {
     const data = await getSurveyResponse(accessToken);
@@ -159,12 +162,13 @@ export default function MyPage() {
             >
               로그아웃
             </button>
-            <button 
+            <button
               type="button"
-              className={styles.modify} 
+              className={styles.modify}
               onClick={() => {
-                navigate('/sign-up', { state : { data : null}})
-              }}>
+                navigate('/sign-up', { state: { data: null } });
+              }}
+            >
               회원정보수정
             </button>
           </div>
@@ -238,8 +242,10 @@ export default function MyPage() {
             <img src="./icons/reverse_clock.svg" alt="reverse_clock" className={styles.recentImg} />
           </div>
           <div className={styles.recentActivityWrapper}>
-            {activityData?.map((activity) => (
-              <div key={activity.title} className={styles.recentActivityBg}>
+            {activityData?.map((activity, idx) => (
+              // 데이터를 나타내는 것이 중요하기에,
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={idx} className={styles.recentActivityBg}>
                 <div className={styles.title}>{activity.title}</div>
                 <div className={styles.author}>{activity.name}</div>
               </div>

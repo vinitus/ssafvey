@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+// 이 컴포넌트의 map은 단순한 조회이기에 key를 idx로 한다고 해서 문제가 될 이유는 없습니다.
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CoverData, isSurveyHistory, SurveyHistory } from '../../types/myPageType';
@@ -21,11 +23,9 @@ export default function MyPageSurveyCover({ quantity, infoType, renderingData }:
       <section className={style.historyWrapper}>
         {isSurveyHistory(objectentri) &&
           objectentri.map(([day, history], idx) => (
-            <article className={idx + 1 < objectentri.length ? style.historyBlockWithDay : ''} key={day}>
+            <article className={idx + 1 < objectentri.length ? style.historyBlockWithDay : ''} key={idx}>
               <h2 className={style.historyDay}>{day}</h2>
               {history.map(({ id, title, name }: SurveyHistory) => (
-                // 단순한 배열 순회만 이뤄지기에 배열이 변경될 일은 없습니다.
-                // eslint-disable-next-line react/no-array-index-key
                 <button type="button" className={style.historybutton} onClick={() => gotoSurvey(id)} key={id}>
                   <article className={style.historyBlock}>
                     <h3 className={style.historyTitle}>{title}</h3>
