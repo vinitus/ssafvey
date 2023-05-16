@@ -23,7 +23,6 @@ export default function OnlyLogin() {
 
       axios({
         method: 'get',
-        // url: 'http://localhost:8081/api/member/login',
         url: 'https://k8a608.p.ssafy.io/api/member/login',
         params: {
           code,
@@ -31,7 +30,7 @@ export default function OnlyLogin() {
       }).then((res) => {
         // accesstoken => queryclient
         queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
-        
+
         // refresh token => localstorage
         const { refreshToken } = res.data.token;
         localStorage.setItem('refreshToken', refreshToken);
@@ -47,10 +46,9 @@ export default function OnlyLogin() {
           };
           navigateToSignup(data);
         }
+        navigateToHome();
       });
     }
-
-    navigateToHome();
   }, [location, navigate]);
   return <div>{/*  */}</div>;
 }

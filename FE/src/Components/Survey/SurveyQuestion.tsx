@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoaderFunctionArgs, useLoaderData, useParams } from 'react-router-dom';
+import { LoaderFunctionArgs, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import style from './SurveyQuestion.module.css';
 import Progress from './ProgressBar';
@@ -14,6 +14,7 @@ const questionIdx = 7;
 const questionLength = 10;
 
 export default function SurveyQuestion() {
+  const navigate = useNavigate();
   const surveyQuestionData = useLoaderData() as SurveyQuestionData;
   const { id } = useParams();
   const [answers, setAnswers, submitAnswer] = useSurveyQuestionDataParser(surveyQuestionData, Number(id));
@@ -39,7 +40,14 @@ export default function SurveyQuestion() {
             />
           </SurveyBox>
         ))}
-        <RoundButton color="blue" size="lg" onClick={() => submitAnswer(accessToken)}>
+        <RoundButton
+          color="blue"
+          size="lg"
+          onClick={() => {
+            submitAnswer(accessToken);
+            navigate('/mypage');
+          }}
+        >
           제출
         </RoundButton>
         <div style={{ marginBottom: '30px' }} />
