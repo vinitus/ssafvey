@@ -24,6 +24,18 @@ export async function putProfile(data: object, token: string) {
   }
 }
 
+// 회원정보 수정 정보 가져오기
+export async function getProfile(token: string) {
+  try {
+    const res = await axiosInstance.get(`${baseURL}/changeProfil`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+}
+
 // 엑세스 토큰 재발급
 export async function getRefresh(token: string | null): Promise<{ Authorization: string; refreshToken: string }> {
   const res = await axiosInstance.get(`${baseURL}/refresh`, { headers: { refreshToken: token } });

@@ -61,7 +61,6 @@ export default function MyPage() {
   });
 
   const fetchAll = useCallback((accessToken: string) => {
-    console.log("dddddddddddd")
     getmypageinfo();
     getGiftcon(accessToken);
     getPointlistdata(accessToken);
@@ -84,6 +83,10 @@ export default function MyPage() {
 
     setActivityData(data.recentActivity);
   }
+
+  const navigateToSignup = (data: object) => {
+    navigate('/sign-up', { state: { data } });
+  };
 
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken');
@@ -153,7 +156,12 @@ export default function MyPage() {
             >
               로그아웃
             </button>
-            <button type="button" className={styles.modify}>
+            <button 
+              type="button"
+              className={styles.modify} 
+              onClick={() => {
+                navigate('/sign-up', { state : { data : null}})
+              }}>
               회원정보수정
             </button>
           </div>
