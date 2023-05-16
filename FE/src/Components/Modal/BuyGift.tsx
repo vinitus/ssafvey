@@ -45,6 +45,7 @@ export default function BuyGift({ closemodal, info, point }: Props) {
       try {
         if (info.id) {
           await postItemlist(info.id, token);
+          closemodal()
         }
       } catch (error) {
         console.error(error);
@@ -120,7 +121,7 @@ export default function BuyGift({ closemodal, info, point }: Props) {
       slideRef.current.addEventListener('mouseup', dragEnd);
       slideRef.current.addEventListener('mousemove', drag);
     }
-  }, [info, point]);
+  }, [closemodal, info, point]);
 
   return (
     <div>

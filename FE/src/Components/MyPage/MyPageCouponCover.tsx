@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-modal';
 import { CoverData, isCouponTitle } from '../../types/myPageType';
 import GiftCard from '../Exchange/GiftCard';
 import BuyGift from '../Modal/ShowGift';
 import style from './MyPageCouponCover.module.css';
+
+interface Props {
+  close : () => void;
+}
 
 export interface ItemInfo {
   orderItemId: number;
@@ -12,7 +16,7 @@ export interface ItemInfo {
   used : boolean;
 }
 
-export default function MyPageCouponCover({ quantity, infoType, renderingData }: CoverData) {
+export default function MyPageCouponCover({ quantity, infoType, renderingData, close }: CoverData & Props) {
   const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
   const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemId: 0, itemName: '', imageUrl: '', used : false});
 

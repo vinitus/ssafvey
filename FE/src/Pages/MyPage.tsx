@@ -87,6 +87,10 @@ export default function MyPage() {
     setActivityData(data.recentActivity);
   }
 
+  const navigateToSignup = (data: object) => {
+    navigate('/sign-up', { state: { data } });
+  };
+
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken');
     if (!info.name && (!refreshToken || tokenQuery.data)) {
@@ -155,7 +159,12 @@ export default function MyPage() {
             >
               로그아웃
             </button>
-            <button type="button" className={styles.modify}>
+            <button 
+              type="button"
+              className={styles.modify} 
+              onClick={() => {
+                navigate('/sign-up', { state : { data : null}})
+              }}>
               회원정보수정
             </button>
           </div>
