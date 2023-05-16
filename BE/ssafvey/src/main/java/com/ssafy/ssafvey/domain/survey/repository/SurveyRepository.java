@@ -13,7 +13,9 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
     @Query("select s from Survey s join s.surveyTargetJobs stj Join stj.job j " +
             "join j.memberJobs mj join mj.member m join s.surveyTargetAges sta " +
             "where m.id = :memberId and m.age between  sta.minAge and  sta.maxAge " +
-            "and m.id = mj.member.id and mj.job.id = j.id")
+            "and m.id = mj.member.id and mj.job.id = j.id and s.isDone = false " +
+            "order by s.createDate desc "
+    )
     List<Survey> findSurveyByMemberJobAndAge(@Param("memberId") Long memberId);
 
     List<Survey> findByTitleContaining(String keyword);

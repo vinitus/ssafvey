@@ -42,6 +42,7 @@ public class SurveyController {
 
         SurveyListDto surveyListDto = new SurveyListDto(surveyList);
 
+
         return new ResponseEntity<>(surveyListDto, HttpStatus.ACCEPTED);
     }
 

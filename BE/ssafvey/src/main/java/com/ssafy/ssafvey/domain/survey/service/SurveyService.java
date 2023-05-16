@@ -135,9 +135,18 @@ public class SurveyService {
                     .build();
             if (memberId != null) {
                 Member member = memberRepository.findById((Long) memberId).get();
-                startSurveyDto.setHaveDone(memberSurveyRepository.findByMemberAndSurvey(member, survey).isPresent());
+                Optional<MemberSurvey> optionalMemberSurvey = memberSurveyRepository.findByMemberAndSurvey(member, survey);
+                if (optionalMemberSurvey.isPresent()) {
+                    MemberSurvey memberSurvey = optionalMemberSurvey.get();
+                    startSurveyDto.setHaveDone(true);
+                    startSurveyDto.setIsAuthor(memberSurvey.getIsOwner());
+                } else {
+                    startSurveyDto.setHaveDone(false);
+                    startSurveyDto.setIsAuthor(false);
+                }
             } else {
                 startSurveyDto.setHaveDone(false);
+                startSurveyDto.setIsAuthor(false);
             }
             return startSurveyDto;
         }
