@@ -8,28 +8,18 @@ const HEADLINE = '설문지 만들기';
 export default function CreateSurvey() {
   const navigate = useNavigate();
 
-  console.log(localStorage.getItem('refreshToken'));
-
   const tokenQuery = useTokenQuery({
     onError: () => {
-      console.log('onError');
       localStorage.setItem('refreshToken', '');
       navigate('/sign-in');
-    },
-    onSuccess: (accessToken) => {
-      console.log('onSuccess');
-      console.log(accessToken);
     },
   });
 
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken');
-    console.log(tokenQuery);
-    if (!refreshToken) {
+    if (!refreshToken || !tokenQuery.data) {
       navigate('/sign-in');
     }
-    console.log(refreshToken); // 리프레시
-    console.log(tokenQuery.data); // 엑세스
   }, [navigate, tokenQuery]);
 
   return (
