@@ -273,14 +273,14 @@ export default function MyPage() {
         {info.coupon > 0 ? (
           <button type="button" onClick={() => setLottomodal(true)}>
             <article className={styles.couponBox}>
-              <h3 className={styles.couponText}>보유한 로또</h3>
+              <h3 className={styles.couponText}>로또 사용하기</h3>
               <p className={styles.couponCntDiv}>{info.coupon}</p>
             </article>
           </button>
         ) : (
           <button type="button">
             <article className={styles.couponBox}>
-              <h3 className={styles.couponText}>보유한 로또</h3>
+              <h3 className={styles.couponText}>보유한 로또가 없어요</h3>
               <p className={styles.couponCntDiv}>{info.coupon}</p>
             </article>
           </button>
