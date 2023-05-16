@@ -2,7 +2,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: 'https://k8a608.p.ssafy.io/api',
+  baseURL: import.meta.env.VITE_REACT_APP_API,
 });
 
 export default axiosInstance;
