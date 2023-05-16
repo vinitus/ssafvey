@@ -6,13 +6,12 @@ import { SurveyPostRequestData } from '@/types/surveyType';
 const baseURL = '/survey';
 
 // home 설문조사 리스트
-export async function getlist(token?:string) {
-  try{
-    const res = await axiosInstance.get(`${baseURL}/list`, { headers: { Authorization: `Bearer ${token}` } })
-    return res.data
-  }
-  catch(err){
-    return err
+export async function getUserList(token?: string) {
+  try {
+    const res = await axiosInstance.get(`${baseURL}`, { headers: { Authorization: `Bearer ${token}` } });
+    return res.data;
+  } catch (err) {
+    return err;
   }
 }
 
@@ -71,17 +70,8 @@ export async function getResult(id: number, token: string) {
 }
 
 // 설문조사 목록
-export async function getList(token?: string, search = '') {
-  let res: AxiosResponse;
-  try {
-    if (token)
-      res = await axiosInstance.get(`/survey/list?search=${search}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-    else res = await axiosInstance.get(`/survey/list?search=${search}`);
+export async function getList(search = '') {
+  const res: AxiosResponse = await axiosInstance.get(`/survey/list?search=${search}`);
 
-    return res.data;
-  } catch (err) {
-    return err;
-  }
+  return res.data;
 }

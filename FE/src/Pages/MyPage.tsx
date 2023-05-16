@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
-import { useQuery } from '@tanstack/react-query';
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
 import Lotto from '../Components/Modal/Lotto';
@@ -56,7 +55,11 @@ export default function MyPage() {
       navigate('/sign-in');
     },
     onSuccess: (accessToken) => {
-      fetchAll(accessToken);
+      if (accessToken) fetchAll(accessToken);
+      else {
+        localStorage.setItem('refreshToken', '');
+        navigate('/sign-in');
+      }
     },
   });
 
