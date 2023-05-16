@@ -33,4 +33,6 @@ public interface MemberService {
     Map<String,Object> tmpAccessToken(Long id);
 
     MemberPointResponseDto getMemberPoint(Long id);
+
+    MemberResponseDto getMeberInfo(Long id);
 }
