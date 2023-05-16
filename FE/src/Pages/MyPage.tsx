@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
@@ -26,6 +26,18 @@ interface myinfo {
 }
 
 export default function MyPage() {
+  const { state } = useLocation();
+  console.log(state);
+  const time = useRef(state);
+  console.log(state, time);
+
+  useEffect(() => {
+    if (time.current !== state) {
+      setOpenModalFlag(false);
+      setLottomodal(false);
+    }
+  }, [state, time]);
+
   const navigate = useNavigate();
 
   const [info, setInfo] = useState<myinfo>({
