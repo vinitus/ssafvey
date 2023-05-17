@@ -14,7 +14,7 @@ export interface ItemInfo {
   point?: number;
 }
 
-export default function Exchange() {
+export function Exchange() {
   const [giftmodal, setGiftmodal] = useState(false);
 
   const closemodal = () => {
@@ -24,7 +24,7 @@ export default function Exchange() {
   const [itemlist, setItemlist] = useState<ItemInfo[]>([]);
   const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ id: 0, name: '', imageUrl: '', price: 0 });
   const accessToken = queryClient.getQueryData(['accessToken']) as string;
-  const [point, setPoint] = useState(-1)
+  const [point, setPoint] = useState(-1);
 
   useEffect(() => {
     async function getitem() {
@@ -38,20 +38,18 @@ export default function Exchange() {
 
     getitem();
 
-    async function getPointdata(){
-      try{
-        const data = await getPoint(accessToken)
-        setPoint(data.point)
-      }
-      catch(err) {
-        console.error(err)
+    async function getPointdata() {
+      try {
+        const data = await getPoint(accessToken);
+        setPoint(data.point);
+      } catch (err) {
+        console.error(err);
       }
     }
 
-    if(accessToken){
-      getPointdata()
+    if (accessToken) {
+      getPointdata();
     }
-
   }, [accessToken, giftmodal]);
 
   const openitem = (item: ItemInfo) => {

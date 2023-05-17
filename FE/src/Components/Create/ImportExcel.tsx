@@ -23,7 +23,7 @@ interface choice {
   choice: string;
 }
 
-export default function ImportExcel() {
+export function ImportExcel() {
   const navigate = useNavigate();
 
   const fileRef = useRef<HTMLInputElement>(null);
