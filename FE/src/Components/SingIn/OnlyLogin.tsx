@@ -29,7 +29,7 @@ export default function OnlyLogin() {
         },
       }).then((res) => {
         // accesstoken => queryclient
-        console.log(res)
+        console.log(res);
         queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
 
         // refresh token => localstorage
@@ -47,7 +47,6 @@ export default function OnlyLogin() {
           };
           navigateToSignup(data);
         }
-        navigateToHome();
       });
     }
   }, [location, navigate]);
