@@ -10,6 +10,7 @@ interface Props {
 }
 
 interface AnswerProps {
+  clickstate : (num : number, status : boolean) => void;
   isMultipleChoice: boolean;
   choices: ChoicesObj[] | undefined;
   order: number;
@@ -29,7 +30,7 @@ function Question({ children }: { children: string }) {
   return <h2 className={style.title}>{children}</h2>;
 }
 
-function Answer({ isMultipleChoice, choices, order, choiceObjState, choiceStateDispatcher }: AnswerProps) {
+function Answer({ clickstate, isMultipleChoice, choices, order, choiceObjState, choiceStateDispatcher }: AnswerProps) {
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     const [choiceType, questionOrder, answerOrder] = go(id.split('-'), map(isNumber));
@@ -37,13 +38,19 @@ function Answer({ isMultipleChoice, choices, order, choiceObjState, choiceStateD
     if (choiceType === 'choices')
       choiceStateDispatcher((prev) => {
         prev[questionOrder] = answerOrder;
+        if(value.length <= 0) clickstate(order, false)
+        else clickstate(order, true)
         return prev;
       });
     else
       choiceStateDispatcher((prev) => {
         prev[questionOrder] = value;
+        if(value.length <= 0) clickstate(order, false)
+        else clickstate(order, true)
         return prev;
       });
+
+    
   };
 
   const fieldChangeHandler = (e: React.ChangeEvent<HTMLFieldSetElement>) => {
@@ -54,7 +61,7 @@ function Answer({ isMultipleChoice, choices, order, choiceObjState, choiceStateD
 
   if (isMultipleChoice && choices)
     return (
-      <MultipleAnswer choices={choices} order={order} answer={choiceObjState} dispatcher={choiceStateDispatcher} />
+      <MultipleAnswer click={() => {console.log(order);clickstate(order, true)}} choices={choices} order={order} answer={choiceObjState} dispatcher={choiceStateDispatcher} />
     );
 
   return (
@@ -65,11 +72,13 @@ function Answer({ isMultipleChoice, choices, order, choiceObjState, choiceStateD
 }
 
 function MultipleAnswer({
+  click,
   order,
   choices,
   answer,
   dispatcher,
 }: {
+  click : () => void
   order: number;
   choices: ChoicesObj[];
   answer: AnswerObj;
@@ -95,7 +104,7 @@ function MultipleAnswer({
         if (preRef.current) preRef.current.className = style.choice;
       }
       const answerRef = refArr[Number(answerOrder) - 1];
-      if (answerRef.current) answerRef.current.className = style.choiceClick;
+      if (answerRef.current) {answerRef.current.className = style.choiceClick; click();};
     }
   };
 
