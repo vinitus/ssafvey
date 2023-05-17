@@ -4,9 +4,8 @@ pipeline {
 
    stages{
     stage('프론트엔드 자동 배포'){
-
-        stages{
-            stage('프론트엔드 이미지 생성'){
+    steps {
+                    stage('프론트엔드 이미지 생성') {
                             steps{
                                 dir('FE')
                                 {
@@ -15,10 +14,8 @@ pipeline {
                                 sh "docker run --rm -v nginx_build_volume:/app front_builder"
                                 }
                                 }
-        }
-
-    }
-
-    }
+}
+}
+}
 }
 }
