@@ -57,6 +57,16 @@ public class MemberServiceImpl implements MemberService {
     public void updateUser(Long id, SignUpRequestDto signUpRequestDto){
         Optional<Member> findMember = memberRepository.findById(id);
         List<MemberJob> jobList = new ArrayList<>();
+        if (findMember.isPresent()) {
+            if (findMember.get().getMemberJobs().isEmpty()) {
+            }
+            else{
+                for (MemberJob memberJob : findMember.get().getMemberJobs()) {
+                    Long tmpId = memberJob.getId();
+                    memberJobRepository.deleteById(tmpId);
+                }
+            }
+        }
         for (Long job : signUpRequestDto.getJobs()) {
             MemberJob memberJob = new MemberJob();
             Job findJob = jobsRepository.findById(job).get();;
@@ -76,7 +86,6 @@ public class MemberServiceImpl implements MemberService {
     public Map<String, Object> refreshAccessToken(String refreshToken) {
         // getMemberInfoWithToken(refreshToken) 메서드를 호출하여, refreshToken을 기반으로 회원 정보를 조회합니다.
         Optional<Member> object = getMemberInfoWithToken(refreshToken);
-        System.out.println("refreshToken = " + object);
         if (object != null) {
             Member member = object.get();
             if (refreshToken.equals(member.getRefreshToken())) {
@@ -113,7 +122,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public Long getMemberId(HttpServletRequest request){
-        System.out.println("request = " + request);
         // HTTP 요청에서 ACCESS_HEADER에 해당하는 값을 추출
         String accessToken = request.getHeader(JwtFilter.ACCESS_HEADER);
         // 액세스 토큰 문자열에서 "Bearer " 문자열을 제거하고, 나머지 액세스 토큰 문자열을 인자로 전달
@@ -145,7 +153,8 @@ public class MemberServiceImpl implements MemberService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=08464b27e8d442e6bde11f4a08656b53"); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=http://localhost:5173/onlylogin"); // TODO 인가코드 받은 redirect_uri 입력
+//            sb.append("&redirect_uri=http://localhost:5173/onlylogin"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&redirect_uri=https://k8a608.p.ssafy.io/onlylogin"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -168,7 +177,6 @@ public class MemberServiceImpl implements MemberService {
 
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-            System.out.println("여기왔나요?");
             br.close();
             bw.close();
         } catch (IOException e) {
@@ -227,7 +235,6 @@ public class MemberServiceImpl implements MemberService {
             if (memberRepository.findByEmail(email) != null) {
                 Member findMember = memberRepository.findByEmail(email);
                 Map<String, Object> resultToken = returnToken(findMember);
-                System.out.println("토큰"+resultToken);
                 LoginItem loginItem = LoginItem.builder()
                         .name(findMember.getName())
                         .email(findMember.getEmail())
@@ -353,14 +360,15 @@ public class MemberServiceImpl implements MemberService {
 
     public int getPoint(Long id){
         Member findMember = memberRepository.findById(id).get();
+        if(findMember.getCouponCount()==0){
+            throw new BadRequestException("쿠폰이 존재하지 않습니다.");
+        }
         findMember.setCouponCount(findMember.getCouponCount()-1);
-
         Random random = new Random();
         int minNum = 1;
         int maxNum = 100;
         int point = 0;
         int randomPoint = random.nextInt(maxNum - minNum + 1) + minNum;
-        System.out.println(randomPoint);
         if (randomPoint == 1) {
             point=1000;
         } else if (randomPoint >= 2 && randomPoint <= 8) {
@@ -387,11 +395,10 @@ public class MemberServiceImpl implements MemberService {
 
         findMember.setPoint(findMember.getPoint()+point);
         memberRepository.save(findMember);
-
         PointHistory pointHistory = new PointHistory();
         pointHistory.setPoint(point);
         pointHistory.setMember(findMember);
-        pointHistory.setPointUsageHistory("로또 뜯기");
+        pointHistory.setPointUsageHistory("로또 사용");
         pointHistory.setPlusMinus(true);
         pointHistory.setCreateDate(LocalDateTime.now());
         pointHistoryRepository.save(pointHistory);
@@ -470,10 +477,13 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findById(memberId);
     }
 
-    public void survey5Recommend(){
-        List<Survey> surveyList = surveyRepository.findAll();
+    public MemberResponseDto getMeberInfo(Long id){
+        Member findMember = memberRepository.findById(id).get();
 
+        return MemberResponseDto.memberResponseDto(findMember);
     }
+
+
 
     public JobListResponseDto getJobs(){
         JobListResponseDto jobListResponseDto = new JobListResponseDto();
