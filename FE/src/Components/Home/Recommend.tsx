@@ -1,48 +1,55 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Autoplay, Pagination, Navigation } from 'swiper';
-import { queryClient } from '../../router';
-import { getlist } from '../../Api/survey'
-
+import { Autoplay, Pagination } from 'swiper';
+import { useNavigate } from 'react-router-dom';
+import { getList, getUserList } from '../../Api/survey';
 import style from './Recommend.module.css';
 import HomeCard from './HomeCard';
+import { useTokenQuery } from '@/hooks/useTokenQuery';
+import { go, take } from '@/module/fx';
 
-interface survey{
-  id : number;
-  title : string;
-  organization : string;
-  createDate : string;
-  endDate : string;
-  targetSurveyParticipants : number;
+interface survey {
+  id: number;
+  title: string;
+  organization: string;
+  createDate: string;
+  endDate: string;
+  targetSurveyParticipants: number;
 }
 
 export default function Recommend() {
-  const [surveylist, setSurveylist] = useState<survey[]>([])
+  const [surveylist, setSurveylist] = useState<survey[]>([]);
+  const [requestCnt, setRequestCnt] = useState(0);
+
+  const token = useTokenQuery({
+    onSuccess: (accessToken) => {
+      console.log(accessToken);
+      getRecommend(accessToken);
+    },
+  });
+
+  async function getRecommend(accessToken: string | false) {
+    let data;
+    if (accessToken) data = await getUserList(accessToken);
+    else data = await getList();
+
+    setSurveylist(go(data.surveylist, take(5)));
+  }
 
   useEffect(() => {
-    const accessToken = queryClient.getQueryData(['accessToken']) as string;
-    async function getRecommend(accessToken?:string){
-      try{
-        let data;
-        if(accessToken){
-          data = await getlist(accessToken)
-        }
-        else{
-          data = await getlist()
-        }
-        console.log(data.surveylist)
-        setSurveylist(data.surveylist)
-      }
-      catch(err){
-        console.log(err)
-      }
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (requestCnt === 0) {
+      setRequestCnt((prev) => prev + 1);
+      if (surveylist.length) {
+        /* empty */
+      } else if (refreshToken) token.refetch();
+      else getRecommend(false);
     }
-    getRecommend()
-  },[])
+  }, [requestCnt, surveylist.length, token]);
+
   return (
     <div className={style.recommend}>
       <div className="relative">
@@ -66,12 +73,13 @@ export default function Recommend() {
           }}
           modules={[Autoplay, Pagination]}
         >
-          { surveylist && surveylist.map((list) => (
+          {surveylist.length > 0 &&
+            surveylist.map((list) => (
               <SwiperSlide key={list.id}>
-                <HomeCard list={list}/>
+                <HomeCard list={list} />
               </SwiperSlide>
-            ))
-          }
+            ))}
+          {surveylist.length === 0 && <div>설문조사가 없어요 ㅠㅠ</div>}
         </Swiper>
       </div>
     </div>

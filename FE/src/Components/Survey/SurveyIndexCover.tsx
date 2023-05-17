@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import writeExcel, { dummyParams } from '@util/Xlsx/writeExcel';
 import { SurveyCoverData } from '../../types/surveyType';
 import style from './SurveyIndexComponent.module.css';
 
@@ -43,9 +44,23 @@ function SurveyBtnWrapepr({
   surveyCoverResData: SurveyCoverData;
 }) {
   const navigate = useNavigate();
+
+  const getStats = () => {
+    console.log('getStats');
+    // dummyParams는 API에서 받아온 데이터를 넣어주면 됨
+    writeExcel(dummyParams);
+  };
+
   return (
     <section className={style.buttons}>
-      <div style={{ width: '30px' }} />
+      <div style={{ width: '30px' }}>
+        hello
+        {/* TODO: 이 버튼은 내가 생성한 설문인 경우에만 보여야 함! */}
+        <button type="button" onClick={getStats}>
+          통계
+        </button>
+        {/* <div /> */}
+      </div>
       {surveyCoverResData.isDone ? (
         <button type="button" className={style.startSurveyBtn}>
           종료

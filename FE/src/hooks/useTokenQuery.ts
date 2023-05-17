@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getRefresh } from '@/Api/member';
 
 interface Options {
-  onError: () => void;
-  onSuccess: (accessToken: string) => void;
+  onError?: () => void;
+  onSuccess?: (accessToken: string | false) => void;
 }
 
 export const useTokenQuery = (options?: Options) => {
@@ -20,8 +20,9 @@ export const useTokenQuery = (options?: Options) => {
     },
     staleTime: 1500000,
     cacheTime: Infinity,
+    retry: false,
     onError: () => (options && options.onError ? options.onError() : {}),
-    onSuccess: (accessToken) => (options && accessToken && options.onSuccess ? options.onSuccess(accessToken) : {}),
+    onSuccess: (accessToken) => (options && options.onSuccess ? options.onSuccess(accessToken) : {}),
   });
   return tokenQuery;
 };

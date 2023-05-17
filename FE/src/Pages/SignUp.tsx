@@ -2,20 +2,36 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getJobs, putProfile } from '../Api/member';
+import { getJobs, putProfile, getProfile } from '../Api/member';
 import style from './SignUp.module.css';
 import { queryClient } from '../router';
+
+interface Job {
+  id: string;
+  name: string;
+}
+
+interface info {
+  name : string;
+  age : number;
+  email : string;
+  gender : string;
+  jobs : Job[];
+}
 
 export default function SignUp() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { name, email, gender } = location.state.data;
 
-  const [age, setAge] = useState('0');
-  interface Job {
-    id: string;
-    name: string;
-  }
+  const [info, setInfo] = useState<info>();
+
+  // if (location) {
+  //   setName(location.state.data?.name);
+  //   setEmail(location.state.data?.email);
+  //   setGender(location.state.data?.gender);
+  // }
+
+  const [age, setAge] = useState("")
   const [jobList, setJobList] = useState<Job[]>([]);
 
   useEffect(() => {
@@ -23,7 +39,20 @@ export default function SignUp() {
       const list = await getJobs();
       setJobList(list.jobs);
     }
+
+    async function getinfolist() {
+      try {
+        const token = queryClient.getQueryData(['accessToken']) as string;
+        const data = await getProfile(token);
+        setInfo(data)
+        setAge(data.age)
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     getjoblist();
+    getinfolist();
   }, []);
 
   const change = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,24 +105,28 @@ export default function SignUp() {
 
   return (
     <div className={style.signUpWrapper}>
-      <h1 className={style.signUpHeader}>회원가입</h1>
+      { location.state.data ? 
+        <h1 className={style.signUpHeader}>회원가입</h1>
+        :
+        <h1 className={style.signUpHeader}>회원정보 수정</h1>
+      }
       <article>
         <label htmlFor="name" className={style.signUpSecondHeader}>
           이름
         </label>
-        <input type="text" id="name" className={style.signUpInputTextTag} value={name} readOnly />
+        <input type="text" id="name" className={style.signUpInputTextTag} value={info?.name} readOnly />
       </article>
       <article>
         <label htmlFor="email" className={style.signUpSecondHeader}>
           이메일
         </label>
-        <input type="email" id="email" className={style.signUpInputTextTag} value={email} readOnly />
+        <input type="email" id="email" className={style.signUpInputTextTag} value={info?.email} readOnly />
       </article>
       <section>
         <h2 className={style.signUpSecondHeader}>성별</h2>
         <article className={style.signUpGenderWrapper}>
           <article>
-            {gender === 'MAN' ? (
+            {info?.gender === 'MAN' ? (
               <input type="checkbox" checked id="man" className="hidden" disabled />
             ) : (
               <input type="checkbox" id="man" className="hidden" disabled />
@@ -101,7 +134,7 @@ export default function SignUp() {
             <label htmlFor="man">남자</label>
           </article>
           <article>
-            {gender === 'WOMAN' ? (
+            {info?.gender === 'WOMAN' ? (
               <input type="checkbox" id="woman" checked className="hidden" disabled />
             ) : (
               <input type="checkbox" id="woman" className="hidden" disabled />
@@ -133,6 +166,11 @@ export default function SignUp() {
           </article>
         ))}
       </section>
+      {!location.state.data ?
+        <button type="button" className={style.signUpBtn} onClick={()=> navigate('/mypage')}> 취소 </button>
+        :
+        <div/>
+      }
       <button type="button" className={style.signUpBtn} onClick={sendprofile}>
         제출 !
       </button>
