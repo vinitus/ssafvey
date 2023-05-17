@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
-// import svgr from 'vite-plugin-svgr';
+import comporession from 'vite-plugin-compression2';
 
 export default defineConfig({
   esbuild: {
@@ -11,7 +11,14 @@ export default defineConfig({
       'top-level-await': true,
     },
   },
-  plugins: [react(), VitePWA()],
+  plugins: [
+    react(),
+    VitePWA(),
+    comporession({
+      include: [/\.(js)$/, /\.(css)$/],
+      threshold: 1000,
+    }),
+  ],
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, './src') },

@@ -62,7 +62,9 @@ export async function postAnswer(data: SurveyPostRequestData, token: string) {
 // 설문조사 통계
 export async function getResult(id: number, token: string) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/result/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+    const res = await axiosInstance.get(`${baseURL}/${id}/stat`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   } catch (err) {
     return err;

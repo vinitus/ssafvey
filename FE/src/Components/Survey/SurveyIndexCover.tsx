@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import writeExcel, { dummyParams } from '@util/Xlsx/writeExcel';
+import writeExcel from '@util/Xlsx/writeExcel';
+import { getResult } from '@api/survey';
+import { useQueryClient } from '@tanstack/react-query';
 import { SurveyCoverData } from '../../types/surveyType';
 import style from './SurveyIndexComponent.module.css';
 
@@ -45,21 +47,26 @@ function SurveyBtnWrapepr({
 }) {
   const navigate = useNavigate();
 
-  const getStats = () => {
-    console.log('getStats');
+  const queryClient = useQueryClient();
+
+  const accessToken = queryClient.getQueryData(['accessToken']) as string;
+
+  const getStats = async () => {
     // dummyParams는 API에서 받아온 데이터를 넣어주면 됨
-    writeExcel(dummyParams);
+    const { surveyQuestionStats } = await getResult(surveyCoverResData.id, accessToken);
+    writeExcel(surveyQuestionStats, 5);
   };
 
   return (
     <section className={style.buttons}>
       <div style={{ width: '30px' }}>
-        hello
-        {/* TODO: 이 버튼은 내가 생성한 설문인 경우에만 보여야 함! */}
-        <button type="button" onClick={getStats}>
-          통계
-        </button>
-        {/* <div /> */}
+        {surveyCoverResData.isAuthor ? (
+          <button type="button" onClick={getStats}>
+            통계
+          </button>
+        ) : (
+          <div />
+        )}
       </div>
       {surveyCoverResData.isDone ? (
         <button type="button" className={style.startSurveyBtn}>
