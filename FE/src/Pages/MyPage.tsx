@@ -179,6 +179,7 @@ export default function MyPage() {
               type="button"
               className={styles.modify}
               onClick={() => {
+                console.log('흠');
                 navigate('/sign-up', { state: { data: null } });
               }}
             >
@@ -256,22 +257,19 @@ export default function MyPage() {
           </div>
           <div className={styles.recentActivityWrapper}>
             {activityData?.map((activity, idx) => (
-              <button
-                type="button"
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+              <div
+                // 데이터를 나타내는 것이 중요하기에,
+                // eslint-disable-next-line react/no-array-index-key
+                key={idx}
+                className={styles.recentActivityBg}
                 onClick={() => {
                   navigate(`/survey/${activity.id}`);
                 }}
               >
-                <div
-                  // 데이터를 나타내는 것이 중요하기에,
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={idx}
-                  className={styles.recentActivityBg}
-                >
-                  <div className={styles.title}>{activity.title}</div>
-                  <div className={styles.author}>{activity.name}</div>
-                </div>
-              </button>
+                <div className={styles.title}>{activity.title}</div>
+                <div className={styles.author}>{activity.name}</div>
+              </div>
             ))}
           </div>
         </article>
