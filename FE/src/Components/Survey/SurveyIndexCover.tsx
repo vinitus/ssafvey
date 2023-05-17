@@ -45,8 +45,6 @@ function SurveyBtnWrapepr({
   kakaoshare: (a: SurveyCoverData) => void;
   surveyCoverResData: SurveyCoverData;
 }) {
-  const navigate = useNavigate();
-
   const queryClient = useQueryClient();
 
   const accessToken = queryClient.getQueryData(['accessToken']) as string;
@@ -68,19 +66,49 @@ function SurveyBtnWrapepr({
           <div />
         )}
       </div>
-      {surveyCoverResData.isDone ? (
-        <button type="button" className={style.startSurveyBtn}>
-          종료
-        </button>
-      ) : (
-        <button type="button" className={style.startSurveyBtn} onClick={() => navigate('doing')}>
-          설문 시작
-        </button>
-      )}
+      <StartButton
+        isAuthor={surveyCoverResData.isAuthor}
+        haveDone={surveyCoverResData.haveDone}
+        isDone={surveyCoverResData.isDone}
+      />
       <button type="button" onClick={() => kakaoshare(surveyCoverResData)}>
         <img id="sharing-btn" src="/icons/share.svg" alt="share-icon" />
       </button>
     </section>
+  );
+}
+
+function StartButton({ isAuthor, haveDone, isDone }: { isAuthor: boolean; haveDone: boolean; isDone: boolean }) {
+  const navigate = useNavigate();
+
+  if (isAuthor) {
+    return (
+      <button type="button" className={style.cantSurveyBtn} disabled>
+        설문 불가
+      </button>
+    );
+  }
+
+  if (isDone) {
+    return (
+      <button type="button" className={style.cantSurveyBtn} disabled>
+        설문 종료
+      </button>
+    );
+  }
+
+  if (haveDone) {
+    return (
+      <button type="button" className={style.cantSurveyBtn} disabled>
+        설문 완료
+      </button>
+    );
+  }
+
+  return (
+    <button type="button" className={style.startSurveyBtn} onClick={() => navigate('doing')}>
+      설문 시작
+    </button>
   );
 }
 
