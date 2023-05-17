@@ -25,7 +25,4 @@ public class ImageService {
         image.setImage_url(imageDto.getUrl());
         imageRepository.save(image);
     }
-
-
-
 }
