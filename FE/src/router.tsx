@@ -8,7 +8,6 @@ import Home from './Pages/Home';
 import Search, { loader as searchLoader } from './Pages/Search';
 import Exchange from './Pages/Exchange';
 import CreateSurvey from './Pages/CreateSurvey';
-import ImportExcel from './Components/Create/ImportExcel';
 import InputBasicInfo from './Components/Create/InputBasicInfo';
 import CreateSurveyQuestion from './Components/Create/AddQuestion/CreateSurveyQuestion';
 import MyPage from './Pages/MyPage';
@@ -21,6 +20,8 @@ import OnlyLogin from './Components/SingIn/OnlyLogin';
 import CreateSurveyInputAdditionalInfo from './Components/Create/InputAdditionalInfo/CreateSurveyInputAdditionalInfo';
 
 export const queryClient = new QueryClient();
+
+const ImportExcel = React.lazy(() => import('./Components/Create/ImportExcel'));
 
 const router = createBrowserRouter([
   {
