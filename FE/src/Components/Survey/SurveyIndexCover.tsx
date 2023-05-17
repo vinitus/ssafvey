@@ -81,33 +81,27 @@ function SurveyBtnWrapepr({
 function StartButton({ isAuthor, haveDone, isDone }: { isAuthor: boolean; haveDone: boolean; isDone: boolean }) {
   const navigate = useNavigate();
 
-  if (isAuthor) {
-    return (
-      <button type="button" className={style.cantSurveyBtn} disabled>
-        설문 불가
-      </button>
-    );
-  }
+  const isDisabled = isAuthor || haveDone || isDone;
 
-  if (isDone) {
-    return (
-      <button type="button" className={style.cantSurveyBtn} disabled>
-        설문 종료
-      </button>
-    );
-  }
+  const styleClass = isDisabled ? style.cantSurveyBtn : style.startSurveyBtn;
 
-  if (haveDone) {
-    return (
-      <button type="button" className={style.cantSurveyBtn} disabled>
-        설문 완료
-      </button>
-    );
-  }
+  const getText = () => {
+    if (isAuthor) return '설문 불가';
+    if (isDone) return '설문 종료';
+    if (haveDone) return '설문 완료';
+    return '설문 시작';
+  };
+
+  const handleClick = () => {
+    if (isAuthor) return;
+    if (isDone) return;
+    if (haveDone) return;
+    navigate('doing');
+  };
 
   return (
-    <button type="button" className={style.startSurveyBtn} onClick={() => navigate('doing')}>
-      설문 시작
+    <button type="button" className={styleClass} disabled={isDisabled} onClick={handleClick}>
+      {getText()}
     </button>
   );
 }
