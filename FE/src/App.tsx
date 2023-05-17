@@ -7,7 +7,6 @@ import { useTokenQuery } from './hooks/useTokenQuery';
 
 function App() {
   useTokenQuery();
-  console.log(123)
 
   return (
     <>
