@@ -179,6 +179,7 @@ export default function MyPage() {
               type="button"
               className={styles.modify}
               onClick={() => {
+                console.log('흠');
                 navigate('/sign-up', { state: { data: null } });
               }}
             >
