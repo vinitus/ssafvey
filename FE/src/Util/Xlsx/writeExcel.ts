@@ -63,18 +63,17 @@ export default function writeExcel(surveyStats: SurveyQuestionStats[]) {
   const data = surveyStats.map((q) => {
     const { order, question, isMultipleChoice, multipleChoiceStatDtoList, descriptiveChoiceStatDtoList } = q;
     if (multipleChoiceStatDtoList !== null) {
-      const mc = multipleChoiceStatDtoList.map((a) => a.count);
-      const 부족한 = Array.from({ length: 5 - mc.length }, () => '');
-      const newMC = [...mc, ...부족한];
+      const multipleChoiceCounts = multipleChoiceStatDtoList.map((a) => a.count);
+      const counts = [...multipleChoiceCounts, ...Array.from({ length: 5 - multipleChoiceCounts.length }, () => '')];
 
-      return [order, question, isMultipleChoice, ...newMC, descriptiveChoiceStatDtoList];
+      return [order, question, isMultipleChoice, ...counts, descriptiveChoiceStatDtoList];
     }
 
     if (descriptiveChoiceStatDtoList !== null) {
-      const mc = Array.from({ length: 5 }, () => '');
+      const emptyChoices = Array.from({ length: 5 }, () => '');
 
-      const newDC = descriptiveChoiceStatDtoList.map((a) => a.answer);
-      return [order, question, isMultipleChoice, ...mc, ...newDC];
+      const descriptiveAnswerList = descriptiveChoiceStatDtoList.map((a) => a.answer);
+      return [order, question, isMultipleChoice, ...emptyChoices, ...descriptiveAnswerList];
     }
   });
 
