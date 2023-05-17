@@ -64,27 +64,44 @@ export default function writeExcel(surveyStats: SurveyQuestionStats[]) {
   // eslint-disable-next-line array-callback-return, consistent-return
   const data = surveyStats.map((q) => {
     const { order, question, isMultipleChoice, multipleChoiceStatDtoList, descriptiveChoiceStatDtoList } = q;
-    if (multipleChoiceStatDtoList !== null) {
-      const multipleChoiceCounts = multipleChoiceStatDtoList.map((a) => a.count);
-      const counts = [...multipleChoiceCounts, ...Array.from({ length: 5 - multipleChoiceCounts.length }, () => '')];
 
-      return [order, question, isMultipleChoice, ...counts, descriptiveChoiceStatDtoList];
-    }
+    // const emptyChoices = multipleChoiceStatDtoList
+    //   ? Array.from({ length: multipleChoiceStatDtoList.length - 5 }, () => '')
+    //   : Array.from({ length: 5 }, () => ' ');
+    const multipleChoices = multipleChoiceStatDtoList
+      ? [
+          ...multipleChoiceStatDtoList.map((a) => a.count),
+          ...Array.from({ length: multipleChoiceStatDtoList.length - 5 }, () => ''),
+        ]
+      : Array.from({ length: 5 }, () => ' ');
 
-    if (descriptiveChoiceStatDtoList !== null) {
-      const emptyChoices = Array.from({ length: 5 }, () => '');
+    const descriptiveAnswers = descriptiveChoiceStatDtoList ? descriptiveChoiceStatDtoList.map((a) => a.answer) : [];
 
-      const descriptiveAnswerList = descriptiveChoiceStatDtoList.map((a) => a.answer);
-      return [order, question, isMultipleChoice, ...emptyChoices, ...descriptiveAnswerList];
-    }
+    return [order, question, isMultipleChoice, ...multipleChoices, ...descriptiveAnswers];
+
+    // if (multipleChoiceStatDtoList !== null) {
+    //   const multipleChoiceCounts = multipleChoiceStatDtoList.map((a) => a.count);
+    //   const counts = [...multipleChoiceCounts, ...Array.from({ length: 5 - multipleChoiceCounts.length }, () => '')];
+
+    //   return [order, question, isMultipleChoice, ...counts, descriptiveChoiceStatDtoList];
+    // }
+
+    // if (descriptiveChoiceStatDtoList !== null) {
+    //   const emptyChoices = Array.from({ length: 5 }, () => '');
+
+    //   const descriptiveAnswerList = descriptiveChoiceStatDtoList.map((a) => a.answer);
+    //   return [order, question, isMultipleChoice, ...emptyChoices, ...descriptiveAnswerList];
+    // }
   });
 
-  const mergedData: any = [column, ...data];
+  const tableData: any = [column, ...data];
+
+  console.log(tableData);
 
   const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet(mergedData);
+  const ws = XLSX.utils.aoa_to_sheet(tableData);
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
   XLSX.writeFile(wb, 'survey.xlsx');
 }
 
-// writeExcel(dummyParams);
+writeExcel(dummyParams);
