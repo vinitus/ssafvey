@@ -75,7 +75,12 @@ export default function SignUp() {
 
   async function putprofiledata(data: object) {
     try {
-      await putProfile(data, token.data);
+      if (token.data) await putProfile(data, token.data);
+      else {
+        await token.refetch();
+        if (token.data) await putProfile(data, token.data);
+        else localStorage.setItem('refreshToken', '');
+      }
       navigate('/');
     } catch (err) {
       console.error(err);
