@@ -4,17 +4,23 @@
 
 @font-face {
   font-family: 'LineBd';
-  src: url('/fonts/LINESeedKR-Bd.ttf') format('truetype');
+  src: url('/fonts/LINESeedKR-Bd.woff2') format('woff2'), url('/fonts/LINESeedKR-Bd.woff') format('woff'),
+    url('/fonts/LINESeedKR-Bd.ttf') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'LineRg';
-  src: url('/fonts/LINESeedKR-Rg.ttf') format('truetype');
+  src: url('/fonts/LINESeedKR-Rg.woff2') format('woff2'), url('/fonts/LINESeedKR-Rg.woff') format('woff'),
+    url('/fonts/LINESeedKR-Rg.ttf') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Zoo';
-  src: url('/fonts/ZenTokyoZoo-Regular.ttf') format('truetype');
+  src: url('/fonts/ZenTokyoZoo-Regular.woff2') format('woff2'), url('/fonts/ZenTokyoZoo-Regular.woff') format('woff'),
+    url('/fonts/ZenTokyoZoo-Regular.ttf') format('truetype');
+  font-display: swap;
 }
 
 .titleFont {
