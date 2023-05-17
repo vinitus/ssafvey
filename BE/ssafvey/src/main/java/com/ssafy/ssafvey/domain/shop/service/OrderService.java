@@ -2,6 +2,7 @@ package com.ssafy.ssafvey.domain.shop.service;
 
 import com.ssafy.ssafvey.domain.member.entity.Member;
 import com.ssafy.ssafvey.domain.member.entity.PointHistory;
+import com.ssafy.ssafvey.domain.member.exception.BadRequestException;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.repository.PointHistoryRepository;
 import com.ssafy.ssafvey.domain.shop.dto.OrderResponseDto;
@@ -57,6 +58,33 @@ public class OrderService {
             return order.getId();
         }
         return null;
+    }
+
+    @Transactional
+    public int orderLotto(Long memberId, Long itemId) {
+        Member member = memberRepository.findById(memberId).get();
+        Item item = itemRepository.findOne(itemId);
+        int lotto = member.getCouponCount();
+        int point = member.getPoint();
+        int price = item.getPrice();
+        if (point >= price) {
+            //포인트 차감
+            point -= price;
+            member.setPoint(point);
+            member.setCouponCount(lotto + 1);
+            PointHistory pointHistory = new PointHistory();
+            pointHistory.setPoint(price);
+            pointHistory.setMember(member);
+            pointHistory.setPointUsageHistory("로또 구매");
+            pointHistory.setPlusMinus(false);
+            pointHistory.setCreateDate(LocalDateTime.now());
+            pointHistoryRepository.save(pointHistory);
+
+            //로또생성됨
+            return member.getCouponCount();
+        }
+        // 돈 부족함 ㅋㅋ
+        throw new BadRequestException("포인트가 부족합니다.");
     }
 
     public List<Order> findOrders() {
