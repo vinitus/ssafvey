@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
@@ -20,4 +21,6 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
 
     List<Survey> findByTitleContaining(String keyword);
 
+    @Query("SELECT s FROM Survey s JOIN FETCH s.surveyQuestions WHERE s.id = :id")
+    Optional<Survey> findByIdWithSurveyQuestions(@Param("id") Long id);
 }

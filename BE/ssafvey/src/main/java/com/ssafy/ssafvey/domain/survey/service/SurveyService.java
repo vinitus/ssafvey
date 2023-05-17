@@ -1,23 +1,20 @@
 package com.ssafy.ssafvey.domain.survey.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.ssafvey.domain.member.entity.*;
+import com.ssafy.ssafvey.domain.member.repository.MemberAnswerDescriptiveRepository;
+import com.ssafy.ssafvey.domain.member.repository.MemberAnswerMultipleChoiceRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberSurveyRepository;
 import com.ssafy.ssafvey.domain.member.service.MemberAnswerServiceImpl;
 import com.ssafy.ssafvey.domain.member.service.MemberSurveyService;
-import com.ssafy.ssafvey.domain.survey.dto.StartSurveyDto;
+import com.ssafy.ssafvey.domain.survey.dto.*;
 import com.ssafy.ssafvey.domain.survey.dto.request.*;
-import com.ssafy.ssafvey.domain.survey.entity.Survey;
-import com.ssafy.ssafvey.domain.survey.entity.SurveyQuestion;
-import com.ssafy.ssafvey.domain.survey.entity.SurveyTargetAge;
-import com.ssafy.ssafvey.domain.survey.entity.SurveyTargetJob;
-import com.ssafy.ssafvey.domain.survey.repository.JobRepository;
-import com.ssafy.ssafvey.domain.survey.repository.SurveyRepository;
-import com.ssafy.ssafvey.domain.survey.repository.SurveyTargetAgeRepository;
-import com.ssafy.ssafvey.domain.survey.repository.SurveyTargetJobRepository;
+import com.ssafy.ssafvey.domain.survey.entity.*;
+import com.ssafy.ssafvey.domain.survey.repository.*;
 import com.ssafy.ssafvey.utils.UUIDGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +34,14 @@ public class SurveyService {
     private final MemberRepository memberRepository;
     private final MemberSurveyRepository memberSurveyRepository;
 
-    @Autowired
-    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService, MemberRepository memberRepository, MemberSurveyRepository memberSurveyRepository) {
+    private final ModelMapper modelMapper;
+    private final MemberAnswerMultipleChoiceRepository memberAnswerMultipleChoiceRepository;
+    private final MemberAnswerDescriptiveRepository memberAnswerDescriptiveRepository;
+    private final SurveyQuestionRepository surveyQuestionRepository;
+    private final ObjectMapper objectMapper;
+    private final SurveyStatisticsRepository surveyStatisticsRepository;
+
+    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService, MemberRepository memberRepository, MemberSurveyRepository memberSurveyRepository, ModelMapper modelMapper, MemberAnswerMultipleChoiceRepository memberAnswerMultipleChoiceRepository, MemberAnswerDescriptiveRepository memberAnswerDescriptiveRepository, SurveyQuestionRepository surveyQuestionRepository, ObjectMapper objectMapper, SurveyStatisticsRepository surveyStatisticsRepository) {
         this.surveyRepository = surveyRepository;
         this.surveyQuestionService = surveyQuestionService;
         this.surveyTargetAgeRepository = surveyTargetAgeRepository;
@@ -48,6 +51,12 @@ public class SurveyService {
         this.memberSurveyService = memberSurveyService;
         this.memberRepository = memberRepository;
         this.memberSurveyRepository = memberSurveyRepository;
+        this.modelMapper = modelMapper;
+        this.memberAnswerMultipleChoiceRepository = memberAnswerMultipleChoiceRepository;
+        this.memberAnswerDescriptiveRepository = memberAnswerDescriptiveRepository;
+        this.surveyQuestionRepository = surveyQuestionRepository;
+        this.objectMapper = objectMapper;
+        this.surveyStatisticsRepository = surveyStatisticsRepository;
     }
 
     private SurveyTargetAge createTargetAge(TargetAgeDto targetAgeDto, Survey survey) {
@@ -165,6 +174,63 @@ public class SurveyService {
             return SurveyDto.fromEntity(survey);
         } else {
             return new SurveyDto();
+        }
+    }
+    public SurveyStatisticsDto getSurveyStatistics(Long surveyId) {
+        List<SurveyQuestion> surveyQuestions = surveyQuestionRepository.findBySurveyId(surveyId);
+        List<SurveyQuestionStatDto> surveyQuestionStats = new ArrayList<>();
+
+        for (SurveyQuestion surveyQuestion : surveyQuestions) {
+            SurveyQuestionStatDto surveyQuestionStatDto = new SurveyQuestionStatDto();
+            surveyQuestionStatDto.setOrder(surveyQuestion.getOrderNum());
+            surveyQuestionStatDto.setQuestion(surveyQuestion.getQuestion());
+            surveyQuestionStatDto.setIsMultipleChoice(surveyQuestion.getIsMultipleChoice());
+
+            List<MultipleChoiceStatDto> multipleChoiceStatDtoList = new ArrayList<>();
+            List<DescriptiveChoiceStatDto> descriptiveChoiceStatDtoList = new ArrayList<>();
+
+
+            if (surveyQuestion.getIsMultipleChoice()) {
+                Map<Integer, Long> resultMap = surveyQuestion.getMemberAnswerMultipleChoices().stream()
+                        .collect(Collectors.groupingBy(MemberAnswerMultipleChoice::getOrderNum, Collectors.counting()));
+                for (SurveyQuestionChoice surveyQuestionChoice : surveyQuestion.getSurveyQuestionChoices()) {
+                    MultipleChoiceStatDto multipleChoiceStatDto = new MultipleChoiceStatDto();
+                    multipleChoiceStatDto.setOrder(surveyQuestionChoice.getOrderNum());
+                    multipleChoiceStatDto.setCount(resultMap.get(surveyQuestionChoice.getOrderNum()));
+                    multipleChoiceStatDto.setDescription(surveyQuestionChoice.getChoiceDescription());
+                    multipleChoiceStatDtoList.add(multipleChoiceStatDto);
+                }
+                surveyQuestionStatDto.setMultipleChoices(multipleChoiceStatDtoList);
+            } else {
+                for (MemberAnswerDescriptive memberAnswerDescriptive : surveyQuestion.getMemberAnswerDescriptives()) {
+                    DescriptiveChoiceStatDto descriptiveChoiceStatDto = new DescriptiveChoiceStatDto();
+                    descriptiveChoiceStatDto.setAnswer(memberAnswerDescriptive.getAnswer());
+                    descriptiveChoiceStatDtoList.add(descriptiveChoiceStatDto);
+                }
+                surveyQuestionStatDto.setDescriptiveChoices(descriptiveChoiceStatDtoList);
+            }
+
+            surveyQuestionStats.add(surveyQuestionStatDto);
+        }
+
+        SurveyStatisticsDto surveyStatisticsDto = new SurveyStatisticsDto();
+        surveyStatisticsDto.setSurveyQuestionStats(surveyQuestionStats);
+        return surveyStatisticsDto;
+    }
+    public void saveSurveyStatistics(Long surveyId) {
+        Survey survey = surveyRepository.findById(surveyId).get();
+
+
+        SurveyStatisticsDto surveyStatisticsDto = getSurveyStatistics(surveyId);
+        try {
+            String surveyStatisticsJson = objectMapper.writeValueAsString(surveyStatisticsDto);
+            SurveyStatistics surveyStatistics = new SurveyStatistics();
+            surveyStatistics.setStatisticsJson(surveyStatisticsJson);
+            surveyStatistics.setSurvey(survey);
+            surveyStatisticsRepository.save(surveyStatistics);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
 

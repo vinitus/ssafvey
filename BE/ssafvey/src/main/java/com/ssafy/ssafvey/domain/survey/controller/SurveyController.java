@@ -4,6 +4,7 @@ import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.repository.MemberSurveyRepository;
 import com.ssafy.ssafvey.domain.survey.dto.MQSendSurveyDto;
 import com.ssafy.ssafvey.domain.survey.dto.StartSurveyDto;
+import com.ssafy.ssafvey.domain.survey.dto.SurveyStatisticsDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.SurveyAnswersDto;
 import com.ssafy.ssafvey.domain.survey.dto.request.SurveyDto;
 import com.ssafy.ssafvey.domain.survey.dto.response.SurveyListDto;
@@ -86,7 +87,19 @@ public class SurveyController {
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.CREATED);
     }
 
+    @GetMapping("/api/survey/{survey_id}/stat")
+    public ResponseEntity<?> surveyStat(HttpServletRequest request, @PathVariable Long survey_id){
+        SurveyStatisticsDto surveyStatistics = surveyService.getSurveyStatistics(survey_id);
 
+        return new ResponseEntity<>(surveyStatistics, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/api/survey/{survey_id}/stats")
+    public ResponseEntity<?> surveyStats(HttpServletRequest request, @PathVariable Long survey_id){
+        surveyService.saveSurveyStatistics(survey_id);
+
+        return new ResponseEntity<>(new HashMap<>(), HttpStatus.CREATED);
+    }
     @GetMapping("/ttest")
     public ResponseEntity<?> testtest(HttpServletRequest request) {
         MQSendSurveyDto mqSendSurveyDto = new MQSendSurveyDto();
