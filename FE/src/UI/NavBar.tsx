@@ -18,7 +18,7 @@ export default function NavBar() {
     if (id === '4' && !accessToken) {
       navigate('/sign-in');
     } else {
-      navigate(`${iconURLArr[Number(id)]}`);
+      navigate(`${iconURLArr[Number(id)]}`, { state: Date.now() });
     }
   }
 

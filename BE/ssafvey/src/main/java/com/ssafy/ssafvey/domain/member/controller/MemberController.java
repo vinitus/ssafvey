@@ -3,6 +3,7 @@ package com.ssafy.ssafvey.domain.member.controller;
 
 
 import com.ssafy.ssafvey.domain.member.dto.*;
+import com.ssafy.ssafvey.domain.member.exception.BadRequestException;
 import com.ssafy.ssafvey.domain.member.service.MemberService;
 import com.ssafy.ssafvey.global.config.jwt.JwtFilter;
 import io.swagger.annotations.Api;
@@ -180,10 +181,39 @@ public class MemberController {
     })
     @PutMapping("/api/member/mypage/lotto")
     public ResponseEntity useLotto(HttpServletRequest request) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(memberService.getPoint((Long) request.getAttribute("memberId")));
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(memberService.getPoint((Long) request.getAttribute("memberId")));
+        }
+        catch (BadRequestException ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("쿠폰 없음");
+        }
     }
 
+    @ApiOperation(value="맴버 정보 불러오기", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/changeProfil")
+    public ResponseEntity getMemberInfo(HttpServletRequest request) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.getMeberInfo((Long) request.getAttribute("memberId")));
+
+    }
+
+    @ApiOperation(value="맴버 포인트", notes = "유저 정보를 업데이트 합니다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK(회원 가입 성공)"),
+            @ApiResponse(code = 400, message = "BAD REQUEST(요청 실패)"),
+            @ApiResponse(code = 500, message = "서버에러")
+    })
+    @GetMapping("/api/member/point")
+    public ResponseEntity getPoint(HttpServletRequest request) {
+        MemberPointResponseDto memberPointResponseDto = memberService.getMemberPoint((Long) request.getAttribute("memberId"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(memberPointResponseDto);
+    }
 
     public HttpHeaders returnTokenHeader(Map<String, Object> result) {
         //  HTTP 요청 헤더에 액세스 토큰과 리프레시 토큰을 추가하여 인증에 필요한 정보를 제공

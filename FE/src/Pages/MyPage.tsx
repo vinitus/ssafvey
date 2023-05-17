@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
 import MyPageCard from '../Components/MyPage/MyPageCard';
 import MyPageCover from '../Components/MyPage/MyPageCover';
-import { getMypage, getSurveyResponse, getSurvey, getLogout } from '../Api/member';
+import Lotto from '../Components/Modal/Lotto';
+import { getMypage, getSurveyResponse, getSurvey, getLogout, getGift, getPointlist, getRefresh } from '../Api/member';
 import styles from './MyPage.module.css';
 import { queryClient } from '../router';
 import { SurveyHistoryObj } from '../types/myPageType';
+import { useTokenQuery } from '@/hooks/useTokenQuery';
 
 interface survey {
   title: string;
   name: string;
+  id?: number;
 }
 
 interface myinfo {
@@ -19,9 +23,22 @@ interface myinfo {
   makesurvey: number;
   recent: survey[];
   coupon: number;
+  numOrder: number;
 }
 
 export default function MyPage() {
+  const { state } = useLocation();
+  console.log(state);
+  const time = useRef(state);
+  console.log(state, time);
+
+  useEffect(() => {
+    if (time.current !== state) {
+      setOpenModalFlag(false);
+      setLottomodal(false);
+    }
+  }, [state, time]);
+
   const navigate = useNavigate();
 
   const [info, setInfo] = useState<myinfo>({
@@ -31,79 +48,97 @@ export default function MyPage() {
     makesurvey: 0,
     recent: [],
     coupon: 0,
+    numOrder: 0,
   });
 
   const [dosurvey, setDosurvey] = useState<SurveyHistoryObj>({});
   const [makesurvey, setMakesurvey] = useState<SurveyHistoryObj>({});
+  const [pointlist, setPointlist] = useState({});
+  const [orderlist, setOrderlist] = useState([]);
 
   const [openModalFlag, setOpenModalFlag] = useState<'응답한' | '제작한' | '쿠폰' | '포인트' | boolean>(false);
   const [send, setSend] = useState(false);
   const [activityData, setActivityData] = useState<survey[]>([]);
 
-  useEffect(() => {
-    //
-  }, [dosurvey, makesurvey]);
+  const [lottomodal, setLottomodal] = useState(false);
 
-  useEffect(() => {
-    async function getmypageinfo() {
-      try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getMypage(accessToken);
-        console.log('data 1:', data);
-
-        setInfo({
-          name: data.name,
-          point: data.point,
-          dosurvey: data.numSurveyParticipated,
-          makesurvey: data.numSurveyCreated,
-          recent: data.recentActivity,
-          coupon: data.couponCount,
-        });
-
-        setActivityData(data.recentActivity);
-
-        getdosurveylist();
-      } catch (err) {
-        console.error(err);
+  const tokenQuery = useTokenQuery({
+    onError: () => {
+      localStorage.setItem('refreshToken', '');
+      navigate('/sign-in');
+    },
+    onSuccess: (accessToken) => {
+      if (accessToken) fetchAll(accessToken);
+      else {
+        localStorage.setItem('refreshToken', '');
+        navigate('/sign-in');
       }
-    }
+    },
+  });
 
-    async function getdosurveylist() {
-      try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getSurveyResponse(accessToken);
-        console.log('data 2 : ', data);
-        setDosurvey(data);
-        getmakesurveylist();
-      } catch (err) {
-        console.log(err);
-      }
-    }
+  const fetchAll = useCallback(async (accessToken: string) => {
+    const mypageinfo = await getmypageinfo();
+    const giftcon = await getGiftcon(accessToken);
+    const pointlistdata = await getPointlistdata(accessToken);
+    const dosurveylist = await getdosurveylist(accessToken);
+    const makesurveylist = await getmakesurveylist(accessToken);
 
-    async function getmakesurveylist() {
-      try {
-        const accessToken = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getSurvey(accessToken);
-        console.log('data3 : ', data);
-        setMakesurvey(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    getmypageinfo();
+    await Promise.all([mypageinfo, giftcon, pointlistdata, dosurveylist, makesurveylist]);
   }, []);
 
-  async function logout() {
-    try {
-      const accessToken = queryClient.getQueryData(['accessToken']) as string;
-      await getLogout(accessToken);
-      localStorage.setItem('refreshToken', '');
-      queryClient.setQueryData(['accessToken'], null);
-      navigate('/');
-    } catch (err) {
-      console.error(err);
-    }
+  async function getmypageinfo() {
+    const accessToken = queryClient.getQueryData(['accessToken']) as string;
+    const data = await getMypage(accessToken);
+    setInfo({
+      name: data.name,
+      point: data.point,
+      dosurvey: data.numSurveyParticipated,
+      makesurvey: data.numSurveyCreated,
+      recent: data.recentActivity,
+      coupon: data.couponCount,
+      numOrder: data.numOrder,
+    });
+
+    setActivityData(data.recentActivity);
+  }
+
+  const navigateToSignup = (data: object) => {
+    navigate('/sign-up', { state: { data } });
+  };
+
+  useEffect(() => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (info.name) {
+      /* empty */
+    } else if (!refreshToken) navigate('/sign-in');
+    else if (tokenQuery.data && !tokenQuery.isFetchedAfterMount) fetchAll(tokenQuery.data);
+  }, [fetchAll, info.name, navigate, tokenQuery]);
+
+  async function getdosurveylist(accessToken: string) {
+    const data = await getSurveyResponse(accessToken);
+    setDosurvey(data);
+  }
+
+  async function getmakesurveylist(accessToken: string) {
+    const data = await getSurvey(accessToken);
+    setMakesurvey(data);
+  }
+
+  async function getGiftcon(accessToken: string) {
+    const data = await getGift(accessToken);
+    setOrderlist(data);
+  }
+
+  async function getPointlistdata(accessToken: string) {
+    const data = await getPointlist(accessToken);
+    setPointlist(data);
+  }
+
+  async function logout(accessToken: string) {
+    await getLogout(accessToken);
+    localStorage.setItem('refreshToken', '');
+    queryClient.setQueryData(['accessToken'], null);
+    navigate('/');
   }
 
   return (
@@ -129,10 +164,24 @@ export default function MyPage() {
           <h1 className={styles.nameDiv}>{info?.name}님</h1>
           <img src="./icons/settings.svg" alt="settings" />
           <div className={styles.hoverbtn}>
-            <button type="button" className={styles.logout} onClick={logout}>
+            <button
+              type="button"
+              className={styles.logout}
+              onClick={() => {
+                if (tokenQuery.data) logout(tokenQuery.data);
+                else
+                  getRefresh(localStorage.getItem('refreshToken')).then(({ Authorization }) => logout(Authorization));
+              }}
+            >
               로그아웃
             </button>
-            <button type="button" className={styles.modify}>
+            <button
+              type="button"
+              className={styles.modify}
+              onClick={() => {
+                navigate('/sign-up', { state: { data: null } });
+              }}
+            >
               회원정보수정
             </button>
           </div>
@@ -175,9 +224,9 @@ export default function MyPage() {
           sending={send}
           contentType="쿠폰"
           content={{
-            quantity: 5,
+            quantity: info.numOrder,
             infoType: openModalFlag,
-            renderingData: ['아이스티', '커피', '커피', '아이스티', '아이스티'],
+            renderingData: orderlist,
           }}
         />
       )}
@@ -187,44 +236,9 @@ export default function MyPage() {
           sending={send}
           contentType="포인트"
           content={{
-            quantity: 4500,
+            quantity: info.point,
             infoType: openModalFlag,
-            renderingData: [
-              {
-                day: '2023.04.11',
-                history: [
-                  {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
-                  },
-                  {
-                    pointHistoryType: '설문 제작',
-                    pointUsed: -200,
-                  },
-                ],
-              },
-              {
-                day: '3325.12.10',
-                history: [
-                  {
-                    pointHistoryType: '쿠폰 교환',
-                    pointUsed: -100,
-                  },
-                  {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
-                  },
-                  {
-                    pointHistoryType: '복권 교환',
-                    pointUsed: -100,
-                  },
-                  {
-                    pointHistoryType: '설문 참여',
-                    pointUsed: 300,
-                  },
-                ],
-              },
-            ],
+            renderingData: pointlist,
           }}
         />
       )}
@@ -241,20 +255,65 @@ export default function MyPage() {
             <img src="./icons/reverse_clock.svg" alt="reverse_clock" className={styles.recentImg} />
           </div>
           <div className={styles.recentActivityWrapper}>
-            {activityData?.map((activity) => (
-              <div key={activity.title} className={styles.recentActivityBg}>
-                <div className={styles.title}>{activity.title}</div>
-                <div className={styles.author}>{activity.name}</div>
-              </div>
+            {activityData?.map((activity, idx) => (
+              <button
+                type="button"
+                onClick={() => {
+                  navigate(`/survey/${activity.id}`);
+                }}
+              >
+                <div
+                  // 데이터를 나타내는 것이 중요하기에,
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={idx}
+                  className={styles.recentActivityBg}
+                >
+                  <div className={styles.title}>{activity.title}</div>
+                  <div className={styles.author}>{activity.name}</div>
+                </div>
+              </button>
             ))}
           </div>
         </article>
         <button type="button" onClick={() => setOpenModalFlag('쿠폰')}>
           <article className={styles.couponBox}>
             <h3 className={styles.couponText}>보유한 쿠폰</h3>
-            <p className={styles.couponCntDiv}>{info.coupon}</p>
+            <p className={styles.couponCntDiv}>{info.numOrder}</p>
           </article>
         </button>
+        {info.coupon > 0 ? (
+          <button type="button" onClick={() => setLottomodal(true)}>
+            <article className={styles.couponBox}>
+              <h3 className={styles.couponText}>로또 사용하기</h3>
+              <p className={styles.couponCntDiv}>{info.coupon}</p>
+            </article>
+          </button>
+        ) : (
+          <button type="button">
+            <article className={styles.couponBox}>
+              <h3 className={styles.couponText}>보유한 로또가 없어요</h3>
+              <p className={styles.couponCntDiv}>{info.coupon}</p>
+            </article>
+          </button>
+        )}
+
+        <Modal
+          // className={style.updatemodal}
+          closeTimeoutMS={200}
+          isOpen={lottomodal}
+          onRequestClose={() => setLottomodal(false)}
+          style={{
+            content: {
+              width: '300px',
+              height: '350px',
+              backgroundColor: '#c2e9fb',
+              margin: 'auto',
+              borderRadius: '20px',
+            },
+          }}
+        >
+          <Lotto closemodal={() => setLottomodal(false)} />
+        </Modal>
       </div>
     </section>
   );

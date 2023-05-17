@@ -1,8 +1,7 @@
 import React from 'react';
-import { LoaderFunctionArgs, useLoaderData, useParams } from 'react-router-dom';
+import { LoaderFunctionArgs, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import style from './SurveyQuestion.module.css';
-import Progress from './ProgressBar';
 import SurveyBox from '../../UI/Survey/SurveyBox';
 import { getDetail } from '@/Api/survey';
 import { SurveyQuestionData } from '@/types/surveyType';
@@ -10,10 +9,8 @@ import { useSurveyQuestionDataParser } from './hooks/useSurveyQuestionDataParser
 import RoundButton from '@/UI/Button/RoundButton';
 import tokenQuery from './module/tokenQuery';
 
-const questionIdx = 7;
-const questionLength = 10;
-
 export default function SurveyQuestion() {
+  const navigate = useNavigate();
   const surveyQuestionData = useLoaderData() as SurveyQuestionData;
   const { id } = useParams();
   const [answers, setAnswers, submitAnswer] = useSurveyQuestionDataParser(surveyQuestionData, Number(id));
@@ -23,10 +20,6 @@ export default function SurveyQuestion() {
   return (
     <div className={style.sectionsWrapper}>
       <div className={style.upperSectionsWrapper}>
-        <Progress>
-          <Progress.Header questionIdx={questionIdx} questionLength={questionLength} />
-          <Progress.ProgressBar questionIdx={questionIdx} questionLength={questionLength} />
-        </Progress>
         {surveyQuestionData.surveyQuestions.map(({ question, order, isMultipleChoice, choices }) => (
           <SurveyBox key={order}>
             <SurveyBox.Question>{question}</SurveyBox.Question>
@@ -39,7 +32,14 @@ export default function SurveyQuestion() {
             />
           </SurveyBox>
         ))}
-        <RoundButton color="blue" size="lg" onClick={() => submitAnswer(accessToken)}>
+        <RoundButton
+          color="blue"
+          size="lg"
+          onClick={() => {
+            submitAnswer(accessToken);
+            navigate('/mypage');
+          }}
+        >
           제출
         </RoundButton>
         <div style={{ marginBottom: '30px' }} />

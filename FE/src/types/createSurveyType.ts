@@ -44,15 +44,21 @@ export interface SurveyPost {
     min: number;
     max: number;
   }[];
-  surveyQuestions: QuestionForPostQuery[];
+  surveyQuestions: (QuestionForMultiple | QuestionForEssay)[];
 }
 
-interface QuestionForPostQuery {
+export interface QuestionForMultiple {
   order: number;
   question: string;
   isMultipleChoice: boolean;
-  choices?: {
+  choices: {
     order: number;
     choice: string;
   }[];
+}
+
+export interface QuestionForEssay {
+  order: number;
+  question: string;
+  isMultipleChoice: boolean;
 }

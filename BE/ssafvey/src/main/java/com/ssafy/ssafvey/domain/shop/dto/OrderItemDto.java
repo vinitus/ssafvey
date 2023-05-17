@@ -23,4 +23,7 @@ public class OrderItemDto {
 
     @NotNull
     private String itemImage;
+
+    @NotNull
+    private boolean isUsed;
 }

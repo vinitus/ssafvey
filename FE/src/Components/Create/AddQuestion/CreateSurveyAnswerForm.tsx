@@ -1,20 +1,23 @@
 import React, { useRef, useEffect } from 'react';
-import { useSetRecoilState, useRecoilState, useRecoilValue } from 'recoil';
-import {
-  currentQuestionTypeState,
-  inputOpenState,
-  answersState,
-  plusButtonOpenState,
-} from '../../../Store/Create/atom';
+import { useSetRecoilState, useRecoilState } from 'recoil';
+import { inputOpenState, plusButtonOpenState, refactoringQuestionsState } from '../../../Store/Create/atom';
 import style from './CreateSurveyAnswerForm.module.css';
 
 const START_NO = 1;
 
-export default function CreateSurveyAnswerForm() {
-  const currentQuestionType = useRecoilValue(currentQuestionTypeState);
+interface Props {
+  idx: number;
+}
+
+export default function CreateSurveyAnswerForm({ idx }: Props) {
+  const [refactoringQuestions, setRefactoringQuestions] = useRecoilState(refactoringQuestionsState);
+
+  const currentQuestionType = refactoringQuestions[idx].isMultipleChoice ? 'multiple' : 'essay';
+
   const [inputOpen, setInputOpen] = useRecoilState(inputOpenState);
-  const setAnswers = useSetRecoilState(answersState);
+
   const setPlusButtonOpen = useSetRecoilState(plusButtonOpenState);
+
   const id = useRef(START_NO); // key prop으로 사용할 id
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -28,8 +31,17 @@ export default function CreateSurveyAnswerForm() {
   const handleAnswerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const inputValue: string = e.currentTarget.answer.value;
-    const answer = { id: id.current, value: inputValue };
-    setAnswers((prev) => [...prev, answer]);
+    const choice = { order: id.current, choice: inputValue };
+
+    setRefactoringQuestions((prev) => {
+      const newQuestions = [
+        ...prev.slice(0, idx),
+        { ...prev[idx], choices: [...prev[idx].choices, choice] },
+        ...prev.slice(idx + 1),
+      ];
+      return newQuestions;
+    });
+
     id.current += 1;
     setInputOpen(false);
     setPlusButtonOpen(true);

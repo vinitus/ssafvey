@@ -83,13 +83,15 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
     };
 
     if (sectionRef.current) {
-      sectionRef.current.addEventListener('touchstart', dragStart);
-      sectionRef.current.addEventListener('touchend', dragEnd);
-      sectionRef.current.addEventListener('touchmove', drag);
+      // 이벤트가 추가되면서 기본적인 스크롤이 불가
+      // 우선 제거해놓은 뒤에 추가기능으로 해보겠습니다
+      // sectionRef.current.addEventListener('touchstart', dragStart);
+      // sectionRef.current.addEventListener('touchend', dragEnd);
+      // sectionRef.current.addEventListener('touchmove', drag);
 
-      sectionRef.current.addEventListener('mousedown', dragStart);
-      sectionRef.current.addEventListener('mouseup', dragEnd);
-      sectionRef.current.addEventListener('mousemove', drag);
+      // sectionRef.current.addEventListener('mousedown', dragStart);
+      // sectionRef.current.addEventListener('mouseup', dragEnd);
+      // sectionRef.current.addEventListener('mousemove', drag);
     }
   }, [closemodal]);
 
@@ -104,6 +106,7 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
       )}
       {contentType === '쿠폰' && (
         <MyPageCouponCover
+          close = {() => closemodal}
           quantity={content.quantity}
           infoType={content.infoType}
           renderingData={content.renderingData}

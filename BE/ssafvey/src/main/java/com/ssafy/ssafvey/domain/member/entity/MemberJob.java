@@ -1,11 +1,12 @@
 package com.ssafy.ssafvey.domain.member.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "member_job")
 @Getter
 @Setter
 @Builder
@@ -18,12 +19,16 @@ public class MemberJob {
     @GeneratedValue
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "member_id")
+    @ToString.Exclude
     private Member member;
 
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "JOB_ID")
+    @JoinColumn(name = "job_id")
+    @ToString.Exclude
     private Job job;
 }
 

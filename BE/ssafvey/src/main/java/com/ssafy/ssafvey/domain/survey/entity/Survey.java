@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "survey")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -42,7 +42,8 @@ public class Survey {
 
     private String organization;
 
-    private boolean isDone;
+    @Column(name = "is_done")
+    private Boolean isDone = false;
 
 
     @OneToMany(mappedBy = "survey",cascade = CascadeType.ALL)

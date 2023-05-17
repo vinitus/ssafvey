@@ -1,6 +1,6 @@
 .card {
-  @apply h-320 min-w-320 w-[70%] rounded-20 relative shadow-md shadow-black mx-auto mt-10 px-33 py-15 backdrop-blur-[10px];
-  background: linear-gradient(100deg, #EDF6FF60,#A0C4E860,#EDF6FF60);
+  @apply h-320 min-w-320 w-[70%] rounded-20 relative shadow-md shadow-black mx-auto mt-10 px-15 py-15 backdrop-blur-[10px];
+  background: linear-gradient(100deg, #edf6ff60, #a0c4e860, #edf6ff60);
 }
 
 .title {
@@ -26,10 +26,10 @@
 }
 
 .container {
-  @apply grid grid-cols-2 text-[#585858] font-bold p-[5%];
+  @apply grid grid-cols-2 text-[#585858] font-bold p-[0%];
 }
 
-.dosurvey { 
+.dosurvey {
   @apply w-100 h-40 bg-[#124678] rounded-15 flex items-center justify-center;
 }
 

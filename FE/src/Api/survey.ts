@@ -1,8 +1,19 @@
+import { AxiosResponse } from 'axios';
 import axiosInstance from './interceptor';
 import { SurveyPost } from '@/types/createSurveyType';
 import { SurveyPostRequestData } from '@/types/surveyType';
 
 const baseURL = '/survey';
+
+// home 설문조사 리스트
+export async function getUserList(token?: string) {
+  try {
+    const res = await axiosInstance.get(`${baseURL}`, { headers: { Authorization: `Bearer ${token}` } });
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+}
 
 // 설문조사 작성
 export async function postRegis(data: SurveyPost, token: string) {
@@ -59,11 +70,8 @@ export async function getResult(id: number, token: string) {
 }
 
 // 설문조사 목록
-export async function getList(search: string, filter: boolean) {
-  try {
-    const res = await axiosInstance.get(`/survey/list?search=${search}&filter=${filter}`);
-    return res.data;
-  } catch (err) {
-    return err;
-  }
+export async function getList(search = '') {
+  const res: AxiosResponse = await axiosInstance.get(`/survey/list?search=${search}`);
+
+  return res.data;
 }

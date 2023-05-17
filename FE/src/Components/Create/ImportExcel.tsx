@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
-import { SurveyTitleState, SurveyDescState, questionsState } from '@store/Create/atom';
+import { SurveyTitleState, SurveyDescState, refactoringQuestionsState } from '@store/Create/atom';
 import { useSetRecoilState } from 'recoil';
 import style from './ImportExcel.module.css';
 import SurveyBox from '../../UI/Survey/SurveyBox';
-import { Question, QuestionType, Answer } from '@/types/createSurveyType';
+import { QuestionForMultiple } from '@/types/createSurveyType';
 
 interface MakeSurvey {
   문항: string;
@@ -21,13 +21,6 @@ interface MakeSurvey {
 interface choice {
   order: number;
   choice: string;
-}
-
-interface surveytype {
-  order: number | string;
-  question: string;
-  is_multiple_choice: boolean;
-  choices: choice[];
 }
 
 export default function ImportExcel() {
@@ -46,10 +39,10 @@ export default function ImportExcel() {
 
   const setSurveyTitle = useSetRecoilState(SurveyTitleState);
   const setSurveyDesc = useSetRecoilState(SurveyDescState);
-  const setQuestions = useSetRecoilState(questionsState);
+  const setRefactoringQuestions = useSetRecoilState(refactoringQuestionsState);
 
   const setJSON = (datas: MakeSurvey[]) => {
-    const questions: surveytype[] = [];
+    const questions: QuestionForMultiple[] = [];
 
     for (let i = 0; i < datas.length; i += 1) {
       const data = datas[i];
@@ -62,21 +55,21 @@ export default function ImportExcel() {
       } else if (i === 2) {
         /* empty */
       } else {
-        const question: surveytype = {
+        const question: QuestionForMultiple = {
           order: 0,
           question: '',
-          is_multiple_choice: true,
+          isMultipleChoice: true,
           choices: [],
         };
-        question.order = data['문항'];
+        question.order = Number(data['문항']);
         question.question = data['질문'];
 
         if (data['주관식/객관식'] === '주관식') {
           // 주관식일때
-          question.is_multiple_choice = false;
+          question.isMultipleChoice = false;
         } else {
           // 객관식일때
-          question.is_multiple_choice = true;
+          question.isMultipleChoice = true;
 
           let choices: choice[] = [];
 
@@ -100,21 +93,7 @@ export default function ImportExcel() {
       }
     }
 
-    const typeChangedQuestions: Question[] = questions.map((question) => {
-      return {
-        id: Number(question.order),
-        title: question.question,
-        type: question.is_multiple_choice ? 'multiple' : ('essay' as QuestionType),
-        answers: question.choices.map((choice) => {
-          return {
-            id: choice.order,
-            value: choice.choice,
-          } as Answer;
-        }),
-      };
-    });
-
-    setQuestions(typeChangedQuestions);
+    setRefactoringQuestions(questions);
 
     navigate('additional');
   };

@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-modal';
 import { CoverData, isCouponTitle } from '../../types/myPageType';
 import GiftCard from '../Exchange/GiftCard';
-import BuyGift from '../Modal/BuyGift';
+import BuyGift from '../Modal/ShowGift';
 import style from './MyPageCouponCover.module.css';
 
-export default function MyPageCouponCover({ quantity, infoType, renderingData }: CoverData) {
+interface Props {
+  close: () => void;
+}
+
+export interface ItemInfo {
+  orderItemId: number;
+  itemName: string;
+  imageUrl: string;
+  used: boolean;
+}
+
+export default function MyPageCouponCover({ quantity, infoType, renderingData, close }: CoverData & Props) {
   const [modalOpenFlag, setModalOpenFlag] = useState<boolean | string>(false);
+  const [clickedinfo, setClickedinfo] = useState<ItemInfo>({ orderItemId: 0, itemName: '', imageUrl: '', used: false });
+
   return (
     <>
       <header className={style.coverHeaderWrapper}>
@@ -16,18 +29,17 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
       <section className={style.cardlist}>
         <div className={style.cardWrapper}>
           {isCouponTitle(renderingData) &&
-            renderingData.map((title, idx) => (
+            renderingData.map(({ orderItemId, itemName, imageUrl, used }) => (
               <button
                 type="button"
-                // idx가 변해도 상관 없음
-                // eslint-disable-next-line react/no-array-index-key
-                key={idx}
+                key={orderItemId}
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
-                  setModalOpenFlag(title);
+                  setModalOpenFlag(true);
+                  setClickedinfo({ orderItemId, itemName, imageUrl, used });
                 }}
               >
-                <GiftCard productTitle={title} image="/tmpFile/tmp.jpg" />
+                <GiftCard productTitle={itemName} image={imageUrl} used={used} />
               </button>
             ))}
         </div>
@@ -48,9 +60,7 @@ export default function MyPageCouponCover({ quantity, infoType, renderingData }:
           },
         }}
       >
-        {typeof modalOpenFlag === 'string' && (
-          <BuyGift title={modalOpenFlag} id={0} price={5} closemodal={() => setModalOpenFlag(false)} />
-        )}
+        {modalOpenFlag && <BuyGift info={clickedinfo} closemodal={() => setModalOpenFlag(false)} />}
       </Modal>
     </>
   );

@@ -23,13 +23,13 @@ export default function OnlyLogin() {
 
       axios({
         method: 'get',
-        // url: 'http://localhost:8081/api/member/login',
-        url: 'http://k8a608.p.ssafy.io:8081/api/member/login',
+        url: `${import.meta.env.VITE_REACT_APP_API}/member/login`,
         params: {
           code,
         },
       }).then((res) => {
         // accesstoken => queryclient
+        console.log(res);
         queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
 
         // refresh token => localstorage
@@ -49,8 +49,6 @@ export default function OnlyLogin() {
         }
       });
     }
-
-    navigateToHome();
   }, [location, navigate]);
   return <div>{/*  */}</div>;
 }

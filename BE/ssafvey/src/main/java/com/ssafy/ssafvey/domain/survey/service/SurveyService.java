@@ -1,9 +1,8 @@
 package com.ssafy.ssafvey.domain.survey.service;
 
-import com.ssafy.ssafvey.domain.member.entity.Job;
-import com.ssafy.ssafvey.domain.member.entity.MemberAnswerDescriptive;
-import com.ssafy.ssafvey.domain.member.entity.MemberAnswerMultipleChoice;
-import com.ssafy.ssafvey.domain.member.entity.MemberSurvey;
+import com.ssafy.ssafvey.domain.member.entity.*;
+import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
+import com.ssafy.ssafvey.domain.member.repository.MemberSurveyRepository;
 import com.ssafy.ssafvey.domain.member.service.MemberAnswerServiceImpl;
 import com.ssafy.ssafvey.domain.member.service.MemberSurveyService;
 import com.ssafy.ssafvey.domain.survey.dto.StartSurveyDto;
@@ -18,13 +17,11 @@ import com.ssafy.ssafvey.domain.survey.repository.SurveyTargetAgeRepository;
 import com.ssafy.ssafvey.domain.survey.repository.SurveyTargetJobRepository;
 import com.ssafy.ssafvey.utils.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,9 +34,11 @@ public class SurveyService {
     private final JobRepository jobRepository;
     private final MemberAnswerServiceImpl memberAnswerServiceImpl;
     private final MemberSurveyService memberSurveyService;
+    private final MemberRepository memberRepository;
+    private final MemberSurveyRepository memberSurveyRepository;
 
     @Autowired
-    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService) {
+    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService, MemberRepository memberRepository, MemberSurveyRepository memberSurveyRepository) {
         this.surveyRepository = surveyRepository;
         this.surveyQuestionService = surveyQuestionService;
         this.surveyTargetAgeRepository = surveyTargetAgeRepository;
@@ -47,6 +46,8 @@ public class SurveyService {
         this.jobRepository = jobRepository;
         this.memberAnswerServiceImpl = memberAnswerServiceImpl;
         this.memberSurveyService = memberSurveyService;
+        this.memberRepository = memberRepository;
+        this.memberSurveyRepository = memberSurveyRepository;
     }
 
     private SurveyTargetAge createTargetAge(TargetAgeDto targetAgeDto, Survey survey) {
@@ -85,6 +86,7 @@ public class SurveyService {
     public Survey createSurvey(Long memberId, SurveyDto surveyDto) {
         //TODO member_survey에 created at 값 넣어야함
         Survey survey = Survey.builder()
+                .isDone(false)
                 .title(surveyDto.getTitle())
                 .targetSurveyParticipants(surveyDto.getTargetSurveyParticipants())
                 .targetGender(surveyDto.getTargetGender())
@@ -113,22 +115,33 @@ public class SurveyService {
         return surveyRepository.save(survey);
     }
 
-    public StartSurveyDto getStartSurveyById(Long surveyId) {
+    public StartSurveyDto getStartSurveyById(Object memberId, Long surveyId) {
         Optional<Survey> optionalSurvey = surveyRepository.findById(surveyId);
         if (optionalSurvey.isPresent()) {
+
+
             Survey survey = optionalSurvey.get();
-            return StartSurveyDto.builder()
+            StartSurveyDto startSurveyDto = StartSurveyDto.builder()
                     .id(survey.getId())
+                    .surveyParticipants(survey.getSurveyParticipants())
                     .title(survey.getTitle())
-                    .isDone(survey.isDone())
+                    .isDone(survey.getIsDone())
                     .description(survey.getDescription())
                     .organization(survey.getOrganization())
                     .endDate(survey.getEndDate())
                     .targetSurveyParticipants(survey.getTargetSurveyParticipants())
                     .build();
+            if (memberId != null) {
+                Member member = memberRepository.findById((Long) memberId).get();
+                startSurveyDto.setHaveDone(memberSurveyRepository.findByMemberAndSurvey(member, survey).isPresent());
+            } else {
+                startSurveyDto.setHaveDone(false);
+            }
+            return startSurveyDto;
         }
 
         else {
+            //TODO Survey없는 에러 띄우기
             return StartSurveyDto.builder().build();
         }
 
@@ -150,6 +163,7 @@ public class SurveyService {
     public void createSurveyAnswer(Long memberId, SurveyAnswersDto surveyAnswersDto) {
         //TODO user request Json에 대한 Validation을 해야함
         Optional<Survey> optionalSurvey = surveyRepository.findById(surveyAnswersDto.getSurveyId());
+        Member findMember = memberRepository.findById(memberId).get();
         if (optionalSurvey.isPresent()) {
             Survey survey = optionalSurvey.get();
             String UUID = UUIDGenerator.generateUUID();
@@ -157,7 +171,9 @@ public class SurveyService {
             List<SurveyAnswerDto> sortedSurveyAnswerDto = getSortedSurveyAnswerDtos(surveyAnswersDto);
 
             survey.surveyParticipate();
-            memberSurveyService.createMemberSurvey(memberId, survey, false);
+            MemberSurvey memberSurvey=memberSurveyService.createMemberSurvey(memberId, survey, false);
+            memberSurveyRepository.save(memberSurvey);
+            findMember.setCouponCount(findMember.getCouponCount()+1);
 
             for (int index = 0; index < sortedSurveyQuestionList.size(); index++) {
                 SurveyAnswerDto surveyAnswerDto = sortedSurveyAnswerDto.get(index);
@@ -184,7 +200,26 @@ public class SurveyService {
                 .collect(Collectors.toList());
     }
 
-    public List<Survey> getSurveyList(Long memberId) {
+    public List<Survey> getRecommendSurveyList(Long memberId) {
         return surveyRepository.findSurveyByMemberJobAndAge(memberId);
+    }
+
+    public List<Survey> getStartSurveyList(){
+        List<Survey> allSurveys = surveyRepository.findAll(); // 모든 Survey를 가져옴
+        Collections.shuffle(allSurveys); // Survey 리스트를 랜덤하게 섞음
+        return allSurveys.subList(0, Math.min(5, allSurveys.size())); // 5개의 Survey를 선택하여 반환
+    }
+
+    public List<Survey> getLoginSurveyList(Long memberId){
+        List<Survey> allSurveys =surveyRepository.findSurveyByMemberJobAndAge(memberId); // 모든 Survey를 가져옴;
+        if(allSurveys.isEmpty()){
+            allSurveys=surveyRepository.findAll();
+        }
+        Collections.shuffle(allSurveys); // Survey 리스트를 랜덤하게 섞음
+        return allSurveys.subList(0, Math.min(5, allSurveys.size())); // 5개의 Survey를 선택하여 반환
+    }
+
+    public List<Survey> getSearchSurveyList(String search) {
+        return surveyRepository.findByTitleContaining(search);
     }
 }
