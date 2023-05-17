@@ -1,7 +1,5 @@
 // import * as XLSX from 'xlsx';
 
-const XLSX = await import('xlsx');
-
 interface SurveyQuestionStats {
   order: number;
   question: string;
@@ -80,11 +78,15 @@ export default function writeExcel(surveyStats: SurveyQuestionStats[]) {
   });
 
   const mergedData: any = [column, ...data];
+  const dynamicImportXLSX = async () => {
+    const XLSX = await import('xlsx');
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(mergedData);
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'survey.xlsx');
+  };
 
-  const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet(mergedData);
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  XLSX.writeFile(wb, 'survey.xlsx');
+  dynamicImportXLSX();
 }
 
 // writeExcel(dummyParams);

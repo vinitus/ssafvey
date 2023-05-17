@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
-    "prepreview": "tsc && vite build",
     "preview": "vite preview",
     "ac": "node tools/gitadd.js",
     "head0": "git reset --hard HEAD",
