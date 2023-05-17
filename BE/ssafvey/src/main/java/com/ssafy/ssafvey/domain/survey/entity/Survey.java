@@ -67,6 +67,10 @@ public class Survey {
         this.surveyTargetAges = surveyTargetAges;
     }
 
+    public void setDone(Boolean done) {
+        isDone = done;
+    }
+
     public void setSurveyTargetJobs(List<SurveyTargetJob> surveyTargetJobs) {
         this.surveyTargetJobs = surveyTargetJobs;
     }
@@ -86,7 +90,17 @@ public class Survey {
     }
 
     public void surveyParticipate(){
+        if (this.surveyParticipants >= this.targetSurveyParticipants) {
+            throw new RuntimeException("Survey Full");
+        }
         this.surveyParticipants++;
+    }
+    public Boolean isFull() {
+        if (this.targetSurveyParticipants == this.surveyParticipants) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
 }

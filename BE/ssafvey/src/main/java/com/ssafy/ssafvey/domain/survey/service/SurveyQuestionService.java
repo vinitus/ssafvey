@@ -9,8 +9,8 @@ import com.ssafy.ssafvey.domain.survey.repository.SurveyQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Service
 public class SurveyQuestionService {
@@ -32,7 +32,7 @@ public class SurveyQuestionService {
                 .build();
         surveyQuestion.setSurvey(survey);
         if (surveyQuestionDto.getIsMultipleChoice()) {
-            List<SurveyQuestionChoice> surveyQuestionChoices = new ArrayList<>();
+            Set<SurveyQuestionChoice> surveyQuestionChoices = new LinkedHashSet<>();
 
             for (ChoiceDto choiceDto : surveyQuestionDto.getChoices()) {
                 SurveyQuestionChoice surveyQuestionChoice = surveyQuestionChoiceService
