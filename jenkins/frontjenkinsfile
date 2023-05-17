@@ -10,25 +10,15 @@ pipeline {
                             steps{
                                 dir('FE')
                                 {
-                                sh "docker build -t react-image ."
+                                sh "docker build . -t front_builder ."
+                                sh "docker run --rm -v nginx_build_volume:/data busybox sh -c "rm -rf /data/*""
+                                sh "docker run --rm -v nginx_build_volume:/app front_builder"
                                 }
                                 }
         }
-            stage('프론트엔드 컨테이너 삭제'){
-                                    steps{
-                                    catchError{
-                                        sh "docker rm --force frontend"
-                                        }
-                                                           }
-                                                       }
 
-                    stage('컨테이너 생성') {
-                      steps {
-                        sh "docker run --network=ournetwork -d -p 3000:5173 --name frontend react-image"
-                      }
-                    }
-    }
-    }
     }
 
     }
+}
+}
