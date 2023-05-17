@@ -134,17 +134,17 @@ export default function SignUp() {
         <article className={style.signUpGenderWrapper}>
           <article>
             {info?.gender === 'MAN' ? (
-              <input type="checkbox" checked id="man" className="hidden" disabled />
+              <input type="checkbox" checked id="man" className="hidden" readOnly />
             ) : (
-              <input type="checkbox" id="man" className="hidden" disabled />
+              <input type="checkbox" id="man" className="hidden" readOnly />
             )}
             <label htmlFor="man">남자</label>
           </article>
           <article>
             {info?.gender === 'WOMAN' ? (
-              <input type="checkbox" id="woman" checked className="hidden" disabled />
+              <input type="checkbox" id="woman" checked className="hidden" readOnly />
             ) : (
-              <input type="checkbox" id="woman" className="hidden" disabled />
+              <input type="checkbox" id="woman" className="hidden" readOnly />
             )}
             <label htmlFor="woman">여자</label>
           </article>
