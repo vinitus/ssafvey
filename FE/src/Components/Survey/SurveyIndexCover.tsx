@@ -52,21 +52,21 @@ function SurveyBtnWrapepr({
   const accessToken = queryClient.getQueryData(['accessToken']) as string;
 
   const getStats = async () => {
-    console.log('getStats');
     // dummyParams는 API에서 받아온 데이터를 넣어주면 됨
-    const statsData = await getResult(surveyCoverResData.id, accessToken);
-    console.log(statsData);
-    // writeExcel(data, 5);
+    const { surveyQuestionStats } = await getResult(surveyCoverResData.id, accessToken);
+    writeExcel(surveyQuestionStats, 5);
   };
 
   return (
     <section className={style.buttons}>
       <div style={{ width: '30px' }}>
-        {/* TODO: 이 버튼은 내가 생성한 설문인 경우에만 보여야 함! */}
-        <button type="button" onClick={getStats}>
-          통계
-        </button>
-        {/* <div /> */}
+        {surveyCoverResData.isAuthor ? (
+          <button type="button" onClick={getStats}>
+            통계
+          </button>
+        ) : (
+          <div />
+        )}
       </div>
       {surveyCoverResData.isDone ? (
         <button type="button" className={style.startSurveyBtn}>

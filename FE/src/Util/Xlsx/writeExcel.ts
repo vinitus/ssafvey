@@ -6,17 +6,17 @@ interface SurveyQuestionStats {
   order: number;
   question: string;
   isMultipleChoice: boolean;
-  multipleChoiceStatDtoList: MultipleChoiceStatDto[] | null;
-  descriptiveChoiceStatDtoList: DescriptiveChoiceStatDto[] | null;
+  multipleChoices: MultipleChoice[] | null;
+  descriptiveChoices: DescriptiveChoice[] | null;
 }
 
-interface MultipleChoiceStatDto {
+interface MultipleChoice {
   order: number;
   count: number;
   description: string;
 }
 
-interface DescriptiveChoiceStatDto {
+interface DescriptiveChoice {
   answer: string;
 }
 
@@ -25,15 +25,15 @@ export default function writeExcel(surveyStats: SurveyQuestionStats[], maxMultip
   const column = ['order', 'question', 'isMultipleChoice', ...multipleChoiceColumn, 'descriptiveAnswers'];
 
   const data = surveyStats.map((q) => {
-    const { order, question, isMultipleChoice, multipleChoiceStatDtoList, descriptiveChoiceStatDtoList } = q;
+    const { order, question, isMultipleChoice, multipleChoices, descriptiveChoices } = q;
 
-    const multipleChoices = multipleChoiceStatDtoList
-      ? [...multipleChoiceStatDtoList.map((a) => a.count)]
+    const newMultipleChoices = multipleChoices
+      ? [...multipleChoices.map((a) => a.count)]
       : Array.from({ length: maxMultipleChoiceCount }, () => '');
 
-    const descriptiveAnswers = descriptiveChoiceStatDtoList ? descriptiveChoiceStatDtoList.map((a) => a.answer) : [];
+    const newDescriptiveAnswers = descriptiveChoices ? descriptiveChoices.map((a) => a.answer) : [];
 
-    return [order, question, isMultipleChoice, ...multipleChoices, ...descriptiveAnswers];
+    return [order, question, isMultipleChoice, ...newMultipleChoices, ...newDescriptiveAnswers];
   });
 
   const tableData: any = [column, ...data];

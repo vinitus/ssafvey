@@ -6,7 +6,7 @@ import path from 'path';
 
 export default defineConfig({
   esbuild: {
-    drop: ['console', 'debugger'],
+    // drop: ['console', 'debugger'],
     supported: {
       'top-level-await': true,
     },
