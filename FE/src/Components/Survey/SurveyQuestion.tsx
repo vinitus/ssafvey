@@ -40,7 +40,7 @@ export default function SurveyQuestion() {
           <SurveyBox key={order}>
             <SurveyBox.Question>{question}</SurveyBox.Question>
             <SurveyBox.Answer
-              clickstate={(num : number, status : boolean) => {console.log(num); console.log(questionClick); questionclicklist[num-1] = status; setQuestionclicklist([...questionclicklist]); setQuestionIdx((questionclicklist.filter(item => item)).length)}}
+              clickstate={(num : number, status : boolean) => {questionclicklist[num-1] = status; setQuestionclicklist([...questionclicklist]); setQuestionIdx((questionclicklist.filter(item => item)).length)}}
               isMultipleChoice={isMultipleChoice}
               choices={choices}
               order={order}

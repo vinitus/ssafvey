@@ -61,7 +61,7 @@ function Answer({ clickstate, isMultipleChoice, choices, order, choiceObjState, 
 
   if (isMultipleChoice && choices)
     return (
-      <MultipleAnswer click={() => {console.log(order);clickstate(order, true)}} choices={choices} order={order} answer={choiceObjState} dispatcher={choiceStateDispatcher} />
+      <MultipleAnswer click={() => {clickstate(order, true)}} choices={choices} order={order} answer={choiceObjState} dispatcher={choiceStateDispatcher} />
     );
 
   return (
