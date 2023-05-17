@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Zen Tokyo Zoo';
+    src: url('ZenTokyoZoo-Regular.woff2') format('woff2'),
+        url('ZenTokyoZoo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'LINE Seed Sans KR';
+    src: url('LINESeedSansKR-Bold.woff2') format('woff2'),
+        url('LINESeedSansKR-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'LINE Seed Sans KR';
+    src: url('LINESeedSansKR-Regular.woff2') format('woff2'),
+        url('LINESeedSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

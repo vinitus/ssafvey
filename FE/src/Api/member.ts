@@ -24,14 +24,22 @@ export async function putProfile(data: object, token: string) {
   }
 }
 
-// 엑세스 토큰 재발급
-export async function getRefresh(token: string | null) {
+// 회원정보 수정 정보 가져오기
+export async function getProfile(token: string) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/refresh`, { headers: { refreshToken: token } });
+    const res = await axiosInstance.get(`${baseURL}/changeProfil`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   } catch (err) {
     return err;
   }
+}
+
+// 엑세스 토큰 재발급
+export async function getRefresh(token: string | null): Promise<{ Authorization: string; refreshToken: string }> {
+  const res = await axiosInstance.get(`${baseURL}/refresh`, { headers: { refreshToken: token } });
+  return res.data;
 }
 
 // 회원 탈퇴
@@ -88,59 +96,56 @@ export async function getSurvey(token: string) {
   }
 }
 
-
 // 기프티콘 조회
-export async function getGift(token : string) {
+export async function getGift(token: string) {
   try {
     const res = await axiosInstance.get('/shop/order/list', {
       headers: { Authorization: `Bearer ${token}` },
-    })
-  return res.data
-  } catch(err) {
+    });
+    return res.data;
+  } catch (err) {
     return err;
   }
 }
 
 // 기프티콘 사용
-export async function putGift(token : string) {
+export async function putGift(id: number, token: string) {
   try {
-    const res = await axiosInstance.put(`${baseURL}/mypage/gift`, {
+    const res = await axiosInstance.put(`${baseURL}/mypage/${id}`, null, {
       headers: { Authorization: `Bearer ${token}` },
-    })
-  return res.data
-  } catch(err) {
+    });
+    return res.data;
+  } catch (err) {
     return err;
   }
 }
 
 // 로또 사용
-export async function putLotto(token : string) {
+export async function putLotto(token: string) {
   try {
-    const res = await axiosInstance.put(`${baseURL}/mypage/lotto`, {headers: { Authorization: `Bearer ${token}` }})
-    return res.data
-  } catch(err) {
+    const res = await axiosInstance.put(`${baseURL}/mypage/lotto`, null , { headers: { Authorization: `Bearer ${token}` } });
+    return res.data;
+  } catch (err) {
     return err;
   }
 }
 
 // 포인트 내역 조회
-export async function getPointlist(token : string) {
+export async function getPointlist(token: string) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/mypage/point`,  {headers: { Authorization: `Bearer ${token}` }})
-    return res.data
-  }
-  catch (err) {
-    return err
+    const res = await axiosInstance.get(`${baseURL}/mypage/point`, { headers: { Authorization: `Bearer ${token}` } });
+    return res.data;
+  } catch (err) {
+    return err;
   }
 }
 
 // 기프티콘 조회
-export async function getorder(token : string){
+export async function getorder(token: string) {
   try {
-    const res = await axiosInstance.get('/shop/order/list', {headers:{Authorization : `Bearer ${token}`}})
-    return res.data
-  }
-  catch(err){
-    return err
+    const res = await axiosInstance.get('/shop/order/list', { headers: { Authorization: `Bearer ${token}` } });
+    return res.data;
+  } catch (err) {
+    return err;
   }
 }

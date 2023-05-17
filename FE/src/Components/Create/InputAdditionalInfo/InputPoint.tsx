@@ -1,25 +1,48 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
-import { amountOfPointState } from '../../../Store/Create/atom';
+import React, { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { requiredPeopleNumberState } from '@store/Create/atom';
+import { getPoint } from '@api/coupon';
+import { useQueryClient } from '@tanstack/react-query';
 import style from './InputPoint.module.css';
 
-export default function InputPoint() {
-  const [amountOfPoint, setAmountOfPoint] = useRecoilState(amountOfPointState);
+const CostPerPerson = 500;
 
-  const handlePointInputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-    if (value) setAmountOfPoint(Number(value));
-    else setAmountOfPoint(0);
-  };
+export default function InputPoint() {
+  const queryClient = useQueryClient();
+
+  const requiredPeopleNumber = useRecoilValue(requiredPeopleNumberState);
+
+  const requiredPoint = requiredPeopleNumber * CostPerPerson;
+
+  const [point, setPoint] = useState(0);
+
+  useEffect(() => {
+    async function getPointdata(accessToken: string) {
+      try {
+        const data = await getPoint(accessToken);
+        setPoint(data.point);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    const accessToken = queryClient.getQueryData(['accessToken']) as string;
+
+    getPointdata(accessToken);
+  }, [queryClient]);
 
   return (
     <label htmlFor="point">
-      <h3 className="titleFont">포인트</h3>
+      <div>
+        <h3 className="titleFont inline">소모 포인트</h3>
+        <p className="descFont inline">(1인당 500포인트가 소모됩니다.)</p>
+      </div>
       <div className={style.inputContainer}>
         <input
           type="number"
-          value={amountOfPoint === 0 ? '' : amountOfPoint}
+          value={requiredPoint === 0 ? '' : requiredPoint}
+          disabled
           step={500}
-          onChange={handlePointInputChange}
           min={MIN_POINT}
           max={MAX_POINT}
           pattern="\d*"
@@ -27,7 +50,7 @@ export default function InputPoint() {
           className={style.input}
         />
         <span className="descFont">(현재 포인트 : </span>
-        <span className="font-bold">{CURRENT_POINT}</span>
+        <span className="font-bold">{point}</span>
         <span className="descFont">)</span>
       </div>
     </label>
@@ -37,5 +60,3 @@ export default function InputPoint() {
 const MIN_POINT = 500;
 
 const MAX_POINT = 1_000_000;
-
-const CURRENT_POINT = 5500;

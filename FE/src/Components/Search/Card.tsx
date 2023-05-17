@@ -14,8 +14,16 @@ interface ChildrenText {
 export default function Card({ surveyListDataObjArr }: CardProps) {
   return (
     <div className={style.cardpart}>
+      {surveyListDataObjArr.surveylist.length === 0 && <NotFound />}
       {surveyListDataObjArr.surveylist.map(({ id, title, organization, createDate, endDate }) => (
-        <CardDetail id={id} title={title} organization={organization} createDate={createDate} endDate={endDate} />
+        <CardDetail
+          id={id}
+          title={title}
+          organization={organization}
+          createDate={createDate}
+          endDate={endDate}
+          key={id}
+        />
       ))}
     </div>
   );
@@ -76,4 +84,8 @@ function Lotto() {
       </div>
     </div>
   );
+}
+
+function NotFound() {
+  return <div>설문이 존재하지 않습니다.</div>;
 }

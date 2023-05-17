@@ -1,5 +1,7 @@
 package com.ssafy.ssafvey.domain.shop.controller;
 
+import com.ssafy.ssafvey.domain.member.entity.Member;
+import com.ssafy.ssafvey.domain.member.repository.MemberRepository;
 import com.ssafy.ssafvey.domain.member.service.MemberService;
 import com.ssafy.ssafvey.domain.shop.dto.OrderDto;
 import com.ssafy.ssafvey.domain.shop.dto.OrderResponseDto;
@@ -25,14 +27,25 @@ public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
     private final ItemService itemService;
+    private final MemberRepository memberRepository;
 
     @PostMapping(value = "new")
     public ResponseEntity<?> order(HttpServletRequest request, @RequestBody OrderDto orderDto) {
+
+        // 주문 상품이 로또라면...
+        Long orderItemId = orderDto.getItemId();
+        if (orderItemId == 42) {
+            int lottoCount = orderService.orderLotto((Long) request.getAttribute("memberId"), orderItemId);
+            return new ResponseEntity<>(lottoCount, HttpStatus.CREATED);
+        // 기프티콘일때...
+        } else {
         Long order_Id = orderService.order((Long) request.getAttribute("memberId"),orderDto.getItemId());
         if (order_Id == null) {
             return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
         }
         return new ResponseEntity<>(order_Id, HttpStatus.CREATED);
+        }
+
     }
 
     @GetMapping(value = "list")
