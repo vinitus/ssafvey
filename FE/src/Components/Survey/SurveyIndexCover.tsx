@@ -86,15 +86,15 @@ function StartButton({ isAuthor, haveDone, isDone }: { isAuthor: boolean; haveDo
   const styleClass = isDisabled ? style.cantSurveyBtn : style.startSurveyBtn;
 
   const getText = () => {
-    if (isAuthor) return '설문 불가';
     if (isDone) return '설문 종료';
+    if (isAuthor) return '설문 불가';
     if (haveDone) return '설문 완료';
     return '설문 시작';
   };
 
   const handleClick = () => {
-    if (isAuthor) return;
     if (isDone) return;
+    if (isAuthor) return;
     if (haveDone) return;
     navigate('doing');
   };
