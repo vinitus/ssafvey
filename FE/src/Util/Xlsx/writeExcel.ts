@@ -1,4 +1,6 @@
-import * as XLSX from 'xlsx';
+// import * as XLSX from 'xlsx';
+
+const XLSX = await import('xlsx');
 
 interface SurveyQuestionStats {
   order: number;

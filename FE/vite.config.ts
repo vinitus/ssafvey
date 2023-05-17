@@ -7,6 +7,9 @@ import path from 'path';
 export default defineConfig({
   esbuild: {
     drop: ['console', 'debugger'],
+    supported: {
+      'top-level-await': true,
+    },
   },
   plugins: [react(), VitePWA()],
   resolve: {
