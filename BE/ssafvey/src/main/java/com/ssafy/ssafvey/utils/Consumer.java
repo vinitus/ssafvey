@@ -1,5 +1,6 @@
 package com.ssafy.ssafvey.utils;
 
+import com.ssafy.ssafvey.domain.survey.dto.MQSendSurveyDto;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -10,5 +11,10 @@ public class Consumer {
     @RabbitListener(queues = "hello")
     public void consume(Message message){
         System.out.println(message);
+    }
+
+    @RabbitListener(queues = "myqueue")
+    public void consumeMyQueue(final MQSendSurveyDto mqSendSurveyDto){
+        System.out.println(mqSendSurveyDto);
     }
 }

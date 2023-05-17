@@ -100,6 +100,7 @@ public class SurveyController {
 
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.CREATED);
     }
+
     @GetMapping("/ttest")
     public ResponseEntity<?> testtest(HttpServletRequest request) {
         MQSendSurveyDto mqSendSurveyDto = new MQSendSurveyDto();
@@ -107,4 +108,5 @@ public class SurveyController {
         publisher.send(mqSendSurveyDto);
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.CREATED);
     }
+
 }

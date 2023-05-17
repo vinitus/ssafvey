@@ -13,6 +13,7 @@ import com.ssafy.ssafvey.domain.survey.dto.*;
 import com.ssafy.ssafvey.domain.survey.dto.request.*;
 import com.ssafy.ssafvey.domain.survey.entity.*;
 import com.ssafy.ssafvey.domain.survey.repository.*;
+import com.ssafy.ssafvey.utils.Publisher;
 import com.ssafy.ssafvey.utils.UUIDGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -40,8 +41,9 @@ public class SurveyService {
     private final SurveyQuestionRepository surveyQuestionRepository;
     private final ObjectMapper objectMapper;
     private final SurveyStatisticsRepository surveyStatisticsRepository;
+    private final Publisher publisher;
 
-    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService, MemberRepository memberRepository, MemberSurveyRepository memberSurveyRepository, ModelMapper modelMapper, MemberAnswerMultipleChoiceRepository memberAnswerMultipleChoiceRepository, MemberAnswerDescriptiveRepository memberAnswerDescriptiveRepository, SurveyQuestionRepository surveyQuestionRepository, ObjectMapper objectMapper, SurveyStatisticsRepository surveyStatisticsRepository) {
+    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService, MemberRepository memberRepository, MemberSurveyRepository memberSurveyRepository, ModelMapper modelMapper, MemberAnswerMultipleChoiceRepository memberAnswerMultipleChoiceRepository, MemberAnswerDescriptiveRepository memberAnswerDescriptiveRepository, SurveyQuestionRepository surveyQuestionRepository, ObjectMapper objectMapper, SurveyStatisticsRepository surveyStatisticsRepository, Publisher publisher) {
         this.surveyRepository = surveyRepository;
         this.surveyQuestionService = surveyQuestionService;
         this.surveyTargetAgeRepository = surveyTargetAgeRepository;
@@ -57,6 +59,7 @@ public class SurveyService {
         this.surveyQuestionRepository = surveyQuestionRepository;
         this.objectMapper = objectMapper;
         this.surveyStatisticsRepository = surveyStatisticsRepository;
+        this.publisher = publisher;
     }
 
     private SurveyTargetAge createTargetAge(TargetAgeDto targetAgeDto, Survey survey) {
@@ -71,7 +74,6 @@ public class SurveyService {
         List<SurveyTargetJob> surveyTargetJobs = new ArrayList<>();
 
         List<Job> jobs = jobRepository.findAllById(targetJobIds);
-        System.out.println(jobs);
         for (Job job : jobs) {
             SurveyTargetJob surveyTargetJob = SurveyTargetJob.builder()
                     .survey(survey)
@@ -127,8 +129,6 @@ public class SurveyService {
     public StartSurveyDto getStartSurveyById(Object memberId, Long surveyId) {
         Optional<Survey> optionalSurvey = surveyRepository.findById(surveyId);
         if (optionalSurvey.isPresent()) {
-
-
             Survey survey = optionalSurvey.get();
             StartSurveyDto startSurveyDto = StartSurveyDto.builder()
                     .id(survey.getId())
@@ -259,6 +259,11 @@ public class SurveyService {
                 } else {
                     MemberAnswerDescriptive memberAnswerDescriptive = memberAnswerServiceImpl.createMemberAnswerDescriptive(surveyAnswerDto, surveyQuestion, UUID);
                 }
+            }
+            if (survey.isFull()) {
+                System.out.println(123123);
+                survey.setDone(Boolean.TRUE);
+                publisher.sendId(survey.getId());
             }
         }
     }
