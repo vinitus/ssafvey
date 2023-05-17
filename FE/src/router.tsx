@@ -4,9 +4,6 @@ import Modal from 'react-modal';
 import { QueryClient } from '@tanstack/react-query';
 import App from './App';
 import NotFound from './Pages/NotFound';
-import Home from './Pages/Home';
-import Search, { loader as searchLoader } from './Pages/Search';
-import Exchange from './Pages/Exchange';
 import CreateSurvey from './Pages/CreateSurvey';
 import InputBasicInfo from './Components/Create/InputBasicInfo';
 import CreateSurveyQuestion from './Components/Create/AddQuestion/CreateSurveyQuestion';
@@ -21,27 +18,50 @@ import CreateSurveyInputAdditionalInfo from './Components/Create/InputAdditional
 
 export const queryClient = new QueryClient();
 
-const ImportExcel = React.lazy(() => import('./Components/Create/ImportExcel'));
-
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { index: true, path: '/', element: <Home /> },
-      { path: 'survey', element: <Search />, loader: searchLoader },
+      {
+        index: true,
+        path: '/',
+        async lazy() {
+          const { Home } = await import('@/Pages/Home');
+          return { Component: Home };
+        },
+      },
+      {
+        path: 'survey',
+        async lazy() {
+          const { Search, loader } = await import('@/Pages/Search');
+          return { Component: Search, loader };
+        },
+      },
       {
         path: 'create',
         element: <CreateSurvey />,
         children: [
-          { element: <ImportExcel />, index: true },
+          {
+            index: true,
+            async lazy() {
+              const { ImportExcel } = await import('@/Components/Create/ImportExcel');
+              return { Component: ImportExcel };
+            },
+          },
           { path: 'basic', element: <InputBasicInfo /> },
           { path: ':questionId', element: <CreateSurveyQuestion /> },
           { path: 'additional', element: <CreateSurveyInputAdditionalInfo /> },
         ],
       },
-      { path: 'exchange', element: <Exchange /> },
+      {
+        path: 'exchange',
+        async lazy() {
+          const { Exchange } = await import('@/Components/Exchange/Exchange');
+          return { Component: Exchange };
+        },
+      },
       { path: 'mypage', element: <MyPage /> },
       {
         path: 'survey/:id',

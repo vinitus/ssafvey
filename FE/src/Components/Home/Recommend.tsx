@@ -31,6 +31,8 @@ export default function Recommend() {
     },
   });
 
+  console.log(surveylist);
+
   async function getRecommend(accessToken: string | false) {
     let data;
     if (accessToken) data = await getUserList(accessToken);
@@ -59,28 +61,29 @@ export default function Recommend() {
         </div>
       </div>
       <div className={style.swiper}>
-        <Swiper
-          style={{
-            height: '340px',
-          }}
-          spaceBetween={30}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Autoplay, Pagination]}
-        >
-          {surveylist.length > 0 &&
-            surveylist.map((list) => (
+        {surveylist.length > 0 && (
+          <Swiper
+            style={{
+              height: '340px',
+            }}
+            spaceBetween={30}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Autoplay, Pagination]}
+          >
+            {surveylist.map((list) => (
               <SwiperSlide key={list.id}>
                 <HomeCard list={list} />
               </SwiperSlide>
             ))}
-          {surveylist.length === 0 && <div>설문조사가 없어요 ㅠㅠ</div>}
-        </Swiper>
+          </Swiper>
+        )}
+        {surveylist.length === 0 && <div>설문조사가 없어요 ㅠㅠ</div>}
       </div>
     </div>
   );

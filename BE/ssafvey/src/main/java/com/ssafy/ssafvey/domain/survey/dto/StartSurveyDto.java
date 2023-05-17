@@ -17,12 +17,16 @@ public class StartSurveyDto {
     private Integer targetSurveyParticipants;
     private Integer surveyParticipants;
     private Boolean haveDone;
+    private Boolean isAuthor;
 
     public void setHaveDone(Boolean haveDone) {
         this.haveDone = haveDone;
     }
 
-    //TODO 성빈쓰와 merge하고 lotto 넣고 service단에도 넣어야함
+    public void setIsAuthor(Boolean author) {
+        isAuthor = author;
+    }
+//TODO 성빈쓰와 merge하고 lotto 넣고 service단에도 넣어야함
     //TODO 서비스단에 넣었는지 체크
 //    private Integer lotto;
 }

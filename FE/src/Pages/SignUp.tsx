@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getJobs, putProfile, getProfile } from '../Api/member';
 import style from './SignUp.module.css';
 import { queryClient } from '../router';
+import { useTokenQuery } from '@/hooks/useTokenQuery';
 
 interface Job {
   id: string;
@@ -12,11 +13,11 @@ interface Job {
 }
 
 interface info {
-  name : string;
-  age : number;
-  email : string;
-  gender : string;
-  jobs : Job[];
+  name: string;
+  age: number;
+  email: string;
+  gender: string;
+  jobs: Job[];
 }
 
 export default function SignUp() {
@@ -31,7 +32,7 @@ export default function SignUp() {
   //   setGender(location.state.data?.gender);
   // }
 
-  const [age, setAge] = useState("")
+  const [age, setAge] = useState('');
   const [jobList, setJobList] = useState<Job[]>([]);
 
   useEffect(() => {
@@ -44,8 +45,8 @@ export default function SignUp() {
       try {
         const token = queryClient.getQueryData(['accessToken']) as string;
         const data = await getProfile(token);
-        setInfo(data)
-        setAge(data.age)
+        setInfo(data);
+        setAge(data.age);
         console.log(data);
       } catch (err) {
         console.log(err);
@@ -70,10 +71,16 @@ export default function SignUp() {
     setAge(strnum);
   };
 
+  const token = useTokenQuery();
+
   async function putprofiledata(data: object) {
-    const accessToken = queryClient.getQueryData(['accessToken']) as string;
     try {
-      await putProfile(data, accessToken);
+      if (token.data) await putProfile(data, token.data);
+      else {
+        await token.refetch();
+        if (token.data) await putProfile(data, token.data);
+        else localStorage.setItem('refreshToken', '');
+      }
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -105,11 +112,11 @@ export default function SignUp() {
 
   return (
     <div className={style.signUpWrapper}>
-      { location.state.data ? 
+      {location.state.data ? (
         <h1 className={style.signUpHeader}>회원가입</h1>
-        :
+      ) : (
         <h1 className={style.signUpHeader}>회원정보 수정</h1>
-      }
+      )}
       <article>
         <label htmlFor="name" className={style.signUpSecondHeader}>
           이름
@@ -127,17 +134,17 @@ export default function SignUp() {
         <article className={style.signUpGenderWrapper}>
           <article>
             {info?.gender === 'MAN' ? (
-              <input type="checkbox" checked id="man" className="hidden" disabled />
+              <input type="checkbox" checked id="man" className="hidden" readOnly />
             ) : (
-              <input type="checkbox" id="man" className="hidden" disabled />
+              <input type="checkbox" id="man" className="hidden" readOnly />
             )}
             <label htmlFor="man">남자</label>
           </article>
           <article>
             {info?.gender === 'WOMAN' ? (
-              <input type="checkbox" id="woman" checked className="hidden" disabled />
+              <input type="checkbox" id="woman" checked className="hidden" readOnly />
             ) : (
-              <input type="checkbox" id="woman" className="hidden" disabled />
+              <input type="checkbox" id="woman" className="hidden" readOnly />
             )}
             <label htmlFor="woman">여자</label>
           </article>
@@ -166,11 +173,14 @@ export default function SignUp() {
           </article>
         ))}
       </section>
-      {!location.state.data ?
-        <button type="button" className={style.signUpBtn} onClick={()=> navigate('/mypage')}> 취소 </button>
-        :
-        <div/>
-      }
+      {!location.state.data ? (
+        <button type="button" className={style.signUpBtn} onClick={() => navigate('/mypage')}>
+          {' '}
+          취소{' '}
+        </button>
+      ) : (
+        <div />
+      )}
       <button type="button" className={style.signUpBtn} onClick={sendprofile}>
         제출 !
       </button>

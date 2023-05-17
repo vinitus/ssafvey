@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "survey_question_choice")
 @Getter
 @Builder
 @AllArgsConstructor

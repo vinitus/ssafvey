@@ -6,7 +6,7 @@ import { getList } from '@/Api/survey';
 import { SurveyListDataObjArr } from '@/types/surveyType';
 import { useSearchDataControl } from '@/Components/Search/hooks/useSearchDataControl';
 
-export default function Search() {
+export function Search() {
   const data = useLoaderData() as SurveyListDataObjArr;
   const [keyword, dataArr, keywordChangeHandler, onBlurSearchAPICall, onKeyUpSearchAPICall] =
     useSearchDataControl(data);

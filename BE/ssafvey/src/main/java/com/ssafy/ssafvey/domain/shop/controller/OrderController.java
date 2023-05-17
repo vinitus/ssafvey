@@ -31,18 +31,21 @@ public class OrderController {
 
     @PostMapping(value = "new")
     public ResponseEntity<?> order(HttpServletRequest request, @RequestBody OrderDto orderDto) {
+
+        // 주문 상품이 로또라면...
+        Long orderItemId = orderDto.getItemId();
+        if (orderItemId == 42) {
+            int lottoCount = orderService.orderLotto((Long) request.getAttribute("memberId"), orderItemId);
+            return new ResponseEntity<>(lottoCount, HttpStatus.CREATED);
+        // 기프티콘일때...
+        } else {
         Long order_Id = orderService.order((Long) request.getAttribute("memberId"),orderDto.getItemId());
         if (order_Id == null) {
             return new ResponseEntity<>(HttpStatus.PAYMENT_REQUIRED);
         }
-        // 주문 상품이 로또라면 .. 로또 개수 추가
-        Long orderItemId = orderDto.getItemId();
-        Member member = memberRepository.findById((Long) request.getAttribute("memberId")).get();
-        if (orderItemId == 42) {
-            member.setCouponCount(member.getCouponCount() + 1);
-            memberRepository.save(member);
-        }
         return new ResponseEntity<>(order_Id, HttpStatus.CREATED);
+        }
+
     }
 
     @GetMapping(value = "list")

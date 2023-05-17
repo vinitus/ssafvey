@@ -5,18 +5,17 @@ import com.ssafy.ssafvey.domain.member.entity.MemberAnswerMultipleChoice;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
-@Table
+@Table(name = "survey_question")
 @Getter
 @Builder
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @ToString(exclude = {"survey","memberAnswerMultipleChoices"})
-
 public class SurveyQuestion {
     @Id
     @GeneratedValue
@@ -34,10 +33,10 @@ public class SurveyQuestion {
     private Survey survey;
 
     @OneToMany(mappedBy = "surveyQuestion")
-    private List<MemberAnswerMultipleChoice> memberAnswerMultipleChoices = new ArrayList<>();
+    private Set<MemberAnswerMultipleChoice> memberAnswerMultipleChoices = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "surveyQuestion")
-    private List<MemberAnswerDescriptive> memberAnswerDescriptives = new ArrayList<>();
+    private Set<MemberAnswerDescriptive> memberAnswerDescriptives = new LinkedHashSet<>();
 
 
     @Override
@@ -50,7 +49,7 @@ public class SurveyQuestion {
     }
 
     @OneToMany(mappedBy = "surveyQuestion")
-    private List<SurveyQuestionChoice> surveyQuestionChoices = new ArrayList<>();
+    private Set<SurveyQuestionChoice> surveyQuestionChoices = new LinkedHashSet<>();
 
 
 }
