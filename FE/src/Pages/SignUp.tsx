@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getJobs, putProfile, getProfile } from '../Api/member';
 import style from './SignUp.module.css';
 import { queryClient } from '../router';
+import { useTokenQuery } from '@/hooks/useTokenQuery';
 
 interface Job {
   id: string;
@@ -70,10 +71,11 @@ export default function SignUp() {
     setAge(strnum);
   };
 
+  const token = useTokenQuery();
+
   async function putprofiledata(data: object) {
-    const accessToken = queryClient.getQueryData(['accessToken']) as string;
     try {
-      await putProfile(data, accessToken);
+      await putProfile(data, token.data);
       navigate('/');
     } catch (err) {
       console.error(err);
