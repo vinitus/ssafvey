@@ -76,7 +76,6 @@ public class MemberServiceImpl implements MemberService {
             memberJobRepository.save(memberJob);
         }
         memberRepository.save(signUpRequestDto.tomember(findMember.get(),id,signUpRequestDto,jobList));
-//        List<MemberJob> memberJob = findMember.get().getMemberJobs();
     }
 
 
