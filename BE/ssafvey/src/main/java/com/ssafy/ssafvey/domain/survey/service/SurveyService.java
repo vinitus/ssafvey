@@ -263,7 +263,7 @@ public class SurveyService {
             if (survey.isFull()) {
                 System.out.println(123123);
                 survey.setDone(Boolean.TRUE);
-                publisher.sendId(survey.getId());
+//                publisher.sendId(survey.getId());
             }
         }
     }
