@@ -22,6 +22,7 @@ interface survey {
 
 export default function Recommend() {
   const [surveylist, setSurveylist] = useState<survey[]>([]);
+  const [requestCnt, setRequestCnt] = useState(0);
 
   const token = useTokenQuery({
     onSuccess: (accessToken) => {
@@ -40,11 +41,14 @@ export default function Recommend() {
 
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken');
-    if (surveylist.length) {
-      /* empty */
-    } else if (refreshToken) token.refetch();
-    else getRecommend(false);
-  }, [surveylist.length, token]);
+    if (requestCnt === 0) {
+      setRequestCnt((prev) => prev + 1);
+      if (surveylist.length) {
+        /* empty */
+      } else if (refreshToken) token.refetch();
+      else getRecommend(false);
+    }
+  }, [requestCnt, surveylist.length, token]);
 
   return (
     <div className={style.recommend}>
@@ -69,12 +73,13 @@ export default function Recommend() {
           }}
           modules={[Autoplay, Pagination]}
         >
-          {surveylist &&
+          {surveylist.length > 0 &&
             surveylist.map((list) => (
               <SwiperSlide key={list.id}>
                 <HomeCard list={list} />
               </SwiperSlide>
             ))}
+          {surveylist.length === 0 && <div>설문조사가 없어요 ㅠㅠ</div>}
         </Swiper>
       </div>
     </div>
