@@ -1,5 +1,3 @@
-// import * as XLSX from 'xlsx';
-
 interface SurveyQuestionStats {
   order: number;
   question: string;

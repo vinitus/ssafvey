@@ -28,9 +28,7 @@ interface myinfo {
 
 export default function MyPage() {
   const { state } = useLocation();
-  console.log(state);
   const time = useRef(state);
-  console.log(state, time);
 
   useEffect(() => {
     if (time.current !== state) {
@@ -179,7 +177,6 @@ export default function MyPage() {
               type="button"
               className={styles.modify}
               onClick={() => {
-                console.log('흠');
                 navigate('/sign-up', { state: { data: null } });
               }}
             >

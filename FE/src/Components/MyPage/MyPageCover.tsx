@@ -88,7 +88,6 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
       // sectionRef.current.addEventListener('touchstart', dragStart);
       // sectionRef.current.addEventListener('touchend', dragEnd);
       // sectionRef.current.addEventListener('touchmove', drag);
-
       // sectionRef.current.addEventListener('mousedown', dragStart);
       // sectionRef.current.addEventListener('mouseup', dragEnd);
       // sectionRef.current.addEventListener('mousemove', drag);
@@ -106,7 +105,7 @@ export default function MyPageCover({ closemodal, sending, contentType, content 
       )}
       {contentType === '쿠폰' && (
         <MyPageCouponCover
-          close = {() => closemodal}
+          close={() => closemodal}
           quantity={content.quantity}
           infoType={content.infoType}
           renderingData={content.renderingData}

@@ -3,20 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import style from './HomeCard.module.css';
 
 interface Props {
-  list : info
+  list: info;
 }
-interface info{
-  id : number;
-  title : string;
-  organization : string;
-  createDate : string;
-  endDate : string;
-  targetSurveyParticipants : number;
+interface info {
+  id: number;
+  title: string;
+  organization: string;
+  createDate: string;
+  endDate: string;
+  targetSurveyParticipants: number;
 }
 
-export default function HomeCardRight({list}: Props) {
+export default function HomeCardRight({ list }: Props) {
   const navigate = useNavigate();
-  const {id} = list
+  const { id } = list;
   function cardclick() {
     navigate(`/survey/${id}`);
   }

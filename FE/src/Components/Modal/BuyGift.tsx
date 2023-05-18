@@ -1,4 +1,4 @@
-// 사용된 any는 사용자 타입 가드를 위한 것이에요
+// 사용된 any는 사용자 타입 가드를 위한 것입니다.
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef } from 'react';
 import style from './BuyGift.module.css';
@@ -7,7 +7,7 @@ import { queryClient } from '@/router';
 
 interface Props {
   closemodal: () => void;
-  info : iteminfo;
+  info: iteminfo;
   point: number;
 }
 
@@ -18,18 +18,12 @@ interface iteminfo {
   price: number;
 }
 
-// BuyGift.defaultProps = {
-//   price: '',
-//   id: '',
-// };
-
 const isMouseEvent = (e: any): e is MouseEvent =>
   e.type === 'mousedown' || e.type === 'mouseend' || e.type === 'mousemove';
 const isTouchEvent = (e: any): e is TouchEvent =>
   e.type === 'touchstart' || e.type === 'touchend' || e.type === 'touchmove';
 
 export default function BuyGift({ closemodal, info, point }: Props) {
-
   const slideRef = useRef<HTMLDivElement | null>(null);
   const slideBtnRef = useRef<HTMLDivElement | null>(null);
 
@@ -42,13 +36,9 @@ export default function BuyGift({ closemodal, info, point }: Props) {
     const token = queryClient.getQueryData(['accessToken']) as string;
 
     async function ordernew() {
-      try {
-        if (info.id) {
-          await postItemlist(info.id, token);
-          closemodal()
-        }
-      } catch (error) {
-        console.error(error);
+      if (info.id) {
+        await postItemlist(info.id, token);
+        closemodal();
       }
     }
 
@@ -112,7 +102,7 @@ export default function BuyGift({ closemodal, info, point }: Props) {
         setTranslate(currentX, slideBtnRef.current);
       }
     };
-    if (slideBtnRef.current && slideRef.current && token && point!==-1 && info.price && point >= info.price) {
+    if (slideBtnRef.current && slideRef.current && token && point !== -1 && info.price && point >= info.price) {
       slideRef.current.addEventListener('touchstart', dragStart);
       slideRef.current.addEventListener('touchend', dragEnd);
       slideRef.current.addEventListener('touchmove', drag);
@@ -146,7 +136,9 @@ export default function BuyGift({ closemodal, info, point }: Props) {
         <div className={style.moveslider} id="slidebtn" ref={slideBtnRef}>
           {point ? info.price : '사용하기'}
         </div>
-        {point >= 0 && info.price && (point >= info.price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>)}
+        {point >= 0 &&
+          info.price &&
+          (point >= info.price ? <span>밀어서 교환하기</span> : <span>포인트가 부족합니다</span>)}
         {point === -2 && <span>밀어서 사용하기</span>}
       </div>
     </div>

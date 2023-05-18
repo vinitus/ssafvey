@@ -25,7 +25,6 @@ function Description({ children }: { children: string }) {
 }
 
 function SurveyInfoWrapper({ surveyInfoArr }: { surveyInfoArr: SurveyInfoInterface[] }) {
-  console.log(surveyInfoArr);
   return (
     <section className={style.stateBox}>
       {surveyInfoArr.map((surveyInfo) => (

@@ -10,7 +10,7 @@ export interface AnswerObj {
 export const useSurveyQuestionDataParser = (
   surveyQuestionData: SurveyQuestionData,
   id: number,
-): [AnswerObj, React.Dispatch<React.SetStateAction<AnswerObj>>, any] => {
+): [AnswerObj, React.Dispatch<React.SetStateAction<AnswerObj>>, (token: string) => Promise<void>] => {
   const answerObj: AnswerObj = {};
   const addObjectKey = ({ isMultipleChoice, order }: { isMultipleChoice: boolean; order: number }) => {
     answerObj[order] = isMultipleChoice ? 0 : '';

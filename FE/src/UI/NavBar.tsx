@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styles from './NavBar.module.css';
-import { accessTokenState } from '../Store/Member/atom';
 import { queryClient } from '../router';
 
 export default function NavBar() {
@@ -10,7 +8,6 @@ export default function NavBar() {
   const iconNameArr = ['홈', '설문하기', '설문만들기', '교환하기', '마이페이지'];
   const iconURLArr = ['/', '/survey', '/create', '/exchange', '/mypage'];
   const navigate = useNavigate();
-  // const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const accessToken = queryClient.getQueryData(['accessToken']);
 
   function navbarClickHandler(event: React.MouseEvent<HTMLButtonElement>) {

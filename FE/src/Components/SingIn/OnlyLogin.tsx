@@ -28,11 +28,8 @@ export default function OnlyLogin() {
           code,
         },
       }).then((res) => {
-        // accesstoken => queryclient
-        console.log(res);
         queryClient.setQueryData(['accessToken'], res.data?.token.Authorization);
 
-        // refresh token => localstorage
         const { refreshToken } = res.data.token;
         localStorage.setItem('refreshToken', refreshToken);
 

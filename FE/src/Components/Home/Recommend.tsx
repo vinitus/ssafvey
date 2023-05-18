@@ -4,7 +4,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Autoplay, Pagination } from 'swiper';
-import { useNavigate } from 'react-router-dom';
 import { getList, getUserList } from '../../Api/survey';
 import style from './Recommend.module.css';
 import HomeCard from './HomeCard';
@@ -26,12 +25,9 @@ export default function Recommend() {
 
   const token = useTokenQuery({
     onSuccess: (accessToken) => {
-      console.log(accessToken);
       getRecommend(accessToken);
     },
   });
-
-  console.log(surveylist);
 
   async function getRecommend(accessToken: string | false) {
     let data;
