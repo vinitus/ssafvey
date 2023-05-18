@@ -1,5 +1,5 @@
 import { SurveyCoverData } from '../../../types/surveyType';
-import { go, map, slice } from '../../../module/fx';
+import { go, map, slice, take } from '../../../module/fx';
 
 declare global {
   interface Window {
@@ -22,7 +22,7 @@ const mappingKeyToKorean: MappingKeyToKoreanType = {
 };
 
 export const useSurveyCoverData = (surveyCoverResData: SurveyCoverData) => {
-  const data = go(Object.entries(surveyCoverResData), slice(4), map(surveyInfoParser));
+  const data = go(Object.entries(surveyCoverResData), slice(4), take(4), map(surveyInfoParser));
   return [data, kakaoshare];
 };
 

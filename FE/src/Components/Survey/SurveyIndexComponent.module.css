@@ -34,6 +34,10 @@
   @apply bg-darkBlue w-180 h-50 rounded-[20px] border-[2px] border-white;
 }
 
+.cantSurveyBtn {
+  @apply text-black bg-[#B0C1ED] w-180 h-50 rounded-[20px] border-[2px] border-white;
+}
+
 .childInlineBlock > * {
   @apply inline-block;
 }
