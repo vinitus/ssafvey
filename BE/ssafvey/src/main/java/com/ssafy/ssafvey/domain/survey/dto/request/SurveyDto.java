@@ -6,6 +6,7 @@ import com.ssafy.ssafvey.domain.survey.entity.SurveyTargetJob;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,7 @@ public class SurveyDto {
                 .collect(Collectors.toList()));
         surveyDto.setSurveyQuestions(survey.getSurveyQuestions().stream()
                 .map(SurveyQuestionDto::fromEntity)
+                .sorted(Comparator.comparingInt(SurveyQuestionDto::getOrder))
                 .collect(Collectors.toList()));
         surveyDto.setEndDate(survey.getEndDate());
         surveyDto.setDescription(survey.getDescription());

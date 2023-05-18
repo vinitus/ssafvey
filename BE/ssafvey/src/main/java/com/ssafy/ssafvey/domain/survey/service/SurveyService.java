@@ -13,7 +13,7 @@ import com.ssafy.ssafvey.domain.survey.dto.*;
 import com.ssafy.ssafvey.domain.survey.dto.request.*;
 import com.ssafy.ssafvey.domain.survey.entity.*;
 import com.ssafy.ssafvey.domain.survey.repository.*;
-import com.ssafy.ssafvey.utils.Publisher;
+
 import com.ssafy.ssafvey.utils.UUIDGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -41,9 +41,9 @@ public class SurveyService {
     private final SurveyQuestionRepository surveyQuestionRepository;
     private final ObjectMapper objectMapper;
     private final SurveyStatisticsRepository surveyStatisticsRepository;
-    private final Publisher publisher;
 
-    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService, MemberRepository memberRepository, MemberSurveyRepository memberSurveyRepository, ModelMapper modelMapper, MemberAnswerMultipleChoiceRepository memberAnswerMultipleChoiceRepository, MemberAnswerDescriptiveRepository memberAnswerDescriptiveRepository, SurveyQuestionRepository surveyQuestionRepository, ObjectMapper objectMapper, SurveyStatisticsRepository surveyStatisticsRepository, Publisher publisher) {
+
+    public SurveyService(SurveyRepository surveyRepository, SurveyQuestionService surveyQuestionService, SurveyTargetAgeRepository surveyTargetAgeRepository, SurveyTargetJobRepository surveyTargetJobRepository, JobRepository jobRepository, MemberAnswerServiceImpl memberAnswerServiceImpl, MemberSurveyService memberSurveyService, MemberRepository memberRepository, MemberSurveyRepository memberSurveyRepository, ModelMapper modelMapper, MemberAnswerMultipleChoiceRepository memberAnswerMultipleChoiceRepository, MemberAnswerDescriptiveRepository memberAnswerDescriptiveRepository, SurveyQuestionRepository surveyQuestionRepository, ObjectMapper objectMapper, SurveyStatisticsRepository surveyStatisticsRepository) {
         this.surveyRepository = surveyRepository;
         this.surveyQuestionService = surveyQuestionService;
         this.surveyTargetAgeRepository = surveyTargetAgeRepository;
@@ -59,7 +59,7 @@ public class SurveyService {
         this.surveyQuestionRepository = surveyQuestionRepository;
         this.objectMapper = objectMapper;
         this.surveyStatisticsRepository = surveyStatisticsRepository;
-        this.publisher = publisher;
+
     }
 
     private SurveyTargetAge createTargetAge(TargetAgeDto targetAgeDto, Survey survey) {
@@ -200,7 +200,9 @@ public class SurveyService {
                     multipleChoiceStatDto.setDescription(surveyQuestionChoice.getChoiceDescription());
                     multipleChoiceStatDtoList.add(multipleChoiceStatDto);
                 }
-                surveyQuestionStatDto.setMultipleChoices(multipleChoiceStatDtoList);
+                surveyQuestionStatDto.setMultipleChoices(multipleChoiceStatDtoList.stream()
+                        .sorted(Comparator.comparingInt(MultipleChoiceStatDto::getOrder))
+                        .collect(Collectors.toList()));
             } else {
                 for (MemberAnswerDescriptive memberAnswerDescriptive : surveyQuestion.getMemberAnswerDescriptives()) {
                     DescriptiveChoiceStatDto descriptiveChoiceStatDto = new DescriptiveChoiceStatDto();
