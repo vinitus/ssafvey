@@ -9,6 +9,7 @@ export interface SurveyCoverData {
   lotto: number;
   id: number;
   isAuthor: boolean;
+  haveDone: boolean;
 }
 
 export interface SurveyQuestionData {
