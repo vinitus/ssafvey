@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ public class SurveyQuestionDto {
         if (surveyQuestion.getIsMultipleChoice()) {
             List<ChoiceDto> choiceDtos = surveyQuestion.getSurveyQuestionChoices().stream()
                     .map(ChoiceDto::fromEntity)
+                    .sorted(Comparator.comparingInt(ChoiceDto::getOrder))
                     .collect(Collectors.toList());
             surveyQuestionDto.setChoices(choiceDtos);
         }
