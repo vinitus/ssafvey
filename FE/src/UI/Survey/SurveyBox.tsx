@@ -3,7 +3,7 @@ import React, { createRef } from 'react';
 import style from './SurveyBox.module.css';
 import { ChoicesObj } from '@/types/surveyType';
 import { AnswerObj } from '@/Components/Survey/hooks/useSurveyQuestionDataParser';
-import { go, map, reduce } from '@/module/fx';
+import { go, map } from '@/module/fx';
 
 interface Props {
   children: React.ReactNode;

@@ -10,7 +10,7 @@ interface Props {
 const colorMap = {
   green: 'bg-ssafveyGreen',
   blue: 'bg-darkBlue',
-  gray : 'bg-gray-400'
+  gray: 'bg-gray-400',
 };
 
 const sizeMap = {

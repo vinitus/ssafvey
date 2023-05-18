@@ -28,23 +28,15 @@ export function Exchange() {
 
   useEffect(() => {
     async function getitem() {
-      try {
-        const data = await getItemlist('');
-        setItemlist(data);
-      } catch (err) {
-        console.error(err);
-      }
+      const data = await getItemlist('');
+      setItemlist(data);
     }
 
     getitem();
 
     async function getPointdata() {
-      try {
-        const data = await getPoint(accessToken);
-        setPoint(data.point);
-      } catch (err) {
-        console.error(err);
-      }
+      const data = await getPoint(accessToken);
+      setPoint(data.point);
     }
 
     if (accessToken) {

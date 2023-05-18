@@ -26,12 +26,6 @@ export default function SignUp() {
 
   const [info, setInfo] = useState<info>();
 
-  // if (location) {
-  //   setName(location.state.data?.name);
-  //   setEmail(location.state.data?.email);
-  //   setGender(location.state.data?.gender);
-  // }
-
   const [age, setAge] = useState('');
   const [jobList, setJobList] = useState<Job[]>([]);
 
@@ -42,15 +36,10 @@ export default function SignUp() {
     }
 
     async function getinfolist() {
-      try {
-        const token = queryClient.getQueryData(['accessToken']) as string;
-        const data = await getProfile(token);
-        setInfo(data);
-        setAge(data.age);
-        console.log(data);
-      } catch (err) {
-        console.log(err);
-      }
+      const token = queryClient.getQueryData(['accessToken']) as string;
+      const data = await getProfile(token);
+      setInfo(data);
+      setAge(data.age);
     }
     getjoblist();
     getinfolist();
@@ -74,17 +63,13 @@ export default function SignUp() {
   const token = useTokenQuery();
 
   async function putprofiledata(data: object) {
-    try {
+    if (token.data) await putProfile(data, token.data);
+    else {
+      await token.refetch();
       if (token.data) await putProfile(data, token.data);
-      else {
-        await token.refetch();
-        if (token.data) await putProfile(data, token.data);
-        else localStorage.setItem('refreshToken', '');
-      }
-      navigate('/');
-    } catch (err) {
-      console.error(err);
+      else localStorage.setItem('refreshToken', '');
     }
+    navigate('/');
   }
 
   const [selectjob, setSelectjob] = useState<string[]>([]);

@@ -9,15 +9,14 @@ interface GiftCardProps {
 }
 
 GiftCard.defaultProps = {
-  point : undefined,
-  used : false
-}
+  point: undefined,
+  used: false,
+};
 
 export default function GiftCard({ productTitle, image, point, used }: GiftCardProps) {
   return (
     <div className={used ? 'grayscale' : ''}>
       <div className={point !== undefined ? style.giftcardWithPoint : style.giftcardWithoutPoint}>
-
         <div className={style.giftimg}>
           <img src={image} alt="giftimg" />
         </div>

@@ -18,12 +18,8 @@ export default function InputPoint() {
 
   useEffect(() => {
     async function getPointdata(accessToken: string) {
-      try {
-        const data = await getPoint(accessToken);
-        setPoint(data.point);
-      } catch (err) {
-        console.error(err);
-      }
+      const data = await getPoint(accessToken);
+      setPoint(data.point);
     }
 
     const accessToken = queryClient.getQueryData(['accessToken']) as string;

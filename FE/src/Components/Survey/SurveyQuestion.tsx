@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { LoaderFunctionArgs, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import style from './SurveyQuestion.module.css';
@@ -16,17 +16,17 @@ export default function SurveyQuestion() {
   const { id } = useParams();
   const [answers, setAnswers, submitAnswer] = useSurveyQuestionDataParser(surveyQuestionData, Number(id));
   const queryClient = useQueryClient();
-  const accessToken = queryClient.getQueryData(['accessToken']);
+  const accessToken = queryClient.getQueryData(['accessToken']) as string;
 
   const [questionIdx, setQuestionIdx] = useState(0);
   const questionLength = surveyQuestionData.surveyQuestions.length;
-  
-  const questionClick : boolean[] = []
-  for(let i = 0 ; i< questionLength ; i+=1){
-    questionClick.push(false)
+
+  const questionClick: boolean[] = [];
+  for (let i = 0; i < questionLength; i += 1) {
+    questionClick.push(false);
   }
 
-  const [questionclicklist, setQuestionclicklist] = useState(questionClick)
+  const [questionclicklist, setQuestionclicklist] = useState(questionClick);
 
   return (
     <div className={style.sectionsWrapper}>
@@ -40,7 +40,11 @@ export default function SurveyQuestion() {
           <SurveyBox key={order}>
             <SurveyBox.Question>{question}</SurveyBox.Question>
             <SurveyBox.Answer
-              clickstate={(num : number, status : boolean) => {questionclicklist[num-1] = status; setQuestionclicklist([...questionclicklist]); setQuestionIdx((questionclicklist.filter(item => item)).length)}}
+              clickstate={(num: number, status: boolean) => {
+                questionclicklist[num - 1] = status;
+                setQuestionclicklist([...questionclicklist]);
+                setQuestionIdx(questionclicklist.filter((item) => item).length);
+              }}
               isMultipleChoice={isMultipleChoice}
               choices={choices}
               order={order}
@@ -50,10 +54,10 @@ export default function SurveyQuestion() {
           </SurveyBox>
         ))}
         <RoundButton
-          color={questionIdx === questionLength ? "blue" : "gray"}
+          color={questionIdx === questionLength ? 'blue' : 'gray'}
           size="lg"
           onClick={() => {
-            if(questionIdx === questionLength){
+            if (questionIdx === questionLength) {
               submitAnswer(accessToken);
               navigate('/mypage');
             }

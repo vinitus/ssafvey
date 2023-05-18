@@ -37,14 +37,10 @@ export default function ShowGift({ closemodal, info }: Props) {
 
     const token = queryClient.getQueryData(['accessToken']) as string;
     async function putitem() {
-      try {
-        if (info.orderItemId) {
-          await putGift(info.orderItemId, token);
-          tokenQuery.refetch();
-          closemodal();
-        }
-      } catch (error) {
-        console.error(error);
+      if (info.orderItemId) {
+        await putGift(info.orderItemId, token);
+        tokenQuery.refetch();
+        closemodal();
       }
     }
 
