@@ -7,6 +7,7 @@
     <link rel="alternate icon" href="/logo.svg" type="ico" sizes="16x16" />
     <link rel="apple-touch-icon" href="icons/apple-touch-icon-152x152.png" sizes="180x180" />
     <link rel="manifest" href="/manifest.json" />
+    <link rel="preload" as="image" href="/banner/banner1.svg" />
 
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +17,11 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- 카카오톡 공유하기 -->
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+    <script
+      src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+      integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
+      crossorigin="anonymous"
+    ></script>
     <script>
       if ('serviceWorker' in navigator) {
         // Register a service worker hosted at the root of the
