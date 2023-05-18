@@ -27,7 +27,7 @@ export const useSurveyQuestionDataParser = (
       answers: [],
     };
     const answers: Answer[] = go(
-      Object.entries(answerObj),
+      Object.entries(answerStateObj),
       map(([key, value]: [number, string | number]) => {
         let answer: Answer = {
           order: Number(key),
