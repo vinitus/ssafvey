@@ -34,7 +34,7 @@ public class OrderController {
 
         // 주문 상품이 로또라면...
         Long orderItemId = orderDto.getItemId();
-        if (orderItemId == 386) {
+        if (orderItemId == 42) {
             int lottoCount = orderService.orderLotto((Long) request.getAttribute("memberId"), orderItemId);
             return new ResponseEntity<>(lottoCount, HttpStatus.CREATED);
         // 기프티콘일때...
