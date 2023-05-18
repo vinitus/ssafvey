@@ -26,7 +26,7 @@ export default function writeExcel(surveyStats: SurveyQuestionStats[], maxMultip
     const { order, question, isMultipleChoice, multipleChoices, descriptiveChoices } = q;
 
     const newMultipleChoices = multipleChoices
-      ? [...multipleChoices.map((a) => a.count)]
+      ? [...multipleChoices.map((a) => a.count ?? 0)]
       : Array.from({ length: maxMultipleChoiceCount }, () => '');
 
     const newDescriptiveAnswers = descriptiveChoices ? descriptiveChoices.map((a) => a.answer) : [];
