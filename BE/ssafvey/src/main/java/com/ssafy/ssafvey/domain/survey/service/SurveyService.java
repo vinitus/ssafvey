@@ -200,7 +200,9 @@ public class SurveyService {
                     multipleChoiceStatDto.setDescription(surveyQuestionChoice.getChoiceDescription());
                     multipleChoiceStatDtoList.add(multipleChoiceStatDto);
                 }
-                surveyQuestionStatDto.setMultipleChoices(multipleChoiceStatDtoList);
+                surveyQuestionStatDto.setMultipleChoices(multipleChoiceStatDtoList.stream()
+                        .sorted(Comparator.comparingInt(MultipleChoiceStatDto::getOrder))
+                        .collect(Collectors.toList()));
             } else {
                 for (MemberAnswerDescriptive memberAnswerDescriptive : surveyQuestion.getMemberAnswerDescriptives()) {
                     DescriptiveChoiceStatDto descriptiveChoiceStatDto = new DescriptiveChoiceStatDto();
