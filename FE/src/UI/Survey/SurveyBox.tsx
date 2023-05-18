@@ -3,14 +3,14 @@ import React, { createRef } from 'react';
 import style from './SurveyBox.module.css';
 import { ChoicesObj } from '@/types/surveyType';
 import { AnswerObj } from '@/Components/Survey/hooks/useSurveyQuestionDataParser';
-import { go, map } from '@/module/fx';
+import { go, map, reduce } from '@/module/fx';
 
 interface Props {
   children: React.ReactNode;
 }
 
 interface AnswerProps {
-  clickstate : (num : number, status : boolean) => void;
+  clickstate: (num: number, status: boolean) => void;
   isMultipleChoice: boolean;
   choices: ChoicesObj[] | undefined;
   order: number;
@@ -30,7 +30,14 @@ function Question({ children }: { children: string }) {
   return <h2 className={style.title}>{children}</h2>;
 }
 
+const orderSort = (arr: ChoicesObj[]) => {
+  const newArr = [...arr];
+  newArr.sort((a, b) => a.order - b.order);
+  return newArr;
+};
+
 function Answer({ clickstate, isMultipleChoice, choices, order, choiceObjState, choiceStateDispatcher }: AnswerProps) {
+  if (choices) choices = orderSort(choices);
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     const [choiceType, questionOrder, answerOrder] = go(id.split('-'), map(isNumber));
@@ -38,19 +45,17 @@ function Answer({ clickstate, isMultipleChoice, choices, order, choiceObjState, 
     if (choiceType === 'choices')
       choiceStateDispatcher((prev) => {
         prev[questionOrder] = answerOrder;
-        if(value.length <= 0) clickstate(order, false)
-        else clickstate(order, true)
+        if (value.length <= 0) clickstate(order, false);
+        else clickstate(order, true);
         return prev;
       });
     else
       choiceStateDispatcher((prev) => {
         prev[questionOrder] = value;
-        if(value.length <= 0) clickstate(order, false)
-        else clickstate(order, true)
+        if (value.length <= 0) clickstate(order, false);
+        else clickstate(order, true);
         return prev;
       });
-
-    
   };
 
   const fieldChangeHandler = (e: React.ChangeEvent<HTMLFieldSetElement>) => {
@@ -61,7 +66,15 @@ function Answer({ clickstate, isMultipleChoice, choices, order, choiceObjState, 
 
   if (isMultipleChoice && choices)
     return (
-      <MultipleAnswer click={() => {clickstate(order, true)}} choices={choices} order={order} answer={choiceObjState} dispatcher={choiceStateDispatcher} />
+      <MultipleAnswer
+        click={() => {
+          clickstate(order, true);
+        }}
+        choices={choices}
+        order={order}
+        answer={choiceObjState}
+        dispatcher={choiceStateDispatcher}
+      />
     );
 
   return (
@@ -78,7 +91,7 @@ function MultipleAnswer({
   answer,
   dispatcher,
 }: {
-  click : () => void
+  click: () => void;
   order: number;
   choices: ChoicesObj[];
   answer: AnswerObj;
@@ -104,7 +117,10 @@ function MultipleAnswer({
         if (preRef.current) preRef.current.className = style.choice;
       }
       const answerRef = refArr[Number(answerOrder) - 1];
-      if (answerRef.current) {answerRef.current.className = style.choiceClick; click();};
+      if (answerRef.current) {
+        answerRef.current.className = style.choiceClick;
+        click();
+      }
     }
   };
 
