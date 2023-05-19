@@ -1,0 +1,39 @@
+.coverHeaderWrapper {
+  @apply flex flex-row justify-between font-bold mt-18 w-[80%] mx-auto;
+}
+
+.text-shadow-044 {
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.coverHeaderTitle {
+  @apply w-150 justify-center text-20 text-shadow-044;
+}
+
+.coverHeaderQuantity {
+  @apply bg-[#2467A8] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-20 w-70 h-30 mr-[17.5px] flex items-center justify-center text-white whitespace-nowrap;
+}
+
+.historyWrapper {
+  @apply mx-30;
+}
+
+.historyBlockWithDay {
+  @apply border-b-2 border-black pb-5;
+}
+
+.historyDay {
+  @apply font-bold text-12 w-[80%] mx-auto flex items-center mt-20;
+}
+
+.historyBlock {
+  @apply w-[80%] h-50 flex flex-row items-center justify-between bg-[#C2E9FB] border border-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 my-20 px-15 mx-auto;
+}
+
+.historyTitle {
+  @apply inline font-bold text-14;
+}
+
+.historyPoint {
+  @apply w-50 h-25 font-bold text-13 flex items-center justify-center bg-white rounded-5 text-[#2467A8] drop-shadow-[0px_2px_4px_rgba(0,0,0,0.25)] leading-3;
+}

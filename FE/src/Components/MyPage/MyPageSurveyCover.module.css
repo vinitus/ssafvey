@@ -1,0 +1,47 @@
+.coverHeaderWrapper {
+  @apply flex flex-row justify-between font-bold mt-18 w-[80%] mx-auto;
+}
+
+.text-shadow-044 {
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.coverHeaderTitle {
+  @apply w-150 justify-center text-20 text-shadow-044;
+}
+
+.coverHeaderQuantity {
+  @apply bg-[#2467A8] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-20 w-70 h-30 mr-[17.5px] flex items-center justify-center text-white whitespace-nowrap;
+}
+
+.historyWrapper {
+  @apply mx-30;
+}
+
+.historyBlockWithDay {
+  @apply border-b-2 border-black pb-5;
+}
+
+.historyDay {
+  @apply font-bold text-12 w-[80%] mx-auto flex items-center mt-20;
+}
+
+.historybutton {
+  @apply w-[90%] text-left mx-[5%];
+}
+
+.historyBlock {
+  @apply w-full h-100 bg-[#C2E9FB] border border-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 my-20 mx-auto cursor-pointer;
+}
+
+.historyTitle {
+  @apply block mx-15 mt-15 w-auto text-[#124678] text-20 leading-26 font-bold h-27 overflow-hidden overflow-ellipsis whitespace-nowrap;
+}
+
+.historyAuthorWrapper {
+  @apply flex flex-row left-15 bottom-10 absolute;
+}
+
+.historyAuthor {
+  @apply h-27 leading-30 ml-10;
+}

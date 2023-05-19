@@ -1,0 +1,30 @@
+.divBgGradient {
+  @apply mt-60 mb-64 bg-main4 backdrop-blur-[4px] min-h-[calc(100vh-124px)];
+}
+
+.divBgBlur {
+  @apply bg-white/50 min-h-[calc(100vh-124px)];
+}
+
+@media screen and (min-width: 718px) {
+  .overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image : linear-gradient(193.32deg, #f5f7ff 0%, #87c0f7 51.08%, #f5f7ff 100%);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: white;
+  }
+}
+
+@media screen and (max-width: 718px) {
+  .overlay {
+    display: none;
+  }
+}

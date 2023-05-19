@@ -1,0 +1,76 @@
+.MyPageWrapper {
+  @apply flex flex-col font-[700] h-[100%];
+}
+
+.contentWrapper {
+  @apply flex flex-col mx-24 justify-between h-[calc(100vh-212px)] min-h-500 pb-[5vh];
+}
+
+.nameIconWrapper {
+  @apply flex flex-row mx-24 justify-between relative;
+}
+
+.nameDiv {
+  @apply font-noto text-24 py-28 leading-32;
+}
+
+.cardWrapper {
+  @apply flex flex-row justify-between;
+}
+
+.recentDiv {
+  @apply w-full h-265 rounded-20 bg-recentBg border border-white shadow-[0px_4px_10px_rgba(0,0,0,0.25)];
+}
+
+.recentImg {
+  @apply mb-4;
+}
+
+.recentDivImgWrapper {
+  @apply flex flex-row items-center w-140 h-60 justify-evenly;
+}
+
+.recentTitle {
+  @apply text-20 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)];
+}
+
+.recentActivityWrapper {
+  @apply flex flex-col h-180 justify-between;
+}
+
+.recentActivityBg {
+  @apply h-50 border border-white/30 bg-[#569AFF]/70 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 mx-6 pl-15 text-white font-[400] pt-5;
+}
+
+.recentActivityBg .author {
+  @apply text-12
+}
+
+.couponBox {
+  @apply bg-myPageGradient shadow-md text-white rounded-20 h-50 flex items-center justify-between;
+}
+
+.couponText {
+  @apply ml-16;
+}
+
+.couponCntDiv {
+  @apply bg-[#F8FDFF] drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)] rounded-50 w-45 h-30 mr-16 flex justify-center items-center text-[#124678];
+}
+
+.hoverbtn {
+  display: none;
+  @apply absolute right-0 top-60 z-10;
+}
+
+.hoverbtn button {
+  @apply w-full h-30 bg-white border-[2px];
+}
+
+.nameIconWrapper img:hover ~ .hoverbtn {
+  display: unset;
+}
+
+.hoverbtn:hover {
+  display: unset;
+}

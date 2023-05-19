@@ -1,32 +1,24 @@
-import React, { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '../public/vite.svg';
-import './App.css';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import styles from './App.module.css';
+import AppBar from './UI/AppBar';
+import NavBar from './UI/NavBar';
+import { useTokenQuery } from './hooks/useTokenQuery';
 
 function App() {
-  const [count, setCount] = useState<number>(0);
+  useTokenQuery();
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <>
+      <div className={styles.overlay}>더 작은 화면에서 이용해주세요!</div>
+      <AppBar />
+      <div className={styles.divBgGradient}>
+        <div className={styles.divBgBlur}>
+          <Outlet />
+        </div>
       </div>
-      <h1 className="text-red-500">Vite + React</h1>
-      <div className="card">
-        <button type="button" onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
+      <NavBar />
+    </>
   );
 }
 

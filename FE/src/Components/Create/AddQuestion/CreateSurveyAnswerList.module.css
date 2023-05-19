@@ -1,0 +1,7 @@
+.answer {
+  @apply flex justify-between px-10 py-5 rounded-10 border-2 border-gray-500 my-3 bg-gray-200;
+}
+
+.deleteButton {
+  @apply px-5;
+}

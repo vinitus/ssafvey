@@ -1,0 +1,20 @@
+.question {
+  @apply border-darkBlue rounded-[20px] border-[2px] p-20 bg-gradient-to-br	from-[#C2E9FB] to-[#D9D9D9] text-black h-[calc(100%-75px)];
+}
+
+.title {
+  @apply text-20 font-bold mb-5;
+}
+
+.choices {
+  @apply flex flex-col gap-5;
+}
+
+.choice {
+  @apply block py-13 rounded-10;
+  background-color: rgba(20, 94, 165, 0.1);
+}
+
+.choiceClick {
+  @apply block py-13 rounded-10 bg-darkBlue rounded-10 text-white;
+}

@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    stages {
+        stage('프론트엔드 자동 배포') {
+            steps {
+                dir('FE') {
+                            sh "docker build . -t front_builder"
+                            sh 'docker run --rm -v nginx_build_volume:/data busybox sh -c "rm -rf /data/*"'
+                            sh 'docker run --rm -v nginx_build_volume:/app front_builder'
+                }
+            }
+        }
+    }
+}

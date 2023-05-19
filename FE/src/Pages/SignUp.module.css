@@ -1,0 +1,45 @@
+.signUpWrapper {
+  @apply mx-40 pt-30 flex flex-col;
+}
+
+.textshadow-024 {
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.signUpHeader {
+  @apply font-bold text-32 textshadow-024;
+}
+
+.signUpSecondHeader {
+  @apply text-20 font-bold block mt-10;
+}
+
+.signUpInputTextTag {
+  @apply bg-[#D9D9D9] w-full h-35 rounded-15 outline-none p-5 leading-50;
+}
+
+.signUpGenderWrapper {
+  @apply flex flex-row w-180 justify-between ml-10 my-8;
+}
+
+.signUpGenderCheckBox {
+  @apply flex items-center;
+}
+
+.signUpAgeInputBox {
+  @apply w-full border;
+}
+
+.signUpBtn {
+  @apply bg-[#0064FF] rounded-15 text-white px-10 py-5 font-bold mx-auto w-100 mt-20;
+}
+
+input[type='checkbox'] + label {
+  padding-left: 23px;
+  background-repeat: no-repeat;
+  background-image: url('../icons/uncheck-mark.svg');
+}
+
+input[type='checkbox']:checked + label {
+  background-image: url('../icons/check-mark.svg');
+}

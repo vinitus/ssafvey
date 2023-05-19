@@ -1,0 +1,31 @@
+.title {
+  @apply flex text-32 font-bold items-center ml-[10%] pt-20;
+  text-shadow: 0px 2px 4px #00000050;
+}
+
+.title img {
+  @apply m-10;
+}
+
+.card {
+  @apply flex flex-wrap max-w-640 mx-auto;
+}
+
+.cardlist {
+  @apply flex justify-center;
+}
+
+.card button {
+  @apply text-left;
+}
+
+@media screen and (max-width: 640px) {
+  .card {
+    @apply flex flex-wrap max-w-480 my-auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  .card {
+    @apply flex flex-wrap max-w-320 my-auto;
+  }
+}

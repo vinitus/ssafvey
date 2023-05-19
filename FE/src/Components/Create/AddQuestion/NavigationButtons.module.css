@@ -1,0 +1,7 @@
+.buttons {
+  @apply flex justify-between gap-10;
+}
+
+.nextPhaseButton {
+  @apply h-60 px-30 bg-darkBlue rounded-30 font-bold text-20;
+}

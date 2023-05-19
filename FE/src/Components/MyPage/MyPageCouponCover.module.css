@@ -1,0 +1,50 @@
+.coverHeaderWrapper {
+  @apply flex flex-row justify-between font-bold my-18;
+}
+
+.text-shadow-044 {
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.coverHeaderTitle {
+  @apply w-150 flex items-center justify-center text-20 text-shadow-044;
+}
+
+.coverHeaderQuantity {
+  @apply bg-[#2467A8] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-20 w-70 h-30 mr-[17.5px] flex items-center justify-center text-white whitespace-nowrap;
+}
+
+.cardWrapper {
+  @apply flex flex-wrap max-w-680 my-0 mx-auto;
+}
+
+.cardlist {
+  @apply flex justify-center;
+}
+
+.cardWrapper button {
+  @apply m-10;
+}
+
+.cardContentWrapper {
+  @apply bg-[#C2E9FB] border border-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] backdrop-blur-[7.5px] rounded-20 flex flex-col justify-center items-center p-15;
+}
+
+.cardImg {
+  @apply w-auto rounded-10;
+}
+
+.cardTitle {
+  @apply mt-10;
+}
+
+@media screen and (max-width: 680px) {
+  .cardWrapper {
+    @apply flex flex-wrap max-w-510 my-0 mx-auto;
+  }
+}
+@media screen and (max-width: 510px) {
+  .cardWrapper {
+    @apply flex flex-wrap max-w-340 my-0 mx-auto;
+  }
+}

@@ -1,0 +1,31 @@
+.coverWrapper {
+  @apply z-10 w-full h-[calc(100vh-202px)] bg-main2 fixed border right-0 bottom-0 drop-shadow-[0px_-4px_5px_rgba(0,0,0,0.25)] rounded-t-15 overflow-y-scroll;
+
+  animation-name: slideUp;
+  animation-duration: 1s; /* 1초동안 실행 */
+}
+
+/* 닫을때를 위한 애니메이션 클래스*/
+.closeWrapper {
+  @apply z-10 w-full h-[calc(100vh-202px)] bg-main2 fixed border right-0 bottom-0 drop-shadow-[0px_-4px_5px_rgba(0,0,0,0.25)] rounded-t-15 overflow-y-auto;
+
+  animation-name: slideDown;
+  animation-duration: 1s;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(600px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+@keyframes slideDown {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(600px);
+  }
+}

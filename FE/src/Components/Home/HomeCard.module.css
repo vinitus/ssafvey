@@ -1,0 +1,38 @@
+.card {
+  @apply h-320 min-w-320 w-[70%] rounded-20 relative shadow-md shadow-black mx-auto mt-10 px-15 py-15 backdrop-blur-[10px];
+  background: linear-gradient(100deg, #edf6ff60, #a0c4e860, #edf6ff60);
+}
+
+.title {
+  @apply text-32 text-black font-bold tracking-tighter pb-5 text-left break-keep m-[3%] mb-10;
+  text-shadow: 0px 4px 4px #00000050;
+}
+
+.subtitle {
+  @apply text-16 flex p-5;
+}
+
+.subtitle img {
+  @apply w-24 h-24 m-5;
+  filter: invert(1);
+}
+
+.subtitle_writer {
+  @apply flex items-center;
+}
+
+.subtitle_date {
+  @apply flex-none text-left;
+}
+
+.container {
+  @apply grid grid-cols-2 text-[#585858] font-bold p-[0%];
+}
+
+.dosurvey {
+  @apply w-100 h-40 bg-[#124678] rounded-15 flex items-center justify-center;
+}
+
+.surveytitle {
+  @apply text-white text-14;
+}

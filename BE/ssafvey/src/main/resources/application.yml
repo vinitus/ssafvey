@@ -1,0 +1,62 @@
+spring:
+  datasource:
+    url: jdbc:mysql://k8a608.p.ssafy.io:3306/ssafveydb?useSSL=true&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: SSAFVEY_6god
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+#        show_sql: true
+    defer-datasource-initialization: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  servlet:
+    multipart:
+      max-request-size: 30MB
+      max-file-size: 30MB
+  sql:
+    init:
+      mode: always
+  rabbitmq:
+    host: blossom-orange-seahorse.rmq5.cloudamqp.com
+    username: xpwglmeq
+    password: yT7bKH9oqhdb60bQzdPpgpOfwcRYM9Et
+    virtual-host: xpwglmeq
+    port: 5672
+
+logging.level:
+  org.hibernate.SQL: error
+  org.hibernate.type: trace
+
+# swagger setting
+springfox:
+  documentation:
+    swagger:
+      v2:
+        use-model-v3: false
+
+
+jwt:
+  header: Authorization
+  #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
+  #echo 'ssafy8th-8generation-class-team-8-you-sin-sung-subin-junb-sungsu-project-fighting-jwt-secret-secret-secret-jwt-token
+  secret: c3NhZnk4dGgtOGdlbmVyYXRpb24tY2xhc3MtdGVhbS04LXlvdS1zaW4tc3VuZy1zdWJpbi1qdW5iLXN1bmdzdS1wcm9qZWN0LWZpZ2h0aW5nLWp3dC1zZWNyZXQtc2VjcmV0LXNlY3JldC1qd3QtdG9rZW4=
+  token-validity-in-minutes: 30
+
+# loggin level
+logging:
+  level:
+    root: info  # TRACE  <  DEBUG  <  INFO  <  WARN  <  ERROR
+
+
+
+
+
+
