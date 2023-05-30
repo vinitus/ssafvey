@@ -1,6 +1,6 @@
 # 📝 설문조사 중개 플랫폼, SSAFVEY
 
-![logo](docs/img/SSAFVEY_LOGO.png)
+![SSAFVEY_LOGO](https://github.com/vinitus/ssafvey/assets/97886013/57faf5d1-82e7-405f-8ea8-2d6af2bce5b4)
 
 ## ⌛️ 프로젝트 진행 기간
 
@@ -249,36 +249,33 @@ Repository
 
 ### 홈 및 로그인/회원가입
 
-![img](docs/img/kakaologin.gif)
+![kakaologin](https://github.com/vinitus/ssafvey/assets/97886013/05e64dde-fc40-460d-a8f0-cc59fd21bd15)
 
 ### 설문조사 참여하기
 
-![img](docs/img/dosurvey.gif)
+![dosurvey](https://github.com/vinitus/ssafvey/assets/97886013/1fc5797a-50a7-4a86-bbc8-6500af48e95a)
 
 ### 설문조사 공유하기
 
-![img](docs/img/sharesurvey.gif)
+![sharesurvey](https://github.com/vinitus/ssafvey/assets/97886013/4f09b61d-68cf-48eb-81c0-cf80d53b6123)
 
 ### 설문조사 만들기
 
-![img](docs/img/makesurvey.gif)
+![makesurvey](https://github.com/vinitus/ssafvey/assets/97886013/1be3612b-75e1-4d12-afd8-26278316eea0)
 
 ### 설문조사 결과보기
 
-![img](docs/img/resultsurvey.gif)
+![resultsurvey](https://github.com/vinitus/ssafvey/assets/97886013/1a0de10e-a16c-4389-8937-de46ef72814b)
 
 ### 내정보보기
 
-![img](docs/img/mypage.gif)
+![mypage](https://github.com/vinitus/ssafvey/assets/97886013/0c2e4baf-4d20-40c1-9569-0229aa762a28)
 
 ### 기프티콘 사용하기
 
-![img](docs/img/usecoupon.gif)
+![usecoupon](https://github.com/vinitus/ssafvey/assets/97886013/1dcafa52-74fa-4847-bd6e-11d9c6abfe1d)
 
 ### 로또 열기
 
-![img](docs/img/opencoupon.gif)
+![opencoupon](https://github.com/vinitus/ssafvey/assets/97886013/4cd79c5b-9492-4e59-8948-e27c95618082)
 
-<hr>
-
-## 👀 총평
