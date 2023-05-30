@@ -34,7 +34,7 @@
 
 ## ✔️ 아키텍처 구성도
 
-![architecture](docs/img/architecture.png)
+![architecture](https://github.com/vinitus/ssafvey/assets/97886013/7387ee80-d3ec-4786-b489-16c1c2252ae9)
 
 ## ✔️ 주요 기능
 
